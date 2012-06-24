@@ -7,6 +7,8 @@
 #ifndef NSTL_INTERNAL_TYPE_H
 #define NSTL_INTERNAL_TYPE_H
 
+#include <nstl/internal/attributes.h>
+
 #include <chaos/preprocessor.h>
 #include <joy.h>
 
