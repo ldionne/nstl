@@ -1,0 +1,3 @@
+[submodule "tools/cog"]
+	path = tools/cog
+	url = git://github.com/ldionne/cog.git
