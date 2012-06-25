@@ -14,10 +14,9 @@
 
 #define nstl_pair(R, T) JOY_CAT4(nstl_pair_, R, _, T)
 
-#define NSTL_ATTRIBUTE_make_pair m a k e _ p a i r
+#define NSTL_TOKEN_make_pair (m a k e _ p a i r)
 #define NSTL_INSTRUCTION_make_pair(s, self, implementation) \
     NSTL_INSTRUCTION_implement(s, self, make_pair, implementation)
-#define CHAOS_IP_STRING_make_pair (make_pair)
 #define nstl_make_pair(R, T) \
     JOY_CAT4(nstl_attribute_make_pair_, R, _, T)
 

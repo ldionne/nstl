@@ -13,15 +13,15 @@
 #include <joy/cat.h>
 
 
-#define CHAOS_IP_STRING_drop (drop)
+#define NSTL_TOKEN_drop (d r o p)
 #define NSTL_INSTRUCTION_drop(s, self, method) \
-    JOY_OBJECT_DELATTR_S(s, self, NSTL_ATTRIBUTE(method))
+    JOY_OBJECT_DELATTR_S(s, self, NSTL_TOKEN_TO_STRING(method))
 
-#define CHAOS_IP_STRING_implement (implement)
+#define NSTL_TOKEN_implement (i m p l e m e n t)
 #define NSTL_INSTRUCTION_implement(s, self, attr, implementation) \
-    JOY_OBJECT_SETATTR_S(s, self, NSTL_ATTRIBUTE(attr), implementation)
+    JOY_OBJECT_SETATTR_S(s, self, NSTL_TOKEN_TO_STRING(attr), implementation)
 
-#define CHAOS_IP_STRING_inherit (inherit)
+#define NSTL_TOKEN_inherit (i n h e r i t)
 #define NSTL_INSTRUCTION_inherit(s, self, base_type) \
     JOY_OBJECT_CLONE_S(s, base_type, JOY_MAP_TO_SEQ_S(s, self))
 
@@ -117,96 +117,93 @@ MISC = [
 ATTRIBUTES = TYPES + OPERATORS + METHODS + MISC
 
 
-def as_attribute(attr):
-    return "#define NSTL_ATTRIBUTE_{} {}".format(attr, " ".join(attr))
+def as_token(token):
+    return "#define NSTL_TOKEN_{} ({})".format(token, " ".join(token))
 
 def as_instruction(attr):
     return """#define NSTL_INSTRUCTION_{0}(s, self, implementation) \\
     NSTL_INSTRUCTION_implement(s, self, {0}, implementation)""".format(attr)
-
-def as_pp_string(attr):
-    return "#define CHAOS_IP_STRING_{0} ({0})".format(attr)
 
 def mangled(attr):
     return """#define nstl_{0}(x) \\
     JOY_CAT3(nstl_attribute_{0}, _, x)""".format(attr)
 
 
-TRANSFORMATIONS = [as_attribute, as_instruction, as_pp_string, mangled]
+TRANSFORMATIONS = [as_token, as_instruction, mangled]
 
 f = lambda trans, coll: cog.outl("\n".join(map(trans, coll)))
 for trans in TRANSFORMATIONS:
     f(trans, ATTRIBUTES)
 
 ]]] */
-#define NSTL_ATTRIBUTE_value_type v a l u e _ t y p e
-#define NSTL_ATTRIBUTE_pointer p o i n t e r
-#define NSTL_ATTRIBUTE_const_pointer c o n s t _ p o i n t e r
-#define NSTL_ATTRIBUTE_reference r e f e r e n c e
-#define NSTL_ATTRIBUTE_const_reference c o n s t _ r e f e r e n c e
-#define NSTL_ATTRIBUTE_size_type s i z e _ t y p e
-#define NSTL_ATTRIBUTE_difference_type d i f f e r e n c e _ t y p e
-#define NSTL_ATTRIBUTE_iterator i t e r a t o r
-#define NSTL_ATTRIBUTE_const_iterator c o n s t _ i t e r a t o r
-#define NSTL_ATTRIBUTE_reverse_iterator r e v e r s e _ i t e r a t o r
-#define NSTL_ATTRIBUTE_const_reverse_iterator c o n s t _ r e v e r s e _ i t e r a t o r
-#define NSTL_ATTRIBUTE_asg a s g
-#define NSTL_ATTRIBUTE_add a d d
-#define NSTL_ATTRIBUTE_sub s u b
-#define NSTL_ATTRIBUTE_mul m u l
-#define NSTL_ATTRIBUTE_div d i v
-#define NSTL_ATTRIBUTE_mod m o d
-#define NSTL_ATTRIBUTE_inc i n c
-#define NSTL_ATTRIBUTE_inc_ i n c _
-#define NSTL_ATTRIBUTE_dec d e c
-#define NSTL_ATTRIBUTE_dec_ d e c _
-#define NSTL_ATTRIBUTE_prom p r o m
-#define NSTL_ATTRIBUTE_inv i n v
-#define NSTL_ATTRIBUTE_eq e q
-#define NSTL_ATTRIBUTE_ne n e
-#define NSTL_ATTRIBUTE_gt g t
-#define NSTL_ATTRIBUTE_lt l t
-#define NSTL_ATTRIBUTE_ge g e
-#define NSTL_ATTRIBUTE_le l e
-#define NSTL_ATTRIBUTE_lognot l o g n o t
-#define NSTL_ATTRIBUTE_logand l o g a n d
-#define NSTL_ATTRIBUTE_logor l o g o r
-#define NSTL_ATTRIBUTE_not n o t
-#define NSTL_ATTRIBUTE_and a n d
-#define NSTL_ATTRIBUTE_or o r
-#define NSTL_ATTRIBUTE_xor x o r
-#define NSTL_ATTRIBUTE_lshift l s h i f t
-#define NSTL_ATTRIBUTE_rshift r s h i f t
-#define NSTL_ATTRIBUTE_iadd i a d d
-#define NSTL_ATTRIBUTE_isub i s u b
-#define NSTL_ATTRIBUTE_imul i m u l
-#define NSTL_ATTRIBUTE_idiv i d i v
-#define NSTL_ATTRIBUTE_imod i m o d
-#define NSTL_ATTRIBUTE_iand i a n d
-#define NSTL_ATTRIBUTE_ior i o r
-#define NSTL_ATTRIBUTE_ixor i x o r
-#define NSTL_ATTRIBUTE_ilshift i l s h i f t
-#define NSTL_ATTRIBUTE_irshift i r s h i f t
-#define NSTL_ATTRIBUTE_subscript s u b s c r i p t
-#define NSTL_ATTRIBUTE_deref d e r e f
-#define NSTL_ATTRIBUTE_call c a l l
-#define NSTL_ATTRIBUTE_sizeof s i z e o f
-#define NSTL_ATTRIBUTE_alignof a l i g n o f
-#define NSTL_ATTRIBUTE_new n e w
-#define NSTL_ATTRIBUTE_delete d e l e t e
-#define NSTL_ATTRIBUTE_init i n i t
-#define NSTL_ATTRIBUTE_init_cp i n i t _ c p
-#define NSTL_ATTRIBUTE_deinit d e i n i t
-#define NSTL_ATTRIBUTE_init_n i n i t _ n
-#define NSTL_ATTRIBUTE_init_range i n i t _ r a n g e
-#define NSTL_ATTRIBUTE_begin b e g i n
-#define NSTL_ATTRIBUTE_end e n d
-#define NSTL_ATTRIBUTE_rbegin r b e g i n
-#define NSTL_ATTRIBUTE_rend r e n d
-#define NSTL_ATTRIBUTE_push_back p u s h _ b a c k
-#define NSTL_ATTRIBUTE_push_front p u s h _ f r o n t
-#define NSTL_ATTRIBUTE_other o t h e r
-#define NSTL_ATTRIBUTE_struct s t r u c t
+#define NSTL_TOKEN_value_type (v a l u e _ t y p e)
+#define NSTL_TOKEN_pointer (p o i n t e r)
+#define NSTL_TOKEN_const_pointer (c o n s t _ p o i n t e r)
+#define NSTL_TOKEN_reference (r e f e r e n c e)
+#define NSTL_TOKEN_const_reference (c o n s t _ r e f e r e n c e)
+#define NSTL_TOKEN_size_type (s i z e _ t y p e)
+#define NSTL_TOKEN_difference_type (d i f f e r e n c e _ t y p e)
+#define NSTL_TOKEN_iterator (i t e r a t o r)
+#define NSTL_TOKEN_const_iterator (c o n s t _ i t e r a t o r)
+#define NSTL_TOKEN_reverse_iterator (r e v e r s e _ i t e r a t o r)
+#define NSTL_TOKEN_const_reverse_iterator (c o n s t _ r e v e r s e _ i t e r a t o r)
+#define NSTL_TOKEN_asg (a s g)
+#define NSTL_TOKEN_add (a d d)
+#define NSTL_TOKEN_sub (s u b)
+#define NSTL_TOKEN_mul (m u l)
+#define NSTL_TOKEN_div (d i v)
+#define NSTL_TOKEN_mod (m o d)
+#define NSTL_TOKEN_inc (i n c)
+#define NSTL_TOKEN_inc_ (i n c _)
+#define NSTL_TOKEN_dec (d e c)
+#define NSTL_TOKEN_dec_ (d e c _)
+#define NSTL_TOKEN_prom (p r o m)
+#define NSTL_TOKEN_inv (i n v)
+#define NSTL_TOKEN_eq (e q)
+#define NSTL_TOKEN_ne (n e)
+#define NSTL_TOKEN_gt (g t)
+#define NSTL_TOKEN_lt (l t)
+#define NSTL_TOKEN_ge (g e)
+#define NSTL_TOKEN_le (l e)
+#define NSTL_TOKEN_lognot (l o g n o t)
+#define NSTL_TOKEN_logand (l o g a n d)
+#define NSTL_TOKEN_logor (l o g o r)
+#define NSTL_TOKEN_not (n o t)
+#define NSTL_TOKEN_and (a n d)
+#define NSTL_TOKEN_or (o r)
+#define NSTL_TOKEN_xor (x o r)
+#define NSTL_TOKEN_lshift (l s h i f t)
+#define NSTL_TOKEN_rshift (r s h i f t)
+#define NSTL_TOKEN_iadd (i a d d)
+#define NSTL_TOKEN_isub (i s u b)
+#define NSTL_TOKEN_imul (i m u l)
+#define NSTL_TOKEN_idiv (i d i v)
+#define NSTL_TOKEN_imod (i m o d)
+#define NSTL_TOKEN_iand (i a n d)
+#define NSTL_TOKEN_ior (i o r)
+#define NSTL_TOKEN_ixor (i x o r)
+#define NSTL_TOKEN_ilshift (i l s h i f t)
+#define NSTL_TOKEN_irshift (i r s h i f t)
+#define NSTL_TOKEN_subscript (s u b s c r i p t)
+#define NSTL_TOKEN_deref (d e r e f)
+#define NSTL_TOKEN_call (c a l l)
+#define NSTL_TOKEN_sizeof (s i z e o f)
+#define NSTL_TOKEN_alignof (a l i g n o f)
+#define NSTL_TOKEN_new (n e w)
+#define NSTL_TOKEN_delete (d e l e t e)
+#define NSTL_TOKEN_init (i n i t)
+#define NSTL_TOKEN_init_cp (i n i t _ c p)
+#define NSTL_TOKEN_deinit (d e i n i t)
+#define NSTL_TOKEN_init_n (i n i t _ n)
+#define NSTL_TOKEN_init_range (i n i t _ r a n g e)
+#define NSTL_TOKEN_begin (b e g i n)
+#define NSTL_TOKEN_end (e n d)
+#define NSTL_TOKEN_rbegin (r b e g i n)
+#define NSTL_TOKEN_rend (r e n d)
+#define NSTL_TOKEN_push_back (p u s h _ b a c k)
+#define NSTL_TOKEN_push_front (p u s h _ f r o n t)
+#define NSTL_TOKEN_other (o t h e r)
+#define NSTL_TOKEN_struct (s t r u c t)
 #define NSTL_INSTRUCTION_value_type(s, self, implementation) \
     NSTL_INSTRUCTION_implement(s, self, value_type, implementation)
 #define NSTL_INSTRUCTION_pointer(s, self, implementation) \
@@ -343,74 +340,6 @@ for trans in TRANSFORMATIONS:
     NSTL_INSTRUCTION_implement(s, self, other, implementation)
 #define NSTL_INSTRUCTION_struct(s, self, implementation) \
     NSTL_INSTRUCTION_implement(s, self, struct, implementation)
-#define CHAOS_IP_STRING_value_type (value_type)
-#define CHAOS_IP_STRING_pointer (pointer)
-#define CHAOS_IP_STRING_const_pointer (const_pointer)
-#define CHAOS_IP_STRING_reference (reference)
-#define CHAOS_IP_STRING_const_reference (const_reference)
-#define CHAOS_IP_STRING_size_type (size_type)
-#define CHAOS_IP_STRING_difference_type (difference_type)
-#define CHAOS_IP_STRING_iterator (iterator)
-#define CHAOS_IP_STRING_const_iterator (const_iterator)
-#define CHAOS_IP_STRING_reverse_iterator (reverse_iterator)
-#define CHAOS_IP_STRING_const_reverse_iterator (const_reverse_iterator)
-#define CHAOS_IP_STRING_asg (asg)
-#define CHAOS_IP_STRING_add (add)
-#define CHAOS_IP_STRING_sub (sub)
-#define CHAOS_IP_STRING_mul (mul)
-#define CHAOS_IP_STRING_div (div)
-#define CHAOS_IP_STRING_mod (mod)
-#define CHAOS_IP_STRING_inc (inc)
-#define CHAOS_IP_STRING_inc_ (inc_)
-#define CHAOS_IP_STRING_dec (dec)
-#define CHAOS_IP_STRING_dec_ (dec_)
-#define CHAOS_IP_STRING_prom (prom)
-#define CHAOS_IP_STRING_inv (inv)
-#define CHAOS_IP_STRING_eq (eq)
-#define CHAOS_IP_STRING_ne (ne)
-#define CHAOS_IP_STRING_gt (gt)
-#define CHAOS_IP_STRING_lt (lt)
-#define CHAOS_IP_STRING_ge (ge)
-#define CHAOS_IP_STRING_le (le)
-#define CHAOS_IP_STRING_lognot (lognot)
-#define CHAOS_IP_STRING_logand (logand)
-#define CHAOS_IP_STRING_logor (logor)
-#define CHAOS_IP_STRING_not (not)
-#define CHAOS_IP_STRING_and (and)
-#define CHAOS_IP_STRING_or (or)
-#define CHAOS_IP_STRING_xor (xor)
-#define CHAOS_IP_STRING_lshift (lshift)
-#define CHAOS_IP_STRING_rshift (rshift)
-#define CHAOS_IP_STRING_iadd (iadd)
-#define CHAOS_IP_STRING_isub (isub)
-#define CHAOS_IP_STRING_imul (imul)
-#define CHAOS_IP_STRING_idiv (idiv)
-#define CHAOS_IP_STRING_imod (imod)
-#define CHAOS_IP_STRING_iand (iand)
-#define CHAOS_IP_STRING_ior (ior)
-#define CHAOS_IP_STRING_ixor (ixor)
-#define CHAOS_IP_STRING_ilshift (ilshift)
-#define CHAOS_IP_STRING_irshift (irshift)
-#define CHAOS_IP_STRING_subscript (subscript)
-#define CHAOS_IP_STRING_deref (deref)
-#define CHAOS_IP_STRING_call (call)
-#define CHAOS_IP_STRING_sizeof (sizeof)
-#define CHAOS_IP_STRING_alignof (alignof)
-#define CHAOS_IP_STRING_new (new)
-#define CHAOS_IP_STRING_delete (delete)
-#define CHAOS_IP_STRING_init (init)
-#define CHAOS_IP_STRING_init_cp (init_cp)
-#define CHAOS_IP_STRING_deinit (deinit)
-#define CHAOS_IP_STRING_init_n (init_n)
-#define CHAOS_IP_STRING_init_range (init_range)
-#define CHAOS_IP_STRING_begin (begin)
-#define CHAOS_IP_STRING_end (end)
-#define CHAOS_IP_STRING_rbegin (rbegin)
-#define CHAOS_IP_STRING_rend (rend)
-#define CHAOS_IP_STRING_push_back (push_back)
-#define CHAOS_IP_STRING_push_front (push_front)
-#define CHAOS_IP_STRING_other (other)
-#define CHAOS_IP_STRING_struct (struct)
 #define nstl_value_type(x) \
     JOY_CAT3(nstl_attribute_value_type, _, x)
 #define nstl_pointer(x) \
