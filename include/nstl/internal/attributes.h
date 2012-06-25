@@ -8,20 +8,22 @@
 #define NSTL_INTERNAL_ATTRIBUTES_H
 
 #include <chaos/preprocessor.h>
-#include <joy.h>
+#include <joy/object.h>
+#include <joy/map/to_seq.h>
+#include <joy/cat.h>
 
 
 #define CHAOS_IP_STRING_drop (drop)
 #define NSTL_INSTRUCTION_drop(s, self, method) \
-    JOY_PB_DELATTR_S(s, self, NSTL_ATTRIBUTE(method))
+    JOY_OBJECT_DELATTR_S(s, self, NSTL_ATTRIBUTE(method))
 
 #define CHAOS_IP_STRING_implement (implement)
 #define NSTL_INSTRUCTION_implement(s, self, attr, implementation) \
-    JOY_PB_SETATTR_S(s, self, NSTL_ATTRIBUTE(attr), implementation)
+    JOY_OBJECT_SETATTR_S(s, self, NSTL_ATTRIBUTE(attr), implementation)
 
 #define CHAOS_IP_STRING_inherit (inherit)
 #define NSTL_INSTRUCTION_inherit(s, self, base_type) \
-    JOY_PB_CLONE_S(s, base_type, JOY_MAP_TO_SEQ_S(s, self))
+    JOY_OBJECT_CLONE_S(s, base_type, JOY_MAP_TO_SEQ_S(s, self))
 
 
 /* [[[cog
@@ -127,7 +129,7 @@ def as_pp_string(attr):
 
 def mangled(attr):
     return """#define nstl_{0}(x) \\
-    STATIC_CAT3(STATIC_CAT3(nstl(attribute), _, {0}), _, x)""".format(attr)
+    JOY_CAT3(nstl_attribute_{0}, _, x)""".format(attr)
 
 
 TRANSFORMATIONS = [as_attribute, as_instruction, as_pp_string, mangled]
@@ -410,141 +412,141 @@ for trans in TRANSFORMATIONS:
 #define CHAOS_IP_STRING_other (other)
 #define CHAOS_IP_STRING_struct (struct)
 #define nstl_value_type(x) \
-    STATIC_CAT3(STATIC_CAT3(nstl(attribute), _, value_type), _, x)
+    JOY_CAT3(nstl_attribute_value_type, _, x)
 #define nstl_pointer(x) \
-    STATIC_CAT3(STATIC_CAT3(nstl(attribute), _, pointer), _, x)
+    JOY_CAT3(nstl_attribute_pointer, _, x)
 #define nstl_const_pointer(x) \
-    STATIC_CAT3(STATIC_CAT3(nstl(attribute), _, const_pointer), _, x)
+    JOY_CAT3(nstl_attribute_const_pointer, _, x)
 #define nstl_reference(x) \
-    STATIC_CAT3(STATIC_CAT3(nstl(attribute), _, reference), _, x)
+    JOY_CAT3(nstl_attribute_reference, _, x)
 #define nstl_const_reference(x) \
-    STATIC_CAT3(STATIC_CAT3(nstl(attribute), _, const_reference), _, x)
+    JOY_CAT3(nstl_attribute_const_reference, _, x)
 #define nstl_size_type(x) \
-    STATIC_CAT3(STATIC_CAT3(nstl(attribute), _, size_type), _, x)
+    JOY_CAT3(nstl_attribute_size_type, _, x)
 #define nstl_difference_type(x) \
-    STATIC_CAT3(STATIC_CAT3(nstl(attribute), _, difference_type), _, x)
+    JOY_CAT3(nstl_attribute_difference_type, _, x)
 #define nstl_iterator(x) \
-    STATIC_CAT3(STATIC_CAT3(nstl(attribute), _, iterator), _, x)
+    JOY_CAT3(nstl_attribute_iterator, _, x)
 #define nstl_const_iterator(x) \
-    STATIC_CAT3(STATIC_CAT3(nstl(attribute), _, const_iterator), _, x)
+    JOY_CAT3(nstl_attribute_const_iterator, _, x)
 #define nstl_reverse_iterator(x) \
-    STATIC_CAT3(STATIC_CAT3(nstl(attribute), _, reverse_iterator), _, x)
+    JOY_CAT3(nstl_attribute_reverse_iterator, _, x)
 #define nstl_const_reverse_iterator(x) \
-    STATIC_CAT3(STATIC_CAT3(nstl(attribute), _, const_reverse_iterator), _, x)
+    JOY_CAT3(nstl_attribute_const_reverse_iterator, _, x)
 #define nstl_asg(x) \
-    STATIC_CAT3(STATIC_CAT3(nstl(attribute), _, asg), _, x)
+    JOY_CAT3(nstl_attribute_asg, _, x)
 #define nstl_add(x) \
-    STATIC_CAT3(STATIC_CAT3(nstl(attribute), _, add), _, x)
+    JOY_CAT3(nstl_attribute_add, _, x)
 #define nstl_sub(x) \
-    STATIC_CAT3(STATIC_CAT3(nstl(attribute), _, sub), _, x)
+    JOY_CAT3(nstl_attribute_sub, _, x)
 #define nstl_mul(x) \
-    STATIC_CAT3(STATIC_CAT3(nstl(attribute), _, mul), _, x)
+    JOY_CAT3(nstl_attribute_mul, _, x)
 #define nstl_div(x) \
-    STATIC_CAT3(STATIC_CAT3(nstl(attribute), _, div), _, x)
+    JOY_CAT3(nstl_attribute_div, _, x)
 #define nstl_mod(x) \
-    STATIC_CAT3(STATIC_CAT3(nstl(attribute), _, mod), _, x)
+    JOY_CAT3(nstl_attribute_mod, _, x)
 #define nstl_inc(x) \
-    STATIC_CAT3(STATIC_CAT3(nstl(attribute), _, inc), _, x)
+    JOY_CAT3(nstl_attribute_inc, _, x)
 #define nstl_inc_(x) \
-    STATIC_CAT3(STATIC_CAT3(nstl(attribute), _, inc_), _, x)
+    JOY_CAT3(nstl_attribute_inc_, _, x)
 #define nstl_dec(x) \
-    STATIC_CAT3(STATIC_CAT3(nstl(attribute), _, dec), _, x)
+    JOY_CAT3(nstl_attribute_dec, _, x)
 #define nstl_dec_(x) \
-    STATIC_CAT3(STATIC_CAT3(nstl(attribute), _, dec_), _, x)
+    JOY_CAT3(nstl_attribute_dec_, _, x)
 #define nstl_prom(x) \
-    STATIC_CAT3(STATIC_CAT3(nstl(attribute), _, prom), _, x)
+    JOY_CAT3(nstl_attribute_prom, _, x)
 #define nstl_inv(x) \
-    STATIC_CAT3(STATIC_CAT3(nstl(attribute), _, inv), _, x)
+    JOY_CAT3(nstl_attribute_inv, _, x)
 #define nstl_eq(x) \
-    STATIC_CAT3(STATIC_CAT3(nstl(attribute), _, eq), _, x)
+    JOY_CAT3(nstl_attribute_eq, _, x)
 #define nstl_ne(x) \
-    STATIC_CAT3(STATIC_CAT3(nstl(attribute), _, ne), _, x)
+    JOY_CAT3(nstl_attribute_ne, _, x)
 #define nstl_gt(x) \
-    STATIC_CAT3(STATIC_CAT3(nstl(attribute), _, gt), _, x)
+    JOY_CAT3(nstl_attribute_gt, _, x)
 #define nstl_lt(x) \
-    STATIC_CAT3(STATIC_CAT3(nstl(attribute), _, lt), _, x)
+    JOY_CAT3(nstl_attribute_lt, _, x)
 #define nstl_ge(x) \
-    STATIC_CAT3(STATIC_CAT3(nstl(attribute), _, ge), _, x)
+    JOY_CAT3(nstl_attribute_ge, _, x)
 #define nstl_le(x) \
-    STATIC_CAT3(STATIC_CAT3(nstl(attribute), _, le), _, x)
+    JOY_CAT3(nstl_attribute_le, _, x)
 #define nstl_lognot(x) \
-    STATIC_CAT3(STATIC_CAT3(nstl(attribute), _, lognot), _, x)
+    JOY_CAT3(nstl_attribute_lognot, _, x)
 #define nstl_logand(x) \
-    STATIC_CAT3(STATIC_CAT3(nstl(attribute), _, logand), _, x)
+    JOY_CAT3(nstl_attribute_logand, _, x)
 #define nstl_logor(x) \
-    STATIC_CAT3(STATIC_CAT3(nstl(attribute), _, logor), _, x)
+    JOY_CAT3(nstl_attribute_logor, _, x)
 #define nstl_not(x) \
-    STATIC_CAT3(STATIC_CAT3(nstl(attribute), _, not), _, x)
+    JOY_CAT3(nstl_attribute_not, _, x)
 #define nstl_and(x) \
-    STATIC_CAT3(STATIC_CAT3(nstl(attribute), _, and), _, x)
+    JOY_CAT3(nstl_attribute_and, _, x)
 #define nstl_or(x) \
-    STATIC_CAT3(STATIC_CAT3(nstl(attribute), _, or), _, x)
+    JOY_CAT3(nstl_attribute_or, _, x)
 #define nstl_xor(x) \
-    STATIC_CAT3(STATIC_CAT3(nstl(attribute), _, xor), _, x)
+    JOY_CAT3(nstl_attribute_xor, _, x)
 #define nstl_lshift(x) \
-    STATIC_CAT3(STATIC_CAT3(nstl(attribute), _, lshift), _, x)
+    JOY_CAT3(nstl_attribute_lshift, _, x)
 #define nstl_rshift(x) \
-    STATIC_CAT3(STATIC_CAT3(nstl(attribute), _, rshift), _, x)
+    JOY_CAT3(nstl_attribute_rshift, _, x)
 #define nstl_iadd(x) \
-    STATIC_CAT3(STATIC_CAT3(nstl(attribute), _, iadd), _, x)
+    JOY_CAT3(nstl_attribute_iadd, _, x)
 #define nstl_isub(x) \
-    STATIC_CAT3(STATIC_CAT3(nstl(attribute), _, isub), _, x)
+    JOY_CAT3(nstl_attribute_isub, _, x)
 #define nstl_imul(x) \
-    STATIC_CAT3(STATIC_CAT3(nstl(attribute), _, imul), _, x)
+    JOY_CAT3(nstl_attribute_imul, _, x)
 #define nstl_idiv(x) \
-    STATIC_CAT3(STATIC_CAT3(nstl(attribute), _, idiv), _, x)
+    JOY_CAT3(nstl_attribute_idiv, _, x)
 #define nstl_imod(x) \
-    STATIC_CAT3(STATIC_CAT3(nstl(attribute), _, imod), _, x)
+    JOY_CAT3(nstl_attribute_imod, _, x)
 #define nstl_iand(x) \
-    STATIC_CAT3(STATIC_CAT3(nstl(attribute), _, iand), _, x)
+    JOY_CAT3(nstl_attribute_iand, _, x)
 #define nstl_ior(x) \
-    STATIC_CAT3(STATIC_CAT3(nstl(attribute), _, ior), _, x)
+    JOY_CAT3(nstl_attribute_ior, _, x)
 #define nstl_ixor(x) \
-    STATIC_CAT3(STATIC_CAT3(nstl(attribute), _, ixor), _, x)
+    JOY_CAT3(nstl_attribute_ixor, _, x)
 #define nstl_ilshift(x) \
-    STATIC_CAT3(STATIC_CAT3(nstl(attribute), _, ilshift), _, x)
+    JOY_CAT3(nstl_attribute_ilshift, _, x)
 #define nstl_irshift(x) \
-    STATIC_CAT3(STATIC_CAT3(nstl(attribute), _, irshift), _, x)
+    JOY_CAT3(nstl_attribute_irshift, _, x)
 #define nstl_subscript(x) \
-    STATIC_CAT3(STATIC_CAT3(nstl(attribute), _, subscript), _, x)
+    JOY_CAT3(nstl_attribute_subscript, _, x)
 #define nstl_deref(x) \
-    STATIC_CAT3(STATIC_CAT3(nstl(attribute), _, deref), _, x)
+    JOY_CAT3(nstl_attribute_deref, _, x)
 #define nstl_call(x) \
-    STATIC_CAT3(STATIC_CAT3(nstl(attribute), _, call), _, x)
+    JOY_CAT3(nstl_attribute_call, _, x)
 #define nstl_sizeof(x) \
-    STATIC_CAT3(STATIC_CAT3(nstl(attribute), _, sizeof), _, x)
+    JOY_CAT3(nstl_attribute_sizeof, _, x)
 #define nstl_alignof(x) \
-    STATIC_CAT3(STATIC_CAT3(nstl(attribute), _, alignof), _, x)
+    JOY_CAT3(nstl_attribute_alignof, _, x)
 #define nstl_new(x) \
-    STATIC_CAT3(STATIC_CAT3(nstl(attribute), _, new), _, x)
+    JOY_CAT3(nstl_attribute_new, _, x)
 #define nstl_delete(x) \
-    STATIC_CAT3(STATIC_CAT3(nstl(attribute), _, delete), _, x)
+    JOY_CAT3(nstl_attribute_delete, _, x)
 #define nstl_init(x) \
-    STATIC_CAT3(STATIC_CAT3(nstl(attribute), _, init), _, x)
+    JOY_CAT3(nstl_attribute_init, _, x)
 #define nstl_init_cp(x) \
-    STATIC_CAT3(STATIC_CAT3(nstl(attribute), _, init_cp), _, x)
+    JOY_CAT3(nstl_attribute_init_cp, _, x)
 #define nstl_deinit(x) \
-    STATIC_CAT3(STATIC_CAT3(nstl(attribute), _, deinit), _, x)
+    JOY_CAT3(nstl_attribute_deinit, _, x)
 #define nstl_init_n(x) \
-    STATIC_CAT3(STATIC_CAT3(nstl(attribute), _, init_n), _, x)
+    JOY_CAT3(nstl_attribute_init_n, _, x)
 #define nstl_init_range(x) \
-    STATIC_CAT3(STATIC_CAT3(nstl(attribute), _, init_range), _, x)
+    JOY_CAT3(nstl_attribute_init_range, _, x)
 #define nstl_begin(x) \
-    STATIC_CAT3(STATIC_CAT3(nstl(attribute), _, begin), _, x)
+    JOY_CAT3(nstl_attribute_begin, _, x)
 #define nstl_end(x) \
-    STATIC_CAT3(STATIC_CAT3(nstl(attribute), _, end), _, x)
+    JOY_CAT3(nstl_attribute_end, _, x)
 #define nstl_rbegin(x) \
-    STATIC_CAT3(STATIC_CAT3(nstl(attribute), _, rbegin), _, x)
+    JOY_CAT3(nstl_attribute_rbegin, _, x)
 #define nstl_rend(x) \
-    STATIC_CAT3(STATIC_CAT3(nstl(attribute), _, rend), _, x)
+    JOY_CAT3(nstl_attribute_rend, _, x)
 #define nstl_push_back(x) \
-    STATIC_CAT3(STATIC_CAT3(nstl(attribute), _, push_back), _, x)
+    JOY_CAT3(nstl_attribute_push_back, _, x)
 #define nstl_push_front(x) \
-    STATIC_CAT3(STATIC_CAT3(nstl(attribute), _, push_front), _, x)
+    JOY_CAT3(nstl_attribute_push_front, _, x)
 #define nstl_other(x) \
-    STATIC_CAT3(STATIC_CAT3(nstl(attribute), _, other), _, x)
+    JOY_CAT3(nstl_attribute_other, _, x)
 #define nstl_struct(x) \
-    STATIC_CAT3(STATIC_CAT3(nstl(attribute), _, struct), _, x)
+    JOY_CAT3(nstl_attribute_struct, _, x)
 /* [[[end]]] */
 
 #endif /* !NSTL_INTERNAL_ATTRIBUTES_H */

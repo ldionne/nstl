@@ -9,8 +9,15 @@
 
 #include <nstl/internal/attributes.h>
 
-#include <chaos/preprocessor.h>
-#include <joy.h>
+#include <chaos/preprocessor/recursion/expr.h>
+#include <chaos/preprocessor/seq/transform.h>
+#include <chaos/preprocessor/seq/to_string.h>
+#include <chaos/preprocessor/string/core.h>
+#include <joy/cat.h>
+#include <joy/execute.h>
+#include <joy/pair.h>
+#include <joy/seq/pyunzip.h>
+#include <joy/map/to_seq.h>
 
 
 /*!
@@ -20,7 +27,7 @@
  *       macro must be defined to expand to the preprocessor string version
  *       of the attribute name.
  */
-#define NSTL_ATTRIBUTE(attr) CHAOS_PP_CAT(NSTL_ATTRIBUTE_, attr)
+#define NSTL_ATTRIBUTE(attr) JOY_CAT(NSTL_ATTRIBUTE_, attr)
 
 /*!
  * Given a token, return the nstl-style instruction associated to it.
@@ -28,7 +35,7 @@
  * @note In order for this macro to work properly, the NSTL_INSTRUCTION_instr
  *       macro must be defined properly.
  */
-#define NSTL_INSTRUCTION(instr) CHAOS_PP_CAT(NSTL_INSTRUCTION_, instr)
+#define NSTL_INSTRUCTION(instr) JOY_CAT(NSTL_INSTRUCTION_, instr)
 
 /*!
  * Create a new nstl type.
@@ -38,7 +45,7 @@
 
 #define NSTL_TYPE_S(s, attributes)                                             \
     JOY_EXECUTE_FOLD_S(s,                                                      \
-        JOY_PB_OBJECT_S(s, /*no attrs*/),                                      \
+        JOY_OBJECT_S(s, /*no attrs*/),                                         \
         NSTL_I_INSTRUCTIONS_TO_JOY(s, attributes)                              \
     )                                                                          \
 /**/
@@ -68,7 +75,7 @@
 #define NSTL_IMPLEMENT_S(s, self)                                              \
     CHAOS_PP_SEQ_TO_STRING(                                                    \
         JOY_PAIR_SECOND(                                                       \
-            JOY_SEQUNZIP_S(s,                                                  \
+            JOY_SEQ_PYUNZIP_S(s,                                               \
                 JOY_MAP_TO_SEQ_S(s, self)                                      \
             )                                                                  \
         )                                                                      \
