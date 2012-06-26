@@ -32,9 +32,12 @@
 #define NSTL_TOKEN_implement (i m p l e m e n t)
 #define NSTL_INSTRUCTION_implement(s, self, attr, implementation)              \
     NSTL_I_INSTRUCTION_implement(s,                                            \
-        CHAOS_PP_IF(JOY_SEQ_CONTAINS_S(s, NSTL_I_IS_SAME_ATTR, self, attr)) (  \
-            NSTL_INSTRUCTION_drop(s, self, attr), self                         \
-        ), attr, implementation                                                \
+        CHAOS_PP_IF(JOY_SEQ_CONTAINS_S(s,                                      \
+            NSTL_I_IS_SAME_ATTR, self, NSTL_TOKEN_TO_STRING(attr)              \
+        ))                                                                     \
+           (NSTL_INSTRUCTION_drop(s, self, attr), self),                       \
+            attr,                                                              \
+            implementation                                                     \
     )                                                                          \
 /**/
 

@@ -5,6 +5,7 @@
  */
 
 #include <nstl/pair.h>
+#include <assert.h>
 
 
 #define pair_type nstl_pair(int, int)
