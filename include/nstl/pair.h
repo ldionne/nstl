@@ -9,6 +9,7 @@
 
 #include <nstl/internal/type.h>
 
+#include <stdbool.h>
 #include <joy/cat.h>
 
 
