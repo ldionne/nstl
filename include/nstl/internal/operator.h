@@ -1,11 +1,11 @@
 /*!
- * Implementation of a primitive type.
+ * Definition of the basic operators in C.
  *
  * @author Louis Dionne
  */
 
-#ifndef NSTL_INTERNAL_PRIMITIVE_H
-#define NSTL_INTERNAL_PRIMITIVE_H
+#ifndef NSTL_INTERNAL_OPERATOR_H
+#define NSTL_INTERNAL_OPERATOR_H
 
 #include <nstl/internal/type.h>
 
@@ -14,10 +14,9 @@
 #include <stdlib.h>
 
 
-#define NSTL_PRIMITIVE(T)                                                      \
+#define NSTL_ARITHMETIC_OPERATORS(T)                                           \
 NSTL_TYPE(                                                                     \
                                                                                \
-/* Arithmetic operators */                                                     \
 (asg (                                                                         \
 static inline T nstl_asg(T, T)(T *self, T other)                               \
 {                                                                              \
@@ -102,7 +101,47 @@ static inline T nstl_inv(T)(T self)                                            \
 }                                                                              \
 ))                                                                             \
                                                                                \
-/* Comparison operators / relational operators */                              \
+(iadd (                                                                        \
+static inline T nstl_iadd(T, T)(T *self, T other)                              \
+{                                                                              \
+    return (*self) += other;                                                   \
+}                                                                              \
+))                                                                             \
+                                                                               \
+(isub (                                                                        \
+static inline T nstl_isub(T, T)(T *self, T other)                              \
+{                                                                              \
+    return (*self) -= other;                                                   \
+}                                                                              \
+))                                                                             \
+                                                                               \
+(imul (                                                                        \
+static inline T nstl_imul(T, T)(T *self, T other)                              \
+{                                                                              \
+    return (*self) *= other;                                                   \
+}                                                                              \
+))                                                                             \
+                                                                               \
+(idiv (                                                                        \
+static inline T nstl_idiv(T, T)(T *self, T other)                              \
+{                                                                              \
+    return (*self) /= other;                                                   \
+}                                                                              \
+))                                                                             \
+                                                                               \
+(imod (                                                                        \
+static inline T nstl_imod(T, T)(T *self, T other)                              \
+{                                                                              \
+    return (*self) %= other;                                                   \
+}                                                                              \
+))                                                                             \
+                                                                               \
+)                                                                              \
+/**/
+
+#define NSTL_COMPARISON_OPERATORS(T)                                           \
+NSTL_TYPE(                                                                     \
+                                                                               \
 (eq (                                                                          \
 static inline bool nstl_eq(T, T)(T x, T y)                                     \
 {                                                                              \
@@ -145,7 +184,12 @@ static inline bool nstl_le(T, T)(T x, T y)                                     \
 }                                                                              \
 ))                                                                             \
                                                                                \
-/* Logical operators */                                                        \
+)                                                                              \
+/**/
+
+#define NSTL_LOGICAL_OPERATORS(T)                                              \
+NSTL_TYPE(                                                                     \
+                                                                               \
 (lognot (                                                                      \
 static inline bool nstl_lognot(T)(T self)                                      \
 {                                                                              \
@@ -167,7 +211,12 @@ static inline bool nstl_logor(T, T)(T x, T y)                                  \
 }                                                                              \
 ))                                                                             \
                                                                                \
-/* Bitwise operators */                                                        \
+)                                                                              \
+/**/
+
+#define NSTL_BITWISE_OPERATORS(T)                                              \
+NSTL_TYPE(                                                                     \
+                                                                               \
 (not (                                                                         \
 static inline T nstl_not(T)(T self)                                            \
 {                                                                              \
@@ -210,35 +259,6 @@ static inline T nstl_rshift(T, T)(T x, T y)                                    \
 }                                                                              \
 ))                                                                             \
                                                                                \
-/* Compound assignment operators */                                            \
-(iadd (                                                                        \
-static inline T nstl_iadd(T, T)(T *self, T other)                              \
-{                                                                              \
-    return (*self) += other;                                                   \
-}                                                                              \
-))                                                                             \
-                                                                               \
-(isub (                                                                        \
-static inline T nstl_isub(T, T)(T *self, T other)                              \
-{                                                                              \
-    return (*self) -= other;                                                   \
-}                                                                              \
-))                                                                             \
-                                                                               \
-(imul (                                                                        \
-static inline T nstl_imul(T, T)(T *self, T other)                              \
-{                                                                              \
-    return (*self) *= other;                                                   \
-}                                                                              \
-))                                                                             \
-                                                                               \
-(idiv (                                                                        \
-static inline T nstl_idiv(T, T)(T *self, T other)                              \
-{                                                                              \
-    return (*self) /= other;                                                   \
-}                                                                              \
-))                                                                             \
-                                                                               \
 (iand (                                                                        \
 static inline T nstl_iand(T, T)(T *self, T other)                              \
 {                                                                              \
@@ -274,7 +294,12 @@ static inline T nstl_irshift(T, T)(T *self, T other)                           \
 }                                                                              \
 ))                                                                             \
                                                                                \
-/* Other operators */                                                          \
+)                                                                              \
+/**/
+
+#define NSTL_ALLOCATION_OPERATORS(T)                                           \
+NSTL_TYPE(                                                                     \
+                                                                               \
 (new (                                                                         \
 static inline T *nstl_new(T)(void)                                             \
 {                                                                              \
@@ -291,6 +316,7 @@ static inline void nstl_delete(T)(T *self)                                     \
                                                                                \
 )                                                                              \
 /**/
+
 
 /* [[[cog
 
@@ -309,6 +335,11 @@ cog.outl(nstl.generate_attributes(
     'dec_(T)',    # postfix --
     'prom(T)',    # unary +
     'inv(T)',     # unary -
+    'iadd(R, T)', # +=
+    'isub(R, T)', # -=
+    'imul(R, T)', # *=
+    'idiv(R, T)', # /=
+    'imod(R, T)', # %=
 
     # Comparison operators / relational operators
     'eq(R, T)', # ==
@@ -324,26 +355,19 @@ cog.outl(nstl.generate_attributes(
     'logor(R, T)',  # ||
 
     # Bitwise operators
-    'not(T)',       # ~
-    'and(R, T)',    # &
-    'or(R, T)',     # |
-    'xor(R, T)',    # ^
-    'lshift(R, T)', # <<
-    'rshift(R, T)', # >>
-
-    # Compound assignment operators
-    'iadd(R, T)',    # +=
-    'isub(R, T)',    # -=
-    'imul(R, T)',    # *=
-    'idiv(R, T)',    # /=
-    'imod(R, T)',    # %=
+    'not(T)',        # ~
+    'and(R, T)',     # &
+    'or(R, T)',      # |
+    'xor(R, T)',     # ^
+    'lshift(R, T)',  # <<
+    'rshift(R, T)',  # >>
     'iand(R, T)',    # &=
     'ior(R, T)',     # |=
     'ixor(R, T)',    # ^=
     'ilshift(R, T)', # <<=
     'irshift(R, T)', # >>=
 
-    # Other operators
+    # Allocation operators
     'new(T)',    # new
     'delete(T)', # delete
 
@@ -399,6 +423,26 @@ cog.outl(nstl.generate_attributes(
 #define NSTL_INSTRUCTION_inv(s, self, implementation) \
     NSTL_INSTRUCTION_implement(s, self, inv, implementation)
 #define nstl_inv(T) JOY_CAT3(nstl_mangled_inv, _, T)
+#define NSTL_TOKEN_iadd (i a d d)
+#define NSTL_INSTRUCTION_iadd(s, self, implementation) \
+    NSTL_INSTRUCTION_implement(s, self, iadd, implementation)
+#define nstl_iadd(R,  T) JOY_CAT5(nstl_mangled_iadd, _, R, _,  T)
+#define NSTL_TOKEN_isub (i s u b)
+#define NSTL_INSTRUCTION_isub(s, self, implementation) \
+    NSTL_INSTRUCTION_implement(s, self, isub, implementation)
+#define nstl_isub(R,  T) JOY_CAT5(nstl_mangled_isub, _, R, _,  T)
+#define NSTL_TOKEN_imul (i m u l)
+#define NSTL_INSTRUCTION_imul(s, self, implementation) \
+    NSTL_INSTRUCTION_implement(s, self, imul, implementation)
+#define nstl_imul(R,  T) JOY_CAT5(nstl_mangled_imul, _, R, _,  T)
+#define NSTL_TOKEN_idiv (i d i v)
+#define NSTL_INSTRUCTION_idiv(s, self, implementation) \
+    NSTL_INSTRUCTION_implement(s, self, idiv, implementation)
+#define nstl_idiv(R,  T) JOY_CAT5(nstl_mangled_idiv, _, R, _,  T)
+#define NSTL_TOKEN_imod (i m o d)
+#define NSTL_INSTRUCTION_imod(s, self, implementation) \
+    NSTL_INSTRUCTION_implement(s, self, imod, implementation)
+#define nstl_imod(R,  T) JOY_CAT5(nstl_mangled_imod, _, R, _,  T)
 #define NSTL_TOKEN_eq (e q)
 #define NSTL_INSTRUCTION_eq(s, self, implementation) \
     NSTL_INSTRUCTION_implement(s, self, eq, implementation)
@@ -459,26 +503,6 @@ cog.outl(nstl.generate_attributes(
 #define NSTL_INSTRUCTION_rshift(s, self, implementation) \
     NSTL_INSTRUCTION_implement(s, self, rshift, implementation)
 #define nstl_rshift(R,  T) JOY_CAT5(nstl_mangled_rshift, _, R, _,  T)
-#define NSTL_TOKEN_iadd (i a d d)
-#define NSTL_INSTRUCTION_iadd(s, self, implementation) \
-    NSTL_INSTRUCTION_implement(s, self, iadd, implementation)
-#define nstl_iadd(R,  T) JOY_CAT5(nstl_mangled_iadd, _, R, _,  T)
-#define NSTL_TOKEN_isub (i s u b)
-#define NSTL_INSTRUCTION_isub(s, self, implementation) \
-    NSTL_INSTRUCTION_implement(s, self, isub, implementation)
-#define nstl_isub(R,  T) JOY_CAT5(nstl_mangled_isub, _, R, _,  T)
-#define NSTL_TOKEN_imul (i m u l)
-#define NSTL_INSTRUCTION_imul(s, self, implementation) \
-    NSTL_INSTRUCTION_implement(s, self, imul, implementation)
-#define nstl_imul(R,  T) JOY_CAT5(nstl_mangled_imul, _, R, _,  T)
-#define NSTL_TOKEN_idiv (i d i v)
-#define NSTL_INSTRUCTION_idiv(s, self, implementation) \
-    NSTL_INSTRUCTION_implement(s, self, idiv, implementation)
-#define nstl_idiv(R,  T) JOY_CAT5(nstl_mangled_idiv, _, R, _,  T)
-#define NSTL_TOKEN_imod (i m o d)
-#define NSTL_INSTRUCTION_imod(s, self, implementation) \
-    NSTL_INSTRUCTION_implement(s, self, imod, implementation)
-#define nstl_imod(R,  T) JOY_CAT5(nstl_mangled_imod, _, R, _,  T)
 #define NSTL_TOKEN_iand (i a n d)
 #define NSTL_INSTRUCTION_iand(s, self, implementation) \
     NSTL_INSTRUCTION_implement(s, self, iand, implementation)
@@ -509,4 +533,4 @@ cog.outl(nstl.generate_attributes(
 #define nstl_delete(T) JOY_CAT3(nstl_mangled_delete, _, T)
 /* [[[end]]] */
 
-#endif /* !NSTL_INTERNAL_PRIMITIVE_H */
+#endif /* !NSTL_INTERNAL_OPERATOR_H */
