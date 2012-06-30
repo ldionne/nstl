@@ -4,11 +4,18 @@
  * @author Louis Dionne
  */
 
+#include <seatest.h>
 
-extern void test_pair(void);
 
-int main (int argc, char const *argv[])
+extern void test_fixture_pair(void);
+
+
+static void all_tests(void)
 {
-    test_pair();
-    return 0;
+    test_fixture_pair();
+}
+
+int main(int argc, char const *argv[])
+{
+    return run_tests(all_tests);
 }
