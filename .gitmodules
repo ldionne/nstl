@@ -4,3 +4,6 @@
 [submodule "tools/macroize"]
 	path = tools/macroize
 	url = git://github.com/ldionne/macroize.git
+[submodule "ext/seatest"]
+	path = ext/seatest
+	url = https://github.com/ldionne/seatest.git
