@@ -19,7 +19,6 @@
 #include <joy/seq/append.h>
 #include <joy/string/cat.h>
 #include <joy/string/eq.h>
-#include <joy/map/to_seq.h>
 #include <joy/pair.h>
 #include <joy/execute.h>
 #include <joy/cat.h>
