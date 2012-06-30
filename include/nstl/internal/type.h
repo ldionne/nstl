@@ -7,20 +7,22 @@
 #ifndef NSTL_INTERNAL_TYPE_H
 #define NSTL_INTERNAL_TYPE_H
 
-#include <nstl/internal/attributes.h>
-
 #include <chaos/preprocessor/recursion/expr.h>
 #include <chaos/preprocessor/recursion/basic.h>
 #include <chaos/preprocessor/seq/transform.h>
 #include <chaos/preprocessor/seq/to_string.h>
+#include <chaos/preprocessor/seq/fold_left.h>
 #include <chaos/preprocessor/facilities/unbox.h>
 #include <chaos/preprocessor/facilities/expand.h>
-#include <joy/cat.h>
-#include <joy/execute.h>
-#include <joy/pair.h>
 #include <joy/seq/pyunzip.h>
-#include <joy/map/to_seq.h>
+#include <joy/seq/remove_if.h>
+#include <joy/seq/append.h>
 #include <joy/string/cat.h>
+#include <joy/string/eq.h>
+#include <joy/map/to_seq.h>
+#include <joy/pair.h>
+#include <joy/execute.h>
+#include <joy/cat.h>
 
 
 /*!
@@ -117,6 +119,73 @@
 #define NSTL_IMPLEMENT_S(s, self)                                              \
     CHAOS_PP_SEQ_TO_STRING(                                                    \
         JOY_PAIR_SECOND(JOY_SEQ_PYUNZIP_S(s, self))                            \
+    )                                                                          \
+/**/
+
+/*!
+ * Instruction used to exclude an attribute from a nstl type.
+ *
+ * @note The attribute must have been added to the type previously.
+ *       If the type has no attribute named @p attr, nothing is done.
+ */
+#define NSTL_INSTRUCTION_drop(s, self, attr)                                   \
+    JOY_SEQ_REMOVE_IF_S(s,                                                     \
+        NSTL_I_IS_SAME_ATTR, self, NSTL_TOKEN_TO_STRING(attr)                  \
+    )                                                                          \
+/**/
+#define NSTL_TOKEN_drop (d r o p)
+
+/*!
+ * Return whether a (attribute_name, implementation) pair represents the same
+ * attribute as an attribute name @p attr.
+ */
+#define NSTL_I_IS_SAME_ATTR(s, attr_impl, attr)                                \
+    JOY_STRING_EQ_S(s,                                                         \
+        JOY_PAIR_FIRST(attr_impl), attr                                        \
+    )                                                                          \
+/**/
+
+/*!
+ * Instruction used to overwrite or set an attribute with a corresponding
+ * implementation.
+ */
+#define NSTL_INSTRUCTION_implement(s, self, attr, implementation)              \
+    NSTL_I_INSTRUCTION_implement(s,                                            \
+        CHAOS_PP_IF(JOY_SEQ_CONTAINS_S(s,                                      \
+            NSTL_I_IS_SAME_ATTR, self, NSTL_TOKEN_TO_STRING(attr)              \
+        ))                                                                     \
+           (NSTL_INSTRUCTION_drop(s, self, attr), self),                       \
+            attr,                                                              \
+            implementation                                                     \
+    )                                                                          \
+/**/
+#define NSTL_TOKEN_implement (i m p l e m e n t)
+
+#define NSTL_I_INSTRUCTION_implement(s, self, attr, implementation)            \
+    JOY_SEQ_APPEND(                                                            \
+        JOY_PAIR(NSTL_TOKEN_TO_STRING(attr), implementation), self             \
+    )                                                                          \
+/**/
+
+/*!
+ * Instruction used to include all the attributes of a given @p base_type
+ * in another nstl type.
+ */
+#define NSTL_INSTRUCTION_inherit(s, self, base_type)                           \
+    CHAOS_PP_EXPR_S(s)(                                                        \
+        CHAOS_PP_SEQ_FOLD_LEFT_S(s,                                            \
+            NSTL_I_INSTRUCTION_inherit, base_type, self                        \
+        )                                                                      \
+    )                                                                          \
+/**/
+#define NSTL_TOKEN_inherit (i n h e r i t)
+
+#define NSTL_I_INSTRUCTION_inherit(s, attr_impl, self)                         \
+    NSTL_INSTRUCTION_implement(s,                                              \
+        self,                                                                  \
+        /* rebuild the attribute name as a token for INSTRUCTION_implement. */ \
+        JOY_STRING_CAT_S(s, JOY_PAIR_FIRST(attr_impl)),                        \
+        JOY_PAIR_SECOND(attr_impl)                                             \
     )                                                                          \
 /**/
 
