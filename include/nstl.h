@@ -9,6 +9,7 @@
 
 #include <nstl/operator.h>
 #include <nstl/type.h>
+#include <nstl/primitive.h>
 #include <nstl/pair.h>
 
 #endif /* !NSTL_H */
