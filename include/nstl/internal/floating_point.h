@@ -7,7 +7,7 @@
 #ifndef NSTL_INTERNAL_FLOATING_POINT_H
 #define NSTL_INTERNAL_FLOATING_POINT_H
 
-#include <nstl/internal/operator.h>
+#include <nstl/operator.h>
 
 
 #define NSTL_FLOATING_POINT(T)                                                 \

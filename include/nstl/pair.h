@@ -7,8 +7,8 @@
 #ifndef NSTL_PAIR_H
 #define NSTL_PAIR_H
 
-#include <nstl/internal/type.h>
-#include <nstl/internal/primitive.h>
+#include <nstl/type.h>
+#include <nstl/operator.h>
 
 #include <stdbool.h>
 

@@ -4,8 +4,8 @@
  * @author Louis Dionne
  */
 
-#ifndef NSTL_INTERNAL_TYPE_H
-#define NSTL_INTERNAL_TYPE_H
+#ifndef NSTL_TYPE_H
+#define NSTL_TYPE_H
 
 #include <chaos/preprocessor/recursion/expr.h>
 #include <chaos/preprocessor/recursion/basic.h>
@@ -189,4 +189,4 @@
     )                                                                          \
 /**/
 
-#endif /* !NSTL_INTERNAL_TYPE_H */
+#endif /* !NSTL_TYPE_H */
