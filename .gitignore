@@ -1,2 +1,3 @@
 doc/auto
 build/
+__pycache__
