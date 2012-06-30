@@ -7,3 +7,6 @@
 [submodule "ext/seatest"]
 	path = ext/seatest
 	url = https://github.com/ldionne/seatest.git
+[submodule "ext/chaos-pp"]
+	path = ext/chaos-pp
+	url = https://github.com/ldionne/chaos-pp.git
