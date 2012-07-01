@@ -59,9 +59,9 @@ static inline pointer nstl_isub(pointer, ptrdiff_t)(pointer *self, ptrdiff_t n) 
 (inherit (NSTL_ALLOCATION_OPERATORS(pointer)))                                 \
                                                                                \
 (deref (                                                                       \
-static inline value_type nstl_deref(pointer)(pointer p)                        \
+static inline value_type nstl_deref(pointer)(pointer self)                     \
 {                                                                              \
-    return *p;                                                                 \
+    return *self;                                                              \
 }                                                                              \
 ))                                                                             \
                                                                                \

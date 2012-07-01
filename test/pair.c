@@ -8,15 +8,15 @@
 #include <seatest.h>
 
 
-#define pair_type nstl_pair(int, int)
+#define test_pair nstl_pair(int, int)
 NSTL_IMPLEMENT(NSTL_PAIR(int, int))
 
 static void should_have_first_and_second_as_set(void)
 {
     int first = 88;
     int second = 99;
-    pair_type pair;
-    nstl_init(pair_type)(&pair, first, second);
+    test_pair pair;
+    nstl_init(test_pair)(&pair, first, second);
     assert_int_equal(pair.first, first);
     assert_int_equal(pair.second, second);
 }
@@ -25,82 +25,82 @@ static void make_pair_should_be_equivalent_to_init(void)
 {
     int first = 88;
     int second = 99;
-    pair_type x, y;
-    nstl_init(pair_type)(&x, first, second);
+    test_pair x, y;
+    nstl_init(test_pair)(&x, first, second);
     y = nstl_make_pair(int, int)(first, second);
-    assert_true(nstl_eq(pair_type, pair_type)(x, y));
+    assert_true(nstl_eq(test_pair, test_pair)(x, y));
 }
 
 static void should_be_equal_when_first_and_second_are_equal(void)
 {
-    pair_type x, y;
-    nstl_init(pair_type)(&x, 88, 99);
-    nstl_init(pair_type)(&y, 88, 99);
-    assert_true(nstl_eq(pair_type, pair_type)(x, y));
-    assert_true(nstl_eq(pair_type, pair_type)(y, x));
+    test_pair x, y;
+    nstl_init(test_pair)(&x, 88, 99);
+    nstl_init(test_pair)(&y, 88, 99);
+    assert_true(nstl_eq(test_pair, test_pair)(x, y));
+    assert_true(nstl_eq(test_pair, test_pair)(y, x));
 }
 
 static void should_not_be_equal_when_any_of_first_and_second_different(void)
 {
-    pair_type x, y;
-    nstl_init(pair_type)(&x, 1, 1);
-    nstl_init(pair_type)(&y, 0, 1);
-    assert_false(nstl_eq(pair_type, pair_type)(x, y));
-    assert_false(nstl_eq(pair_type, pair_type)(y, x));
+    test_pair x, y;
+    nstl_init(test_pair)(&x, 1, 1);
+    nstl_init(test_pair)(&y, 0, 1);
+    assert_false(nstl_eq(test_pair, test_pair)(x, y));
+    assert_false(nstl_eq(test_pair, test_pair)(y, x));
 
     y.first = 1;
     y.second = 0;
-    assert_false(nstl_eq(pair_type, pair_type)(x, y));
-    assert_false(nstl_eq(pair_type, pair_type)(y, x));
+    assert_false(nstl_eq(test_pair, test_pair)(x, y));
+    assert_false(nstl_eq(test_pair, test_pair)(y, x));
 }
 
 static void should_not_be_different_when_first_and_second_are_equal(void)
 {
-    pair_type x, y;
-    nstl_init(pair_type)(&x, 88, 99);
-    nstl_init(pair_type)(&y, 88, 99);
-    assert_false(nstl_ne(pair_type, pair_type)(x, y));
-    assert_false(nstl_ne(pair_type, pair_type)(y, x));
+    test_pair x, y;
+    nstl_init(test_pair)(&x, 88, 99);
+    nstl_init(test_pair)(&y, 88, 99);
+    assert_false(nstl_ne(test_pair, test_pair)(x, y));
+    assert_false(nstl_ne(test_pair, test_pair)(y, x));
 }
 
 static void should_be_different_when_any_of_first_and_second_are_different(void)
 {
-    pair_type x, y;
-    nstl_init(pair_type)(&x, 1, 1);
-    nstl_init(pair_type)(&y, 0, 1);
-    assert_true(nstl_ne(pair_type, pair_type)(x, y));
-    assert_true(nstl_ne(pair_type, pair_type)(y, x));
+    test_pair x, y;
+    nstl_init(test_pair)(&x, 1, 1);
+    nstl_init(test_pair)(&y, 0, 1);
+    assert_true(nstl_ne(test_pair, test_pair)(x, y));
+    assert_true(nstl_ne(test_pair, test_pair)(y, x));
 
     y.first = 1;
     y.second = 0;
-    assert_true(nstl_ne(pair_type, pair_type)(x, y));
-    assert_true(nstl_ne(pair_type, pair_type)(y, x));
+    assert_true(nstl_ne(test_pair, test_pair)(x, y));
+    assert_true(nstl_ne(test_pair, test_pair)(y, x));
 }
 
 static void comparison_is_lexicographical(void)
 {
-    pair_type x = nstl_make_pair(int, int)(0, 1);
-    pair_type y = nstl_make_pair(int, int)(1, 1);
-    assert_true(nstl_lt(pair_type, pair_type)(x, y));
-    assert_true(nstl_le(pair_type, pair_type)(x, y));
-    assert_true(nstl_gt(pair_type, pair_type)(y, x));
-    assert_true(nstl_ge(pair_type, pair_type)(y, x));
+    test_pair x = nstl_make_pair(int, int)(0, 1);
+    test_pair y = nstl_make_pair(int, int)(1, 1);
+    assert_true(nstl_lt(test_pair, test_pair)(x, y));
+    assert_true(nstl_le(test_pair, test_pair)(x, y));
+    assert_true(nstl_gt(test_pair, test_pair)(y, x));
+    assert_true(nstl_ge(test_pair, test_pair)(y, x));
 
-    assert_false(nstl_lt(pair_type, pair_type)(y, x));
-    assert_false(nstl_le(pair_type, pair_type)(y, x));
-    assert_false(nstl_gt(pair_type, pair_type)(x, y));
-    assert_false(nstl_ge(pair_type, pair_type)(x, y));
+    assert_false(nstl_lt(test_pair, test_pair)(y, x));
+    assert_false(nstl_le(test_pair, test_pair)(y, x));
+    assert_false(nstl_gt(test_pair, test_pair)(x, y));
+    assert_false(nstl_ge(test_pair, test_pair)(x, y));
 }
 
 static void should_be_le_and_ge_when_equal(void)
 {
-    pair_type x = nstl_make_pair(int, int)(1, 1);
-    pair_type y = x;
-    assert_true(nstl_le(pair_type, pair_type)(x, y));
-    assert_true(nstl_ge(pair_type, pair_type)(x, y));
+    test_pair x = nstl_make_pair(int, int)(1, 1);
+    test_pair y = x;
+    assert_true(nstl_le(test_pair, test_pair)(x, y));
+    assert_true(nstl_ge(test_pair, test_pair)(x, y));
 }
 
-#undef pair_type
+#undef test_pair
 
 
 extern void test_fixture_pair(void)

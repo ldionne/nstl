@@ -10,7 +10,7 @@
 #include <nstl/type.h>
 
 
-#define NSTL_FOR_EACH(input_iter, function_type)                               \
+#define NSTL_FOR_EACH(InputIter, Function)                                     \
 NSTL_TYPE(                                                                     \
                                                                                \
 (for_each (                                                                    \
@@ -22,12 +22,12 @@ NSTL_TYPE(                                                                     \
  *                                                                             \
  * @return The function @p f.                                                  \
  */                                                                            \
-static inline function_type nstl_for_each(input_iter, function_type)           \
-                            (input_iter first, input_iter last, function_type f) \
+static inline Function nstl_for_each(InputIter, Function)(InputIter first,     \
+                                                    InputIter last, Function f) \
 {                                                                              \
-    for ( ; nstl_ne(input_iter, input_iter)(first, last);                      \
-            nstl_inc(input_iter)(&first)) {                                    \
-        f(nstl_deref(input_iter)(first));                                      \
+    for ( ; nstl_ne(InputIter, InputIter)(first, last);                        \
+            nstl_inc(InputIter)(&first)) {                                     \
+        f(nstl_deref(InputIter)(first));                                       \
     }                                                                          \
     return f;                                                                  \
 }                                                                              \
@@ -40,7 +40,7 @@ static inline function_type nstl_for_each(input_iter, function_type)           \
 
 import nstl
 cog.outl(nstl.generate_attributes(
-    'for_each(input_iter, function_type)',
+    'for_each(InputIter, Function)',
 
     implement=True, token=True,
 ))
@@ -49,7 +49,7 @@ cog.outl(nstl.generate_attributes(
 #define NSTL_TOKEN_for_each (f o r _ e a c h)
 #define NSTL_INSTRUCTION_for_each(s, self, implementation) \
     NSTL_INSTRUCTION_implement(s, self, for_each, implementation)
-#define nstl_for_each(input_iter,  function_type) JOY_CAT5(nstl_mangled_for_each, _, input_iter, _,  function_type)
+#define nstl_for_each(InputIter,  Function) JOY_CAT5(nstl_mangled_for_each, _, InputIter, _,  Function)
 /* [[[end]]] */
 
 #endif /* !NSTL_ALGORITHM_FOR_EACH_H */
