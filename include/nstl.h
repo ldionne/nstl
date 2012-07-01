@@ -12,5 +12,6 @@
 #include <nstl/primitive.h>
 #include <nstl/pair.h>
 #include <nstl/algorithm.h>
+#include <nstl/vector.h>
 
 #endif /* !NSTL_H */
