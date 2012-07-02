@@ -10,9 +10,13 @@
 #include <chaos/preprocessor/facilities/split.h>
 #include <chaos/preprocessor/facilities/expand.h>
 #include <chaos/preprocessor/facilities/unbox.h>
+#include <chaos/preprocessor/recursion/expr.h>
+#include <chaos/preprocessor/recursion/basic.h>
+#include <chaos/preprocessor/control/unless.h>
+#include <chaos/preprocessor/control/if.h>
+#include <chaos/preprocessor/detection/is_empty.h>
 #include <chaos/preprocessor/algorithm/concat.h>
 #include <chaos/preprocessor/string/core.h>
-#include <chaos/preprocessor/control/if.h>
 
 
 /*!
@@ -64,5 +68,32 @@
 /**/
 
 #define NSTL_III_TOKEN_STRING_SPLIT(head) head, /* tail... */
+
+/*!
+ * Convert a token string into a sequence of tokens.
+ */
+#define NSTL_TOKEN_STRING_TO_SEQ(string) \
+    NSTL_TOKEN_STRING_TO_SEQ_S(CHAOS_PP_STATE(), string)
+
+#define NSTL_TOKEN_STRING_TO_SEQ_S(s, string)                                  \
+    CHAOS_PP_EXPR_S(s)(NSTL_I_TOKEN_STRING_TO_SEQ(                             \
+        CHAOS_PP_OBSTRUCT(), CHAOS_PP_NEXT(s), string                          \
+    ))                                                                         \
+/**/
+
+#define NSTL_I_TOKEN_STRING_TO_SEQ_ID() NSTL_I_TOKEN_STRING_TO_SEQ
+#define NSTL_I_TOKEN_STRING_TO_SEQ(_, s, string)                               \
+    CHAOS_PP_UNLESS(CHAOS_PP_IS_EMPTY(string)) _(                              \
+        (NSTL_TOKEN_STRING_HEAD _(string))                                     \
+                                                                               \
+        CHAOS_PP_UNLESS(CHAOS_PP_IS_EMPTY(NSTL_TOKEN_STRING_TAIL(string))) _(  \
+            CHAOS_PP_EXPR_S _(s)(                                              \
+                NSTL_I_TOKEN_STRING_TO_SEQ_ID _() (CHAOS_PP_OBSTRUCT _(),      \
+                    CHAOS_PP_NEXT(s), NSTL_TOKEN_STRING_TAIL(string)           \
+                )                                                              \
+            )                                                                  \
+        )                                                                      \
+    )                                                                          \
+/**/
 
 #endif /* !NSTL_INTERNAL_TOKEN_H */
