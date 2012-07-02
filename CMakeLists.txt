@@ -27,5 +27,5 @@ add_custom_target(
     WORKING_DIRECTORY "${nstl_SOURCE_DIR}"
 )
 
-include_directories("ext/chaos-pp" "../joy/include")
+include_directories("ext/chaos-pp" "ext/joy/include")
 add_subdirectory(test)

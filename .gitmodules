@@ -10,3 +10,6 @@
 [submodule "ext/chaos-pp"]
 	path = ext/chaos-pp
 	url = https://github.com/ldionne/chaos-pp.git
+[submodule "ext/joy"]
+	path = ext/joy
+	url = https://github.com/ldionne/joy.git
