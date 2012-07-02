@@ -7,6 +7,7 @@
 #ifndef NSTL_ALGORITHM_H
 #define NSTL_ALGORITHM_H
 
+#include <nstl/algorithm/count_if.h>
 #include <nstl/algorithm/find.h>
 #include <nstl/algorithm/for_each.h>
 
