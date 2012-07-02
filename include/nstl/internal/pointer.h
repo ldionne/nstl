@@ -16,14 +16,7 @@
 NSTL_TYPE(                                                                     \
                                                                                \
 (inherit NSTL_ARITHMETIC_OPERATORS(Pointer))                                   \
-(unsetf mul)                                                                   \
-(unsetf imul)                                                                  \
-(unsetf div)                                                                   \
-(unsetf idiv)                                                                  \
-(unsetf mod)                                                                   \
-(unsetf imod)                                                                  \
-(unsetf prom)                                                                  \
-(unsetf inv)                                                                   \
+(unsetf mul imul  div idiv  mod imod  prom inv)                                \
 (setf add                                                                      \
 static inline Pointer nstl_add(Pointer, ptrdiff_t)(Pointer self, ptrdiff_t n)  \
 {                                                                              \

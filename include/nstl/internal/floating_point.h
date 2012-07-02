@@ -14,8 +14,7 @@
 NSTL_TYPE(                                                                     \
                                                                                \
 (inherit NSTL_ARITHMETIC_OPERATORS(T))                                         \
-(unsetf mod)                                                                   \
-(unsetf imod)                                                                  \
+(unsetf mod imod)                                                              \
                                                                                \
 (inherit NSTL_COMPARISON_OPERATORS(T))                                         \
 (inherit NSTL_LOGICAL_OPERATORS(T))                                            \

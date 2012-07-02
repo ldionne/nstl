@@ -91,12 +91,15 @@
 #endif
 
 /*!
- * Instruction used to remove a field from a nstl type.
+ * Instruction used to remove one or many fields from a nstl type.
  *
- * @note The field must have been added to the type previously.
- *       If the type does not have the given field, nothing is done.
+ * @param fields A token string of fields to remove.
+ *
+ * @note The field(s) must have been added to the type previously in order to
+ *       be removed. Nothing will be done for the field(s) that are not present
+ *       in the type.
  */
-#define NSTL_INSTRUCTION_unsetf(s, self, field) NSTL_UNSETF_S(s, self, field)
+#define NSTL_INSTRUCTION_unsetf(s, self, fields) NSTL_UNSETFS_S(s, self, fields)
 #define NSTL_TOKEN_unsetf (u n s e t f)
 
 /*!
@@ -112,10 +115,20 @@
 #define NSTL_TOKEN_setf (s e t f)
 
 /*!
- * Instruction used to include all the fields of a given @p super nstl type
- * in another nstl type.
+ * Instruction used to include all the fields of a @p super type in a nstl type.
+ *
+ * @param super A nstl type to inherit fields from.
  */
-#define NSTL_INSTRUCTION_inherit(s, self, super) NSTL_SETFS_S(s, self, super)
+#define NSTL_INSTRUCTION_inherit(s, self, super) \
+    NSTL_SETFS_S(s, self, NSTL_I_INHERIT_FILTER_DUMMY(s, super))
+
+#if NSTL_CONFIG_EMPTY_MACRO_ARGS
+#   define NSTL_I_INHERIT_FILTER_DUMMY(s, super) super
+#else
+#   define NSTL_I_INHERIT_FILTER_DUMMY(s, super) \
+        NSTL_UNSETF_S(s, super, NSTL_I_C89_COMPAT_0xDUMMY_MEMBER)
+#endif
+
 #define NSTL_TOKEN_inherit (i n h e r i t)
 
 #endif /* !NSTL_TYPE_H */

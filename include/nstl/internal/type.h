@@ -7,6 +7,8 @@
 #ifndef NSTL_INTERNAL_TYPE_H
 #define NSTL_INTERNAL_TYPE_H
 
+#include <nstl/internal/token.h>
+
 #include <chaos/preprocessor/seq/to_string.h>
 #include <joy/seq/find_first.h>
 #include <joy/seq/append.h>
@@ -18,8 +20,8 @@
 
 
 /*!
- * Return whether two (attribute_name, implementation) pairs represent the same
- * attribute. The implementation can differ.
+ * Return whether two (field_name, value) pairs represent the same field.
+ * Only the field name is checked.
  */
 #define NSTL_I_TYPE_COMPARE(s, x, y)                                           \
     JOY_STRING_EQ_S(s,                                                         \
@@ -30,6 +32,8 @@
 
 /*!
  * Return the value of a field of an object.
+ *
+ * @param field A valid nstl token.
  */
 #define NSTL_GETF(self, field) \
     NSTL_GETF_S(CHAOS_PP_STATE(), self, field)
@@ -42,6 +46,11 @@
 
 /*!
  * Set or override a field of an object.
+ *
+ * @param field A valid nstl token.
+ * @param value Anything containing no commas in pre c99, and anything
+ *              in c99. This will be the value of the field that can be
+ *              retrieved by using @em NSTL_GETF().
  */
 #define NSTL_SETF(self, field, value) \
     NSTL_SETF_S(CHAOS_PP_STATE(), field, value)
@@ -56,20 +65,23 @@
 /*!
  * Set or override many fields at once.
  *
- * @param fields A sequence of name:value pairs.
+ * @param fields A sequence of (name, value) pairs.
  */
 #define NSTL_SETFS(self, fields) \
     NSTL_SETFS_S(CHAOS_PP_STATE(), self, fields)
 
 #define NSTL_SETFS_S(s, self, fields)                                          \
     NSTL_UNSETFS_S(s,                                                          \
-        self, JOY_PAIR_FIRST(JOY_SEQ_PYUNZIP_S(s, fields))                     \
+        self, CHAOS_PP_SEQ_TO_STRING(                                          \
+                JOY_PAIR_FIRST(JOY_SEQ_PYUNZIP_S(s, fields))                   \
+              )                                                                \
     ) fields                                                                   \
 /**/
 
 /*!
  * Delete a field of an object.
  *
+ * @param field A valid nstl token representing the field to remove.
  * @note If the field is not found, nothing is done.
  */
 #define NSTL_UNSETF(self, field) \
@@ -84,13 +96,16 @@
 /*!
  * Delete many fields at once.
  *
- * @param fields A sequence of field names to delete.
+ * @param fields A token string consisting of the field names to delete.
  */
 #define NSTL_UNSETFS(self, fields) \
     NSTL_UNSETFS_S(CHAOS_PP_STATE(), self, fields)
 
-#define NSTL_UNSETFS_S(s, self, fields) \
-    JOY_SEQ_REMOVE_IF_S(s, NSTL_I_UNSETFS_PRED, self, fields)
+#define NSTL_UNSETFS_S(s, self, fields)                                        \
+    JOY_SEQ_REMOVE_IF_S(s,                                                     \
+        NSTL_I_UNSETFS_PRED, self, NSTL_TOKEN_STRING_TO_SEQ_S(s, fields)       \
+    )                                                                          \
+/**/
 
 #define NSTL_I_UNSETFS_PRED(s, field, to_del) \
     JOY_SEQ_CONTAINS_S(s, NSTL_II_UNSETFS_PRED, to_del, JOY_PAIR_FIRST(field))
@@ -100,6 +115,8 @@
 
 /*!
  * Return whether an object has a given field.
+ *
+ * @param field A valid nstl token.
  */
 #define NSTL_ISSET(self, field) \
     NSTL_ISSET_S(CHAOS_PP_STATE(), self, field)
