@@ -8,7 +8,6 @@
 #define NSTL_VECTOR_H
 
 #include <nstl/type.h>
-#include <nstl/operator.h>
 
 #include <assert.h>
 #include <stddef.h>

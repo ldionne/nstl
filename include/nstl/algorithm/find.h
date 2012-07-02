@@ -8,7 +8,6 @@
 #define NSTL_ALGORITHM_FIND_H
 
 #include <nstl/type.h>
-#include <nstl/operator.h>
 
 
 #define NSTL_FIND(InputIter, T)                                                \

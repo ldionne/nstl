@@ -8,7 +8,6 @@
 #define NSTL_PAIR_H
 
 #include <nstl/type.h>
-#include <nstl/operator.h>
 
 #include <stdbool.h>
 

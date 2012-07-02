@@ -8,7 +8,6 @@
 #define NSTL_INTERNAL_INTEGRAL_H
 
 #include <nstl/type.h>
-#include <nstl/operator.h>
 
 
 #define NSTL_INTEGRAL(T)                                                       \

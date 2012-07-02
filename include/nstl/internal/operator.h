@@ -4,8 +4,8 @@
  * @author Louis Dionne
  */
 
-#ifndef NSTL_OPERATOR_H
-#define NSTL_OPERATOR_H
+#ifndef NSTL_INTERNAL_OPERATOR_H
+#define NSTL_INTERNAL_OPERATOR_H
 
 #include <nstl/type.h>
 
@@ -454,4 +454,4 @@ cog.outl(nstl.generate_mangled(
 #define nstl_delete(T) JOY_CAT3(nstl_mangled_delete, _, T)
 /* [[[end]]] */
 
-#endif /* !NSTL_OPERATOR_H */
+#endif /* !NSTL_INTERNAL_OPERATOR_H */

@@ -10,6 +10,7 @@
 #include <nstl/internal/type.h>
 #include <nstl/internal/token.h>
 #include <nstl/internal/config.h>
+#include <nstl/internal/operator.h>
 
 #include <chaos/preprocessor/recursion/expr.h>
 #include <chaos/preprocessor/seq/fold_left.h>

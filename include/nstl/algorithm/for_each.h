@@ -8,7 +8,6 @@
 #define NSTL_ALGORITHM_FOR_EACH_H
 
 #include <nstl/type.h>
-#include <nstl/operator.h>
 
 
 #define NSTL_FOR_EACH(InputIter, Function)                                     \

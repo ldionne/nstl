@@ -8,7 +8,6 @@
 #define NSTL_ALGORITHM_COUNT_IF_H
 
 #include <nstl/type.h>
-#include <nstl/operator.h>
 
 #include <stddef.h>
 
