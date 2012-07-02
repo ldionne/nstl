@@ -7,17 +7,18 @@
 #ifndef NSTL_INTERNAL_INTEGRAL_H
 #define NSTL_INTERNAL_INTEGRAL_H
 
+#include <nstl/type.h>
 #include <nstl/operator.h>
 
 
 #define NSTL_INTEGRAL(T)                                                       \
 NSTL_TYPE(                                                                     \
                                                                                \
-(inherit (NSTL_ARITHMETIC_OPERATORS(T)))                                       \
-(inherit (NSTL_COMPARISON_OPERATORS(T)))                                       \
-(inherit (NSTL_LOGICAL_OPERATORS(T)))                                          \
-(inherit (NSTL_BITWISE_OPERATORS(T)))                                          \
-(inherit (NSTL_ALLOCATION_OPERATORS(T)))                                       \
+(inherit NSTL_ARITHMETIC_OPERATORS(T))                                         \
+(inherit NSTL_COMPARISON_OPERATORS(T))                                         \
+(inherit NSTL_LOGICAL_OPERATORS(T))                                            \
+(inherit NSTL_BITWISE_OPERATORS(T))                                            \
+(inherit NSTL_ALLOCATION_OPERATORS(T))                                         \
                                                                                \
 )                                                                              \
 /**/

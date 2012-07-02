@@ -24,14 +24,14 @@
 #define NSTL_PAIR_INHERIT(pair, T1, T2)                                        \
 NSTL_TYPE(                                                                     \
                                                                                \
-(struct (                                                                      \
+(setf struct                                                                   \
 typedef struct {                                                               \
     T1 first;                                                                  \
     T2 second;                                                                 \
 } pair;                                                                        \
-))                                                                             \
+)                                                                              \
                                                                                \
-(init (                                                                        \
+(setf init                                                                     \
 /*!                                                                            \
  * Initialize a pair.                                                          \
  */                                                                            \
@@ -40,9 +40,9 @@ static inline void nstl_init(pair)(pair *self, T1 first, T2 second)            \
     self->first = first;                                                       \
     self->second = second;                                                     \
 }                                                                              \
-))                                                                             \
+)                                                                              \
                                                                                \
-(deinit (                                                                      \
+(setf deinit                                                                   \
 /*!                                                                            \
  * Uninitialize a pair.                                                        \
  */                                                                            \
@@ -50,9 +50,9 @@ static inline void nstl_deinit(pair)(pair *self)                               \
 {                                                                              \
                                                                                \
 }                                                                              \
-))                                                                             \
+)                                                                              \
                                                                                \
-(eq (                                                                          \
+(setf eq                                                                       \
 /*!                                                                            \
  * Return whether two pairs are equal.                                         \
  *                                                                             \
@@ -63,9 +63,9 @@ static inline bool nstl_eq(pair, pair)(pair x, pair y)                         \
 {                                                                              \
     return x.first == y.first && x.second == y.second;                         \
 }                                                                              \
-))                                                                             \
+)                                                                              \
                                                                                \
-(lt (                                                                          \
+(setf lt                                                                       \
 /*!                                                                            \
  * Return whether a pair is lesser than another.                               \
  *                                                                             \
@@ -76,9 +76,9 @@ static inline bool nstl_lt(pair, pair)(pair x, pair y)                         \
 {                                                                              \
     return x.first < y.first || (!(y.first < x.first) && x.second < y.second); \
 }                                                                              \
-))                                                                             \
+)                                                                              \
                                                                                \
-(ne (                                                                          \
+(setf ne                                                                       \
 /*!                                                                            \
  * Return whether two pairs have different elements.                           \
  */                                                                            \
@@ -86,9 +86,9 @@ static inline bool nstl_ne(pair, pair)(pair x, pair y)                         \
 {                                                                              \
     return !nstl_eq(pair, pair)(x, y);                                         \
 }                                                                              \
-))                                                                             \
+)                                                                              \
                                                                                \
-(gt (                                                                          \
+(setf gt                                                                       \
 /*!                                                                            \
  * Return whether a pair is greater than another.                              \
  *                                                                             \
@@ -99,9 +99,9 @@ static inline bool nstl_gt(pair, pair)(pair x, pair y)                         \
 {                                                                              \
     return nstl_lt(pair, pair)(y, x);                                          \
 }                                                                              \
-))                                                                             \
+)                                                                              \
                                                                                \
-(le (                                                                          \
+(setf le                                                                       \
 /*!                                                                            \
  * Return a pair is lesser or equal to another.                                \
  */                                                                            \
@@ -109,9 +109,9 @@ static inline bool nstl_le(pair, pair)(pair x, pair y)                         \
 {                                                                              \
     return !nstl_lt(pair, pair)(y, x);                                         \
 }                                                                              \
-))                                                                             \
+)                                                                              \
                                                                                \
-(ge (                                                                          \
+(setf ge                                                                       \
 /*!                                                                            \
  * Return whether a pair is greater or equal to another.                       \
  */                                                                            \
@@ -119,9 +119,9 @@ static inline bool nstl_ge(pair, pair)(pair x, pair y)                         \
 {                                                                              \
     return !nstl_lt(pair, pair)(x, y);                                         \
 }                                                                              \
-))                                                                             \
+)                                                                              \
                                                                                \
-(make_pair (                                                                   \
+(setf make_pair                                                                \
 /*!                                                                            \
  * Initialize and return a pair.                                               \
  */                                                                            \
@@ -131,7 +131,7 @@ static inline pair nstl_make_pair(T1, T2)(T1 first, T2 second)                 \
     nstl_init(pair)(&self, first, second);                                     \
     return self;                                                               \
 }                                                                              \
-))                                                                             \
+)                                                                              \
                                                                                \
 )                                                                              \
 /**/
@@ -139,38 +139,30 @@ static inline pair nstl_make_pair(T1, T2)(T1 first, T2 second)                 \
 /* [[[cog
 
 import nstl
-cog.outl(nstl.generate_attributes(
+cog.outl(nstl.generate_mangled(
     'make_pair(T1, T2)',
     'init(T2)',
     'deinit(T2)',
     'struct',
-
-    implement=True, token=True,
 ))
 
-cog.outl(nstl.generate_attributes(
+cog.outl(nstl.generate_mangled(
     'pair(T1, T2)',
 
-    implement=False, token=False,
+    token=False,
 ))
 
 ]]] */
+#include <joy/cat.h>
 #define NSTL_TOKEN_make_pair (m a k e _ p a i r)
-#define NSTL_INSTRUCTION_make_pair(s, self, implementation) \
-    NSTL_INSTRUCTION_implement(s, self, make_pair, implementation)
 #define nstl_make_pair(T1,  T2) JOY_CAT5(nstl_mangled_make_pair, _, T1, _,  T2)
 #define NSTL_TOKEN_init (i n i t)
-#define NSTL_INSTRUCTION_init(s, self, implementation) \
-    NSTL_INSTRUCTION_implement(s, self, init, implementation)
 #define nstl_init(T2) JOY_CAT3(nstl_mangled_init, _, T2)
 #define NSTL_TOKEN_deinit (d e i n i t)
-#define NSTL_INSTRUCTION_deinit(s, self, implementation) \
-    NSTL_INSTRUCTION_implement(s, self, deinit, implementation)
 #define nstl_deinit(T2) JOY_CAT3(nstl_mangled_deinit, _, T2)
 #define NSTL_TOKEN_struct (s t r u c t)
-#define NSTL_INSTRUCTION_struct(s, self, implementation) \
-    NSTL_INSTRUCTION_implement(s, self, struct, implementation)
 #define nstl_struct nstl_mangled_struct
+#include <joy/cat.h>
 #define nstl_pair(T1,  T2) JOY_CAT5(nstl_mangled_pair, _, T1, _,  T2)
 /* [[[end]]] */
 

@@ -8,12 +8,13 @@
 #define NSTL_ALGORITHM_FOR_EACH_H
 
 #include <nstl/type.h>
+#include <nstl/operator.h>
 
 
 #define NSTL_FOR_EACH(InputIter, Function)                                     \
 NSTL_TYPE(                                                                     \
                                                                                \
-(for_each (                                                                    \
+(setf for_each                                                                 \
 /*!                                                                            \
  * Apply a function to each element in a range delimited by [@p first, @p last). \
  * The return value of the function, if any, is ignored.                       \
@@ -31,7 +32,7 @@ static inline Function nstl_for_each(InputIter, Function)(InputIter first,     \
     }                                                                          \
     return f;                                                                  \
 }                                                                              \
-))                                                                             \
+)                                                                              \
                                                                                \
 )                                                                              \
 /**/
@@ -39,16 +40,13 @@ static inline Function nstl_for_each(InputIter, Function)(InputIter first,     \
 /* [[[cog
 
 import nstl
-cog.outl(nstl.generate_attributes(
+cog.outl(nstl.generate_mangled(
     'for_each(InputIter, Function)',
-
-    implement=True, token=True,
 ))
 
 ]]] */
+#include <joy/cat.h>
 #define NSTL_TOKEN_for_each (f o r _ e a c h)
-#define NSTL_INSTRUCTION_for_each(s, self, implementation) \
-    NSTL_INSTRUCTION_implement(s, self, for_each, implementation)
 #define nstl_for_each(InputIter,  Function) JOY_CAT5(nstl_mangled_for_each, _, InputIter, _,  Function)
 /* [[[end]]] */
 

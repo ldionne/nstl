@@ -8,141 +8,91 @@
 #define NSTL_TYPE_H
 
 #include <nstl/internal/type.h>
+#include <nstl/internal/token.h>
 
 #include <chaos/preprocessor/recursion/expr.h>
-#include <chaos/preprocessor/recursion/basic.h>
-#include <chaos/preprocessor/facilities/unbox.h>
-#include <chaos/preprocessor/facilities/expand.h>
-#include <chaos/preprocessor/seq/transform.h>
-#include <joy/string/cat.h>
-#include <joy/execute.h>
-#include <joy/cat.h>
-#include <joy/pair.h>
+#include <chaos/preprocessor/seq/fold_left.h>
+#include <chaos/preprocessor/cat.h>
 
 
 /*!
- * Given a token, return a representation containing its preprocessor string
- * representation as well as parenthesis necessary to make it a valid
- * preprocessor string character.
- *
- * @note In order for this macro to work properly, the NSTL_TOKEN_token
- *       macro must be defined to expand to the preprocessor string version
- *       of the token inside parenthesis.
- */
-#define NSTL_TOKEN(token) JOY_CAT_NOEXP(NSTL_TOKEN_, token)
-
-#define NSTL_TOKEN_TO_STRING(token) CHAOS_PP_UNBOX(NSTL_TOKEN(token))
-
-/*!
- * Given a token, return the nstl-style instruction associated to it.
+ * Given a token, return the nstl style instruction associated to it.
  *
  * @note In order for this macro to work properly, the NSTL_INSTRUCTION_instr
  *       macro must be defined properly.
  */
-#define NSTL_INSTRUCTION(instr) JOY_CAT(NSTL_INSTRUCTION_, instr)
-
-/*!
- * Begin an instruction inside a type declaration.
- */
-#define NSTL_BEGIN(instruction) (instruction
-
-/*!
- * End an instruction inside a type declaration.
- */
-#define NSTL_END )
+#define NSTL_INSTRUCTION(instr) CHAOS_PP_CAT(NSTL_INSTRUCTION_, instr)
 
 /*!
  * Create a new nstl type.
+ *
+ * @param instructions A sequence of instructions:
+ *                     (instruction_1 args...)
+ *                     (instruction_2 args...)
+ *                              ...
+ *                     (instruction_n args...)
  */
-#define NSTL_TYPE(attributes) \
-    NSTL_TYPE_S(CHAOS_PP_STATE(), attributes)
+#define NSTL_TYPE(instructions) \
+    NSTL_TYPE_S(CHAOS_PP_STATE(), instructions)
 
-#define NSTL_TYPE_S(s, attributes) \
-    NSTL_I_TYPE(s, NSTL_I_TYPE_EXPAND(attributes))
+#define NSTL_TYPE_S(s, instructions)                                           \
+    CHAOS_PP_EXPR_S(s)(CHAOS_PP_SEQ_FOLD_LEFT_S(s,                             \
+        NSTL_I_EXECUTE_STATEMENT,                                              \
+        instructions,                                                          \
+        /* empty initial state */                                              \
+    ))                                                                         \
+/**/
 
-#define NSTL_I_TYPE_EXPAND(attributes) attributes
+/*!
+ * Execute a statement of the form ``instruction args...''.
+ */
+#define NSTL_I_EXECUTE_STATEMENT(s, statement, self)                           \
+    NSTL_II_EXECUTE_STATEMENT(s,                                               \
+        self,                                                                  \
+        NSTL_TOKEN_STRING_HEAD(statement),                                     \
+        NSTL_TOKEN_STRING_TAIL(statement)                                      \
+    )                                                                          \
+/**/
 
-#define NSTL_I_TYPE(s, attributes)                                             \
-    JOY_EXECUTE_FOLD_S(s,                                                      \
-        /* no initial state */,                                                \
-        NSTL_I_PARSE_TO_JOY_INSTRUCTIONS(s, attributes)                        \
+#define NSTL_II_EXECUTE_STATEMENT(s, self, instruction, args)                  \
+    NSTL_INSTRUCTION(instruction)(s,                                           \
+        self, args                                                             \
     )                                                                          \
 /**/
 
 /*!
- * Given a sequence of (token args...) strings, return a sequence of
- * (token, args...) joy-style instructions.
+ * Instatiate the implementation of an object.
  */
-#define NSTL_I_PARSE_TO_JOY_INSTRUCTIONS(s, seq)                               \
-    CHAOS_PP_EXPR_S(s)(CHAOS_PP_SEQ_TRANSFORM_S(s,                             \
-        NSTL_I_CREATE_INSTRUCTION_FROM_STR_ARGS_PAIR,                          \
-        NSTL_I_PARSE_TO_PAIRS(s, seq),                                         \
-        ~                                                                      \
-    ))                                                                         \
-/**/
+#define NSTL_IMPLEMENT(self) NSTL_IMPLEMENT_S(CHAOS_PP_STATE(), self)
+
+#define NSTL_IMPLEMENT_S(s, self) NSTL_DUMPF_S(s, self)
 
 /*!
- * Create a valid joy-style instruction from a pair containing a preprocessor
- * string and sequence of arguments.
+ * Instruction used to remove a field from a nstl type.
+ *
+ * @note The field must have been added to the type previously.
+ *       If the type does not have the given field, nothing is done.
  */
-#define NSTL_I_CREATE_INSTRUCTION_FROM_STR_ARGS_PAIR(s, elem, useless)         \
-    JOY_INSTRUCTION(                                                           \
-        NSTL_INSTRUCTION(JOY_STRING_CAT_S(s, JOY_PAIR_FIRST(elem))),           \
-        JOY_PAIR_SECOND(elem)                                                  \
+#define NSTL_INSTRUCTION_unsetf(s, self, field) NSTL_UNSETF_S(s, self, field)
+#define NSTL_TOKEN_unsetf (u n s e t f)
+
+/*!
+ * Instruction used to overwrite or set the value of a field.
+ */
+#define NSTL_INSTRUCTION_setf(s, self, field_and_value)                        \
+    NSTL_SETF_S(s,                                                             \
+        self,                                                                  \
+        NSTL_TOKEN_STRING_HEAD(field_and_value),                               \
+        NSTL_TOKEN_STRING_TAIL(field_and_value)                                \
     )                                                                          \
 /**/
+#define NSTL_TOKEN_setf (s e t f)
 
 /*!
- * Given a sequence of (token args...) strings, return a sequence of
- * (t o k e n, args...) pairs.
- */
-#define NSTL_I_PARSE_TO_PAIRS(s, seq)                                          \
-    CHAOS_PP_EXPR_S(s)(CHAOS_PP_SEQ_TRANSFORM_S(s,                             \
-        NSTL_I_MAKE_PAIR_FROM_TOKEN_AND_ARGS, seq, ~                           \
-    ))                                                                         \
-/**/
-
-/*!
- * Return a (t o k e n, args...) pair given a (token args...) preprocessor
- * string.
- *
- * @note The NSTL_TOKEN_token macro must be defined properly for the token that
- *       is processed.
- */
-#define NSTL_I_MAKE_PAIR_FROM_TOKEN_AND_ARGS(s, token_args, useless)           \
-    CHAOS_PP_EXPAND(CHAOS_PP_DEFER(JOY_PAIR)(                                  \
-     /* expands to: t o k e n , rest_of_instruction... */                      \
-        CHAOS_PP_EXPAND(NSTL_II_MAKE_PAIR_FROM_TOKEN_AND_ARGS                  \
-         /* expands to: (t o k e n) rest_of_instruction... */                  \
-            NSTL_TOKEN(token_args)                                             \
-        )                                                                      \
-    ))                                                                         \
-/**/
-#define NSTL_II_MAKE_PAIR_FROM_TOKEN_AND_ARGS(token) token,
-
-/*!
- * Instruction used to exclude an attribute from a nstl type.
- *
- * @note The attribute must have been added to the type previously.
- *       If the type has no attribute named @p attr, nothing is done.
- */
-#define NSTL_INSTRUCTION_drop(s, self, attr) NSTL_DELATTR_S(s, self, attr)
-#define NSTL_TOKEN_drop (d r o p)
-
-/*!
- * Instruction used to overwrite or set an attribute with a corresponding
- * implementation.
- */
-#define NSTL_INSTRUCTION_implement(s, self, attr, implementation) \
-    NSTL_SETATTR_S(s, self, attr, implementation)
-#define NSTL_TOKEN_implement (i m p l e m e n t)
-
-/*!
- * Instruction used to include all the attributes of a given @p base_type
+ * Instruction used to include all the fields of a given @p super nstl type
  * in another nstl type.
  */
-#define NSTL_INSTRUCTION_inherit(s, self, base_type) \
-    NSTL_SETATTRS_S(s, self, base_type)
+#define NSTL_INSTRUCTION_inherit(s, self, super) NSTL_SETFS_S(s, self, super)
 #define NSTL_TOKEN_inherit (i n h e r i t)
 
 #endif /* !NSTL_TYPE_H */

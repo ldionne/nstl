@@ -29,94 +29,94 @@
 /**/
 
 /*!
- * Return the value of an attribute of an object.
+ * Return the value of a field of an object.
  */
-#define NSTL_GETATTR(self, attr) \
-    NSTL_GETATTR_S(CHAOS_PP_STATE(), self, attr)
+#define NSTL_GETF(self, field) \
+    NSTL_GETF_S(CHAOS_PP_STATE(), self, field)
 
-#define NSTL_GETATTR_S(s, self, attr)                                          \
+#define NSTL_GETF_S(s, self, field)                                            \
     JOY_PAIR_SECOND(JOY_SEQ_FIND_FIRST_S(s,                                    \
-        NSTL_I_TYPE_COMPARE, self, JOY_PAIR(attr, ~)                           \
+        NSTL_I_TYPE_COMPARE, self, JOY_PAIR(field, ~)                          \
     ))                                                                         \
 /**/
 
 /*!
- * Set or override an attribute of an object.
+ * Set or override a field of an object.
  */
-#define NSTL_SETATTR(self, attr, value) \
-    NSTL_SETATTR_S(CHAOS_PP_STATE(), attr, value)
+#define NSTL_SETF(self, field, value) \
+    NSTL_SETF_S(CHAOS_PP_STATE(), field, value)
 
-#define NSTL_SETATTR_S(s, self, attr, value)                                   \
+#define NSTL_SETF_S(s, self, field, value)                                     \
     JOY_SEQ_APPEND(                                                            \
-        JOY_PAIR(attr, value),                                                 \
-        NSTL_DELATTR_S(s, self, attr)                                          \
+        JOY_PAIR(field, value),                                                \
+        NSTL_UNSETF_S(s, self, field)                                          \
     )                                                                          \
 /**/
 
 /*!
- * Set or override many attributes at once.
+ * Set or override many fields at once.
  *
- * @param attrs A sequence of name:value pairs.
+ * @param fields A sequence of name:value pairs.
  */
-#define NSTL_SETATTRS(self, attrs) \
-    NSTL_SETATTRS_S(CHAOS_PP_STATE(), self, attrs)
+#define NSTL_SETFS(self, fields) \
+    NSTL_SETFS_S(CHAOS_PP_STATE(), self, fields)
 
-#define NSTL_SETATTRS_S(s, self, attrs)                                        \
-    NSTL_DELATTRS_S(s,                                                         \
-        self, JOY_PAIR_FIRST(JOY_SEQ_PYUNZIP_S(s, attrs))                      \
-    ) attrs                                                                    \
+#define NSTL_SETFS_S(s, self, fields)                                          \
+    NSTL_UNSETFS_S(s,                                                          \
+        self, JOY_PAIR_FIRST(JOY_SEQ_PYUNZIP_S(s, fields))                     \
+    ) fields                                                                   \
 /**/
 
 /*!
- * Delete an attribute of an object.
+ * Delete a field of an object.
  *
- * @note If the attribute is not found, nothing is done.
+ * @note If the field is not found, nothing is done.
  */
-#define NSTL_DELATTR(self, attr) \
-    NSTL_DELATTR_S(CHAOS_PP_STATE(), self, attr)
+#define NSTL_UNSETF(self, field) \
+    NSTL_UNSETF_S(CHAOS_PP_STATE(), self, field)
 
-#define NSTL_DELATTR_S(s, self, attr)                                          \
+#define NSTL_UNSETF_S(s, self, field)                                          \
     JOY_SEQ_REMOVE_IF_S(s,                                                     \
-        NSTL_I_TYPE_COMPARE, self, JOY_PAIR(attr, ~)                           \
+        NSTL_I_TYPE_COMPARE, self, JOY_PAIR(field, ~)                          \
     )                                                                          \
 /**/
 
 /*!
- * Delete many attributes at once.
+ * Delete many fields at once.
  *
- * @param attrs A sequence of attributes to delete.
+ * @param fields A sequence of field names to delete.
  */
-#define NSTL_DELATTRS(self, attrs) \
-    NSTL_DELATTRS_S(CHAOS_PP_STATE(), self, attrs)
+#define NSTL_UNSETFS(self, fields) \
+    NSTL_UNSETFS_S(CHAOS_PP_STATE(), self, fields)
 
-#define NSTL_DELATTRS_S(s, self, attrs) \
-    JOY_SEQ_REMOVE_IF_S(s, NSTL_I_DELATTRS_PRED, self, attrs)
+#define NSTL_UNSETFS_S(s, self, fields) \
+    JOY_SEQ_REMOVE_IF_S(s, NSTL_I_UNSETFS_PRED, self, fields)
 
-#define NSTL_I_DELATTRS_PRED(s, attr, to_del) \
-    JOY_SEQ_CONTAINS_S(s, NSTL_II_DELATTRS_PRED, to_del, JOY_PAIR_FIRST(attr))
+#define NSTL_I_UNSETFS_PRED(s, field, to_del) \
+    JOY_SEQ_CONTAINS_S(s, NSTL_II_UNSETFS_PRED, to_del, JOY_PAIR_FIRST(field))
 
-#define NSTL_II_DELATTRS_PRED(s, x, y) \
+#define NSTL_II_UNSETFS_PRED(s, x, y) \
     JOY_STRING_EQ_S(s, NSTL_TOKEN_TO_STRING(x), NSTL_TOKEN_TO_STRING(y))
 
 /*!
- * Return whether an object has a given attribute.
+ * Return whether an object has a given field.
  */
-#define NSTL_HASATTR(self, attr) \
-    NSTL_HASATTR_S(CHAOS_PP_STATE(), self, attr)
+#define NSTL_ISSET(self, field) \
+    NSTL_ISSET_S(CHAOS_PP_STATE(), self, field)
 
-#define NSTL_HASATTR_S(s, self, attr)                                          \
+#define NSTL_ISSET_S(s, self, field)                                           \
     JOY_SEQ_CONTAINS_S(s,                                                      \
-        NSTL_I_TYPE_COMPARE, self, JOY_PAIR(attr, ~)                           \
+        NSTL_I_TYPE_COMPARE, self, JOY_PAIR(field, ~)                          \
     )                                                                          \
 /**/
 
 /*!
- * Instantiate the implementation of each attribute of a nstl type.
+ * Dump the value of each field of an object.
  */
-#define NSTL_IMPLEMENT(self) \
-    NSTL_IMPLEMENT_S(CHAOS_PP_STATE(), self)
+#define NSTL_DUMPF(self) \
+    NSTL_DUMPF_S(CHAOS_PP_STATE(), self)
 
-#define NSTL_IMPLEMENT_S(s, self)                                              \
+#define NSTL_DUMPF_S(s, self)                                                  \
     CHAOS_PP_SEQ_TO_STRING(                                                    \
         JOY_PAIR_SECOND(JOY_SEQ_PYUNZIP_S(s, self))                            \
     )                                                                          \

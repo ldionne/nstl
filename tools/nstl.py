@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-"""Utilities used inside nstl to generate stuff automatically."""
+"""Utilities used inside nstl to generate definitions automatically."""
 
 import re
 
@@ -20,7 +20,7 @@ def define_token(token):
 
 def define_mangled_name(name, *params):
     """Return a definition appropriate for use as the definition of a :name:
-       mangled using :attr: as unique particules.
+       mangled using :params: as unique particules.
 
        :params: must be an iterable of names that are to be used as parameter
        to the mangling macro. If no :params: are provided, the macro to be
@@ -28,68 +28,52 @@ def define_mangled_name(name, *params):
        function like macro, pass an empty string as sole argument.
     """
     nparams = len(params)
-    base = "nstl_mangled_{0}".format(name)
+    base = "nstl_mangled_{}".format(name)
     if params and params[0].strip():
         cat_params = "(" + ", _, ".join((base, ) + params) + ")"
-        body = "JOY_CAT{0}{1}".format(len(cat_params.split(",")), cat_params)
+        body = "JOY_CAT{}{}".format(len(cat_params.split(",")), cat_params)
     else:
         body = base
 
     params = ("(" + ", ".join(params) + ")") if params else ""
 
-    return """#define nstl_{0}{1} {2}""".format(name, params, body)
+    return "#define nstl_{}{} {}".format(name, params, body)
 
 
-def forward_to_implement(attr):
-    """Return a definition appropriate to forward an instruction directly to
-       the implement instruction when creating nstl types.
-    """
-    return """#define NSTL_INSTRUCTION_{0}(s, self, implementation) \\
-    NSTL_INSTRUCTION_implement(s, self, {0}, implementation)""".format(attr)
+def generate_mangled(*macros, token=True):
+    """Generate macro definitions for several :macros:.
 
+       A macro must contain the following:
+       * The name of the macro.
+       * A list of parameters to the macro.
 
-def generate_attributes(*attributes, implement=False, token=True):
-    """Generate definitions for several :attributes:.
-
-       An attribute must contain the following:
-       * The name of the attribute.
-       * A list of parameters to the attribute.
-
-       The :attributes: iterable is parsed and the information is retrieved.
-       Examples of valid attributes are:
+       The :macros: are parsed and the information is retrieved.
+       Examples of valid names are:
        'make_pair(R, T)', 'deref(T)', 'my_type()', 'my_other_type'
 
-       If :implement: is False (default), the definition of the attribute
-       as a forwarding to NSTL_INSTRUCTION_implement is not generated, so
-       the :attributes: can not be used as implement instructions without
-       defining the instruction manually.
-
        If :token: is True (default), the NSTL_TOKEN_ macro associated to each
-       attribute is generated.
-
-       In all cases, the mangled name of the attribute is generated.
+       macro name is also generated.
     """
-    def _parsed(attr):
-        match = re.match(r"(?P<name>\w+)(?P<params>\([\w\s,]*\))?", attr)
+    def _parsed(macro):
+        match = re.match(r"(?P<name>\w+)(?P<params>\([\w\s,]*\))?", macro)
         name = match.group("name")
         params = match.group("params")
         params = params.strip("()").split(",") if params else [ ]
         return name, params
 
-    def _generate_attribute(name, params):
+    def _generate_macro(name, params):
         to_gen = [ ]
         if token:
             to_gen.append(define_token(name))
-        if implement:
-            to_gen.append(forward_to_implement(name))
         to_gen.append(define_mangled_name(name, *params))
         return "\n".join(to_gen)
 
+    includes = ["#include <joy/cat.h>"]
     to_gen = [ ]
-    for attr in attributes:
-        name, params = _parsed(attr)
-        to_gen.append(_generate_attribute(name, params))
-    return "\n".join(to_gen)
+    for macro in macros:
+        name, params = _parsed(macro)
+        to_gen.append(_generate_macro(name, params))
+    return "\n".join(includes + to_gen)
 
 
 if __name__ == "__main__":

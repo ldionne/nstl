@@ -8,12 +8,13 @@
 #define NSTL_ALGORITHM_FIND_H
 
 #include <nstl/type.h>
+#include <nstl/operator.h>
 
 
 #define NSTL_FIND(InputIter, T)                                                \
 NSTL_TYPE(                                                                     \
                                                                                \
-(find (                                                                        \
+(setf find                                                                     \
 /*!                                                                            \
  * Return an iterator to the first element in the range [first, last) that     \
  * compares equal to @p value, or @em last if not found.                       \
@@ -26,7 +27,7 @@ static inline InputIter nstl_find(InputIter, T)(InputIter first, InputIter last,
         nstl_inc(InputIter)(&first);                                           \
     return first;                                                              \
 }                                                                              \
-))                                                                             \
+)                                                                              \
                                                                                \
 )                                                                              \
 /**/
@@ -34,16 +35,13 @@ static inline InputIter nstl_find(InputIter, T)(InputIter first, InputIter last,
 /* [[[cog
 
 import nstl
-cog.outl(nstl.generate_attributes(
+cog.outl(nstl.generate_mangled(
     'find(InputIter, T)',
-
-    implement=True, token=True,
 ))
 
 ]]] */
+#include <joy/cat.h>
 #define NSTL_TOKEN_find (f i n d)
-#define NSTL_INSTRUCTION_find(s, self, implementation) \
-    NSTL_INSTRUCTION_implement(s, self, find, implementation)
 #define nstl_find(InputIter,  T) JOY_CAT5(nstl_mangled_find, _, InputIter, _,  T)
 /* [[[end]]] */
 
