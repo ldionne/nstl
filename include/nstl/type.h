@@ -11,6 +11,7 @@
 #include <nstl/internal/token.h>
 #include <nstl/internal/config.h>
 #include <nstl/internal/operator.h>
+#include <nstl/internal/common_fields.h>
 
 #include <chaos/preprocessor/recursion/expr.h>
 #include <chaos/preprocessor/seq/fold_left.h>
@@ -47,7 +48,7 @@
 
 /*!
  * This is necessary because we can not have an empty argument as the initial
- * state in c89.
+ * state in C89.
  */
 #if NSTL_CONFIG_EMPTY_MACRO_ARGS
 #   define NSTL_I_INITIAL_TYPE_STATE()

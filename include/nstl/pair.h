@@ -140,9 +140,6 @@ static inline pair nstl_make_pair(T1, T2)(T1 first, T2 second)                 \
 import nstl
 cog.outl(nstl.generate_mangled(
     'make_pair(T1, T2)',
-    'init(T2)',
-    'deinit(T2)',
-    'struct',
 ))
 
 cog.outl(nstl.generate_mangled(
@@ -155,12 +152,6 @@ cog.outl(nstl.generate_mangled(
 #include <joy/cat.h>
 #define NSTL_TOKEN_make_pair (m a k e _ p a i r)
 #define nstl_make_pair(T1,  T2) JOY_CAT5(nstl_mangled_make_pair, _, T1, _,  T2)
-#define NSTL_TOKEN_init (i n i t)
-#define nstl_init(T2) JOY_CAT3(nstl_mangled_init, _, T2)
-#define NSTL_TOKEN_deinit (d e i n i t)
-#define nstl_deinit(T2) JOY_CAT3(nstl_mangled_deinit, _, T2)
-#define NSTL_TOKEN_struct (s t r u c t)
-#define nstl_struct nstl_mangled_struct
 #include <joy/cat.h>
 #define nstl_pair(T1,  T2) JOY_CAT5(nstl_mangled_pair, _, T1, _,  T2)
 /* [[[end]]] */
