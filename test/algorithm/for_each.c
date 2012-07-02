@@ -58,10 +58,11 @@ static void should_return_function(void)
 {
     int container[10];
     size_t i;
+    callback_type f;
     for(i = 0; i < 10; ++i)
         container[i] = i;
 
-    callback_type f = for_each(container, container + 10, func);
+    f = for_each(container, container + 10, func);
     assert_true(f == func);
 }
 
