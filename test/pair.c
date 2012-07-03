@@ -102,7 +102,6 @@ static void should_be_le_and_ge_when_equal(void)
 
 #undef test_pair
 
-
 extern void test_fixture_pair(void)
 {
     test_fixture_start();

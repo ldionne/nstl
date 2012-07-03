@@ -23,8 +23,8 @@ NSTL_TYPE(                                                                     \
  * @param pred Unary predicate taking an element in the range as argument      \
  *             and returning whether to cound the element.                     \
  */                                                                            \
-static inline ptrdiff_t nstl_count_if(InputIter, Predicate)(InputIter first,   \
-                                                InputIter last, Predicate pred) \
+static NSTL_INLINE ptrdiff_t nstl_count_if(InputIter, Predicate)               \
+                            (InputIter first, InputIter last, Predicate pred)  \
 {                                                                              \
     ptrdiff_t n = 0;                                                           \
     for ( ; nstl_ne(InputIter, InputIter)(first, last);                        \

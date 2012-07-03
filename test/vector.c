@@ -34,7 +34,6 @@ static void test_state_after_reserve(void)
 
 #undef test_vector
 
-
 extern void test_fixture_vector(void)
 {
     test_fixture_start();

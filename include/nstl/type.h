@@ -1,6 +1,8 @@
 /*!
  * Macros to create and manipulate template types.
  *
+ * This header also acts as a master header for most internal headers.
+ *
  * @author Louis Dionne
  */
 

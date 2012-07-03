@@ -21,8 +21,8 @@ NSTL_TYPE(                                                                     \
  * The comparison between the consecutive elements is performed by applying    \
  * the nstl_eq operator.                                                       \
  */                                                                            \
-static inline ForwardIter nstl_adjacent_find(ForwardIter, T)(ForwardIter first, \
-                                                             ForwardIter last) \
+static NSTL_INLINE ForwardIter nstl_adjacent_find(ForwardIter, T)              \
+                                        (ForwardIter first, ForwardIter last)  \
 {                                                                              \
     if (nstl_eq(ForwardIter, ForwardIter)(first, last))                        \
         return last;                                                           \

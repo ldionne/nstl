@@ -35,14 +35,14 @@ typedef struct {                                                               \
                         Initialization / deinitialization                      \
  ******************************************************************************/ \
 (setf ctor                                                                     \
-static inline void nstl_ctor(vector)(vector *self)                             \
+static NSTL_INLINE void nstl_ctor(vector)(vector *self)                        \
 {                                                                              \
     self->start = self->finish = self->end_of_storage = NULL;                  \
 }                                                                              \
 )                                                                              \
                                                                                \
 (setf dtor                                                                     \
-static inline void nstl_dtor(vector)(vector *self)                             \
+static NSTL_INLINE void nstl_dtor(vector)(vector *self)                        \
 {                                                                              \
     free(self->start);                                                         \
 }                                                                              \
@@ -52,14 +52,14 @@ static inline void nstl_dtor(vector)(vector *self)                             \
                                     Iterators                                  \
  ******************************************************************************/ \
 (setf begin                                                                    \
-static inline T *nstl_begin(vector)(vector *self)                              \
+static NSTL_INLINE T *nstl_begin(vector)(vector *self)                         \
 {                                                                              \
     return self->start;                                                        \
 }                                                                              \
 )                                                                              \
                                                                                \
 (setf end                                                                      \
-static inline T *nstl_end(vector)(vector *self)                                \
+static NSTL_INLINE T *nstl_end(vector)(vector *self)                           \
 {                                                                              \
     return self->finish;                                                       \
 }                                                                              \
@@ -69,7 +69,7 @@ static inline T *nstl_end(vector)(vector *self)                                \
                                 Element access                                 \
  ******************************************************************************/ \
 (setf at                                                                       \
-static inline T nstl_at(vector)(vector *self, size_t n)                        \
+static NSTL_INLINE T nstl_at(vector)(vector *self, size_t n)                   \
 {                                                                              \
     assert(nstl_begin(vector)(self) + n < nstl_end(vector)(self));             \
     return *(nstl_begin(vector)(self) + n);                                    \
@@ -77,14 +77,14 @@ static inline T nstl_at(vector)(vector *self, size_t n)                        \
 )                                                                              \
                                                                                \
 (setf front                                                                    \
-static inline T nstl_front(vector)(vector *self)                               \
+static NSTL_INLINE T nstl_front(vector)(vector *self)                          \
 {                                                                              \
     return *(nstl_begin(vector)(self));                                        \
 }                                                                              \
 )                                                                              \
                                                                                \
 (setf back                                                                     \
-static inline T nstl_back(vector)(vector *self)                                \
+static NSTL_INLINE T nstl_back(vector)(vector *self)                           \
 {                                                                              \
     return *(nstl_end(vector)(self) - 1);                                      \
 }                                                                              \
@@ -94,28 +94,28 @@ static inline T nstl_back(vector)(vector *self)                                \
                                     Capacity                                   \
  ******************************************************************************/ \
 (setf empty                                                                    \
-static inline bool nstl_empty(vector)(vector *self)                            \
+static NSTL_INLINE bool nstl_empty(vector)(vector *self)                       \
 {                                                                              \
     return self->start == self->finish;                                        \
 }                                                                              \
 )                                                                              \
                                                                                \
 (setf size                                                                     \
-static inline size_t nstl_size(vector)(vector *self)                           \
+static NSTL_INLINE size_t nstl_size(vector)(vector *self)                      \
 {                                                                              \
     return self->finish - self->start;                                         \
 }                                                                              \
 )                                                                              \
                                                                                \
 (setf max_size                                                                 \
-static inline size_t nstl_max_size(vector)(vector *self)                       \
+static NSTL_INLINE size_t nstl_max_size(vector)(vector *self)                  \
 {                                                                              \
     return (size_t)-1 / sizeof(T);                                             \
 }                                                                              \
 )                                                                              \
                                                                                \
 (setf capacity                                                                 \
-static inline size_t nstl_capacity(vector)(vector *self)                       \
+static NSTL_INLINE size_t nstl_capacity(vector)(vector *self)                  \
 {                                                                              \
     return self->end_of_storage - self->start;                                 \
 }                                                                              \
@@ -126,7 +126,7 @@ static inline size_t nstl_capacity(vector)(vector *self)                       \
  * Request that the capacity of a vector be at least enough to hold @p n       \
  * elements.                                                                   \
  */                                                                            \
-static inline void nstl_reserve(vector)(vector *self, size_t n)                \
+static NSTL_INLINE void nstl_reserve(vector)(vector *self, size_t n)           \
 {                                                                              \
     if (nstl_capacity(vector)(self) < n) {                                     \
         assert(nstl_max_size(vector)(self) > n);                               \
@@ -144,7 +144,7 @@ static inline void nstl_reserve(vector)(vector *self, size_t n)                \
                                     Modifiers                                  \
  ******************************************************************************/ \
 (setf push_back                                                                \
-static inline void nstl_push_back(vector)(vector *self, T x)                   \
+static NSTL_INLINE void nstl_push_back(vector)(vector *self, T x)              \
 {                                                                              \
     if (self->finish == self->end_of_storage) {                                \
         size_t size = nstl_size(vector)(self);                                 \
@@ -156,14 +156,14 @@ static inline void nstl_push_back(vector)(vector *self, T x)                   \
 )                                                                              \
                                                                                \
 (setf pop_back                                                                 \
-static inline void nstl_pop_back(vector)(vector *self)                         \
+static NSTL_INLINE void nstl_pop_back(vector)(vector *self)                    \
 {                                                                              \
     --self->finish;                                                            \
 }                                                                              \
 )                                                                              \
                                                                                \
 (setf clear                                                                    \
-static inline void nstl_clear(vector)(vector *self)                            \
+static NSTL_INLINE void nstl_clear(vector)(vector *self)                       \
 {                                                                              \
     self->finish = self->start;                                                \
 }                                                                              \

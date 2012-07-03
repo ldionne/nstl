@@ -15,9 +15,7 @@
 typedef int *intp;
 NSTL_IMPLEMENT(NSTL_POINTER(int, intp))
 NSTL_IMPLEMENT(NSTL_INT)
-
 NSTL_IMPLEMENT(NSTL_FIND(intp, int))
-
 
 static void test_should_return_last_when_not_found(void)
 {
@@ -47,7 +45,6 @@ static void test_should_return_iterator_to_found_element_when_found(void)
         assert_int_equal(*iter, i);
     }
 }
-
 
 extern void test_fixture_find(void)
 {

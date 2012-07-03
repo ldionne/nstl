@@ -22,8 +22,8 @@ NSTL_TYPE(                                                                     \
  *                                                                             \
  * @return The function @p f.                                                  \
  */                                                                            \
-static inline Function nstl_for_each(InputIter, Function)(InputIter first,     \
-                                                    InputIter last, Function f) \
+static NSTL_INLINE Function nstl_for_each(InputIter, Function)                 \
+                                (InputIter first, InputIter last, Function f)  \
 {                                                                              \
     for ( ; nstl_ne(InputIter, InputIter)(first, last);                        \
             nstl_inc(InputIter)(&first)) {                                     \

@@ -18,4 +18,10 @@
  */
 #define NSTL_CONFIG_VARIADIC_MACROS 0
 
+/*!
+ * This macro is used to specify that a function should be inlined by the
+ * compiler. This is for compatibility with dialects older than C99.
+ */
+#define NSTL_INLINE
+
 #endif /* !NSTL_INTERNAL_CONFIG_H */

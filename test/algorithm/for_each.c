@@ -12,9 +12,8 @@
 
 
 typedef int *intp;
-NSTL_IMPLEMENT(NSTL_POINTER(int, intp))
-
 typedef void (*callback_type) (int elem);
+NSTL_IMPLEMENT(NSTL_POINTER(int, intp))
 NSTL_IMPLEMENT(NSTL_FOR_EACH(intp, callback_type))
 
 #define for_each nstl_for_each(intp, callback_type)
