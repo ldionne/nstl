@@ -11,10 +11,10 @@
 
 import nstl
 cog.outl(nstl.generate_mangled(
-    # Initialization / deinitialization
-    'init(T)',
-    'init_from(T1, T2)',
-    'deinit(T)',
+    # Extended initialization / deinitialization
+    'size_ctor(T)',
+    'fill_ctor(T)',
+    'range_ctor(T, InputIter)',
 
     # Concrete C type representation
     'struct',
@@ -45,12 +45,12 @@ cog.outl(nstl.generate_mangled(
 
 ]]] */
 #include <joy/cat.h>
-#define NSTL_TOKEN_init (i n i t)
-#define nstl_init(T) JOY_CAT3(nstl_mangled_init, _, T)
-#define NSTL_TOKEN_init_from (i n i t _ f r o m)
-#define nstl_init_from(T1,  T2) JOY_CAT5(nstl_mangled_init_from, _, T1, _,  T2)
-#define NSTL_TOKEN_deinit (d e i n i t)
-#define nstl_deinit(T) JOY_CAT3(nstl_mangled_deinit, _, T)
+#define NSTL_TOKEN_size_ctor (s i z e _ c t o r)
+#define nstl_size_ctor(T) JOY_CAT3(nstl_mangled_size_ctor, _, T)
+#define NSTL_TOKEN_fill_ctor (f i l l _ c t o r)
+#define nstl_fill_ctor(T) JOY_CAT3(nstl_mangled_fill_ctor, _, T)
+#define NSTL_TOKEN_range_ctor (r a n g e _ c t o r)
+#define nstl_range_ctor(T,  InputIter) JOY_CAT5(nstl_mangled_range_ctor, _, T, _,  InputIter)
 #define NSTL_TOKEN_struct (s t r u c t)
 #define nstl_struct nstl_mangled_struct
 #define NSTL_TOKEN_begin (b e g i n)

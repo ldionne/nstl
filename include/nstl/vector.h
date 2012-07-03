@@ -34,15 +34,15 @@ typedef struct {                                                               \
 /****************************************************************************** \
                         Initialization / deinitialization                      \
  ******************************************************************************/ \
-(setf init                                                                     \
-static inline void nstl_init(vector)(vector *self)                             \
+(setf ctor                                                                     \
+static inline void nstl_ctor(vector)(vector *self)                             \
 {                                                                              \
     self->start = self->finish = self->end_of_storage = NULL;                  \
 }                                                                              \
 )                                                                              \
                                                                                \
-(setf deinit                                                                   \
-static inline void nstl_deinit(vector)(vector *self)                           \
+(setf dtor                                                                     \
+static inline void nstl_dtor(vector)(vector *self)                             \
 {                                                                              \
     free(self->start);                                                         \
 }                                                                              \

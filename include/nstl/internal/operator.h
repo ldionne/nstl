@@ -14,6 +14,47 @@
 #include <stdlib.h>
 
 
+#define NSTL_INITIALIZATION_OPERATORS(T)                                       \
+NSTL_TYPE(                                                                     \
+                                                                               \
+(setf ctor                                                                     \
+static inline void nstl_ctor(T)(T *self)                                       \
+{                                                                              \
+                                                                               \
+}                                                                              \
+)                                                                              \
+                                                                               \
+(setf copy_ctor                                                                \
+static inline void nstl_copy_ctor(T)(T *self, T other)                         \
+{                                                                              \
+    *self = other;                                                             \
+}                                                                              \
+)                                                                              \
+                                                                               \
+(setf dtor                                                                     \
+static inline void nstl_dtor(T)(T *self)                                       \
+{                                                                              \
+                                                                               \
+}                                                                              \
+)                                                                              \
+                                                                               \
+(setf new                                                                      \
+static inline T *nstl_new(T)(void)                                             \
+{                                                                              \
+    return malloc(sizeof(T));                                                  \
+}                                                                              \
+)                                                                              \
+                                                                               \
+(setf delete                                                                   \
+static inline void nstl_delete(T)(T *self)                                     \
+{                                                                              \
+    free(self);                                                                \
+}                                                                              \
+)                                                                              \
+                                                                               \
+)                                                                              \
+/**/
+
 #define NSTL_ARITHMETIC_OPERATORS(T)                                           \
 NSTL_TYPE(                                                                     \
                                                                                \
@@ -297,31 +338,18 @@ static inline T nstl_irshift(T, T)(T *self, T other)                           \
 )                                                                              \
 /**/
 
-#define NSTL_ALLOCATION_OPERATORS(T)                                           \
-NSTL_TYPE(                                                                     \
-                                                                               \
-(setf new                                                                      \
-static inline T *nstl_new(T)(void)                                             \
-{                                                                              \
-    return malloc(sizeof(T));                                                  \
-}                                                                              \
-)                                                                              \
-                                                                               \
-(setf delete                                                                   \
-static inline void nstl_delete(T)(T *self)                                     \
-{                                                                              \
-    free(self);                                                                \
-}                                                                              \
-)                                                                              \
-                                                                               \
-)                                                                              \
-/**/
-
 
 /* [[[cog
 
 import nstl
 cog.outl(nstl.generate_mangled(
+    # Initialization / deinitialization / allocation operators
+    'ctor(T)',      # T()
+    'copy_ctor(T)', # T(T other)
+    'dtor(T)',      # ~T
+    'new(T)',       # new
+    'delete(T)',    # delete
+
     # Arithmetic operators
     'asg(R, T)',  # =
     'add(R, T)',  # +
@@ -366,14 +394,20 @@ cog.outl(nstl.generate_mangled(
     'ixor(R, T)',    # ^=
     'ilshift(R, T)', # <<=
     'irshift(R, T)', # >>=
-
-    # Allocation operators
-    'new(T)',    # new
-    'delete(T)', # delete
 ))
 
 ]]] */
 #include <joy/cat.h>
+#define NSTL_TOKEN_ctor (c t o r)
+#define nstl_ctor(T) JOY_CAT3(nstl_mangled_ctor, _, T)
+#define NSTL_TOKEN_copy_ctor (c o p y _ c t o r)
+#define nstl_copy_ctor(T) JOY_CAT3(nstl_mangled_copy_ctor, _, T)
+#define NSTL_TOKEN_dtor (d t o r)
+#define nstl_dtor(T) JOY_CAT3(nstl_mangled_dtor, _, T)
+#define NSTL_TOKEN_new (n e w)
+#define nstl_new(T) JOY_CAT3(nstl_mangled_new, _, T)
+#define NSTL_TOKEN_delete (d e l e t e)
+#define nstl_delete(T) JOY_CAT3(nstl_mangled_delete, _, T)
 #define NSTL_TOKEN_asg (a s g)
 #define nstl_asg(R,  T) JOY_CAT5(nstl_mangled_asg, _, R, _,  T)
 #define NSTL_TOKEN_add (a d d)
@@ -448,10 +482,6 @@ cog.outl(nstl.generate_mangled(
 #define nstl_ilshift(R,  T) JOY_CAT5(nstl_mangled_ilshift, _, R, _,  T)
 #define NSTL_TOKEN_irshift (i r s h i f t)
 #define nstl_irshift(R,  T) JOY_CAT5(nstl_mangled_irshift, _, R, _,  T)
-#define NSTL_TOKEN_new (n e w)
-#define nstl_new(T) JOY_CAT3(nstl_mangled_new, _, T)
-#define NSTL_TOKEN_delete (d e l e t e)
-#define nstl_delete(T) JOY_CAT3(nstl_mangled_delete, _, T)
 /* [[[end]]] */
 
 #endif /* !NSTL_INTERNAL_OPERATOR_H */

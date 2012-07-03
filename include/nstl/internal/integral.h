@@ -13,11 +13,11 @@
 #define NSTL_INTEGRAL(T)                                                       \
 NSTL_TYPE(                                                                     \
                                                                                \
+(inherit NSTL_INITIALIZATION_OPERATORS(T))                                     \
 (inherit NSTL_ARITHMETIC_OPERATORS(T))                                         \
 (inherit NSTL_COMPARISON_OPERATORS(T))                                         \
 (inherit NSTL_LOGICAL_OPERATORS(T))                                            \
 (inherit NSTL_BITWISE_OPERATORS(T))                                            \
-(inherit NSTL_ALLOCATION_OPERATORS(T))                                         \
                                                                                \
 )                                                                              \
 /**/

@@ -14,9 +14,7 @@
 
 #define NSTL_PAIR(T1, T2)                                                      \
     NSTL_PAIR_INHERIT(                                                         \
-        nstl_pair(T1, T2),                                                     \
-        T1,                                                                    \
-        T2                                                                     \
+        nstl_pair(T1, T2), T1, T2                                              \
     )                                                                          \
 /**/
 
@@ -30,22 +28,30 @@ typedef struct {                                                               \
 } pair;                                                                        \
 )                                                                              \
                                                                                \
-(setf init                                                                     \
+(setf ctor                                                                     \
 /*!                                                                            \
  * Initialize a pair.                                                          \
  */                                                                            \
-static inline void nstl_init(pair)(pair *self, T1 first, T2 second)            \
+static inline void nstl_ctor(pair)(pair *self, T1 first, T2 second)            \
 {                                                                              \
     self->first = first;                                                       \
     self->second = second;                                                     \
 }                                                                              \
 )                                                                              \
                                                                                \
-(setf deinit                                                                   \
+(setf copy_ctor                                                                \
+static inline void nstl_copy_ctor(pair)(pair *self, pair other)                \
+{                                                                              \
+    self->first = other.first;                                                 \
+    self->second = other.second;                                               \
+}                                                                              \
+)                                                                              \
+                                                                               \
+(setf dtor                                                                     \
 /*!                                                                            \
  * Uninitialize a pair.                                                        \
  */                                                                            \
-static inline void nstl_deinit(pair)(pair *self)                               \
+static inline void nstl_dtor(pair)(pair *self)                                 \
 {                                                                              \
                                                                                \
 }                                                                              \
@@ -127,7 +133,7 @@ static inline bool nstl_ge(pair, pair)(pair x, pair y)                         \
 static inline pair nstl_make_pair(T1, T2)(T1 first, T2 second)                 \
 {                                                                              \
     pair self;                                                                 \
-    nstl_init(pair)(&self, first, second);                                     \
+    nstl_ctor(pair)(&self, first, second);                                     \
     return self;                                                               \
 }                                                                              \
 )                                                                              \

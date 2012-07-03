@@ -26,13 +26,14 @@ static inline ForwardIter nstl_adjacent_find(ForwardIter, T)(ForwardIter first, 
 {                                                                              \
     if (nstl_eq(ForwardIter, ForwardIter)(first, last))                        \
         return last;                                                           \
-    nstl_init_copy(ForwardIter)(&next, first);                                 \
+    ForwardIter next;                                                          \
+    nstl_copy_ctor(ForwardIter)(&next, first);                                 \
     while (nstl_ne(ForwardIter, ForwardIter)(nstl_inc(ForwardIter)(&next),     \
                                              last)) {                          \
         if (nstl_eq(T, T)(nstl_deref(ForwardIter)(first),                      \
                           nstl_deref(ForwardIter)(next)))                      \
             return first;                                                      \
-        first = next;                                                          \
+        nstl_asg(ForwardIter, ForwardIter)(&first, next);                      \
     }                                                                          \
     return last;                                                               \
 }                                                                              \

@@ -16,7 +16,7 @@ static void should_have_first_and_second_as_set(void)
     int first = 88;
     int second = 99;
     test_pair pair;
-    nstl_init(test_pair)(&pair, first, second);
+    nstl_ctor(test_pair)(&pair, first, second);
     assert_int_equal(pair.first, first);
     assert_int_equal(pair.second, second);
 }
@@ -26,7 +26,7 @@ static void make_pair_should_be_equivalent_to_init(void)
     int first = 88;
     int second = 99;
     test_pair x, y;
-    nstl_init(test_pair)(&x, first, second);
+    nstl_ctor(test_pair)(&x, first, second);
     y = nstl_make_pair(int, int)(first, second);
     assert_true(nstl_eq(test_pair, test_pair)(x, y));
 }
@@ -34,8 +34,8 @@ static void make_pair_should_be_equivalent_to_init(void)
 static void should_be_equal_when_first_and_second_are_equal(void)
 {
     test_pair x, y;
-    nstl_init(test_pair)(&x, 88, 99);
-    nstl_init(test_pair)(&y, 88, 99);
+    nstl_ctor(test_pair)(&x, 88, 99);
+    nstl_copy_ctor(test_pair)(&y, x);
     assert_true(nstl_eq(test_pair, test_pair)(x, y));
     assert_true(nstl_eq(test_pair, test_pair)(y, x));
 }
@@ -43,8 +43,8 @@ static void should_be_equal_when_first_and_second_are_equal(void)
 static void should_not_be_equal_when_any_of_first_and_second_different(void)
 {
     test_pair x, y;
-    nstl_init(test_pair)(&x, 1, 1);
-    nstl_init(test_pair)(&y, 0, 1);
+    nstl_ctor(test_pair)(&x, 1, 1);
+    nstl_ctor(test_pair)(&y, 0, 1);
     assert_false(nstl_eq(test_pair, test_pair)(x, y));
     assert_false(nstl_eq(test_pair, test_pair)(y, x));
 
@@ -57,8 +57,8 @@ static void should_not_be_equal_when_any_of_first_and_second_different(void)
 static void should_not_be_different_when_first_and_second_are_equal(void)
 {
     test_pair x, y;
-    nstl_init(test_pair)(&x, 88, 99);
-    nstl_init(test_pair)(&y, 88, 99);
+    nstl_ctor(test_pair)(&x, 88, 99);
+    nstl_ctor(test_pair)(&y, 88, 99);
     assert_false(nstl_ne(test_pair, test_pair)(x, y));
     assert_false(nstl_ne(test_pair, test_pair)(y, x));
 }
@@ -66,8 +66,8 @@ static void should_not_be_different_when_first_and_second_are_equal(void)
 static void should_be_different_when_any_of_first_and_second_are_different(void)
 {
     test_pair x, y;
-    nstl_init(test_pair)(&x, 1, 1);
-    nstl_init(test_pair)(&y, 0, 1);
+    nstl_ctor(test_pair)(&x, 1, 1);
+    nstl_ctor(test_pair)(&y, 0, 1);
     assert_true(nstl_ne(test_pair, test_pair)(x, y));
     assert_true(nstl_ne(test_pair, test_pair)(y, x));
 

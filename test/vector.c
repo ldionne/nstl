@@ -14,7 +14,7 @@ NSTL_IMPLEMENT(NSTL_VECTOR(int))
 static void test_initital_state(void)
 {
     test_vector vector;
-    nstl_init(test_vector)(&vector);
+    nstl_ctor(test_vector)(&vector);
 
     assert_true(nstl_empty(test_vector)(&vector));
     assert_true(nstl_size(test_vector)(&vector) == 0);
@@ -24,7 +24,7 @@ static void test_initital_state(void)
 static void test_state_after_reserve(void)
 {
     test_vector vector;
-    nstl_init(test_vector)(&vector);
+    nstl_ctor(test_vector)(&vector);
     nstl_reserve(test_vector)(&vector, 10);
 
     assert_true(nstl_empty(test_vector)(&vector));

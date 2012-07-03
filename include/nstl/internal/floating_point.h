@@ -13,12 +13,11 @@
 #define NSTL_FLOATING_POINT(T)                                                 \
 NSTL_TYPE(                                                                     \
                                                                                \
+(inherit NSTL_INITIALIZATION_OPERATORS(T))                                     \
 (inherit NSTL_ARITHMETIC_OPERATORS(T))                                         \
-(unsetf mod imod)                                                              \
-                                                                               \
 (inherit NSTL_COMPARISON_OPERATORS(T))                                         \
 (inherit NSTL_LOGICAL_OPERATORS(T))                                            \
-(inherit NSTL_ALLOCATION_OPERATORS(T))                                         \
+(unsetf mod imod)                                                              \
                                                                                \
 )                                                                              \
 /**/

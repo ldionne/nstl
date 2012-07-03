@@ -15,8 +15,11 @@
 #define NSTL_POINTER(ValueType, Pointer)                                       \
 NSTL_TYPE(                                                                     \
                                                                                \
+(inherit NSTL_INITIALIZATION_OPERATORS(Pointer))                               \
 (inherit NSTL_ARITHMETIC_OPERATORS(Pointer))                                   \
-(unsetf mul imul  div idiv  mod imod  prom inv)                                \
+(inherit NSTL_COMPARISON_OPERATORS(Pointer))                                   \
+(inherit NSTL_LOGICAL_OPERATORS(Pointer))                                      \
+                                                                               \
 (setf add                                                                      \
 static inline Pointer nstl_add(Pointer, ptrdiff_t)(Pointer self, ptrdiff_t n)  \
 {                                                                              \
@@ -47,16 +50,14 @@ static inline Pointer nstl_isub(Pointer, ptrdiff_t)(Pointer *self, ptrdiff_t n) 
 }                                                                              \
 )                                                                              \
                                                                                \
-(inherit NSTL_COMPARISON_OPERATORS(Pointer))                                   \
-(inherit NSTL_LOGICAL_OPERATORS(Pointer))                                      \
-(inherit NSTL_ALLOCATION_OPERATORS(Pointer))                                   \
-                                                                               \
 (setf deref                                                                    \
 static inline ValueType nstl_deref(Pointer)(Pointer self)                      \
 {                                                                              \
     return *self;                                                              \
 }                                                                              \
 )                                                                              \
+                                                                               \
+(unsetf mul imul  div idiv  mod imod  prom inv)                                \
                                                                                \
 )                                                                              \
 /**/
