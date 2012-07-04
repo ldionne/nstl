@@ -23,5 +23,8 @@ static void all_tests(void)
 
 int main(int argc, char *argv[])
 {
-    return seatest_testrunner(argc, argv, all_tests, NULL, NULL);
+    /* We return !seatest_testrunner() because it returns 1 on success and
+     * main should return 0 on success.
+     */
+    return !seatest_testrunner(argc, argv, all_tests, NULL, NULL);
 }
