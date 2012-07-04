@@ -4,8 +4,8 @@
  * @author Louis Dionne
  */
 
-#ifndef NSTL_VECTOR_H
-#define NSTL_VECTOR_H
+#ifndef NSTL_CONTAINER_VECTOR_H
+#define NSTL_CONTAINER_VECTOR_H
 
 #include <nstl/type.h>
 
@@ -186,4 +186,4 @@ cog.outl(nstl.generate_mangled(
 #define nstl_vector(T) JOY_CAT3(nstl_mangled_vector, _, T)
 /* [[[end]]] */
 
-#endif /* !NSTL_VECTOR_H */
+#endif /* !NSTL_CONTAINER_VECTOR_H */
