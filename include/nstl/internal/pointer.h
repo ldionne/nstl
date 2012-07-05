@@ -61,7 +61,7 @@ static NSTL_INLINE ValueType nstl_deref(Pointer)(Pointer self)                 \
 }                                                                              \
 )                                                                              \
                                                                                \
-(unsetf mul imul  div idiv  mod imod  prom inv)                                \
+(drop mul imul  div idiv  mod imod  prom inv)                                  \
                                                                                \
 )                                                                              \
 /**/
