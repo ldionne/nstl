@@ -15,14 +15,14 @@
 #include <joy/seq/append.h>
 #include <joy/seq/contains.h>
 #include <joy/seq/find_first.h>
-#include <joy/seq/pyunzip.h>
 #include <joy/seq/remove_if.h>
 #include <joy/string/eq.h>
-#include <joy/pair.h>
 
 #include <chaos/preprocessor/recursion/expr.h>
 #include <chaos/preprocessor/seq/to_string.h>
 #include <chaos/preprocessor/seq/fold_left.h>
+#include <chaos/preprocessor/seq/transform.h>
+#include <chaos/preprocessor/seq/elem.h>
 #include <chaos/preprocessor/cat.h>
 
 
@@ -56,8 +56,12 @@
 #if NSTL_CONFIG_EMPTY_MACRO_ARGS
 #   define NSTL_I_INITIAL_TYPE_STATE() /* nothing */
 #else
-#   define NSTL_I_INITIAL_TYPE_STATE() \
-        ((NSTL_I_C89_COMPAT_0xDUMMY_MEMBER, NSTL_I_C89_COMPAT_0xDUMMY_MEMBER))
+#   define NSTL_I_INITIAL_TYPE_STATE()                                         \
+        (NSTL_FIELD(                                                           \
+            NSTL_I_C89_COMPAT_0xDUMMY_MEMBER,                                  \
+            NSTL_I_C89_COMPAT_0xDUMMY_MEMBER                                   \
+        ))                                                                     \
+    /**/
 #   define NSTL_TOKEN_NSTL_I_C89_COMPAT_0xDUMMY_MEMBER \
         (N S T L _ I _ C 8 9 _ C O M P A T _ 0 X D U M M Y _ M E M B E R)
 #endif /* NSTL_CONFIG_EMPTY_MACRO_ARGS */
@@ -75,15 +79,42 @@
     NSTL_INSTRUCTION(instruction)(s, self, args)
 
 /*!
- * Return whether two (field_name, value) pairs represent the same field.
- * Only the field name is checked.
+ * Return whether two fields have the same name.
  */
 #define NSTL_I_TYPE_COMPARE(s, x, y)                                           \
     JOY_STRING_EQ_S(s,                                                         \
-        NSTL_TOKEN_TO_STRING(JOY_PAIR_FIRST(x)),                               \
-        NSTL_TOKEN_TO_STRING(JOY_PAIR_FIRST(y))                                \
+        NSTL_TOKEN_TO_STRING(NSTL_FIELD_NAME(x)),                              \
+        NSTL_TOKEN_TO_STRING(NSTL_FIELD_NAME(y))                               \
     )                                                                          \
 /**/
+
+/*!
+ * Create a nstl field.
+ */
+#define NSTL_FIELD(name, value) (name) (value) (/* properties */)
+
+/*!
+ * Return the name of a field.
+ */
+#define NSTL_FIELD_NAME(field) CHAOS_PP_SEQ_ELEM(0, field)
+
+/*!
+ * Return the value of a field.
+ */
+#define NSTL_FIELD_VALUE(field) CHAOS_PP_SEQ_ELEM(1, field)
+
+/*!
+ * Return the properties of a field.
+ */
+#define NSTL_FIELD_PROPERTIES(field) CHAOS_PP_SEQ_ELEM(2, field)
+
+/*!
+ * Set a property to a field.
+ *
+ * @param properties A token string of properties.
+ */
+#define NSTL_FIELD_SET_PROPERTIES(field, properties) \
+    CHAOS_PP_SEQ_REPLACE(3, field, properties)
 
 /*!
  * Given a token, return the nstl style instruction associated to it.
@@ -106,8 +137,8 @@
     NSTL_GETF_S(CHAOS_PP_STATE(), self, field)
 
 #define NSTL_GETF_S(s, self, field)                                            \
-    JOY_PAIR_SECOND(JOY_SEQ_FIND_FIRST_S(s,                                    \
-        NSTL_I_TYPE_COMPARE, self, JOY_PAIR(field, ~)                          \
+    NSTL_FIELD_VALUE(JOY_SEQ_FIND_FIRST_S(s,                                   \
+        NSTL_I_TYPE_COMPARE, self, NSTL_FIELD(field, ~)                        \
     ))                                                                         \
 /**/
 
@@ -148,7 +179,7 @@
 
 #define NSTL_SETF_S(s, self, field, value)                                     \
     JOY_SEQ_APPEND(                                                            \
-        JOY_PAIR(field, value),                                                \
+        NSTL_FIELD(field, value),                                              \
         NSTL_UNSETF_S(s, self, field)                                          \
     )                                                                          \
 /**/
@@ -185,7 +216,7 @@
 
 #define NSTL_UNSETF_S(s, self, field)                                          \
     JOY_SEQ_REMOVE_IF_S(s,                                                     \
-        NSTL_I_TYPE_COMPARE, self, JOY_PAIR(field, ~)                          \
+        NSTL_I_TYPE_COMPARE, self, NSTL_FIELD(field, ~)                        \
     )                                                                          \
 /**/
 
@@ -220,10 +251,14 @@
 #define NSTL_I_INHERIT(s, self, super)                                         \
     NSTL_DROP_S(s, self,                                                       \
         CHAOS_PP_SEQ_TO_STRING(                                                \
-            JOY_PAIR_FIRST(JOY_SEQ_PYUNZIP_S(s, super))                        \
+            CHAOS_PP_EXPR_S(s)(CHAOS_PP_SEQ_TRANSFORM_S(s,                     \
+                NSTL_II_INHERIT_FIELD_NAME, super, ~                           \
+            ))                                                                 \
         )                                                                      \
     ) super                                                                    \
 /**/
+
+#define NSTL_II_INHERIT_FIELD_NAME(s, field, useless) NSTL_FIELD_NAME(field)
 
 /*!
  * Instruction counterpart of @em NSTL_INHERIT().
@@ -253,8 +288,8 @@
     )                                                                          \
 /**/
 
-#define NSTL_I_DROP_PRED(s, field, to_del) \
-    JOY_SEQ_CONTAINS_S(s, NSTL_II_DROP_PRED, to_del, JOY_PAIR_FIRST(field))
+#define NSTL_I_DROP_PRED(s, field, to_unset) \
+    JOY_SEQ_CONTAINS_S(s, NSTL_II_DROP_PRED, to_unset, NSTL_FIELD_NAME(field))
 
 #define NSTL_II_DROP_PRED(s, x, y) \
     JOY_STRING_EQ_S(s, NSTL_TOKEN_TO_STRING(x), NSTL_TOKEN_TO_STRING(y))
@@ -279,7 +314,7 @@
 
 #define NSTL_ISSET_S(s, self, field)                                           \
     JOY_SEQ_CONTAINS_S(s,                                                      \
-        NSTL_I_TYPE_COMPARE, self, JOY_PAIR(field, ~)                          \
+        NSTL_I_TYPE_COMPARE, self, NSTL_FIELD(field, ~)                        \
     )                                                                          \
 /**/
 
@@ -304,8 +339,12 @@
 
 #define NSTL_I_IMPLEMENT(s, self)                                              \
     CHAOS_PP_SEQ_TO_STRING(                                                    \
-        JOY_PAIR_SECOND(JOY_SEQ_PYUNZIP_S(s, self))                            \
+        CHAOS_PP_EXPR_S(s)(CHAOS_PP_SEQ_TRANSFORM_S(s,                         \
+            NSTL_II_IMPLEMENT_FIELD_VALUE, self, ~                             \
+        ))                                                                     \
     )                                                                          \
 /**/
+
+#define NSTL_II_IMPLEMENT_FIELD_VALUE(s, field, useless) NSTL_FIELD_VALUE(field)
 
 #endif /* !NSTL_TYPE_H */
