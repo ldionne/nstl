@@ -14,8 +14,8 @@
 
 typedef int *intp;
 typedef bool (*Predicate) (int elem);
-NSTL_IMPLEMENT(NSTL_POINTER(int, intp))
-NSTL_IMPLEMENT(NSTL_COUNT_IF(intp, Predicate))
+NSTL_INSTANTIATE(NSTL_POINTER(int, intp))
+NSTL_INSTANTIATE(NSTL_COUNT_IF(intp, Predicate))
 
 #define count_if nstl_count_if(intp, Predicate)
 

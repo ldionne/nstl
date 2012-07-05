@@ -12,13 +12,13 @@
  * writing __useless__ unit tests. The only unit test that is done here is
  * their instantiation, which makes sure that there are no compilation errors.
  */
-NSTL_IMPLEMENT(NSTL_CHAR)
-NSTL_IMPLEMENT(NSTL_SHORT)
-NSTL_IMPLEMENT(NSTL_INT)
-NSTL_IMPLEMENT(NSTL_LONG)
+NSTL_INSTANTIATE(NSTL_CHAR)
+NSTL_INSTANTIATE(NSTL_SHORT)
+NSTL_INSTANTIATE(NSTL_INT)
+NSTL_INSTANTIATE(NSTL_LONG)
 
-NSTL_IMPLEMENT(NSTL_FLOAT)
-NSTL_IMPLEMENT(NSTL_DOUBLE)
+NSTL_INSTANTIATE(NSTL_FLOAT)
+NSTL_INSTANTIATE(NSTL_DOUBLE)
 
 
 /* Dummy test so the test report shows something. */

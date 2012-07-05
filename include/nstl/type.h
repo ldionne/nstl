@@ -171,7 +171,7 @@
  * Set or override a field of an object.
  *
  * @note By default, a field is not instantiable, i.e. it won't be instantiated
- *       when @em NSTL_IMPLEMENT() is called.
+ *       when @em NSTL_INSTANTIATE() is called.
  *
  * @param field A valid nstl token.
  * @param value Anything containing no commas if < C99, and anything
@@ -217,11 +217,11 @@
  * Define a function as a field of an object.
  *
  * Functions are special fields that are instantiable using
- * @em NSTL_IMPLEMENT().
+ * @em NSTL_INSTANTIATE().
  *
  * @param fun A valid nstl token representing the name of the function.
  * @param definition The definition of the function that should be
- *                   instantiated when @em NSTL_IMPLEMENT() is called.
+ *                   instantiated when @em NSTL_INSTANTIATE() is called.
  *
  * @warning In pre C99, no commas (except when inside parenthesis) can be used
  *          inside the definition of the function, because this would require
@@ -360,18 +360,18 @@
 /**/
 
 /******************************************************************************
-                                NSTL_IMPLEMENT
+                                NSTL_INSTANTIATE
  ******************************************************************************/
 
 /*!
- * Instatiate the implementation of an object.
+ * Instantiate the implementation of an object.
  */
-#define NSTL_IMPLEMENT(self) NSTL_IMPLEMENT_S(CHAOS_PP_STATE(), self)
+#define NSTL_INSTANTIATE(self) NSTL_INSTANTIATE_S(CHAOS_PP_STATE(), self)
 
 #if NSTL_CONFIG_EMPTY_MACRO_ARGS
-#   define NSTL_IMPLEMENT_S(s, self) NSTL_I_IMPLEMENT(s, self)
+#   define NSTL_INSTANTIATE_S(s, self) NSTL_I_IMPLEMENT(s, self)
 #else
-#   define NSTL_IMPLEMENT_S(s, self)                                           \
+#   define NSTL_INSTANTIATE_S(s, self)                                         \
         NSTL_I_IMPLEMENT(s,                                                    \
             NSTL_UNSETF_S(s, self, NSTL_I_C89_COMPAT_0xDUMMY_MEMBER)           \
         )                                                                      \

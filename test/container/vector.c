@@ -9,7 +9,7 @@
 
 
 #define test_vector nstl_vector(int)
-NSTL_IMPLEMENT(NSTL_VECTOR(int))
+NSTL_INSTANTIATE(NSTL_VECTOR(int))
 
 static void test_initital_state(void)
 {

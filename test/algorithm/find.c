@@ -13,9 +13,9 @@
 
 
 typedef int *intp;
-NSTL_IMPLEMENT(NSTL_POINTER(int, intp))
-NSTL_IMPLEMENT(NSTL_INT)
-NSTL_IMPLEMENT(NSTL_FIND(intp, int))
+NSTL_INSTANTIATE(NSTL_POINTER(int, intp))
+NSTL_INSTANTIATE(NSTL_INT)
+NSTL_INSTANTIATE(NSTL_FIND(intp, int))
 
 static void test_should_return_last_when_not_found(void)
 {
