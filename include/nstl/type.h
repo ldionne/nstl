@@ -23,6 +23,7 @@
 #include <chaos/preprocessor/seq/fold_left.h>
 #include <chaos/preprocessor/seq/transform.h>
 #include <chaos/preprocessor/seq/elem.h>
+#include <chaos/preprocessor/seq/replace.h>
 #include <chaos/preprocessor/cat.h>
 
 
@@ -91,7 +92,7 @@
 /*!
  * Create a nstl field.
  */
-#define NSTL_FIELD(name, value) (name) (value) (/* properties */)
+#define NSTL_FIELD(name, value) (name) (value) (/* is_instantiable= */ 0)
 
 /*!
  * Return the name of a field.
@@ -104,17 +105,17 @@
 #define NSTL_FIELD_VALUE(field) CHAOS_PP_SEQ_ELEM(1, field)
 
 /*!
- * Return the properties of a field.
+ * Return whether a field can be instantiated.
  */
-#define NSTL_FIELD_PROPERTIES(field) CHAOS_PP_SEQ_ELEM(2, field)
+#define NSTL_FIELD_IS_INSTANTIABLE(field) CHAOS_PP_SEQ_ELEM(2, field)
 
 /*!
- * Set a property to a field.
+ * Set whether a field can be instantiated.
  *
- * @param properties A token string of properties.
+ * @param is_instantiable 1 or 0.
  */
-#define NSTL_FIELD_SET_PROPERTIES(field, properties) \
-    CHAOS_PP_SEQ_REPLACE(3, field, properties)
+#define NSTL_FIELD_SET_INSTANTIABLE(field, is_instantiable) \
+    CHAOS_PP_SEQ_REPLACE(2, field, is_instantiable)
 
 /*!
  * Given a token, return the nstl style instruction associated to it.
@@ -169,6 +170,9 @@
 /*!
  * Set or override a field of an object.
  *
+ * @note By default, a field is not instantiable, i.e. it won't be instantiated
+ *       when @em NSTL_IMPLEMENT() is called.
+ *
  * @param field A valid nstl token.
  * @param value Anything containing no commas if < C99, and anything
  *              if >= C99. This will be the value of the field that can be
@@ -177,9 +181,14 @@
 #define NSTL_SETF(self, field, value) \
     NSTL_SETF_S(CHAOS_PP_STATE(), field, value)
 
-#define NSTL_SETF_S(s, self, field, value)                                     \
+#define NSTL_SETF_S(s, self, field, value) \
+    NSTL_I_SETF(s, self, field, value, /* is_instantiable= */ 0)
+
+#define NSTL_I_SETF(s, self, field, value, is_instantiable)                    \
     JOY_SEQ_APPEND(                                                            \
-        NSTL_FIELD(field, value),                                              \
+        NSTL_FIELD_SET_INSTANTIABLE(                                           \
+            NSTL_FIELD(field, value), is_instantiable                          \
+        ),                                                                     \
         NSTL_UNSETF_S(s, self, field)                                          \
     )                                                                          \
 /**/
@@ -199,6 +208,38 @@
     )                                                                          \
 /**/
 #define NSTL_TOKEN_setf (s e t f)
+
+/******************************************************************************
+                                  NSTL_DEFUN
+ ******************************************************************************/
+
+/*!
+ * Define a function as a field of an object.
+ *
+ * Functions are special fields that are instantiable using
+ * @em NSTL_IMPLEMENT().
+ *
+ * @param fun A valid nstl token representing the name of the function.
+ * @param definition The definition of the function that should be
+ *                   instantiated when @em NSTL_IMPLEMENT() is called.
+ *
+ * @warning In pre C99, no commas (except when inside parenthesis) can be used
+ *          inside the definition of the function, because this would require
+ *          variadic macros.
+ */
+#define NSTL_DEFUN(self, fun, definition) \
+    NSTL_DEFUN_S(CHAOS_PP_STATE(), self, fun, definition)
+
+#define NSTL_DEFUN_S(s, self, fun, definition)                                 \
+    NSTL_I_SETF(s, self, fun, definition, /* is_instantiable= */ 1)            \
+/**/
+
+/*!
+ * Instruction counterpart of @em NSTL_DEFUN().
+ */
+#define NSTL_INSTRUCTION_defun(s, self, fun, definition) \
+    NSTL_DEFUN_S(s, self, fun, definition)
+#define NSTL_TOKEN_defun (d e f u n)
 
 /******************************************************************************
                                  NSTL_UNSETF
