@@ -69,8 +69,10 @@ static NSTL_INLINE ValueType nstl_deref(Pointer)(Pointer self)                 \
 /* [[[cog
 
 import nstl
-cog.outl(nstl.generate_mangled(
+cog.outl(nstl.generate(
     'deref(Pointer)',
+
+    token=True, mangle=True,
 ))
 
 ]]] */

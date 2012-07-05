@@ -39,8 +39,10 @@ static NSTL_INLINE Function nstl_for_each(InputIter, Function)                 \
 /* [[[cog
 
 import nstl
-cog.outl(nstl.generate_mangled(
+cog.outl(nstl.generate(
     'for_each(InputIter, Function)',
+
+    token=True, mangle=True,
 ))
 
 ]]] */

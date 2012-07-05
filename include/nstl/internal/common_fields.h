@@ -10,7 +10,7 @@
 /* [[[cog
 
 import nstl
-cog.outl(nstl.generate_mangled(
+cog.outl(nstl.generate(
     # Extended initialization / deinitialization
     'size_ctor(T)',
     'fill_ctor(T)',
@@ -41,6 +41,8 @@ cog.outl(nstl.generate_mangled(
     'push_back(T)',
     'pop_back(T)',
     'clear(T)',
+
+    token=True, mangle=True,
 ))
 
 ]]] */

@@ -144,14 +144,16 @@ static NSTL_INLINE pair nstl_make_pair(T1, T2)(T1 first, T2 second)            \
 /* [[[cog
 
 import nstl
-cog.outl(nstl.generate_mangled(
+cog.outl(nstl.generate(
     'make_pair(T1, T2)',
+
+    token=True, mangle=True,
 ))
 
-cog.outl(nstl.generate_mangled(
+cog.outl(nstl.generate(
     'pair(T1, T2)',
 
-    token=False,
+    mangle=True,
 ))
 
 ]]] */

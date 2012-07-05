@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 
 """Utilities used inside nstl to generate definitions automatically."""
 
@@ -40,7 +40,7 @@ def define_mangled_name(name, *params):
     return "#define nstl_{}{} {}".format(name, params, body)
 
 
-def generate_mangled(*macros, token=True):
+def generate(*macros, **options):
     """Generate macro definitions for several :macros:.
 
        A macro must contain the following:
@@ -51,8 +51,13 @@ def generate_mangled(*macros, token=True):
        Examples of valid names are:
        'make_pair(R, T)', 'deref(T)', 'my_type()', 'my_other_type'
 
-       If :token: is True (default), the NSTL_TOKEN_ macro associated to each
-       macro name is also generated.
+       :options: can contain the following:
+
+       A ``token'' field. If True, the NSTL_TOKEN_ macro associated to each
+       macro name will be generated.
+
+       A ``mangle'' field. If True, the nstl_mangled_ macro associated to each
+       macro name will be generated.
     """
     def _parsed(macro):
         match = re.match(r"(?P<name>\w+)(?P<params>\([\w\s,]*\))?", macro)
@@ -63,17 +68,16 @@ def generate_mangled(*macros, token=True):
 
     def _generate_macro(name, params):
         to_gen = [ ]
-        if token:
+        if options.get('token', False):
             to_gen.append(define_token(name))
-        to_gen.append(define_mangled_name(name, *params))
+        if options.get('mangle', False):
+            to_gen.append(define_mangled_name(name, *params))
         return "\n".join(to_gen)
 
     includes = ["#include <joy/cat.h>"]
-    to_gen = [ ]
-    for macro in macros:
-        name, params = _parsed(macro)
-        to_gen.append(_generate_macro(name, params))
-    return "\n".join(includes + to_gen)
+    to_gen = list(filter(None, (_generate_macro(*_parsed(macro))
+                                                        for macro in macros)))
+    return "\n".join(includes + to_gen) if to_gen else ""
 
 
 if __name__ == "__main__":

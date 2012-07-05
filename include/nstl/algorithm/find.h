@@ -34,8 +34,10 @@ static NSTL_INLINE InputIter nstl_find(InputIter, T)                           \
 /* [[[cog
 
 import nstl
-cog.outl(nstl.generate_mangled(
+cog.outl(nstl.generate(
     'find(InputIter, T)',
+
+    token=True, mangle=True,
 ))
 
 ]]] */

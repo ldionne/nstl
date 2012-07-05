@@ -175,10 +175,10 @@ static NSTL_INLINE void nstl_clear(vector)(vector *self)                       \
 /* [[[cog
 
 import nstl
-cog.outl(nstl.generate_mangled(
+cog.outl(nstl.generate(
     'vector(T)',
 
-    token=False,
+    mangle=True,
 ))
 
 ]]] */

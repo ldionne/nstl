@@ -342,7 +342,7 @@ static NSTL_INLINE T nstl_irshift(T, T)(T *self, T other)                      \
 /* [[[cog
 
 import nstl
-cog.outl(nstl.generate_mangled(
+cog.outl(nstl.generate(
     # Initialization / deinitialization / allocation operators
     'ctor(T)',      # T()
     'copy_ctor(T)', # T(T other)
@@ -394,6 +394,8 @@ cog.outl(nstl.generate_mangled(
     'ixor(R, T)',    # ^=
     'ilshift(R, T)', # <<=
     'irshift(R, T)', # >>=
+
+    token=True, mangle=True,
 ))
 
 ]]] */

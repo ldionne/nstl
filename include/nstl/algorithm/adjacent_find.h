@@ -45,8 +45,10 @@ static NSTL_INLINE ForwardIter nstl_adjacent_find(ForwardIter, T)              \
 /* [[[cog
 
 import nstl
-cog.outl(nstl.generate_mangled(
+cog.outl(nstl.generate(
     'adjacent_find(ForwardIter, T)',
+
+    token=True, mangle=True,
 ))
 
 ]]] */
