@@ -162,7 +162,6 @@
 
 #define NSTL_I_INSTRUCTION_getf(s, self, field, other) \
     NSTL_SETF_S(s, self, field, NSTL_GETF_S(s, other, field))
-#define NSTL_TOKEN_getf (g e t f)
 
 /******************************************************************************
                                   NSTL_SETF
@@ -208,7 +207,6 @@
         NSTL_TOKEN_STRING_TAIL(field_and_value)                                \
     )                                                                          \
 /**/
-#define NSTL_TOKEN_setf (s e t f)
 
 /******************************************************************************
                                   NSTL_DEFUN
@@ -243,7 +241,6 @@
         NSTL_TOKEN_STRING_TAIL(name_def)                                       \
     )                                                                          \
 /**/
-#define NSTL_TOKEN_defun (d e f u n)
 
 /******************************************************************************
                                 NSTL_DEFSTRUCT
@@ -276,14 +273,12 @@
         /* is_instantiable= */ 1                                               \
     )                                                                          \
 /**/
-#define NSTL_TOKEN___nstl_struct_field (_ _ n s t l _ s t r u c t _ f i e l d)
 
 /*!
  * Instruction counterpart of @em NSTL_DEFSTRUCT().
  */
 #define NSTL_INSTRUCTION_defstruct(s, self, struct) \
     NSTL_DEFSTRUCT_S(s, self, struct)
-#define NSTL_TOKEN_defstruct (d e f s t r u c t)
 
 /******************************************************************************
                                  NSTL_UNSETF
@@ -309,7 +304,6 @@
  * Instruction counterpart of @em NSTL_UNSETF().
  */
 #define NSTL_INSTRUCTION_unsetf(s, self, field) NSTL_UNSETF_S(s, self, field)
-#define NSTL_TOKEN_unsetf (u n s e t f)
 
 /******************************************************************************
                                  NSTL_INHERIT
@@ -349,7 +343,6 @@
  * @param super A nstl type to inherit fields from.
  */
 #define NSTL_INSTRUCTION_inherit(s, self, super) NSTL_INHERIT_S(s, self, super)
-#define NSTL_TOKEN_inherit (i n h e r i t)
 
 /******************************************************************************
                                  NSTL_DROP
@@ -381,7 +374,6 @@
  * Instruction counterpart of @em NSTL_DROP().
  */
 #define NSTL_INSTRUCTION_drop(s, self, fields) NSTL_DROP_S(s, self, fields)
-#define NSTL_TOKEN_drop (d r o p)
 
 /******************************************************************************
                                   NSTL_ISSET
@@ -425,5 +417,33 @@
         NSTL_FIELD_VALUE(field)                                                \
     )                                                                          \
 /**/
+
+/* [[[cog
+
+import nstl
+cog.outl(nstl.generate(
+    'drop',
+    'inherit',
+    'unsetf',
+    'defun',
+    'defstruct',
+    'setf',
+    'getf',
+    '__nstl_struct_field',
+
+    token=True,
+))
+
+]]] */
+#include <joy/cat.h>
+#define NSTL_TOKEN_drop (d r o p)
+#define NSTL_TOKEN_inherit (i n h e r i t)
+#define NSTL_TOKEN_unsetf (u n s e t f)
+#define NSTL_TOKEN_defun (d e f u n)
+#define NSTL_TOKEN_defstruct (d e f s t r u c t)
+#define NSTL_TOKEN_setf (s e t f)
+#define NSTL_TOKEN_getf (g e t f)
+#define NSTL_TOKEN___nstl_struct_field (_ _ n s t l _ s t r u c t _ f i e l d)
+/* [[[end]]] */
 
 #endif /* !NSTL_TYPE_H */
