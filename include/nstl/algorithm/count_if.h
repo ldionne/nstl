@@ -15,7 +15,7 @@
 #define NSTL_COUNT_IF(InputIter, Predicate)                                    \
 NSTL_TYPE(                                                                     \
                                                                                \
-(setf count_if                                                                 \
+(defun count_if                                                                \
 /*!                                                                            \
  * Return the number of elements in the range delimited by [@p first, @p last) \
  * for which the predicate @p pred is true.                                    \

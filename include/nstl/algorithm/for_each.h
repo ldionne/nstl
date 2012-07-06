@@ -13,7 +13,7 @@
 #define NSTL_FOR_EACH(InputIter, Function)                                     \
 NSTL_TYPE(                                                                     \
                                                                                \
-(setf for_each                                                                 \
+(defun for_each                                                                \
 /*!                                                                            \
  * Apply a function to each element in a range delimited by [@p first, @p last). \
  * The return value of the function, if any, is ignored.                       \

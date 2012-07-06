@@ -13,7 +13,7 @@
 #define NSTL_FIND(InputIter, T)                                                \
 NSTL_TYPE(                                                                     \
                                                                                \
-(setf find                                                                     \
+(defun find                                                                    \
 /*!                                                                            \
  * Return an iterator to the first element in the range [first, last) that     \
  * compares equal to @p value, or @em last if not found.                       \

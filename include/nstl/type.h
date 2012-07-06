@@ -19,11 +19,10 @@
 #include <joy/string/eq.h>
 
 #include <chaos/preprocessor/recursion/expr.h>
-#include <chaos/preprocessor/seq/to_string.h>
 #include <chaos/preprocessor/seq/fold_left.h>
-#include <chaos/preprocessor/seq/transform.h>
 #include <chaos/preprocessor/seq/elem.h>
 #include <chaos/preprocessor/seq/replace.h>
+#include <chaos/preprocessor/seq/for_each.h>
 #include <chaos/preprocessor/cat.h>
 
 
@@ -138,9 +137,11 @@
     NSTL_GETF_S(CHAOS_PP_STATE(), self, field)
 
 #define NSTL_GETF_S(s, self, field)                                            \
-    NSTL_FIELD_VALUE(JOY_SEQ_FIND_FIRST_S(s,                                   \
-        NSTL_I_TYPE_COMPARE, self, NSTL_FIELD(field, ~)                        \
-    ))                                                                         \
+    CHAOS_PP_WHEN(NSTL_ISSET_S(s, self, field))(                               \
+        NSTL_FIELD_VALUE(JOY_SEQ_FIND_FIRST_S(s,                               \
+            NSTL_I_TYPE_COMPARE, self, NSTL_FIELD(field, ~)                    \
+        ))                                                                     \
+    )                                                                          \
 /**/
 
 /*!
@@ -219,7 +220,7 @@
  * Functions are special fields that are instantiable using
  * @em NSTL_INSTANTIATE().
  *
- * @param fun A valid nstl token representing the name of the function.
+ * @param name A valid nstl token representing the name of the function.
  * @param definition The definition of the function that should be
  *                   instantiated when @em NSTL_INSTANTIATE() is called.
  *
@@ -227,19 +228,62 @@
  *          inside the definition of the function, because this would require
  *          variadic macros.
  */
-#define NSTL_DEFUN(self, fun, definition) \
-    NSTL_DEFUN_S(CHAOS_PP_STATE(), self, fun, definition)
+#define NSTL_DEFUN(self, name, definition) \
+    NSTL_DEFUN_S(CHAOS_PP_STATE(), self, name, definition)
 
-#define NSTL_DEFUN_S(s, self, fun, definition)                                 \
-    NSTL_I_SETF(s, self, fun, definition, /* is_instantiable= */ 1)            \
-/**/
+#define NSTL_DEFUN_S(s, self, name, definition) \
+    NSTL_I_SETF(s, self, name, definition, /* is_instantiable= */ 1)
 
 /*!
  * Instruction counterpart of @em NSTL_DEFUN().
  */
-#define NSTL_INSTRUCTION_defun(s, self, fun, definition) \
-    NSTL_DEFUN_S(s, self, fun, definition)
+#define NSTL_INSTRUCTION_defun(s, self, name_def)                              \
+    NSTL_DEFUN_S(s, self,                                                      \
+        NSTL_TOKEN_STRING_HEAD(name_def),                                      \
+        NSTL_TOKEN_STRING_TAIL(name_def)                                       \
+    )                                                                          \
+/**/
 #define NSTL_TOKEN_defun (d e f u n)
+
+/******************************************************************************
+                                NSTL_DEFSTRUCT
+ ******************************************************************************/
+
+/*!
+ * Define a structure as a field of an object.
+ *
+ * Structures are instantiable fields. Furthermore, structures are special in
+ * the fact that they are accumulated when set. When a structure is set on an
+ * object, any structure already owned by the object will remain and the new
+ * structure will be appended to the structures owned by the object.
+ *
+ * If this behavior is not desirable, the @em struct field should be
+ * unset explicitely before using @em defstruct.
+ *
+ * @param struct The definition of the structure that should be
+ *               instantiated when @em NSTL_INSTANTIATE() is called.
+ *
+ * @warning In pre C99, no commas (except when inside parenthesis) can be used
+ *          inside the structure definition, because this would require
+ *          variadic macros.
+ */
+#define NSTL_DEFSTRUCT(self, struct) \
+    NSTL_DEFSTRUCT_S(CHAOS_PP_STATE(), self, struct)
+
+#define NSTL_DEFSTRUCT_S(s, self, struct)                                      \
+    NSTL_I_SETF(s, self, __nstl_struct_field,                                  \
+        NSTL_GETF_S(s, self, __nstl_struct_field) struct,                      \
+        /* is_instantiable= */ 1                                               \
+    )                                                                          \
+/**/
+#define NSTL_TOKEN___nstl_struct_field (_ _ n s t l _ s t r u c t _ f i e l d)
+
+/*!
+ * Instruction counterpart of @em NSTL_DEFSTRUCT().
+ */
+#define NSTL_INSTRUCTION_defstruct(s, self, struct) \
+    NSTL_DEFSTRUCT_S(s, self, struct)
+#define NSTL_TOKEN_defstruct (d e f s t r u c t)
 
 /******************************************************************************
                                  NSTL_UNSETF
@@ -277,7 +321,7 @@
  * @param super A type to inherit fields from.
  */
 #define NSTL_INHERIT(self, super) \
-    NSTL_SETFS_S(CHAOS_PP_STATE(), self, super)
+    NSTL_INHERIT_S(CHAOS_PP_STATE(), self, super)
 
 #if NSTL_CONFIG_EMPTY_MACRO_ARGS
 #   define NSTL_INHERIT_S(s, self, super) NSTL_I_INHERIT(s, self, super)
@@ -291,11 +335,9 @@
 
 #define NSTL_I_INHERIT(s, self, super)                                         \
     NSTL_DROP_S(s, self,                                                       \
-        CHAOS_PP_SEQ_TO_STRING(                                                \
-            CHAOS_PP_EXPR_S(s)(CHAOS_PP_SEQ_TRANSFORM_S(s,                     \
-                NSTL_II_INHERIT_FIELD_NAME, super, ~                           \
-            ))                                                                 \
-        )                                                                      \
+        CHAOS_PP_EXPR_S(s)(CHAOS_PP_SEQ_FOR_EACH_S(s,                          \
+            NSTL_II_INHERIT_FIELD_NAME, super, ~                               \
+        ))                                                                     \
     ) super                                                                    \
 /**/
 
@@ -364,28 +406,24 @@
  ******************************************************************************/
 
 /*!
- * Instantiate the implementation of an object.
+ * Instantiate all the instantiable fields of an object.
+ *
+ * @note Since the NSTL_I_C89_COMPAT_0xDUMMY_MEMBER field is not instantiable,
+ *       we do not need to filter it out specially before instantiating because
+ *       it will be filtered out like any other uninstantiable field.
  */
 #define NSTL_INSTANTIATE(self) NSTL_INSTANTIATE_S(CHAOS_PP_STATE(), self)
 
-#if NSTL_CONFIG_EMPTY_MACRO_ARGS
-#   define NSTL_INSTANTIATE_S(s, self) NSTL_I_IMPLEMENT(s, self)
-#else
-#   define NSTL_INSTANTIATE_S(s, self)                                         \
-        NSTL_I_IMPLEMENT(s,                                                    \
-            NSTL_UNSETF_S(s, self, NSTL_I_C89_COMPAT_0xDUMMY_MEMBER)           \
-        )                                                                      \
-    /**/
-#endif /* NSTL_CONFIG_EMPTY_MACRO_ARGS */
-
-#define NSTL_I_IMPLEMENT(s, self)                                              \
-    CHAOS_PP_SEQ_TO_STRING(                                                    \
-        CHAOS_PP_EXPR_S(s)(CHAOS_PP_SEQ_TRANSFORM_S(s,                         \
-            NSTL_II_IMPLEMENT_FIELD_VALUE, self, ~                             \
-        ))                                                                     \
-    )                                                                          \
+#define NSTL_INSTANTIATE_S(s, self)                                            \
+    CHAOS_PP_EXPR_S(s)(CHAOS_PP_SEQ_FOR_EACH_S(s,                              \
+        NSTL_II_INSTANTIATE_FIELD_VALUE, self, ~                               \
+    ))                                                                         \
 /**/
 
-#define NSTL_II_IMPLEMENT_FIELD_VALUE(s, field, useless) NSTL_FIELD_VALUE(field)
+#define NSTL_II_INSTANTIATE_FIELD_VALUE(s, field, useless)                     \
+    CHAOS_PP_WHEN(NSTL_FIELD_IS_INSTANTIABLE(field))(                          \
+        NSTL_FIELD_VALUE(field)                                                \
+    )                                                                          \
+/**/
 
 #endif /* !NSTL_TYPE_H */
