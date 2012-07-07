@@ -30,7 +30,6 @@
 #include <chaos/preprocessor/logical/and.h>
 #include <chaos/preprocessor/control/if.h>
 #include <chaos/preprocessor/control/when.h>
-#include <chaos/preprocessor/detection/is_empty.h>
 #include <chaos/preprocessor/cat.h>
 
 
@@ -128,40 +127,6 @@
 #define NSTL_I_GETF(s, self, field)                                            \
     JOY_SEQ_FIND_FIRST_S(s,                                                    \
         NSTL_I_TYPE_COMPARE, self, NSTL_FIELD_S(s, field, __nstl_dummy_field, ~) \
-    )                                                                          \
-/**/
-
-/*!
- * Instruction to get a single field from a nstl type and import it in
- * another one.
- *
- * If the field is not set in the other type, nothing is done.
- *
- * Usage: @code (getf field_to_import OTHER_NSTL_TYPE) @endcode
- *
- * @note This is functionally equivalent to writing:
- * @code
- *      (setf field (properties_of_other_field...) NSTL_GETF(other, field))
- * @endcode
- */
-#define NSTL_INSTRUCTION_getf(s, self, field_and_other)                        \
-    NSTL_I_INSTRUCTION_getf(s, self,                                           \
-        NSTL_TOKEN_STRING_HEAD(field_and_other),                               \
-        NSTL_TOKEN_STRING_TAIL(field_and_other)                                \
-    )                                                                          \
-/**/
-
-#define NSTL_I_INSTRUCTION_getf(s, self, field, other)                         \
-    CHAOS_PP_WHEN(NSTL_ISSET_S(s, other, field))(                              \
-        NSTL_II_INSTRUCTION_getf(s, self, field, NSTL_I_GETF(s, other, field)) \
-    )                                                                          \
-/**/
-
-#define NSTL_II_INSTRUCTION_getf(s, self, field_name, field, other)            \
-    NSTL_SETF_S(s, self,                                                       \
-        field_name,                                                            \
-        NSTL_FIELD_PROPERTIES(field),                                          \
-        NSTL_FIELD_VALUE(field)                                                \
     )                                                                          \
 /**/
 
@@ -317,47 +282,61 @@
  ******************************************************************************/
 
 /*!
- * Inherit from all the inheritable fields of another type.
+ * Inherit all the inheritable fields of another type.
  *
  * @param super A type to inherit fields from.
  */
 #define NSTL_INHERIT(self, super) \
     NSTL_INHERIT_S(CHAOS_PP_STATE(), self, super)
 
-#define NSTL_INHERIT_S(s, self, super) \
-    NSTL_I_INHERIT(s, self, NSTL_I_INHERIT_FILTER_INHERITABLE(s, super))
-
-/*!
- * Remove all the fields that are not inheritable in a sequence of fields.
- */
-#define NSTL_I_INHERIT_FILTER_INHERITABLE(s, fields)                           \
-    CHAOS_PP_EXPR_S(s)(CHAOS_PP_SEQ_FILTER_S(s,                                \
-        NSTL_II_INHERIT_FILTER_INHERITABLE_PRED, fields, ~                     \
-    ))                                                                         \
+#define NSTL_INHERIT_S(s, self, super)                                         \
+    NSTL_I_INHERIT_BATCH_SETF(s,                                               \
+        self, NSTL_I_INHERIT_FILTER_INHERITABLE(s, self, super)                \
+    )                                                                          \
 /**/
 
-#define NSTL_II_INHERIT_FILTER_INHERITABLE_PRED(s, field, useless) \
+/*!
+ * Traverse a @p super type and keep only fields that are inheritable.
+ */
+#define NSTL_I_INHERIT_FILTER_INHERITABLE(s, self, super)                      \
+    CHAOS_PP_EXPR_S(s)(CHAOS_PP_SEQ_FILTER_S(s,                                \
+        NSTL_II_INHERIT_IS_INHERITABLE, super, self                            \
+    ))                                                                         \
+/**/
+#define NSTL_II_INHERIT_IS_INHERITABLE(s, field, derived_type) \
     NSTL_FIELD_IS_INHERITABLE(field)
 
 /*!
- * Remove all the fields of @p super that were overwritten in @p self and
- * extend these fields with @p self.
+ * Set several fields to a type at once.
  */
-#define NSTL_I_INHERIT(s, self, super)                                         \
-    NSTL_II_INHERIT(s, self, super,                                            \
-        CHAOS_PP_EXPR_S(s)(CHAOS_PP_SEQ_FOR_EACH_S(s,                          \
-            NSTL_II_INHERIT_GET_FIELD_NAME, self, ~                            \
-        ))                                                                     \
+#define NSTL_I_INHERIT_BATCH_SETF(s, type, fields)                             \
+    NSTL_II_INHERIT_BATCH_SETF(s,                                              \
+        type, fields, NSTL_I_INHERIT_GET_FIELD_NAMES_TO_DROP(s, fields)        \
     )                                                                          \
 /**/
-#define NSTL_II_INHERIT(s, self, super, names_to_drop)                         \
-    CHAOS_PP_IF(CHAOS_PP_IS_EMPTY(names_to_drop))(                             \
-        super,                                                                 \
-        NSTL_DROP_S(s, super, names_to_drop)                                   \
-    ) self                                                                     \
+
+/*!
+ * Drop several fields from a type and then extend the type with some other
+ * given fields.
+ */
+#define NSTL_II_INHERIT_BATCH_SETF(s, type, fields, to_drop)                   \
+    CHAOS_PP_IF(CHAOS_PP_IS_EMPTY(to_drop))(                                   \
+        type, NSTL_DROP_S(s, type, to_drop)                                    \
+    ) fields                                                                   \
 /**/
 
-#define NSTL_II_INHERIT_GET_FIELD_NAME(s, field, useless)                      \
+/*!
+ * Gather a token string of field names to drop from a type.
+ * The criteria for being dropped is that the field is not anonymous
+ * and the @p type has a field set with that name.
+ */
+#define NSTL_I_INHERIT_GET_FIELD_NAMES_TO_DROP(s, fields)                      \
+    CHAOS_PP_EXPR_S(s)(CHAOS_PP_SEQ_FOR_EACH_S(s,                              \
+        NSTL_I_INHERIT_PUT_FIELD_NAME_IF, fields, ~                            \
+    ))                                                                         \
+/**/
+
+#define NSTL_I_INHERIT_PUT_FIELD_NAME_IF(s, field, useless)                    \
     CHAOS_PP_UNLESS(NSTL_FIELD_IS_ANONYMOUS(field))(                           \
         NSTL_FIELD_NAME(field)                                                 \
     )                                                                          \
@@ -459,7 +438,6 @@ cog.outl(nstl.generate(
     'defun',
     'defstruct',
     'setf',
-    'getf',
 
     token=True,
 ))
@@ -472,7 +450,6 @@ cog.outl(nstl.generate(
 #define NSTL_TOKEN_defun (d e f u n)
 #define NSTL_TOKEN_defstruct (d e f s t r u c t)
 #define NSTL_TOKEN_setf (s e t f)
-#define NSTL_TOKEN_getf (g e t f)
 /* [[[end]]] */
 
 #endif /* !NSTL_TYPE_H */
