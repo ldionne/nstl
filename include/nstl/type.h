@@ -11,6 +11,7 @@
 #include <nstl/internal/config.h>
 #include <nstl/internal/operator.h>
 #include <nstl/internal/common_fields.h>
+#include <nstl/internal/field.h>
 
 #include <joy/seq/append.h>
 #include <joy/seq/contains.h>
@@ -19,10 +20,17 @@
 #include <joy/string/eq.h>
 
 #include <chaos/preprocessor/recursion/expr.h>
+#include <chaos/preprocessor/recursion/basic.h>
+#include <chaos/preprocessor/seq/filter.h>
 #include <chaos/preprocessor/seq/fold_left.h>
 #include <chaos/preprocessor/seq/elem.h>
 #include <chaos/preprocessor/seq/replace.h>
 #include <chaos/preprocessor/seq/for_each.h>
+#include <chaos/preprocessor/logical/nor.h>
+#include <chaos/preprocessor/logical/and.h>
+#include <chaos/preprocessor/control/if.h>
+#include <chaos/preprocessor/control/when.h>
+#include <chaos/preprocessor/detection/is_empty.h>
 #include <chaos/preprocessor/cat.h>
 
 
@@ -56,14 +64,7 @@
 #if NSTL_CONFIG_EMPTY_MACRO_ARGS
 #   define NSTL_I_INITIAL_TYPE_STATE() /* nothing */
 #else
-#   define NSTL_I_INITIAL_TYPE_STATE()                                         \
-        (NSTL_FIELD(                                                           \
-            NSTL_I_C89_COMPAT_0xDUMMY_MEMBER,                                  \
-            NSTL_I_C89_COMPAT_0xDUMMY_MEMBER                                   \
-        ))                                                                     \
-    /**/
-#   define NSTL_TOKEN_NSTL_I_C89_COMPAT_0xDUMMY_MEMBER \
-        (N S T L _ I _ C 8 9 _ C O M P A T _ 0 X D U M M Y _ M E M B E R)
+#   define NSTL_I_INITIAL_TYPE_STATE() (NSTL_FIELD(~, anonymous, ~))
 #endif /* NSTL_CONFIG_EMPTY_MACRO_ARGS */
 
 /*!
@@ -82,39 +83,14 @@
  * Return whether two fields have the same name.
  */
 #define NSTL_I_TYPE_COMPARE(s, x, y)                                           \
-    JOY_STRING_EQ_S(s,                                                         \
-        NSTL_TOKEN_TO_STRING(NSTL_FIELD_NAME(x)),                              \
-        NSTL_TOKEN_TO_STRING(NSTL_FIELD_NAME(y))                               \
-    )                                                                          \
+    CHAOS_PP_AND                                                               \
+        (CHAOS_PP_NOR                                                          \
+            (NSTL_FIELD_IS_ANONYMOUS(x))                                       \
+            (NSTL_FIELD_IS_ANONYMOUS(y)))                                      \
+        (JOY_STRING_EQ_S(s,                                                    \
+            NSTL_TOKEN_TO_STRING(NSTL_FIELD_NAME(x)),                          \
+            NSTL_TOKEN_TO_STRING(NSTL_FIELD_NAME(y))))                         \
 /**/
-
-/*!
- * Create a nstl field.
- */
-#define NSTL_FIELD(name, value) (name) (value) (/* is_instantiable= */ 0)
-
-/*!
- * Return the name of a field.
- */
-#define NSTL_FIELD_NAME(field) CHAOS_PP_SEQ_ELEM(0, field)
-
-/*!
- * Return the value of a field.
- */
-#define NSTL_FIELD_VALUE(field) CHAOS_PP_SEQ_ELEM(1, field)
-
-/*!
- * Return whether a field can be instantiated.
- */
-#define NSTL_FIELD_IS_INSTANTIABLE(field) CHAOS_PP_SEQ_ELEM(2, field)
-
-/*!
- * Set whether a field can be instantiated.
- *
- * @param is_instantiable 1 or 0.
- */
-#define NSTL_FIELD_SET_INSTANTIABLE(field, is_instantiable) \
-    CHAOS_PP_SEQ_REPLACE(2, field, is_instantiable)
 
 /*!
  * Given a token, return the nstl style instruction associated to it.
@@ -138,9 +114,20 @@
 
 #define NSTL_GETF_S(s, self, field)                                            \
     CHAOS_PP_WHEN(NSTL_ISSET_S(s, self, field))(                               \
-        NSTL_FIELD_VALUE(JOY_SEQ_FIND_FIRST_S(s,                               \
-            NSTL_I_TYPE_COMPARE, self, NSTL_FIELD(field, ~)                    \
-        ))                                                                     \
+        NSTL_FIELD_VALUE(NSTL_I_GETF(s, self, field))                          \
+    )                                                                          \
+/**/
+
+/*!
+ * Return a field of an object. If the field is not set, it is undefined
+ * behavior.
+ *
+ * @note This is an internal macro returning the whole field of the object.
+ *       @em NSTL_GETF must be used instead.
+ */
+#define NSTL_I_GETF(s, self, field)                                            \
+    JOY_SEQ_FIND_FIRST_S(s,                                                    \
+        NSTL_I_TYPE_COMPARE, self, NSTL_FIELD_S(s, field, __nstl_dummy_field, ~) \
     )                                                                          \
 /**/
 
@@ -148,10 +135,14 @@
  * Instruction to get a single field from a nstl type and import it in
  * another one.
  *
+ * If the field is not set in the other type, nothing is done.
+ *
  * Usage: @code (getf field_to_import OTHER_NSTL_TYPE) @endcode
  *
  * @note This is functionally equivalent to writing:
- *       @code (setf field NSTL_GETF(other, field)) @endcode
+ * @code
+ *      (setf field (properties_of_other_field...) NSTL_GETF(other, field))
+ * @endcode
  */
 #define NSTL_INSTRUCTION_getf(s, self, field_and_other)                        \
     NSTL_I_INSTRUCTION_getf(s, self,                                           \
@@ -160,8 +151,19 @@
     )                                                                          \
 /**/
 
-#define NSTL_I_INSTRUCTION_getf(s, self, field, other) \
-    NSTL_SETF_S(s, self, field, NSTL_GETF_S(s, other, field))
+#define NSTL_I_INSTRUCTION_getf(s, self, field, other)                         \
+    CHAOS_PP_WHEN(NSTL_ISSET_S(s, other, field))(                              \
+        NSTL_II_INSTRUCTION_getf(s, self, field, NSTL_I_GETF(s, other, field)) \
+    )                                                                          \
+/**/
+
+#define NSTL_II_INSTRUCTION_getf(s, self, field_name, field, other)            \
+    NSTL_SETF_S(s, self,                                                       \
+        field_name,                                                            \
+        NSTL_FIELD_PROPERTIES(field),                                          \
+        NSTL_FIELD_VALUE(field)                                                \
+    )                                                                          \
+/**/
 
 /******************************************************************************
                                   NSTL_SETF
@@ -170,28 +172,31 @@
 /*!
  * Set or override a field of an object.
  *
- * @note By default, a field is not instantiable, i.e. it won't be instantiated
- *       when @em NSTL_INSTANTIATE() is called.
- *
  * @param field A valid nstl token.
+ * @param properties A token string of the properties of the field.
  * @param value Anything containing no commas if < C99, and anything
  *              if >= C99. This will be the value of the field that can be
  *              retrieved by using @em NSTL_GETF().
+ *
+ * @note If the field is not writable, a preprocessor error will be triggered.
  */
-#define NSTL_SETF(self, field, value) \
-    NSTL_SETF_S(CHAOS_PP_STATE(), field, value)
+#define NSTL_SETF(self, field, properties, value) \
+    NSTL_SETF_S(CHAOS_PP_STATE(), self, field, properties, value)
 
-#define NSTL_SETF_S(s, self, field, value) \
-    NSTL_I_SETF(s, self, field, value, /* is_instantiable= */ 0)
-
-#define NSTL_I_SETF(s, self, field, value, is_instantiable)                    \
-    JOY_SEQ_APPEND(                                                            \
-        NSTL_FIELD_SET_INSTANTIABLE(                                           \
-            NSTL_FIELD(field, value), is_instantiable                          \
+#define NSTL_SETF_S(s, self, field, properties, value)                         \
+    CHAOS_PP_IF(NSTL_ISSET_S(s, self, field))(                                 \
+        CHAOS_PP_IF(NSTL_FIELD_IS_WRITABLE(NSTL_I_GETF(s, self, field)))(      \
+            JOY_SEQ_APPEND(                                                    \
+                NSTL_FIELD_S(s, field, properties, value),                     \
+                NSTL_UNSETF_S(s, self, field)                                  \
+            ),                                                                 \
+            NSTL_I_WRITE_ATTEMPT_TO_READONLY_FIELD_EXCEPTION(!)                \
         ),                                                                     \
-        NSTL_UNSETF_S(s, self, field)                                          \
+        JOY_SEQ_APPEND(NSTL_FIELD_S(s, field, properties, value), self)        \
     )                                                                          \
 /**/
+
+#define NSTL_I_WRITE_ATTEMPT_TO_READONLY_FIELD_EXCEPTION()
 
 /*!
  * Instruction counterpart of @em NSTL_SETF().
@@ -201,12 +206,25 @@
  * Where @em field_name is any valid nstl token and @em field_value is
  * anything (without commas if < C99).
  */
-#define NSTL_INSTRUCTION_setf(s, self, field_and_value)                        \
-    NSTL_SETF_S(s, self,                                                       \
-        NSTL_TOKEN_STRING_HEAD(field_and_value),                               \
-        NSTL_TOKEN_STRING_TAIL(field_and_value)                                \
+#define NSTL_INSTRUCTION_setf(s, self, field_properties_value)                 \
+    NSTL_I_INSTRUCTION_setf(s, self,                                           \
+        NSTL_TOKEN_STRING_HEAD(field_properties_value),                        \
+        NSTL_TOKEN_STRING_TAIL(field_properties_value)                         \
     )                                                                          \
 /**/
+
+#define NSTL_I_INSTRUCTION_setf_EXPAND(x) x
+#define NSTL_II_INSTRUCTION_setf_EXPAND(x) x
+
+#define NSTL_I_INSTRUCTION_setf(s, self, field, properties_value)              \
+    NSTL_I_INSTRUCTION_setf_EXPAND(CHAOS_PP_DEFER(NSTL_SETF_S)(s, self, field, \
+        NSTL_II_INSTRUCTION_setf_EXPAND(                                       \
+            NSTL_II_INSTRUCTION_setf_GET_PROPS properties_value                \
+        )                                                                      \
+    ))                                                                         \
+/**/
+
+#define NSTL_II_INSTRUCTION_setf_GET_PROPS(properties) properties,
 
 /******************************************************************************
                                   NSTL_DEFUN
@@ -215,8 +233,7 @@
 /*!
  * Define a function as a field of an object.
  *
- * Functions are special fields that are instantiable using
- * @em NSTL_INSTANTIATE().
+ * Functions are instantiable, inheritable, writable and non anonymous fields.
  *
  * @param name A valid nstl token representing the name of the function.
  * @param definition The definition of the function that should be
@@ -230,7 +247,7 @@
     NSTL_DEFUN_S(CHAOS_PP_STATE(), self, name, definition)
 
 #define NSTL_DEFUN_S(s, self, name, definition) \
-    NSTL_I_SETF(s, self, name, definition, /* is_instantiable= */ 1)
+    NSTL_SETF_S(s, self, name, writable inheritable instantiable, definition)
 
 /*!
  * Instruction counterpart of @em NSTL_DEFUN().
@@ -249,13 +266,7 @@
 /*!
  * Define a structure as a field of an object.
  *
- * Structures are instantiable fields. Furthermore, structures are special in
- * the fact that they are accumulated when set. When a structure is set on an
- * object, any structure already owned by the object will remain and the new
- * structure will be appended to the structures owned by the object.
- *
- * If this behavior is not desirable, the @em struct field should be
- * unset explicitely before using @em defstruct.
+ * Structures are instantiable, inheritable, anonymous and read only fields.
  *
  * @param struct The definition of the structure that should be
  *               instantiated when @em NSTL_INSTANTIATE() is called.
@@ -267,12 +278,8 @@
 #define NSTL_DEFSTRUCT(self, struct) \
     NSTL_DEFSTRUCT_S(CHAOS_PP_STATE(), self, struct)
 
-#define NSTL_DEFSTRUCT_S(s, self, struct)                                      \
-    NSTL_I_SETF(s, self, __nstl_struct_field,                                  \
-        NSTL_GETF_S(s, self, __nstl_struct_field) struct,                      \
-        /* is_instantiable= */ 1                                               \
-    )                                                                          \
-/**/
+#define NSTL_DEFSTRUCT_S(s, self, struct) \
+    NSTL_SETF_S(s, self, ~, anonymous inheritable instantiable, struct)
 
 /*!
  * Instruction counterpart of @em NSTL_DEFSTRUCT().
@@ -296,7 +303,7 @@
 
 #define NSTL_UNSETF_S(s, self, field)                                          \
     JOY_SEQ_REMOVE_IF_S(s,                                                     \
-        NSTL_I_TYPE_COMPARE, self, NSTL_FIELD(field, ~)                        \
+        NSTL_I_TYPE_COMPARE, self, NSTL_FIELD_S(s, field, __nstl_dummy_field, ~) \
     )                                                                          \
 /**/
 
@@ -317,25 +324,44 @@
 #define NSTL_INHERIT(self, super) \
     NSTL_INHERIT_S(CHAOS_PP_STATE(), self, super)
 
-#if NSTL_CONFIG_EMPTY_MACRO_ARGS
-#   define NSTL_INHERIT_S(s, self, super) NSTL_I_INHERIT(s, self, super)
-#else
-#   define NSTL_INHERIT_S(s, self, super)                                      \
-        NSTL_I_INHERIT(s,                                                      \
-            self, NSTL_UNSETF_S(s, super, NSTL_I_C89_COMPAT_0xDUMMY_MEMBER)    \
-        )                                                                      \
-    /**/
-#endif /* NSTL_CONFIG_EMPTY_MACRO_ARGS */
+#define NSTL_INHERIT_S(s, self, super) \
+    NSTL_I_INHERIT(s, self, NSTL_I_INHERIT_FILTER_INHERITABLE(s, super))
 
-#define NSTL_I_INHERIT(s, self, super)                                         \
-    NSTL_DROP_S(s, self,                                                       \
-        CHAOS_PP_EXPR_S(s)(CHAOS_PP_SEQ_FOR_EACH_S(s,                          \
-            NSTL_II_INHERIT_FIELD_NAME, super, ~                               \
-        ))                                                                     \
-    ) super                                                                    \
+/*!
+ * Remove all the fields that are not inheritable in a sequence of fields.
+ */
+#define NSTL_I_INHERIT_FILTER_INHERITABLE(s, fields)                           \
+    CHAOS_PP_EXPR_S(s)(CHAOS_PP_SEQ_FILTER_S(s,                                \
+        NSTL_II_INHERIT_FILTER_INHERITABLE_PRED, fields, ~                     \
+    ))                                                                         \
 /**/
 
-#define NSTL_II_INHERIT_FIELD_NAME(s, field, useless) NSTL_FIELD_NAME(field)
+#define NSTL_II_INHERIT_FILTER_INHERITABLE_PRED(s, field, useless) \
+    NSTL_FIELD_IS_INHERITABLE(field)
+
+/*!
+ * Remove all the fields of @p super that were overwritten in @p self and
+ * extend these fields with @p self.
+ */
+#define NSTL_I_INHERIT(s, self, super)                                         \
+    NSTL_II_INHERIT(s, self, super,                                            \
+        CHAOS_PP_EXPR_S(s)(CHAOS_PP_SEQ_FOR_EACH_S(s,                          \
+            NSTL_II_INHERIT_GET_FIELD_NAME, self, ~                            \
+        ))                                                                     \
+    )                                                                          \
+/**/
+#define NSTL_II_INHERIT(s, self, super, names_to_drop)                         \
+    CHAOS_PP_IF(CHAOS_PP_IS_EMPTY(names_to_drop))(                             \
+        super,                                                                 \
+        NSTL_DROP_S(s, super, names_to_drop)                                   \
+    ) self                                                                     \
+/**/
+
+#define NSTL_II_INHERIT_GET_FIELD_NAME(s, field, useless)                      \
+    CHAOS_PP_UNLESS(NSTL_FIELD_IS_ANONYMOUS(field))(                           \
+        NSTL_FIELD_NAME(field)                                                 \
+    )                                                                          \
+/**/
 
 /*!
  * Instruction counterpart of @em NSTL_INHERIT().
@@ -364,8 +390,13 @@
     )                                                                          \
 /**/
 
-#define NSTL_I_DROP_PRED(s, field, to_unset) \
-    JOY_SEQ_CONTAINS_S(s, NSTL_II_DROP_PRED, to_unset, NSTL_FIELD_NAME(field))
+#define NSTL_I_DROP_PRED(s, field, to_unset)                                   \
+    CHAOS_PP_UNLESS(NSTL_FIELD_IS_ANONYMOUS(field))(                           \
+        JOY_SEQ_CONTAINS_S(s,                                                  \
+            NSTL_II_DROP_PRED, to_unset, NSTL_FIELD_NAME(field)                \
+        )                                                                      \
+    )                                                                          \
+/**/
 
 #define NSTL_II_DROP_PRED(s, x, y) \
     JOY_STRING_EQ_S(s, NSTL_TOKEN_TO_STRING(x), NSTL_TOKEN_TO_STRING(y))
@@ -389,7 +420,7 @@
 
 #define NSTL_ISSET_S(s, self, field)                                           \
     JOY_SEQ_CONTAINS_S(s,                                                      \
-        NSTL_I_TYPE_COMPARE, self, NSTL_FIELD(field, ~)                        \
+        NSTL_I_TYPE_COMPARE, self, NSTL_FIELD_S(s, field, __nstl_dummy_field, ~) \
     )                                                                          \
 /**/
 
@@ -429,7 +460,6 @@ cog.outl(nstl.generate(
     'defstruct',
     'setf',
     'getf',
-    '__nstl_struct_field',
 
     token=True,
 ))
@@ -443,7 +473,6 @@ cog.outl(nstl.generate(
 #define NSTL_TOKEN_defstruct (d e f s t r u c t)
 #define NSTL_TOKEN_setf (s e t f)
 #define NSTL_TOKEN_getf (g e t f)
-#define NSTL_TOKEN___nstl_struct_field (_ _ n s t l _ s t r u c t _ f i e l d)
 /* [[[end]]] */
 
 #endif /* !NSTL_TYPE_H */
