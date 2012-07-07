@@ -55,43 +55,34 @@ static void func(int elem)
 
 static void should_return_function(void)
 {
-    int container[10];
-    size_t i;
+    int array[10] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
     callback_type f;
-    for(i = 0; i < 10; ++i)
-        container[i] = i;
 
-    f = for_each(container, container + 10, func);
+    f = for_each(array, array + 10, func);
     assert_true(f == func);
 }
 
 static void should_process_all_elements(void)
 {
-    int container[10];
-    size_t i;
-    for(i = 0; i < 10; ++i)
-        container[i] = i;
+    int array[10] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
 
-    for_each(container, container + 10, func);
+    for_each(array, array + 10, func);
     assert_int_equal(test_info.elements_processed, 10);
 }
 
 static void should_not_be_called_when_range_is_empty(void)
 {
-    int container[10];
+    int array[10] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
 
-    for_each(container, container, func);
+    for_each(array, array, func);
     assert_false(test_info.was_called);
 }
 
 static void should_process_elements_in_right_order(void)
 {
-    int container[10];
-    size_t i;
-    for(i = 0; i < 10; ++i)
-        container[i] = i;
+    int array[10] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
 
-    for_each(container, container + 10, func);
+    for_each(array, array + 10, func);
     assert_int_equal(test_info.first_elem, 0);
     assert_int_equal(test_info.last_elem, 9);
 }

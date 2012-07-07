@@ -16,9 +16,6 @@ cog.outl(nstl.generate(
     'fill_ctor(T)',
     'range_ctor(T, InputIter)',
 
-    # Concrete C type representation
-    'struct',
-
     # Iterators
     'begin(T)',
     'end(T)',
@@ -53,8 +50,6 @@ cog.outl(nstl.generate(
 #define nstl_fill_ctor(T) JOY_CAT3(nstl_mangled_fill_ctor, _, T)
 #define NSTL_TOKEN_range_ctor (r a n g e _ c t o r)
 #define nstl_range_ctor(T,  InputIter) JOY_CAT5(nstl_mangled_range_ctor, _, T, _,  InputIter)
-#define NSTL_TOKEN_struct (s t r u c t)
-#define nstl_struct nstl_mangled_struct
 #define NSTL_TOKEN_begin (b e g i n)
 #define nstl_begin(T) JOY_CAT3(nstl_mangled_begin, _, T)
 #define NSTL_TOKEN_end (e n d)

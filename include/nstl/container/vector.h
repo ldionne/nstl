@@ -129,9 +129,9 @@ static NSTL_INLINE size_t nstl_capacity(vector)(vector *self)                  \
 static NSTL_INLINE void nstl_reserve(vector)(vector *self, size_t n)           \
 {                                                                              \
     if (nstl_capacity(vector)(self) < n) {                                     \
+        size_t const old_size = nstl_size(vector)(self);                       \
         assert(nstl_max_size(vector)(self) > n);                               \
                                                                                \
-        size_t const old_size = nstl_size(vector)(self);                       \
         self->start = reallocf(self->start, n * sizeof(T));                    \
         assert(self->start != NULL && "not enough memory.");                   \
         self->end_of_storage = self->start + n;                                \

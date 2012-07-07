@@ -19,12 +19,8 @@ NSTL_INSTANTIATE(NSTL_FIND(intp, int))
 
 static void test_should_return_last_when_not_found(void)
 {
-    int array[10];
-    size_t i;
+    int array[10] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
     intp first = array, last = array + 10, iter;
-
-    for (i = 0; i < 10; ++i)
-        array[i] = i;
 
     iter = nstl_find(intp, int)(first, last, -1);
     assert_true(iter == last);
@@ -32,12 +28,9 @@ static void test_should_return_last_when_not_found(void)
 
 static void test_should_return_iterator_to_found_element_when_found(void)
 {
-    int array[10];
+    int array[10] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
     size_t i;
     intp first = array, last = array + 10, iter;
-
-    for (i = 0; i < 10; ++i)
-        array[i] = i;
 
     for (i = 0; i < 10; ++i) {
         iter = nstl_find(intp, int)(first, last, i);

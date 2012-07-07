@@ -24,9 +24,9 @@ NSTL_TYPE(                                                                     \
 static NSTL_INLINE ForwardIter nstl_adjacent_find(ForwardIter, T)              \
                                         (ForwardIter first, ForwardIter last)  \
 {                                                                              \
+    ForwardIter next;                                                          \
     if (nstl_eq(ForwardIter, ForwardIter)(first, last))                        \
         return last;                                                           \
-    ForwardIter next;                                                          \
     nstl_copy_ctor(ForwardIter)(&next, first);                                 \
     while (nstl_ne(ForwardIter, ForwardIter)(nstl_inc(ForwardIter)(&next),     \
                                              last)) {                          \

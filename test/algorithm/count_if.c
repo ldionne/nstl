@@ -44,12 +44,10 @@ static void test_should_count_all_if_predicate_always_true(void)
 
 static void test_should_count_only_those_for_which_pred_is_true(void)
 {
-    int array[10];
-    size_t i;
-    for (i = 0; i < 10; ++i)
-        array[i] = i;
+    int array[10] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+    ptrdiff_t n;
 
-    ptrdiff_t n = count_if(array, array + 10, is_even);
+    n = count_if(array, array + 10, is_even);
     assert_true(n == 5);
 }
 
