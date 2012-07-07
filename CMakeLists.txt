@@ -11,7 +11,7 @@ set(cog "tools/cog/scripts/cog.py")
 set(macroize "tools/macroize/macroize.py")
 set(cog_fix_pypath export "PYTHONPATH=${PYTHONPATH}:tools/cog")
 set(cog_flags "-Itools/")
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Wextra -Wno-unused-function -Wno-unused-parameter -std=c89 -pedantic")
 
 
 add_custom_target(
