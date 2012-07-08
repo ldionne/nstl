@@ -383,7 +383,7 @@
 /**/
 
 #define NSTL_I_DROP_PRED(s, field, to_unset)                                   \
-    CHAOS_PP_UNLESS(NSTL_FIELD_IS_ANONYMOUS(field))(                           \
+    CHAOS_PP_IF(NSTL_FIELD_IS_ANONYMOUS(field))(1,                             \
         JOY_SEQ_CONTAINS_S(s,                                                  \
             NSTL_II_DROP_PRED, to_unset, NSTL_FIELD_NAME(field)                \
         )                                                                      \
