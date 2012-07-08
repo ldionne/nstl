@@ -30,6 +30,7 @@
 #include <chaos/preprocessor/logical/and.h>
 #include <chaos/preprocessor/control/if.h>
 #include <chaos/preprocessor/control/when.h>
+#include <chaos/preprocessor/control/unless.h>
 #include <chaos/preprocessor/cat.h>
 
 
@@ -70,8 +71,13 @@
  * Execute a statement of the form ``instruction args...''.
  */
 #define NSTL_I_EXECUTE_STATEMENT(s, stmnt, self)                               \
-    NSTL_II_EXECUTE_STATEMENT(s,                                               \
-        self, NSTL_TOKEN_STRING_HEAD(stmnt), NSTL_TOKEN_STRING_TAIL(stmnt)     \
+    NSTL_II_EXECUTE_STATEMENT(s, self,                                         \
+        NSTL_TOKEN_STRING_HEAD(stmnt),                                         \
+        /* we use the UNSAFE version here because we have no clue what can the \
+         * arguments be, so we can't make assumptions about them being a valid \
+         * token string.                                                       \
+         */                                                                    \
+        NSTL_TOKEN_STRING_TAIL_UNSAFE(stmnt)                                   \
     )                                                                          \
 /**/
 
@@ -166,15 +172,19 @@
 /*!
  * Instruction counterpart of @em NSTL_SETF().
  *
- * Usage: @code (setf field_name field_value) @endcode
+ * Usage: @code (setf field_name (field_properties...) field_value) @endcode
  *
- * Where @em field_name is any valid nstl token and @em field_value is
- * anything (without commas if < C99).
+ * Where @em field_name is any valid nstl token, @em field_properties is a
+ * token string of properties, and @em field_value is anything
+ * (without commas if < C99).
  */
 #define NSTL_INSTRUCTION_setf(s, self, field_properties_value)                 \
     NSTL_I_INSTRUCTION_setf(s, self,                                           \
         NSTL_TOKEN_STRING_HEAD(field_properties_value),                        \
-        NSTL_TOKEN_STRING_TAIL(field_properties_value)                         \
+        /* We use the UNSAFE version here because the properties are inside    \
+         * parenthesis and it is not a valid token string.                     \
+         */                                                                    \
+        NSTL_TOKEN_STRING_TAIL_UNSAFE(field_properties_value)                  \
     )                                                                          \
 /**/
 
@@ -220,7 +230,10 @@
 #define NSTL_INSTRUCTION_defun(s, self, name_def)                              \
     NSTL_DEFUN_S(s, self,                                                      \
         NSTL_TOKEN_STRING_HEAD(name_def),                                      \
-        NSTL_TOKEN_STRING_TAIL(name_def)                                       \
+        /* We use the UNSAFE version here because we can't make assumptions    \
+         * the definition of the function being a valid token string.          \
+         */                                                                    \
+        NSTL_TOKEN_STRING_TAIL_UNSAFE(name_def)                                \
     )                                                                          \
 /**/
 
