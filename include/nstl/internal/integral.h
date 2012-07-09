@@ -7,7 +7,8 @@
 #ifndef NSTL_INTERNAL_INTEGRAL_H
 #define NSTL_INTERNAL_INTEGRAL_H
 
-#include <nstl/type.h>
+#include <nstl/internal/operator.h>
+#include <nstl/internal/type.h>
 
 
 #define NSTL_INTEGRAL(T)                                                       \

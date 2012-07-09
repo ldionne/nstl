@@ -7,7 +7,7 @@
 #ifndef NSTL_INTERNAL_OPERATOR_H
 #define NSTL_INTERNAL_OPERATOR_H
 
-#include <nstl/type.h>
+#include <nstl/internal/type.h>
 
 #include <stdbool.h>
 #include <stddef.h>

@@ -7,7 +7,8 @@
 #ifndef NSTL_INTERNAL_POINTER_H
 #define NSTL_INTERNAL_POINTER_H
 
-#include <nstl/type.h>
+#include <nstl/internal/operator.h>
+#include <nstl/internal/type.h>
 
 #include <stddef.h>
 
