@@ -6,8 +6,7 @@ file(
 )
 
 
-include_directories("${nstl_SOURCE_DIR}/include")
-include_directories("${nstl_SOURCE_DIR}/ext/seatest/src")
+include_directories("${nstl_SOURCE_DIR}/include" "${nstl_SOURCE_DIR}/ext/seatest/src")
 add_executable(
     unit-tests
     ${unit_test_files}
