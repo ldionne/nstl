@@ -17,6 +17,7 @@
 #   define NSTL_I_INSTANTIATE_PRIMITIVE(type)
 #endif
 
+#include <nstl/internal/boolean.h>
 #include <nstl/internal/floating_point.h>
 #include <nstl/internal/integral.h>
 

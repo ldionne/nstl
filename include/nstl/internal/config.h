@@ -30,4 +30,10 @@
  */
 #define NSTL_CONFIG_LONG_LONG_AVAILABLE 0
 
+/*!
+ * This flag is enabled when the @em stdbool.h header is available, i.e.
+ * when @em bool, @em true, and @em false can be used.
+ */
+#define NSTL_CONFIG_BOOL_IS_AVAILABLE 0
+
 #endif /* !NSTL_INTERNAL_CONFIG_H */
