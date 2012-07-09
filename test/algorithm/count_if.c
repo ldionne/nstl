@@ -6,7 +6,7 @@
 
 #include <nstl/algorithm/count_if.h>
 #include <nstl/internal/pointer.h>
-#include <nstl/primitive.h>
+#include <nstl/internal/primitive.h>
 #include <seatest.h>
 #include <stdbool.h>
 #include <stddef.h>

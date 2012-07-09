@@ -4,7 +4,7 @@
  * @author Louis Dionne
  */
 
-#include <nstl/primitive.h>
+#include <nstl/internal/primitive.h>
 #include <seatest.h>
 
 

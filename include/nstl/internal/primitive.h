@@ -4,8 +4,8 @@
  * @author Louis Dionne
  */
 
-#ifndef NSTL_PRIMITIVE_H
-#define NSTL_PRIMITIVE_H
+#ifndef NSTL_INTERNAL_PRIMITIVE_H
+#define NSTL_INTERNAL_PRIMITIVE_H
 
 #include <nstl/internal/floating_point.h>
 #include <nstl/internal/integral.h>
@@ -19,4 +19,4 @@
 #define NSTL_DOUBLE NSTL_FLOATING_POINT(double)
 #define NSTL_FLOAT NSTL_FLOATING_POINT(float)
 
-#endif /* !NSTL_PRIMITIVE_H */
+#endif /* !NSTL_INTERNAL_PRIMITIVE_H */
