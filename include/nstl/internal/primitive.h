@@ -1,5 +1,5 @@
 /*!
- * Implementation of C primitive types.
+ * Master header including the definition of all C primitive data types.
  *
  * @author Louis Dionne
  */
@@ -7,16 +7,22 @@
 #ifndef NSTL_INTERNAL_PRIMITIVE_H
 #define NSTL_INTERNAL_PRIMITIVE_H
 
+/* The @em NSTL_I_INSTANTIATE_PRIMITIVE() macro is used because it could be
+ * useful to use pre-preprocessed headers in the future. If that happens,
+ * controling the instantiation of primitive data types with a single macro
+ * will be easier than changing the macros for all primitive data types.
+ */
+#ifndef NSTL_I_INSTANTIATE_PRIMITIVE
+#   define NSTL_I_UNDEF_INSTANTIATE_PRIMITIVE
+#   define NSTL_I_INSTANTIATE_PRIMITIVE(type)
+#endif
+
 #include <nstl/internal/floating_point.h>
 #include <nstl/internal/integral.h>
 
-
-#define NSTL_CHAR NSTL_INTEGRAL(char)
-#define NSTL_SHORT NSTL_INTEGRAL(short)
-#define NSTL_INT NSTL_INTEGRAL(int)
-#define NSTL_LONG NSTL_INTEGRAL(long)
-
-#define NSTL_DOUBLE NSTL_FLOATING_POINT(double)
-#define NSTL_FLOAT NSTL_FLOATING_POINT(float)
+#ifdef NSTL_I_UNDEF_INSTANTIATE_PRIMITIVE
+#   undef NSTL_I_INSTANTIATE_PRIMITIVE
+#   undef NSTL_I_UNDEF_INSTANTIATE_PRIMITIVE
+#endif
 
 #endif /* !NSTL_INTERNAL_PRIMITIVE_H */
