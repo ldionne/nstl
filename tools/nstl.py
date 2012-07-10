@@ -40,7 +40,7 @@ def define_mangled_name(name, *params):
     return "#define nstl_{}{} {}".format(name, params, body)
 
 
-def generate(*macros, **options):
+def generate(cog, *macros, **options):
     """Generate macro definitions for several :macros:.
 
        A macro must contain the following:
@@ -74,10 +74,12 @@ def generate(*macros, **options):
             to_gen.append(define_mangled_name(name, *params))
         return "\n".join(to_gen)
 
-    includes = ["#include <joy/cat.h>"]
+    includes = ["#include <joy/cat.h>",]
     to_gen = list(filter(None, (_generate_macro(*_parsed(macro))
                                                         for macro in macros)))
-    return "\n".join(includes + to_gen) if to_gen else ""
+    if to_gen:
+        for line in includes + to_gen:
+            cog.outl(line)
 
 
 if __name__ == "__main__":

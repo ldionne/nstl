@@ -42,11 +42,11 @@ static NSTL_INLINE ptrdiff_t nstl_count_if(InputIter, Predicate)               \
 /* [[[cog
 
 import nstl
-cog.outl(nstl.generate(
+nstl.generate(cog,
     'count_if(InputIter, Predicate)',
 
     token=True, mangle=True,
-))
+)
 
 ]]] */
 #include <joy/cat.h>

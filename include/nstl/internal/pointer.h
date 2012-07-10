@@ -70,11 +70,11 @@ static NSTL_INLINE ValueType nstl_deref(Pointer)(Pointer self)                 \
 /* [[[cog
 
 import nstl
-cog.outl(nstl.generate(
+nstl.generate(cog,
     'deref(Pointer)',
 
     token=True, mangle=True,
-))
+)
 
 ]]] */
 #include <joy/cat.h>

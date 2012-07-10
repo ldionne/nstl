@@ -175,11 +175,11 @@ static NSTL_INLINE void nstl_clear(vector)(vector *self)                       \
 /* [[[cog
 
 import nstl
-cog.outl(nstl.generate(
+nstl.generate(cog,
     'vector(T)',
 
     mangle=True,
-))
+)
 
 ]]] */
 #include <joy/cat.h>

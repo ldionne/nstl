@@ -34,11 +34,11 @@ static NSTL_INLINE InputIter nstl_find(InputIter, T)                           \
 /* [[[cog
 
 import nstl
-cog.outl(nstl.generate(
+nstl.generate(cog,
     'find(InputIter, T)',
 
     token=True, mangle=True,
-))
+)
 
 ]]] */
 #include <joy/cat.h>

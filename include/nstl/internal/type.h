@@ -442,7 +442,7 @@
 /* [[[cog
 
 import nstl
-cog.outl(nstl.generate(
+nstl.generate(cog,
     'drop',
     'inherit',
     'unsetf',
@@ -451,7 +451,7 @@ cog.outl(nstl.generate(
     'setf',
 
     token=True,
-))
+)
 
 ]]] */
 #include <joy/cat.h>

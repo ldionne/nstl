@@ -123,7 +123,7 @@ for prop, value in PROPERTIES_VALUES:
     for n in sorted(all_possible_sums):
         cog.outl(template.format(prop, n, int(bool(value & n))))
 
-cog.outl(nstl.generate(*properties, token=True))
+nstl.generate(cog, *properties, token=True)
 
 ]]] */
 #define NSTL_I_FIELD_PROP_inheritable 1

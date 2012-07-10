@@ -45,11 +45,11 @@ static NSTL_INLINE ForwardIter nstl_adjacent_find(ForwardIter, T)              \
 /* [[[cog
 
 import nstl
-cog.outl(nstl.generate(
+nstl.generate(cog,
     'adjacent_find(ForwardIter, T)',
 
     token=True, mangle=True,
-))
+)
 
 ]]] */
 #include <joy/cat.h>

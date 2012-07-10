@@ -458,13 +458,12 @@ C_CPP_KEYWORDS = [
     'xor', 'xor_eq',
 ]
 
-cog.outl(nstl.generate(
+nstl.generate(cog,
     *set(NSTL_OPERATORS + NSTL_COMMON_FIELDS + ALPHANUM + C_CPP_KEYWORDS),
-    token=True))
+                                                                    token=True)
 
-cog.outl(nstl.generate(
-    *set(NSTL_OPERATORS + NSTL_COMMON_FIELDS),
-    mangle=True))
+nstl.generate(cog,
+    *set(NSTL_OPERATORS + NSTL_COMMON_FIELDS), mangle=True)
 
 ]]] */
 #include <joy/cat.h>

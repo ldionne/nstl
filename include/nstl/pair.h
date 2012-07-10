@@ -144,17 +144,17 @@ static NSTL_INLINE pair nstl_make_pair(T1, T2)(T1 first, T2 second)            \
 /* [[[cog
 
 import nstl
-cog.outl(nstl.generate(
+nstl.generate(cog,
     'make_pair(T1, T2)',
 
     token=True, mangle=True,
-))
+)
 
-cog.outl(nstl.generate(
+nstl.generate(cog,
     'pair(T1, T2)',
 
     mangle=True,
-))
+)
 
 ]]] */
 #include <joy/cat.h>

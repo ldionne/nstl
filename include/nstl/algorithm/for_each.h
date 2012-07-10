@@ -39,11 +39,11 @@ static NSTL_INLINE Function nstl_for_each(InputIter, Function)                 \
 /* [[[cog
 
 import nstl
-cog.outl(nstl.generate(
+nstl.generate(cog,
     'for_each(InputIter, Function)',
 
     token=True, mangle=True,
-))
+)
 
 ]]] */
 #include <joy/cat.h>
