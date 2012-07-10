@@ -7,7 +7,6 @@
 #ifndef NSTL_TYPE_H
 #define NSTL_TYPE_H
 
-#include <nstl/internal/common_fields.h>
 #include <nstl/internal/config.h>
 #include <nstl/internal/field.h>
 #include <nstl/internal/operator.h>
