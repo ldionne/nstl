@@ -34,15 +34,14 @@ typedef struct pair pair;                                                      \
  * Initialize a pair.                                                          \
  */                                                                            \
 static NSTL_INLINE void nstl_ctor(pair)(pair *self, T1 first, T2 second) {     \
-    self->first = first;                                                       \
-    self->second = second;                                                     \
+    nstl_copy_ctor(T1)(&self->first, first);                                   \
+    nstl_copy_ctor(T2)(&self->second, second);                                 \
 }                                                                              \
 )                                                                              \
                                                                                \
 (defun copy_ctor                                                               \
 static NSTL_INLINE void nstl_copy_ctor(pair)(pair *self, pair other) {         \
-    self->first = other.first;                                                 \
-    self->second = other.second;                                               \
+    nstl_ctor(pair)(self, other.first, other.second);                          \
 }                                                                              \
 )                                                                              \
                                                                                \
@@ -63,7 +62,8 @@ static NSTL_INLINE void nstl_dtor(pair)(pair *self) {                          \
  * to each other and both second elements also compare equal to each other.    \
  */                                                                            \
 static NSTL_INLINE bool nstl_eq(pair, pair)(pair x, pair y) {                  \
-    return x.first == y.first && x.second == y.second;                         \
+    return nstl_eq(T1, T1)(x.first, y.first) &&                                \
+           nstl_eq(T2, T2)(x.second, y.second);                                \
 }                                                                              \
 )                                                                              \
                                                                                \
@@ -75,7 +75,9 @@ static NSTL_INLINE bool nstl_eq(pair, pair)(pair x, pair y) {                  \
  * comparison is not true for them, the second elements are compared.          \
  */                                                                            \
 static NSTL_INLINE bool nstl_lt(pair, pair)(pair x, pair y) {                  \
-    return x.first < y.first || (!(y.first < x.first) && x.second < y.second); \
+    return nstl_lt(T1, T1)(x.first, y.first) ||                                \
+                (!(nstl_lt(T1, T1)(y.first, x.first)) &&                       \
+                nstl_lt(T2, T2)(x.second, y.second));                          \
 }                                                                              \
 )                                                                              \
                                                                                \
