@@ -32,9 +32,9 @@
 #include <chaos/preprocessor/cat.h>
 
 
-/******************************************************************************
+/****************************************************************************
                                  NSTL_TYPE
- ******************************************************************************/
+ ****************************************************************************/
 
 /**
  * Create a new nstl type.
@@ -103,9 +103,9 @@
  */
 #define NSTL_INSTRUCTION(instr) CHAOS_PP_CAT(NSTL_INSTRUCTION_, instr)
 
-/******************************************************************************
+/****************************************************************************
                                   NSTL_GETF
- ******************************************************************************/
+ ****************************************************************************/
 
 /**
  * Return the value of a field of an object.
@@ -130,13 +130,14 @@
  */
 #define NSTL_I_GETF(s, self, field)                                            \
     JOY_SEQ_FIND_FIRST_S(s,                                                    \
-        NSTL_I_TYPE_COMPARE, self, NSTL_FIELD_S(s, field, __nstl_dummy_field, ~) \
+        NSTL_I_TYPE_COMPARE, self,                                             \
+                                NSTL_FIELD_S(s, field, __nstl_dummy_field, ~)  \
     )                                                                          \
 /**/
 
-/******************************************************************************
+/****************************************************************************
                                   NSTL_SETF
- ******************************************************************************/
+ ****************************************************************************/
 
 /**
  * Set or override a field of an object.
@@ -199,9 +200,9 @@
 
 #define NSTL_II_INSTRUCTION_setf_GET_PROPS(properties) properties,
 
-/******************************************************************************
+/****************************************************************************
                                   NSTL_DEFUN
- ******************************************************************************/
+ ****************************************************************************/
 
 /**
  * Define a function as a field of an object.
@@ -235,9 +236,9 @@
     )                                                                          \
 /**/
 
-/******************************************************************************
+/****************************************************************************
                                 NSTL_DEFSTRUCT
- ******************************************************************************/
+ ****************************************************************************/
 
 /**
  * Define a structure as a field of an object.
@@ -263,9 +264,9 @@
 #define NSTL_INSTRUCTION_defstruct(s, self, struct) \
     NSTL_DEFSTRUCT_S(s, self, struct)
 
-/******************************************************************************
+/****************************************************************************
                                  NSTL_UNSETF
- ******************************************************************************/
+ ****************************************************************************/
 
 /**
  * Unset a field of an object.
@@ -279,7 +280,8 @@
 
 #define NSTL_UNSETF_S(s, self, field)                                          \
     JOY_SEQ_REMOVE_IF_S(s,                                                     \
-        NSTL_I_TYPE_COMPARE, self, NSTL_FIELD_S(s, field, __nstl_dummy_field, ~) \
+        NSTL_I_TYPE_COMPARE, self,                                             \
+                                NSTL_FIELD_S(s, field, __nstl_dummy_field, ~)  \
     )                                                                          \
 /**/
 
@@ -288,9 +290,9 @@
  */
 #define NSTL_INSTRUCTION_unsetf(s, self, field) NSTL_UNSETF_S(s, self, field)
 
-/******************************************************************************
+/****************************************************************************
                                  NSTL_INHERIT
- ******************************************************************************/
+ ****************************************************************************/
 
 /**
  * Inherit all the inheritable fields of another type.
@@ -358,11 +360,12 @@
  *
  * @param super A nstl type to inherit fields from.
  */
-#define NSTL_INSTRUCTION_inherit(s, self, super) NSTL_INHERIT_S(s, self, super)
+#define NSTL_INSTRUCTION_inherit(s, self, super) \
+    NSTL_INHERIT_S(s, self, super)
 
-/******************************************************************************
+/****************************************************************************
                                  NSTL_DROP
- ******************************************************************************/
+ ****************************************************************************/
 
 /**
  * Unset many fields at once.
@@ -396,9 +399,9 @@
  */
 #define NSTL_INSTRUCTION_drop(s, self, fields) NSTL_DROP_S(s, self, fields)
 
-/******************************************************************************
+/****************************************************************************
                                   NSTL_ISSET
- ******************************************************************************/
+ ****************************************************************************/
 
 /**
  * Return whether a given field is set on an object.
@@ -410,20 +413,21 @@
 
 #define NSTL_ISSET_S(s, self, field)                                           \
     JOY_SEQ_CONTAINS_S(s,                                                      \
-        NSTL_I_TYPE_COMPARE, self, NSTL_FIELD_S(s, field, __nstl_dummy_field, ~) \
+        NSTL_I_TYPE_COMPARE, self,                                             \
+                                NSTL_FIELD_S(s, field, __nstl_dummy_field, ~)  \
     )                                                                          \
 /**/
 
-/******************************************************************************
+/****************************************************************************
                                 NSTL_INSTANTIATE
- ******************************************************************************/
+ ****************************************************************************/
 
 /**
  * Instantiate all the instantiable fields of an object.
  *
  * @note Since the NSTL_I_C89_COMPAT_0xDUMMY_MEMBER field is not instantiable,
- *       we do not need to filter it out specially before instantiating because
- *       it will be filtered out like any other uninstantiable field.
+ *       we do not need to filter it out specially before instantiating
+ *       because it will be filtered out like any other uninstantiable field.
  */
 #define NSTL_INSTANTIATE(self) NSTL_INSTANTIATE_S(CHAOS_PP_STATE(), self)
 

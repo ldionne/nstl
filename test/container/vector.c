@@ -11,8 +11,7 @@
 #define test_vector nstl_vector(int)
 NSTL_INSTANTIATE(NSTL_VECTOR(int))
 
-static void test_initital_state(void)
-{
+static void test_initital_state(void) {
     test_vector vector;
     nstl_ctor(test_vector)(&vector);
 
@@ -21,8 +20,7 @@ static void test_initital_state(void)
     assert_true(nstl_capacity(test_vector)(&vector) == 0);
 }
 
-static void test_state_after_reserve(void)
-{
+static void test_state_after_reserve(void) {
     test_vector vector;
     nstl_ctor(test_vector)(&vector);
     nstl_reserve(test_vector)(&vector, 10);
@@ -34,8 +32,7 @@ static void test_state_after_reserve(void)
 
 #undef test_vector
 
-extern void test_fixture_vector(void)
-{
+extern void test_fixture_vector(void) {
     test_fixture_start();
 
     run_test(test_initital_state);

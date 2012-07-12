@@ -76,8 +76,11 @@
 /**
  * Return whether a field can be instantiated.
  */
-#define NSTL_FIELD_IS_INSTANTIABLE(field) \
-    CHAOS_PP_CAT(NSTL_I_FIELD_PROP_instantiable_, NSTL_FIELD_PROPERTIES(field))
+#define NSTL_FIELD_IS_INSTANTIABLE(field)                                      \
+    CHAOS_PP_CAT(                                                              \
+        NSTL_I_FIELD_PROP_instantiable_, NSTL_FIELD_PROPERTIES(field)          \
+    )                                                                          \
+/**/
 
 /**
  * Return whether a field can be inherited.

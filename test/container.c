@@ -10,7 +10,6 @@
 extern void test_fixture_vector(void);
 
 
-extern void test_suite_container(void)
-{
+extern void test_suite_container(void) {
     test_fixture_vector();
 }

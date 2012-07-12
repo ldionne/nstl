@@ -24,11 +24,10 @@ NSTL_TYPE(                                                                     \
  *             and returning whether to cound the element.                     \
  */                                                                            \
 static NSTL_INLINE ptrdiff_t nstl_count_if(InputIter, Predicate)               \
-                            (InputIter first, InputIter last, Predicate pred)  \
-{                                                                              \
+                        (InputIter first, InputIter last, Predicate pred) {    \
     ptrdiff_t n = 0;                                                           \
     for ( ; nstl_ne(InputIter, InputIter)(first, last);                        \
-            nstl_inc(InputIter)(&first)) {                                     \
+                                                nstl_inc(InputIter)(&first)) { \
         if (pred(nstl_deref(InputIter)(first)))                                \
             ++n;                                                               \
     }                                                                          \

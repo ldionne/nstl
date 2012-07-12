@@ -17,8 +17,7 @@ NSTL_INSTANTIATE(NSTL_POINTER(int, intp))
 NSTL_INSTANTIATE(NSTL_INT)
 NSTL_INSTANTIATE(NSTL_FIND(intp, int))
 
-static void test_should_return_last_when_not_found(void)
-{
+static void test_should_return_last_when_not_found(void) {
     int array[10] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
     intp first = array, last = array + 10, iter;
 
@@ -26,8 +25,7 @@ static void test_should_return_last_when_not_found(void)
     assert_true(iter == last);
 }
 
-static void test_should_return_iterator_to_found_element_when_found(void)
-{
+static void test_should_return_iterator_to_found_element_when_found(void) {
     int array[10] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
     size_t i;
     intp first = array, last = array + 10, iter;
@@ -39,8 +37,7 @@ static void test_should_return_iterator_to_found_element_when_found(void)
     }
 }
 
-extern void test_fixture_find(void)
-{
+extern void test_fixture_find(void) {
     test_fixture_start();
 
     run_test(test_should_return_last_when_not_found);

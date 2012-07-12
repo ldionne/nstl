@@ -24,99 +24,89 @@ NSTL_TYPE(                                                                     \
 /**                                                                            \
  * Type of a vector container.                                                 \
  */                                                                            \
-typedef struct {                                                               \
+struct vector {                                                                \
     T *start;                                                                  \
     T *finish;                                                                 \
     T *end_of_storage;                                                         \
-} vector;                                                                      \
+};                                                                             \
+typedef struct vector vector;                                                  \
 )                                                                              \
                                                                                \
-/****************************************************************************** \
+/****************************************************************************  \
                         Initialization / deinitialization                      \
- ******************************************************************************/ \
+ ****************************************************************************/ \
 (defun ctor                                                                    \
-static NSTL_INLINE void nstl_ctor(vector)(vector *self)                        \
-{                                                                              \
+static NSTL_INLINE void nstl_ctor(vector)(vector *self) {                      \
     self->start = self->finish = self->end_of_storage = NULL;                  \
 }                                                                              \
 )                                                                              \
                                                                                \
 (defun dtor                                                                    \
-static NSTL_INLINE void nstl_dtor(vector)(vector *self)                        \
-{                                                                              \
+static NSTL_INLINE void nstl_dtor(vector)(vector *self) {                      \
     free(self->start);                                                         \
 }                                                                              \
 )                                                                              \
                                                                                \
-/****************************************************************************** \
+/****************************************************************************  \
                                     Iterators                                  \
- ******************************************************************************/ \
+ ****************************************************************************/ \
 (defun begin                                                                   \
-static NSTL_INLINE T *nstl_begin(vector)(vector *self)                         \
-{                                                                              \
+static NSTL_INLINE T *nstl_begin(vector)(vector *self) {                       \
     return self->start;                                                        \
 }                                                                              \
 )                                                                              \
                                                                                \
 (defun end                                                                     \
-static NSTL_INLINE T *nstl_end(vector)(vector *self)                           \
-{                                                                              \
+static NSTL_INLINE T *nstl_end(vector)(vector *self) {                         \
     return self->finish;                                                       \
 }                                                                              \
 )                                                                              \
                                                                                \
-/****************************************************************************** \
+/****************************************************************************  \
                                 Element access                                 \
- ******************************************************************************/ \
+ ****************************************************************************/ \
 (defun at                                                                      \
-static NSTL_INLINE T nstl_at(vector)(vector *self, size_t n)                   \
-{                                                                              \
+static NSTL_INLINE T nstl_at(vector)(vector *self, size_t n) {                 \
     assert(nstl_begin(vector)(self) + n < nstl_end(vector)(self));             \
     return *(nstl_begin(vector)(self) + n);                                    \
 }                                                                              \
 )                                                                              \
                                                                                \
 (defun front                                                                   \
-static NSTL_INLINE T nstl_front(vector)(vector *self)                          \
-{                                                                              \
+static NSTL_INLINE T nstl_front(vector)(vector *self) {                        \
     return *(nstl_begin(vector)(self));                                        \
 }                                                                              \
 )                                                                              \
                                                                                \
 (defun back                                                                    \
-static NSTL_INLINE T nstl_back(vector)(vector *self)                           \
-{                                                                              \
+static NSTL_INLINE T nstl_back(vector)(vector *self) {                         \
     return *(nstl_end(vector)(self) - 1);                                      \
 }                                                                              \
 )                                                                              \
                                                                                \
-/****************************************************************************** \
+/****************************************************************************  \
                                     Capacity                                   \
- ******************************************************************************/ \
+ ****************************************************************************/ \
 (defun empty                                                                   \
-static NSTL_INLINE bool nstl_empty(vector)(vector *self)                       \
-{                                                                              \
+static NSTL_INLINE bool nstl_empty(vector)(vector *self) {                     \
     return self->start == self->finish;                                        \
 }                                                                              \
 )                                                                              \
                                                                                \
 (defun size                                                                    \
-static NSTL_INLINE size_t nstl_size(vector)(vector *self)                      \
-{                                                                              \
+static NSTL_INLINE size_t nstl_size(vector)(vector *self) {                    \
     return self->finish - self->start;                                         \
 }                                                                              \
 )                                                                              \
                                                                                \
 (defun max_size                                                                \
-static NSTL_INLINE size_t nstl_max_size(vector)(vector *self)                  \
-{                                                                              \
+static NSTL_INLINE size_t nstl_max_size(vector)(vector *self) {                \
     return (size_t)-1 / sizeof(T);                                             \
 }                                                                              \
 )                                                                              \
                                                                                \
 (defun capacity                                                                \
-static NSTL_INLINE size_t nstl_capacity(vector)(vector *self)                  \
-{                                                                              \
+static NSTL_INLINE size_t nstl_capacity(vector)(vector *self) {                \
     return self->end_of_storage - self->start;                                 \
 }                                                                              \
 )                                                                              \
@@ -126,8 +116,7 @@ static NSTL_INLINE size_t nstl_capacity(vector)(vector *self)                  \
  * Request that the capacity of a vector be at least enough to hold @p n       \
  * elements.                                                                   \
  */                                                                            \
-static NSTL_INLINE void nstl_reserve(vector)(vector *self, size_t n)           \
-{                                                                              \
+static NSTL_INLINE void nstl_reserve(vector)(vector *self, size_t n) {         \
     if (nstl_capacity(vector)(self) < n) {                                     \
         size_t const old_size = nstl_size(vector)(self);                       \
         assert(nstl_max_size(vector)(self) > n);                               \
@@ -140,12 +129,11 @@ static NSTL_INLINE void nstl_reserve(vector)(vector *self, size_t n)           \
 }                                                                              \
 )                                                                              \
                                                                                \
-/****************************************************************************** \
+/****************************************************************************  \
                                     Modifiers                                  \
- ******************************************************************************/ \
+ ****************************************************************************/ \
 (defun push_back                                                               \
-static NSTL_INLINE void nstl_push_back(vector)(vector *self, T x)              \
-{                                                                              \
+static NSTL_INLINE void nstl_push_back(vector)(vector *self, T x) {            \
     if (self->finish == self->end_of_storage) {                                \
         size_t size = nstl_size(vector)(self);                                 \
         nstl_reserve(vector)(self, size > 0 ? size * 2 : 1);                   \
@@ -156,15 +144,13 @@ static NSTL_INLINE void nstl_push_back(vector)(vector *self, T x)              \
 )                                                                              \
                                                                                \
 (defun pop_back                                                                \
-static NSTL_INLINE void nstl_pop_back(vector)(vector *self)                    \
-{                                                                              \
+static NSTL_INLINE void nstl_pop_back(vector)(vector *self) {                  \
     --self->finish;                                                            \
 }                                                                              \
 )                                                                              \
                                                                                \
 (defun clear                                                                   \
-static NSTL_INLINE void nstl_clear(vector)(vector *self)                       \
-{                                                                              \
+static NSTL_INLINE void nstl_clear(vector)(vector *self) {                     \
     self->finish = self->start;                                                \
 }                                                                              \
 )                                                                              \

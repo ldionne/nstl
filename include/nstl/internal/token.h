@@ -1,8 +1,8 @@
 /**
  * Macros to manipulate tokens and token strings.
  *
- * @note This was taken from the Chaos preprocessor library. All credit goes to
- *       the original authors. The reason I use a copy of their string/core
+ * @note This was taken from the Chaos preprocessor library. All credit goes
+ *       to the original authors. The reason I use a copy of their string/core
  *       operations is that I needed to be able to define tokens using the
  *       NSTL_TOKEN_ construct.
  *

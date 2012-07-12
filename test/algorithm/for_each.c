@@ -33,8 +33,7 @@ struct {
  * Function called at the beginning of each test. It resets the information
  * gathered during the last test so the tests are independent.
  */
-static void set_up(void)
-{
+static void set_up(void) {
     test_info.was_called = false;
     test_info.elements_processed = 0;
     test_info.first_elem = test_info.last_elem = -1;
@@ -44,8 +43,7 @@ static void set_up(void)
  * Function called on each element within a range during the tests. It saves
  * information to the gloval test_info structure.
  */
-static void func(int elem)
-{
+static void func(int elem) {
     if (!test_info.was_called)
         test_info.first_elem = elem;
     test_info.last_elem = elem;
@@ -53,8 +51,7 @@ static void func(int elem)
     test_info.elements_processed++;
 }
 
-static void should_return_function(void)
-{
+static void should_return_function(void) {
     int array[10] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
     callback_type f;
 
@@ -62,24 +59,21 @@ static void should_return_function(void)
     assert_true(f == func);
 }
 
-static void should_process_all_elements(void)
-{
+static void should_process_all_elements(void) {
     int array[10] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
 
     for_each(array, array + 10, func);
     assert_int_equal(test_info.elements_processed, 10);
 }
 
-static void should_not_be_called_when_range_is_empty(void)
-{
+static void should_not_be_called_when_range_is_empty(void) {
     int array[10] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
 
     for_each(array, array, func);
     assert_false(test_info.was_called);
 }
 
-static void should_process_elements_in_right_order(void)
-{
+static void should_process_elements_in_right_order(void) {
     int array[10] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
 
     for_each(array, array + 10, func);
@@ -89,8 +83,7 @@ static void should_process_elements_in_right_order(void)
 
 #undef for_each
 
-extern void test_fixture_for_each(void)
-{
+extern void test_fixture_for_each(void) {
     test_fixture_start();
     fixture_setup(set_up);
 

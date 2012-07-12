@@ -19,8 +19,7 @@ NSTL_TYPE(                                                                     \
  * compares equal to @p value, or @em last if not found.                       \
  */                                                                            \
 static NSTL_INLINE InputIter nstl_find(InputIter, T)                           \
-                            (InputIter first, InputIter last, T const value)   \
-{                                                                              \
+                            (InputIter first, InputIter last, T const value) { \
     while (nstl_ne(InputIter, InputIter)(first, last) &&                       \
            nstl_ne(T, T)(nstl_deref(InputIter)(first), value))                 \
         nstl_inc(InputIter)(&first);                                           \

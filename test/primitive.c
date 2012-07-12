@@ -16,14 +16,12 @@
 
 
 /* Dummy test so the test report shows something. */
-static void test_it_compiled(void)
-{
+static void test_it_compiled(void) {
 
 }
 
 
-extern void test_fixture_primitive(void)
-{
+extern void test_fixture_primitive(void) {
     test_fixture_start();
 
     run_test(test_it_compiled);

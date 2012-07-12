@@ -11,8 +11,7 @@
 #define test_pair nstl_pair(int, int)
 NSTL_INSTANTIATE(NSTL_PAIR(int, int))
 
-static void should_have_first_and_second_as_set(void)
-{
+static void should_have_first_and_second_as_set(void) {
     int first = 88;
     int second = 99;
     test_pair pair;
@@ -21,8 +20,7 @@ static void should_have_first_and_second_as_set(void)
     assert_int_equal(pair.second, second);
 }
 
-static void make_pair_should_be_equivalent_to_init(void)
-{
+static void make_pair_should_be_equivalent_to_init(void) {
     int first = 88;
     int second = 99;
     test_pair x, y;
@@ -31,8 +29,7 @@ static void make_pair_should_be_equivalent_to_init(void)
     assert_true(nstl_eq(test_pair, test_pair)(x, y));
 }
 
-static void should_be_equal_when_first_and_second_are_equal(void)
-{
+static void should_be_equal_when_first_and_second_are_equal(void) {
     test_pair x, y;
     nstl_ctor(test_pair)(&x, 88, 99);
     nstl_copy_ctor(test_pair)(&y, x);
@@ -40,8 +37,7 @@ static void should_be_equal_when_first_and_second_are_equal(void)
     assert_true(nstl_eq(test_pair, test_pair)(y, x));
 }
 
-static void should_not_be_equal_when_any_of_first_and_second_different(void)
-{
+static void should_not_be_equal_when_any_of_first_and_second_differs(void) {
     test_pair x, y;
     nstl_ctor(test_pair)(&x, 1, 1);
     nstl_ctor(test_pair)(&y, 0, 1);
@@ -54,8 +50,7 @@ static void should_not_be_equal_when_any_of_first_and_second_different(void)
     assert_false(nstl_eq(test_pair, test_pair)(y, x));
 }
 
-static void should_not_be_different_when_first_and_second_are_equal(void)
-{
+static void should_not_be_different_when_first_and_second_are_equal(void) {
     test_pair x, y;
     nstl_ctor(test_pair)(&x, 88, 99);
     nstl_ctor(test_pair)(&y, 88, 99);
@@ -63,8 +58,7 @@ static void should_not_be_different_when_first_and_second_are_equal(void)
     assert_false(nstl_ne(test_pair, test_pair)(y, x));
 }
 
-static void should_be_different_when_any_of_first_and_second_are_different(void)
-{
+static void should_be_different_when_any_of_first_and_second_differs(void) {
     test_pair x, y;
     nstl_ctor(test_pair)(&x, 1, 1);
     nstl_ctor(test_pair)(&y, 0, 1);
@@ -77,8 +71,7 @@ static void should_be_different_when_any_of_first_and_second_are_different(void)
     assert_true(nstl_ne(test_pair, test_pair)(y, x));
 }
 
-static void comparison_is_lexicographical(void)
-{
+static void comparison_is_lexicographical(void) {
     test_pair x = nstl_make_pair(int, int)(0, 1);
     test_pair y = nstl_make_pair(int, int)(1, 1);
     assert_true(nstl_lt(test_pair, test_pair)(x, y));
@@ -92,8 +85,7 @@ static void comparison_is_lexicographical(void)
     assert_false(nstl_ge(test_pair, test_pair)(x, y));
 }
 
-static void should_be_le_and_ge_when_equal(void)
-{
+static void should_be_le_and_ge_when_equal(void) {
     test_pair x = nstl_make_pair(int, int)(1, 1);
     test_pair y = x;
     assert_true(nstl_le(test_pair, test_pair)(x, y));
@@ -102,16 +94,15 @@ static void should_be_le_and_ge_when_equal(void)
 
 #undef test_pair
 
-extern void test_fixture_pair(void)
-{
+extern void test_fixture_pair(void) {
     test_fixture_start();
 
     run_test(should_have_first_and_second_as_set);
     run_test(make_pair_should_be_equivalent_to_init);
     run_test(should_be_equal_when_first_and_second_are_equal);
-    run_test(should_not_be_equal_when_any_of_first_and_second_different);
+    run_test(should_not_be_equal_when_any_of_first_and_second_differs);
     run_test(should_not_be_different_when_first_and_second_are_equal);
-    run_test(should_be_different_when_any_of_first_and_second_are_different);
+    run_test(should_be_different_when_any_of_first_and_second_differs);
     run_test(comparison_is_lexicographical);
     run_test(should_be_le_and_ge_when_equal);
 

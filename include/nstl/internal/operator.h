@@ -19,36 +19,31 @@
 NSTL_TYPE(                                                                     \
                                                                                \
 (defun ctor                                                                    \
-static NSTL_INLINE void nstl_ctor(T)(T *self)                                  \
-{                                                                              \
+static NSTL_INLINE void nstl_ctor(T)(T *self) {                                \
                                                                                \
 }                                                                              \
 )                                                                              \
                                                                                \
 (defun copy_ctor                                                               \
-static NSTL_INLINE void nstl_copy_ctor(T)(T *self, T other)                    \
-{                                                                              \
+static NSTL_INLINE void nstl_copy_ctor(T)(T *self, T other) {                  \
     *self = other;                                                             \
 }                                                                              \
 )                                                                              \
                                                                                \
 (defun dtor                                                                    \
-static NSTL_INLINE void nstl_dtor(T)(T *self)                                  \
-{                                                                              \
+static NSTL_INLINE void nstl_dtor(T)(T *self) {                                \
                                                                                \
 }                                                                              \
 )                                                                              \
                                                                                \
 (defun new                                                                     \
-static NSTL_INLINE T *nstl_new(T)(void)                                        \
-{                                                                              \
+static NSTL_INLINE T *nstl_new(T)(void) {                                      \
     return malloc(sizeof(T));                                                  \
 }                                                                              \
 )                                                                              \
                                                                                \
 (defun delete                                                                  \
-static NSTL_INLINE void nstl_delete(T)(T *self)                                \
-{                                                                              \
+static NSTL_INLINE void nstl_delete(T)(T *self) {                              \
     free(self);                                                                \
 }                                                                              \
 )                                                                              \
@@ -60,120 +55,103 @@ static NSTL_INLINE void nstl_delete(T)(T *self)                                \
 NSTL_TYPE(                                                                     \
                                                                                \
 (defun asg                                                                     \
-static NSTL_INLINE T nstl_asg(T, T)(T *self, T other)                          \
-{                                                                              \
+static NSTL_INLINE T nstl_asg(T, T)(T *self, T other) {                        \
     return (*self) = other;                                                    \
 }                                                                              \
 )                                                                              \
                                                                                \
 (defun add                                                                     \
-static NSTL_INLINE T nstl_add(T, T)(T x, T y)                                  \
-{                                                                              \
+static NSTL_INLINE T nstl_add(T, T)(T x, T y) {                                \
     return x + y;                                                              \
 }                                                                              \
 )                                                                              \
                                                                                \
 (defun sub                                                                     \
-static NSTL_INLINE T nstl_sub(T, T)(T x, T y)                                  \
-{                                                                              \
+static NSTL_INLINE T nstl_sub(T, T)(T x, T y) {                                \
     return x - y;                                                              \
 }                                                                              \
 )                                                                              \
                                                                                \
 (defun mul                                                                     \
-static NSTL_INLINE T nstl_mul(T, T)(T x, T y)                                  \
-{                                                                              \
+static NSTL_INLINE T nstl_mul(T, T)(T x, T y) {                                \
     return x * y;                                                              \
 }                                                                              \
 )                                                                              \
                                                                                \
 (defun div                                                                     \
-static NSTL_INLINE T nstl_div(T, T)(T x, T y)                                  \
-{                                                                              \
+static NSTL_INLINE T nstl_div(T, T)(T x, T y) {                                \
     return x / y;                                                              \
 }                                                                              \
 )                                                                              \
                                                                                \
 (defun mod                                                                     \
-static NSTL_INLINE T nstl_mod(T, T)(T x, T y)                                  \
-{                                                                              \
+static NSTL_INLINE T nstl_mod(T, T)(T x, T y) {                                \
     return x % y;                                                              \
 }                                                                              \
 )                                                                              \
                                                                                \
 (defun inc                                                                     \
-static NSTL_INLINE T nstl_inc(T)(T *self)                                      \
-{                                                                              \
+static NSTL_INLINE T nstl_inc(T)(T *self) {                                    \
     return ++(*self);                                                          \
 }                                                                              \
 )                                                                              \
                                                                                \
 (defun inc_                                                                    \
-static NSTL_INLINE T nstl_inc_(T)(T *self)                                     \
-{                                                                              \
+static NSTL_INLINE T nstl_inc_(T)(T *self) {                                   \
     return (*self)++;                                                          \
 }                                                                              \
 )                                                                              \
                                                                                \
 (defun dec                                                                     \
-static NSTL_INLINE T nstl_dec(T)(T *self)                                      \
-{                                                                              \
+static NSTL_INLINE T nstl_dec(T)(T *self) {                                    \
     return --(*self);                                                          \
 }                                                                              \
 )                                                                              \
                                                                                \
 (defun dec_                                                                    \
-static NSTL_INLINE T nstl_dec_(T)(T *self)                                     \
-{                                                                              \
+static NSTL_INLINE T nstl_dec_(T)(T *self) {                                   \
     return (*self)--;                                                          \
 }                                                                              \
 )                                                                              \
                                                                                \
 (defun prom                                                                    \
-static NSTL_INLINE T nstl_prom(T)(T self)                                      \
-{                                                                              \
+static NSTL_INLINE T nstl_prom(T)(T self) {                                    \
     return +self;                                                              \
 }                                                                              \
 )                                                                              \
                                                                                \
 (defun inv                                                                     \
-static NSTL_INLINE T nstl_inv(T)(T self)                                       \
-{                                                                              \
+static NSTL_INLINE T nstl_inv(T)(T self) {                                     \
     return -self;                                                              \
 }                                                                              \
 )                                                                              \
                                                                                \
 (defun iadd                                                                    \
-static NSTL_INLINE T nstl_iadd(T, T)(T *self, T other)                         \
-{                                                                              \
+static NSTL_INLINE T nstl_iadd(T, T)(T *self, T other) {                       \
     return (*self) += other;                                                   \
 }                                                                              \
 )                                                                              \
                                                                                \
 (defun isub                                                                    \
-static NSTL_INLINE T nstl_isub(T, T)(T *self, T other)                         \
-{                                                                              \
+static NSTL_INLINE T nstl_isub(T, T)(T *self, T other) {                       \
     return (*self) -= other;                                                   \
 }                                                                              \
 )                                                                              \
                                                                                \
 (defun imul                                                                    \
-static NSTL_INLINE T nstl_imul(T, T)(T *self, T other)                         \
-{                                                                              \
+static NSTL_INLINE T nstl_imul(T, T)(T *self, T other) {                       \
     return (*self) *= other;                                                   \
 }                                                                              \
 )                                                                              \
                                                                                \
 (defun idiv                                                                    \
-static NSTL_INLINE T nstl_idiv(T, T)(T *self, T other)                         \
-{                                                                              \
+static NSTL_INLINE T nstl_idiv(T, T)(T *self, T other) {                       \
     return (*self) /= other;                                                   \
 }                                                                              \
 )                                                                              \
                                                                                \
 (defun imod                                                                    \
-static NSTL_INLINE T nstl_imod(T, T)(T *self, T other)                         \
-{                                                                              \
+static NSTL_INLINE T nstl_imod(T, T)(T *self, T other) {                       \
     return (*self) %= other;                                                   \
 }                                                                              \
 )                                                                              \
@@ -185,43 +163,37 @@ static NSTL_INLINE T nstl_imod(T, T)(T *self, T other)                         \
 NSTL_TYPE(                                                                     \
                                                                                \
 (defun eq                                                                      \
-static NSTL_INLINE bool nstl_eq(T, T)(T x, T y)                                \
-{                                                                              \
+static NSTL_INLINE bool nstl_eq(T, T)(T x, T y) {                              \
     return x == y;                                                             \
 }                                                                              \
 )                                                                              \
                                                                                \
 (defun ne                                                                      \
-static NSTL_INLINE bool nstl_ne(T, T)(T x, T y)                                \
-{                                                                              \
+static NSTL_INLINE bool nstl_ne(T, T)(T x, T y) {                              \
     return x != y;                                                             \
 }                                                                              \
 )                                                                              \
                                                                                \
 (defun gt                                                                      \
-static NSTL_INLINE bool nstl_gt(T, T)(T x, T y)                                \
-{                                                                              \
+static NSTL_INLINE bool nstl_gt(T, T)(T x, T y) {                              \
     return x > y;                                                              \
 }                                                                              \
 )                                                                              \
                                                                                \
 (defun lt                                                                      \
-static NSTL_INLINE bool nstl_lt(T, T)(T x, T y)                                \
-{                                                                              \
+static NSTL_INLINE bool nstl_lt(T, T)(T x, T y) {                              \
     return x < y;                                                              \
 }                                                                              \
 )                                                                              \
                                                                                \
 (defun ge                                                                      \
-static NSTL_INLINE bool nstl_ge(T, T)(T x, T y)                                \
-{                                                                              \
+static NSTL_INLINE bool nstl_ge(T, T)(T x, T y) {                              \
     return x >= y;                                                             \
 }                                                                              \
 )                                                                              \
                                                                                \
 (defun le                                                                      \
-static NSTL_INLINE bool nstl_le(T, T)(T x, T y)                                \
-{                                                                              \
+static NSTL_INLINE bool nstl_le(T, T)(T x, T y) {                              \
     return x <= y;                                                             \
 }                                                                              \
 )                                                                              \
@@ -233,22 +205,19 @@ static NSTL_INLINE bool nstl_le(T, T)(T x, T y)                                \
 NSTL_TYPE(                                                                     \
                                                                                \
 (defun lognot                                                                  \
-static NSTL_INLINE bool nstl_lognot(T)(T self)                                 \
-{                                                                              \
+static NSTL_INLINE bool nstl_lognot(T)(T self) {                               \
     return !self;                                                              \
 }                                                                              \
 )                                                                              \
                                                                                \
 (defun logand                                                                  \
-static NSTL_INLINE bool nstl_logand(T, T)(T x, T y)                            \
-{                                                                              \
+static NSTL_INLINE bool nstl_logand(T, T)(T x, T y) {                          \
     return x && y;                                                             \
 }                                                                              \
 )                                                                              \
                                                                                \
 (defun logor                                                                   \
-static NSTL_INLINE bool nstl_logor(T, T)(T x, T y)                             \
-{                                                                              \
+static NSTL_INLINE bool nstl_logor(T, T)(T x, T y) {                           \
     return x || y;                                                             \
 }                                                                              \
 )                                                                              \
@@ -260,78 +229,67 @@ static NSTL_INLINE bool nstl_logor(T, T)(T x, T y)                             \
 NSTL_TYPE(                                                                     \
                                                                                \
 (defun not                                                                     \
-static NSTL_INLINE T nstl_not(T)(T self)                                       \
-{                                                                              \
+static NSTL_INLINE T nstl_not(T)(T self) {                                     \
     return ~self;                                                              \
 }                                                                              \
 )                                                                              \
                                                                                \
 (defun and                                                                     \
-static NSTL_INLINE T nstl_and(T, T)(T x, T y)                                  \
-{                                                                              \
+static NSTL_INLINE T nstl_and(T, T)(T x, T y) {                                \
     return x & y;                                                              \
 }                                                                              \
 )                                                                              \
                                                                                \
 (defun or                                                                      \
-static NSTL_INLINE T nstl_or(T, T)(T x, T y)                                   \
-{                                                                              \
+static NSTL_INLINE T nstl_or(T, T)(T x, T y) {                                 \
     return x | y;                                                              \
 }                                                                              \
 )                                                                              \
                                                                                \
 (defun xor                                                                     \
-static NSTL_INLINE T nstl_xor(T, T)(T x, T y)                                  \
-{                                                                              \
+static NSTL_INLINE T nstl_xor(T, T)(T x, T y) {                                \
     return x ^ y;                                                              \
 }                                                                              \
 )                                                                              \
                                                                                \
 (defun lshift                                                                  \
-static NSTL_INLINE T nstl_lshift(T, T)(T x, T y)                               \
-{                                                                              \
+static NSTL_INLINE T nstl_lshift(T, T)(T x, T y) {                             \
     return x << y;                                                             \
 }                                                                              \
 )                                                                              \
                                                                                \
 (defun rshift                                                                  \
-static NSTL_INLINE T nstl_rshift(T, T)(T x, T y)                               \
-{                                                                              \
+static NSTL_INLINE T nstl_rshift(T, T)(T x, T y) {                             \
     return x >> y;                                                             \
 }                                                                              \
 )                                                                              \
                                                                                \
 (defun iand                                                                    \
-static NSTL_INLINE T nstl_iand(T, T)(T *self, T other)                         \
-{                                                                              \
+static NSTL_INLINE T nstl_iand(T, T)(T *self, T other) {                       \
     return (*self) &= other;                                                   \
 }                                                                              \
 )                                                                              \
                                                                                \
 (defun ior                                                                     \
-static NSTL_INLINE T nstl_ior(T, T)(T *self, T other)                          \
-{                                                                              \
+static NSTL_INLINE T nstl_ior(T, T)(T *self, T other) {                        \
     return (*self) |= other;                                                   \
 }                                                                              \
 )                                                                              \
                                                                                \
 (defun ixor                                                                    \
-static NSTL_INLINE T nstl_ixor(T, T)(T *self, T other)                         \
-{                                                                              \
+static NSTL_INLINE T nstl_ixor(T, T)(T *self, T other) {                       \
     return (*self) ^= other;                                                   \
 }                                                                              \
 )                                                                              \
                                                                                \
 (defun ilshift                                                                 \
-static NSTL_INLINE T nstl_ilshift(T, T)(T *self, T other)                      \
-{                                                                              \
+static NSTL_INLINE T nstl_ilshift(T, T)(T *self, T other) {                    \
     return (*self) <<= other;                                                  \
 }                                                                              \
 )                                                                              \
                                                                                \
 (defun irshift                                                                 \
-static NSTL_INLINE T nstl_irshift(T, T)(T *self, T other)                      \
-{                                                                              \
+static NSTL_INLINE T nstl_irshift(T, T)(T *self, T other) {                    \
     return (*self) >>= other;                                                  \
 }                                                                              \
 )                                                                              \
@@ -435,8 +393,8 @@ C_CPP_KEYWORDS = [
     '_Bool', '_Complex', '_Imaginary',
     'alignas', 'alignof', 'and', 'and_eq', 'asm', 'auto',
     'bitand', 'bitor', 'bool', 'break',
-    'case', 'catch', 'char', 'char16_t', 'char32_t', 'class', 'compl', 'const',
-    'constexpr', 'const_cast', 'continue',
+    'case', 'catch', 'char', 'char16_t', 'char32_t', 'class', 'compl',
+    'const', 'constexpr', 'const_cast', 'continue',
     'decltype', 'default', 'delete', 'do', 'double', 'dynamic_cast',
     'else', 'enum', 'explicit', 'export', 'extern',
     'false', 'final', 'float', 'for', 'friend',
@@ -460,7 +418,7 @@ C_CPP_KEYWORDS = [
 
 nstl.generate(cog,
     *set(NSTL_OPERATORS + NSTL_COMMON_FIELDS + ALPHANUM + C_CPP_KEYWORDS),
-                                                                    token=True)
+                                                                token=True)
 
 nstl.generate(cog,
     *set(NSTL_OPERATORS + NSTL_COMMON_FIELDS), mangle=True)

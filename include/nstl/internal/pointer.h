@@ -22,42 +22,37 @@ NSTL_TYPE(                                                                     \
 (inherit NSTL_LOGICAL_OPERATORS(Pointer))                                      \
                                                                                \
 (defun add                                                                     \
-static NSTL_INLINE Pointer nstl_add(Pointer, ptrdiff_t)                        \
-                                                    (Pointer self, ptrdiff_t n) \
-{                                                                              \
+static NSTL_INLINE Pointer nstl_add(Pointer, ptrdiff_t)(Pointer self,          \
+                                                                ptrdiff_t n) { \
     return self + n;                                                           \
 }                                                                              \
 )                                                                              \
 (defun iadd                                                                    \
-static NSTL_INLINE Pointer nstl_iadd(Pointer, ptrdiff_t)                       \
-                                                    (Pointer *self, ptrdiff_t n) \
-{                                                                              \
+static NSTL_INLINE Pointer nstl_iadd(Pointer, ptrdiff_t)(Pointer *self,        \
+                                                                ptrdiff_t n) { \
     return (*self) += n;                                                       \
 }                                                                              \
 )                                                                              \
 (defun sub                                                                     \
-static NSTL_INLINE ptrdiff_t nstl_sub(Pointer, Pointer)(Pointer x, Pointer y)  \
-{                                                                              \
+static NSTL_INLINE ptrdiff_t nstl_sub(Pointer, Pointer)(Pointer x,             \
+                                                                Pointer y) {   \
     return x - y;                                                              \
 }                                                                              \
                                                                                \
-static NSTL_INLINE Pointer nstl_sub(Pointer, ptrdiff_t)                        \
-                                                    (Pointer self, ptrdiff_t n) \
-{                                                                              \
+static NSTL_INLINE Pointer nstl_sub(Pointer, ptrdiff_t)(Pointer self,          \
+                                                                ptrdiff_t n) { \
     return self - n;                                                           \
 }                                                                              \
 )                                                                              \
 (defun isub                                                                    \
-static NSTL_INLINE Pointer nstl_isub(Pointer, ptrdiff_t)                       \
-                                                    (Pointer *self, ptrdiff_t n) \
-{                                                                              \
+static NSTL_INLINE Pointer nstl_isub(Pointer, ptrdiff_t)(Pointer *self,        \
+                                                                ptrdiff_t n) { \
     return (*self) -= n;                                                       \
 }                                                                              \
 )                                                                              \
                                                                                \
 (defun deref                                                                   \
-static NSTL_INLINE ValueType nstl_deref(Pointer)(Pointer self)                 \
-{                                                                              \
+static NSTL_INLINE ValueType nstl_deref(Pointer)(Pointer self) {               \
     return *self;                                                              \
 }                                                                              \
 )                                                                              \

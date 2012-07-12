@@ -15,20 +15,18 @@ NSTL_TYPE(                                                                     \
                                                                                \
 (defun for_each                                                                \
 /**                                                                            \
- * Apply a function to each element in a range delimited by [@p first, @p last). \
- * The return value of the function, if any, is ignored.                       \
+ * Apply a function to each element in a range delimited by                    \
+ * [@p first, @p last). The return value of the function, if any, is ignored.  \
  *                                                                             \
  * @param f Unary function taking a pointer to an element in the range.        \
  *                                                                             \
  * @return The function @p f.                                                  \
  */                                                                            \
 static NSTL_INLINE Function nstl_for_each(InputIter, Function)                 \
-                                (InputIter first, InputIter last, Function f)  \
-{                                                                              \
+                            (InputIter first, InputIter last, Function f) {    \
     for ( ; nstl_ne(InputIter, InputIter)(first, last);                        \
-            nstl_inc(InputIter)(&first)) {                                     \
+                                                nstl_inc(InputIter)(&first))   \
         f(nstl_deref(InputIter)(first));                                       \
-    }                                                                          \
     return f;                                                                  \
 }                                                                              \
 )                                                                              \
