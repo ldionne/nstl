@@ -1,4 +1,4 @@
-/*!
+/**
  * Master header of the nstl/container module.
  *
  * @author Louis Dionne

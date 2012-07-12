@@ -1,4 +1,4 @@
-/*!
+/**
  * Test suite for the @em algorithm module of nstl.
  *
  * @author Louis Dionne

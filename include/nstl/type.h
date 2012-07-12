@@ -1,4 +1,4 @@
-/*!
+/**
  * Master header for the @em nstl/internal header files.
  *
  * @author Louis Dionne

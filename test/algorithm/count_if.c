@@ -1,4 +1,4 @@
-/*!
+/**
  * Unit tests for the @em count_if algorithm.
  *
  * @author Louis Dionne

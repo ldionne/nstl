@@ -1,4 +1,4 @@
-/*!
+/**
  * Unit tests for the primitive types.
  *
  * @author Louis Dionne

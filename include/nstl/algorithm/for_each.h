@@ -1,4 +1,4 @@
-/*!
+/**
  * This file defines the @em for_each algorithm.
  *
  * @author Louis Dionne
@@ -14,7 +14,7 @@
 NSTL_TYPE(                                                                     \
                                                                                \
 (defun for_each                                                                \
-/*!                                                                            \
+/**                                                                            \
  * Apply a function to each element in a range delimited by [@p first, @p last). \
  * The return value of the function, if any, is ignored.                       \
  *                                                                             \

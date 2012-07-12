@@ -1,4 +1,4 @@
-/*!
+/**
  * Macros to manipulate tokens and token strings.
  *
  * @note This was taken from the Chaos preprocessor library. All credit goes to
@@ -30,7 +30,7 @@
 #include <chaos/preprocessor/string/core.h>
 
 
-/*!
+/**
  * Given a token, return a representation containing its preprocessor string
  * representation as well as parenthesis necessary to make it a valid
  * preprocessor string character.
@@ -43,12 +43,12 @@
 
 #define NSTL_TOKEN_TO_STRING(token) CHAOS_PP_UNBOX(NSTL_TOKEN(token))
 
-/*!
+/**
  * Represents an empty token string.
  */
 #define NSTL_TOKEN_STRING_NIL() ()
 
-/*!
+/**
  * Add a token to the beginning of a token string.
  */
 #define NSTL_TOKEN_STRING_CONS(string, x)                                      \
@@ -57,7 +57,7 @@
     ) string                                                                   \
 /**/
 
-/*!
+/**
  * Return the first token of a token string.
  */
 #define NSTL_TOKEN_STRING_HEAD(string)                                         \
@@ -76,7 +76,7 @@
 /**/
 #define NSTL_I_TOKEN_STRING_HEAD(x) x, ~
 
-/*!
+/**
  * Return the string with its head removed.
  */
 #define NSTL_TOKEN_STRING_TAIL(string)                                         \
@@ -92,7 +92,7 @@
     )                                                                          \
 /**/
 
-/*!
+/**
  * Return the string with its head removed.
  *
  * The difference between this and @em NSTL_TOKEN_STRING_TAIL() is that this
@@ -121,18 +121,18 @@
     ) r                                                                        \
 /**/
 
-/*!
+/**
  * Return whether a token string has tokens in it.
  */
 #define NSTL_TOKEN_STRING_IS_CONS(string) \
     CHAOS_PP_COMPL(NSTL_TOKEN_STRING_IS_NIL(string))
 
-/*!
+/**
  * Return whether a token string is empty.
  */
 #define NSTL_TOKEN_STRING_IS_NIL(string) CHAOS_PP_IS_NULLARY(string())
 
-/*!
+/**
  * Convert a token string into a sequence of tokens.
  */
 #define NSTL_TOKEN_STRING_TO_SEQ(string) \

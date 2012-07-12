@@ -1,4 +1,4 @@
-/*!
+/**
  * This file defines the @em adjacent_find algorithm.
  *
  * @author Louis Dionne
@@ -14,7 +14,7 @@
 NSTL_TYPE(                                                                     \
                                                                                \
 (defun adjacent_find                                                           \
-/*!                                                                            \
+/**                                                                            \
  * Search the range [first, last) for the first occurrence of two consecutive  \
  * equal elements, and return an iterator to the first of these two elements.  \
  *                                                                             \

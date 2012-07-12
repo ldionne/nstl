@@ -1,4 +1,4 @@
-/*!
+/**
  * Implementation of C pointer types.
  *
  * @author Louis Dionne

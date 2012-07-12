@@ -1,4 +1,4 @@
-/*!
+/**
  * Unit tests for the @em for_each algorithm.
  *
  * @author Louis Dionne
@@ -19,7 +19,7 @@ NSTL_INSTANTIATE(NSTL_FOR_EACH(intp, callback_type))
 #define for_each nstl_for_each(intp, callback_type)
 
 
-/*!
+/**
  * Global structure used to collect information when a test is run.
  */
 struct {
@@ -29,7 +29,7 @@ struct {
     int last_elem;
 } test_info;
 
-/*!
+/**
  * Function called at the beginning of each test. It resets the information
  * gathered during the last test so the tests are independent.
  */
@@ -40,7 +40,7 @@ static void set_up(void)
     test_info.first_elem = test_info.last_elem = -1;
 }
 
-/*!
+/**
  * Function called on each element within a range during the tests. It saves
  * information to the gloval test_info structure.
  */

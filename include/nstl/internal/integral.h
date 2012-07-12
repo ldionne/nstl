@@ -1,4 +1,4 @@
-/*!
+/**
  * Implementation of C integral types.
  *
  * @author Louis Dionne

@@ -1,4 +1,4 @@
-/*!
+/**
  * Implementation of a vector template.
  *
  * @author Louis Dionne
@@ -21,7 +21,7 @@
 NSTL_TYPE(                                                                     \
                                                                                \
 (defstruct                                                                     \
-/*!                                                                            \
+/**                                                                            \
  * Type of a vector container.                                                 \
  */                                                                            \
 typedef struct {                                                               \
@@ -122,7 +122,7 @@ static NSTL_INLINE size_t nstl_capacity(vector)(vector *self)                  \
 )                                                                              \
                                                                                \
 (defun reserve                                                                 \
-/*!                                                                            \
+/**                                                                            \
  * Request that the capacity of a vector be at least enough to hold @p n       \
  * elements.                                                                   \
  */                                                                            \

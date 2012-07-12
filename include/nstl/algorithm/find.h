@@ -1,4 +1,4 @@
-/*!
+/**
  * This file defines the @em find algorithm.
  *
  * @author Louis Dionne
@@ -14,7 +14,7 @@
 NSTL_TYPE(                                                                     \
                                                                                \
 (defun find                                                                    \
-/*!                                                                            \
+/**                                                                            \
  * Return an iterator to the first element in the range [first, last) that     \
  * compares equal to @p value, or @em last if not found.                       \
  */                                                                            \

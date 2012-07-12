@@ -1,4 +1,4 @@
-/*!
+/**
  * Unit tests for the vector template.
  *
  * @author Louis Dionne

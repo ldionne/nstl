@@ -1,4 +1,4 @@
-/*!
+/**
  * Unit tests for the @em find algorithm.
  *
  * @author Louis Dionne

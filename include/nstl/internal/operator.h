@@ -1,4 +1,4 @@
-/*!
+/**
  * Definition of the basic operators in C, and definition
  * of commonly used tokens.
  *

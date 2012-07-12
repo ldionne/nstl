@@ -1,4 +1,4 @@
-/*!
+/**
  * This file defines the @em count_if algorithm.
  *
  * @author Louis Dionne
@@ -16,7 +16,7 @@
 NSTL_TYPE(                                                                     \
                                                                                \
 (defun count_if                                                                \
-/*!                                                                            \
+/**                                                                            \
  * Return the number of elements in the range delimited by [@p first, @p last) \
  * for which the predicate @p pred is true.                                    \
  *                                                                             \

@@ -1,4 +1,4 @@
-/*!
+/**
  * Master header of the nstl/algorithm module.
  *
  * @author Louis Dionne

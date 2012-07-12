@@ -1,4 +1,4 @@
-/*!
+/**
  * Implementation of a pair template.
  *
  * @author Louis Dionne
@@ -29,7 +29,7 @@ typedef struct {                                                               \
 )                                                                              \
                                                                                \
 (defun ctor                                                                    \
-/*!                                                                            \
+/**                                                                            \
  * Initialize a pair.                                                          \
  */                                                                            \
 static NSTL_INLINE void nstl_ctor(pair)(pair *self, T1 first, T2 second)       \
@@ -48,7 +48,7 @@ static NSTL_INLINE void nstl_copy_ctor(pair)(pair *self, pair other)           \
 )                                                                              \
                                                                                \
 (defun dtor                                                                    \
-/*!                                                                            \
+/**                                                                            \
  * Uninitialize a pair.                                                        \
  */                                                                            \
 static NSTL_INLINE void nstl_dtor(pair)(pair *self)                            \
@@ -58,7 +58,7 @@ static NSTL_INLINE void nstl_dtor(pair)(pair *self)                            \
 )                                                                              \
                                                                                \
 (defun eq                                                                      \
-/*!                                                                            \
+/**                                                                            \
  * Return whether two pairs are equal.                                         \
  *                                                                             \
  * Two pairs compare equal if the first elements in both pairs compare equal   \
@@ -71,7 +71,7 @@ static NSTL_INLINE bool nstl_eq(pair, pair)(pair x, pair y)                    \
 )                                                                              \
                                                                                \
 (defun lt                                                                      \
-/*!                                                                            \
+/**                                                                            \
  * Return whether a pair is lesser than another.                               \
  *                                                                             \
  * The first elements are compared first, and only if the inequality comparison \
@@ -84,7 +84,7 @@ static NSTL_INLINE bool nstl_lt(pair, pair)(pair x, pair y)                    \
 )                                                                              \
                                                                                \
 (defun ne                                                                      \
-/*!                                                                            \
+/**                                                                            \
  * Return whether two pairs have different elements.                           \
  */                                                                            \
 static NSTL_INLINE bool nstl_ne(pair, pair)(pair x, pair y)                    \
@@ -94,7 +94,7 @@ static NSTL_INLINE bool nstl_ne(pair, pair)(pair x, pair y)                    \
 )                                                                              \
                                                                                \
 (defun gt                                                                      \
-/*!                                                                            \
+/**                                                                            \
  * Return whether a pair is greater than another.                              \
  *                                                                             \
  * The first elements are compared first, and only if the inequality comparison \
@@ -107,7 +107,7 @@ static NSTL_INLINE bool nstl_gt(pair, pair)(pair x, pair y)                    \
 )                                                                              \
                                                                                \
 (defun le                                                                      \
-/*!                                                                            \
+/**                                                                            \
  * Return a pair is lesser or equal to another.                                \
  */                                                                            \
 static NSTL_INLINE bool nstl_le(pair, pair)(pair x, pair y)                    \
@@ -117,7 +117,7 @@ static NSTL_INLINE bool nstl_le(pair, pair)(pair x, pair y)                    \
 )                                                                              \
                                                                                \
 (defun ge                                                                      \
-/*!                                                                            \
+/**                                                                            \
  * Return whether a pair is greater or equal to another.                       \
  */                                                                            \
 static NSTL_INLINE bool nstl_ge(pair, pair)(pair x, pair y)                    \
@@ -127,7 +127,7 @@ static NSTL_INLINE bool nstl_ge(pair, pair)(pair x, pair y)                    \
 )                                                                              \
                                                                                \
 (defun make_pair                                                               \
-/*!                                                                            \
+/**                                                                            \
  * Initialize and return a pair.                                               \
  */                                                                            \
 static NSTL_INLINE pair nstl_make_pair(T1, T2)(T1 first, T2 second)            \

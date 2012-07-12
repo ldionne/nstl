@@ -1,4 +1,4 @@
-/*!
+/**
  * Unit tests for the @em adjacent_find algorithm.
  *
  * @author Louis Dionne

@@ -1,4 +1,4 @@
-/*!
+/**
  * Master header including the definition of all C primitive data types.
  *
  * @author Louis Dionne

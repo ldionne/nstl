@@ -1,4 +1,4 @@
-/*!
+/**
  * Macros to manipulate fields.
  *
  * @author Louis Dionne
@@ -16,7 +16,7 @@
 #include <chaos/preprocessor/arithmetic/add.h>
 
 
-/*!
+/**
  * Create a nstl field.
  *
  * @param name A valid nstl token.
@@ -43,12 +43,12 @@
 #define NSTL_II_FIELD_SUM_PROPERTIES(s, property, total) \
     CHAOS_PP_ADD(total, CHAOS_PP_CAT(NSTL_I_FIELD_PROP_, property))
 
-/*!
+/**
  * Return the name of a field.
  */
 #define NSTL_FIELD_NAME(field) CHAOS_PP_SEQ_ELEM(0, field)
 
-/*!
+/**
  * Return the properties of a field.
  *
  * Properties define what is possible to do with a field. Internally,
@@ -62,30 +62,30 @@
  */
 #define NSTL_FIELD_PROPERTIES(field) CHAOS_PP_SEQ_ELEM(1, field)
 
-/*!
+/**
  * Return the value of a field.
  */
 #define NSTL_FIELD_VALUE(field) CHAOS_PP_SEQ_ELEM(2, field)
 
-/*!
+/**
  * Return whether a field is writable.
  */
 #define NSTL_FIELD_IS_WRITABLE(field) \
     CHAOS_PP_CAT(NSTL_I_FIELD_PROP_writable_, NSTL_FIELD_PROPERTIES(field))
 
-/*!
+/**
  * Return whether a field can be instantiated.
  */
 #define NSTL_FIELD_IS_INSTANTIABLE(field) \
     CHAOS_PP_CAT(NSTL_I_FIELD_PROP_instantiable_, NSTL_FIELD_PROPERTIES(field))
 
-/*!
+/**
  * Return whether a field can be inherited.
  */
 #define NSTL_FIELD_IS_INHERITABLE(field) \
     CHAOS_PP_CAT(NSTL_I_FIELD_PROP_inheritable_, NSTL_FIELD_PROPERTIES(field))
 
-/*!
+/**
  * Return whether a field is an anonymous field, i.e. whether it can't be
  * referenced using a name.
  */

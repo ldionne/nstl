@@ -1,4 +1,4 @@
-/*!
+/**
  * Macros to create and manipulate metatypes.
  *
  * @author Louis Dionne
@@ -36,7 +36,7 @@
                                  NSTL_TYPE
  ******************************************************************************/
 
-/*!
+/**
  * Create a new nstl type.
  *
  * @param instructions A sequence of instructions:
@@ -65,7 +65,7 @@
 #   define NSTL_I_INITIAL_TYPE_STATE() (NSTL_FIELD(~, anonymous, ~))
 #endif /* NSTL_CONFIG_EMPTY_MACRO_ARGS */
 
-/*!
+/**
  * Execute a statement of the form ``instruction args...''.
  */
 #define NSTL_I_EXECUTE_STATEMENT(s, stmnt, self)                               \
@@ -82,7 +82,7 @@
 #define NSTL_II_EXECUTE_STATEMENT(s, self, instruction, args) \
     NSTL_INSTRUCTION(instruction)(s, self, args)
 
-/*!
+/**
  * Return whether two fields have the same name.
  */
 #define NSTL_I_TYPE_COMPARE(s, x, y)                                           \
@@ -95,7 +95,7 @@
             NSTL_TOKEN_TO_STRING(NSTL_FIELD_NAME(y))))                         \
 /**/
 
-/*!
+/**
  * Given a token, return the nstl style instruction associated to it.
  *
  * @note In order for this macro to work properly, the NSTL_INSTRUCTION_instr
@@ -107,7 +107,7 @@
                                   NSTL_GETF
  ******************************************************************************/
 
-/*!
+/**
  * Return the value of a field of an object.
  *
  * @param field A valid nstl token.
@@ -121,7 +121,7 @@
     )                                                                          \
 /**/
 
-/*!
+/**
  * Return a field of an object. If the field is not set, it is undefined
  * behavior.
  *
@@ -138,7 +138,7 @@
                                   NSTL_SETF
  ******************************************************************************/
 
-/*!
+/**
  * Set or override a field of an object.
  *
  * @param field A valid nstl token.
@@ -167,7 +167,7 @@
 
 #define NSTL_I_WRITE_ATTEMPT_TO_READONLY_FIELD_EXCEPTION()
 
-/*!
+/**
  * Instruction counterpart of @em NSTL_SETF().
  *
  * Usage: @code (setf field_name (field_properties...) field_value) @endcode
@@ -203,7 +203,7 @@
                                   NSTL_DEFUN
  ******************************************************************************/
 
-/*!
+/**
  * Define a function as a field of an object.
  *
  * Functions are instantiable, inheritable, writable and non anonymous fields.
@@ -222,7 +222,7 @@
 #define NSTL_DEFUN_S(s, self, name, definition) \
     NSTL_SETF_S(s, self, name, writable inheritable instantiable, definition)
 
-/*!
+/**
  * Instruction counterpart of @em NSTL_DEFUN().
  */
 #define NSTL_INSTRUCTION_defun(s, self, name_def)                              \
@@ -239,7 +239,7 @@
                                 NSTL_DEFSTRUCT
  ******************************************************************************/
 
-/*!
+/**
  * Define a structure as a field of an object.
  *
  * Structures are instantiable, inheritable, anonymous and read only fields.
@@ -257,7 +257,7 @@
 #define NSTL_DEFSTRUCT_S(s, self, struct) \
     NSTL_SETF_S(s, self, ~, anonymous inheritable instantiable, struct)
 
-/*!
+/**
  * Instruction counterpart of @em NSTL_DEFSTRUCT().
  */
 #define NSTL_INSTRUCTION_defstruct(s, self, struct) \
@@ -267,7 +267,7 @@
                                  NSTL_UNSETF
  ******************************************************************************/
 
-/*!
+/**
  * Unset a field of an object.
  *
  * @param field A valid nstl token representing the field to unset.
@@ -283,7 +283,7 @@
     )                                                                          \
 /**/
 
-/*!
+/**
  * Instruction counterpart of @em NSTL_UNSETF().
  */
 #define NSTL_INSTRUCTION_unsetf(s, self, field) NSTL_UNSETF_S(s, self, field)
@@ -292,7 +292,7 @@
                                  NSTL_INHERIT
  ******************************************************************************/
 
-/*!
+/**
  * Inherit all the inheritable fields of another type.
  *
  * @param super A type to inherit fields from.
@@ -306,7 +306,7 @@
     )                                                                          \
 /**/
 
-/*!
+/**
  * Traverse a @p super type and keep only fields that are inheritable.
  */
 #define NSTL_I_INHERIT_FILTER_INHERITABLE(s, self, super)                      \
@@ -317,7 +317,7 @@
 #define NSTL_II_INHERIT_IS_INHERITABLE(s, field, derived_type) \
     NSTL_FIELD_IS_INHERITABLE(field)
 
-/*!
+/**
  * Set several fields to a type at once.
  */
 #define NSTL_I_INHERIT_BATCH_SETF(s, type, fields)                             \
@@ -326,7 +326,7 @@
     )                                                                          \
 /**/
 
-/*!
+/**
  * Drop several fields from a type and then extend the type with some other
  * given fields.
  */
@@ -336,7 +336,7 @@
     ) fields                                                                   \
 /**/
 
-/*!
+/**
  * Gather a token string of field names to drop from a type.
  * The criteria for being dropped is that the field is not anonymous
  * and the @p type has a field set with that name.
@@ -353,7 +353,7 @@
     )                                                                          \
 /**/
 
-/*!
+/**
  * Instruction counterpart of @em NSTL_INHERIT().
  *
  * @param super A nstl type to inherit fields from.
@@ -364,7 +364,7 @@
                                  NSTL_DROP
  ******************************************************************************/
 
-/*!
+/**
  * Unset many fields at once.
  *
  * @param fields A token string consisting of the field names to unset.
@@ -391,7 +391,7 @@
 #define NSTL_II_DROP_PRED(s, x, y) \
     JOY_STRING_EQ_S(s, NSTL_TOKEN_TO_STRING(x), NSTL_TOKEN_TO_STRING(y))
 
-/*!
+/**
  * Instruction counterpart of @em NSTL_DROP().
  */
 #define NSTL_INSTRUCTION_drop(s, self, fields) NSTL_DROP_S(s, self, fields)
@@ -400,7 +400,7 @@
                                   NSTL_ISSET
  ******************************************************************************/
 
-/*!
+/**
  * Return whether a given field is set on an object.
  *
  * @param field A valid nstl token.
@@ -418,7 +418,7 @@
                                 NSTL_INSTANTIATE
  ******************************************************************************/
 
-/*!
+/**
  * Instantiate all the instantiable fields of an object.
  *
  * @note Since the NSTL_I_C89_COMPAT_0xDUMMY_MEMBER field is not instantiable,

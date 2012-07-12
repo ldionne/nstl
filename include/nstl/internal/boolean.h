@@ -1,4 +1,4 @@
-/*!
+/**
  * Implementation of the C boolean type.
  *
  * @author Louis Dionne

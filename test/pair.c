@@ -1,4 +1,4 @@
-/*!
+/**
  * Unit tests for the pair template.
  *
  * @author Louis Dionne

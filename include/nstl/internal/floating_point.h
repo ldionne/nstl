@@ -1,4 +1,4 @@
-/*!
+/**
  * Implementation of C floating point types.
  *
  * @author Louis Dionne
