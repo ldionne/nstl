@@ -204,21 +204,9 @@ static NSTL_INLINE bool nstl_le(T, T)(T x, T y) {                              \
 #define NSTL_LOGICAL_OPERATORS(T)                                              \
 NSTL_TYPE(                                                                     \
                                                                                \
-(defun lognot                                                                  \
-static NSTL_INLINE bool nstl_lognot(T)(T self) {                               \
+(defun not                                                                     \
+static NSTL_INLINE bool nstl_not(T)(T self) {                                  \
     return !self;                                                              \
-}                                                                              \
-)                                                                              \
-                                                                               \
-(defun logand                                                                  \
-static NSTL_INLINE bool nstl_logand(T, T)(T x, T y) {                          \
-    return x && y;                                                             \
-}                                                                              \
-)                                                                              \
-                                                                               \
-(defun logor                                                                   \
-static NSTL_INLINE bool nstl_logor(T, T)(T x, T y) {                           \
-    return x || y;                                                             \
 }                                                                              \
 )                                                                              \
                                                                                \
@@ -228,8 +216,8 @@ static NSTL_INLINE bool nstl_logor(T, T)(T x, T y) {                           \
 #define NSTL_BITWISE_OPERATORS(T)                                              \
 NSTL_TYPE(                                                                     \
                                                                                \
-(defun not                                                                     \
-static NSTL_INLINE T nstl_not(T)(T self) {                                     \
+(defun compl                                                                   \
+static NSTL_INLINE T nstl_compl(T)(T self) {                                   \
     return ~self;                                                              \
 }                                                                              \
 )                                                                              \
@@ -338,12 +326,10 @@ NSTL_OPERATORS = [
     'le(R, T)', # <=
 
     # Logical operators
-    'lognot(T)',    # !
-    'logand(R, T)', # &&
-    'logor(R, T)',  # ||
+    'not(T)', # !
 
     # Bitwise operators
-    'not(T)',        # ~
+    'compl(T)',      # ~
     'and(R, T)',     # &
     'or(R, T)',      # |
     'xor(R, T)',     # ^
@@ -464,13 +450,11 @@ nstl.generate(cog,
 #define NSTL_TOKEN_not (n o t)
 #define NSTL_TOKEN_X (X)
 #define NSTL_TOKEN_front (f r o n t)
-#define NSTL_TOKEN_logand (l o g a n d)
 #define NSTL_TOKEN_d (d)
 #define NSTL_TOKEN_auto (a u t o)
 #define NSTL_TOKEN_h (h)
 #define NSTL_TOKEN_nullptr (n u l l p t r)
 #define NSTL_TOKEN_l (l)
-#define NSTL_TOKEN_public (p u b l i c)
 #define NSTL_TOKEN_prom (p r o m)
 #define NSTL_TOKEN_p (p)
 #define NSTL_TOKEN_continue (c o n t i n u e)
@@ -499,12 +483,13 @@ nstl.generate(cog,
 #define NSTL_TOKEN_new (n e w)
 #define NSTL_TOKEN_dynamic_cast (d y n a m i c _ c a s t)
 #define NSTL_TOKEN_template (t e m p l a t e)
-#define NSTL_TOKEN_logor (l o g o r)
+#define NSTL_TOKEN_public (p u b l i c)
 #define NSTL_TOKEN__Complex (_ C o m p l e x)
 #define NSTL_TOKEN_C (C)
 #define NSTL_TOKEN_sub (s u b)
 #define NSTL_TOKEN_goto (g o t o)
 #define NSTL_TOKEN_G (G)
+#define NSTL_TOKEN_M (M)
 #define NSTL_TOKEN_K (K)
 #define NSTL_TOKEN_enum (e n u m)
 #define NSTL_TOKEN_xor (x o r)
@@ -535,7 +520,6 @@ nstl.generate(cog,
 #define NSTL_TOKEN_restrict (r e s t r i c t)
 #define NSTL_TOKEN_extern (e x t e r n)
 #define NSTL_TOKEN_not (n o t)
-#define NSTL_TOKEN_lognot (l o g n o t)
 #define NSTL_TOKEN_operator (o p e r a t o r)
 #define NSTL_TOKEN_false (f a l s e)
 #define NSTL_TOKEN_bool (b o o l)
@@ -611,7 +595,7 @@ nstl.generate(cog,
 #define NSTL_TOKEN_E (E)
 #define NSTL_TOKEN_alignof (a l i g n o f)
 #define NSTL_TOKEN_mul (m u l)
-#define NSTL_TOKEN_M (M)
+#define NSTL_TOKEN_compl (c o m p l)
 #define NSTL_TOKEN_compl (c o m p l)
 #define NSTL_TOKEN_inc (i n c)
 #define NSTL_TOKEN_Q (Q)
@@ -658,7 +642,6 @@ nstl.generate(cog,
 #define nstl_reserve(T) JOY_CAT3(nstl_mangled_reserve, _, T)
 #define nstl_imul(R,  T) JOY_CAT5(nstl_mangled_imul, _, R, _,  T)
 #define nstl_ixor(R,  T) JOY_CAT5(nstl_mangled_ixor, _, R, _,  T)
-#define nstl_lognot(T) JOY_CAT3(nstl_mangled_lognot, _, T)
 #define nstl_end(T) JOY_CAT3(nstl_mangled_end, _, T)
 #define nstl_and(R,  T) JOY_CAT5(nstl_mangled_and, _, R, _,  T)
 #define nstl_add(R,  T) JOY_CAT5(nstl_mangled_add, _, R, _,  T)
@@ -677,6 +660,7 @@ nstl.generate(cog,
 #define nstl_mul(R,  T) JOY_CAT5(nstl_mangled_mul, _, R, _,  T)
 #define nstl_imod(R,  T) JOY_CAT5(nstl_mangled_imod, _, R, _,  T)
 #define nstl_dec_(T) JOY_CAT3(nstl_mangled_dec_, _, T)
+#define nstl_compl(T) JOY_CAT3(nstl_mangled_compl, _, T)
 #define nstl_xor(R,  T) JOY_CAT5(nstl_mangled_xor, _, R, _,  T)
 #define nstl_inc(T) JOY_CAT3(nstl_mangled_inc, _, T)
 #define nstl_empty(T) JOY_CAT3(nstl_mangled_empty, _, T)
@@ -686,11 +670,9 @@ nstl.generate(cog,
 #define nstl_front(T) JOY_CAT3(nstl_mangled_front, _, T)
 #define nstl_pop_back(T) JOY_CAT3(nstl_mangled_pop_back, _, T)
 #define nstl_max_size(T) JOY_CAT3(nstl_mangled_max_size, _, T)
-#define nstl_logand(R,  T) JOY_CAT5(nstl_mangled_logand, _, R, _,  T)
 #define nstl_ilshift(R,  T) JOY_CAT5(nstl_mangled_ilshift, _, R, _,  T)
 #define nstl_copy_ctor(T) JOY_CAT3(nstl_mangled_copy_ctor, _, T)
 #define nstl_capacity(T) JOY_CAT3(nstl_mangled_capacity, _, T)
-#define nstl_logor(R,  T) JOY_CAT5(nstl_mangled_logor, _, R, _,  T)
 #define nstl_prom(T) JOY_CAT3(nstl_mangled_prom, _, T)
 #define nstl_lt(R,  T) JOY_CAT5(nstl_mangled_lt, _, R, _,  T)
 #define nstl_rshift(R,  T) JOY_CAT5(nstl_mangled_rshift, _, R, _,  T)
