@@ -4,6 +4,10 @@
  * @author Louis Dionne
  */
 
+#if NSTL_I_INSTANTIATE_PRIMITIVE
+    NSTL_INSTANTIATE(NSTL_BOOL)
+#else
+
 #ifndef NSTL_INTERNAL_BOOLEAN_H
 #define NSTL_INTERNAL_BOOLEAN_H
 
@@ -36,6 +40,6 @@ NSTL_TYPE(                                                                     \
 #endif /* NSTL_CONFIG_BOOL_IS_AVAILABLE */
 
 #define NSTL_BOOL NSTL_BOOLEAN(nstl_bool)
-NSTL_I_INSTANTIATE_PRIMITIVE(NSTL_BOOL)
 
 #endif /* !NSTL_INTERNAL_BOOLEAN_H */
+#endif /* NSTL_I_INSTANTIATE_PRIMITIVE */

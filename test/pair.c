@@ -9,7 +9,6 @@
 
 
 #define test_pair nstl_pair(int, int)
-NSTL_INSTANTIATE(NSTL_INT)
 NSTL_INSTANTIATE(NSTL_PAIR(int, int))
 
 static void should_have_first_and_second_as_set(void) {

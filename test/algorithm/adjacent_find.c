@@ -14,7 +14,6 @@
 
 typedef int *intp;
 NSTL_INSTANTIATE(NSTL_POINTER(int, intp))
-NSTL_INSTANTIATE(NSTL_INT)
 NSTL_INSTANTIATE(NSTL_ADJACENT_FIND(intp, int))
 
 #define adjacent_find nstl_adjacent_find(intp, int)
