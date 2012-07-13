@@ -34,9 +34,11 @@ NSTL_TYPE(                                                                     \
 #   define nstl_true true
 #   define nstl_false false
 #else
-    typedef short nstl_bool;
-#   define nstl_true 1
-#   define nstl_false 0
+    enum nstl_bool {
+        nstl_false = 0,
+        nstl_true = 1
+    };
+    typedef enum nstl_bool nstl_bool;
 #endif /* NSTL_CONFIG_BOOL_IS_AVAILABLE */
 
 #define NSTL_BOOL NSTL_BOOLEAN(nstl_bool)
