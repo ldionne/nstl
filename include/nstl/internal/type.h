@@ -147,26 +147,16 @@
  * @param value Anything containing no commas if < C99, and anything
  *              if >= C99. This will be the value of the field that can be
  *              retrieved by using @em NSTL_GETF().
- *
- * @note If the field is not writable, a preprocessor error will be triggered.
  */
 #define NSTL_SETF(self, field, properties, value) \
     NSTL_SETF_S(CHAOS_PP_STATE(), self, field, properties, value)
 
 #define NSTL_SETF_S(s, self, field, properties, value)                         \
-    CHAOS_PP_IF(NSTL_ISSET_S(s, self, field))(                                 \
-        CHAOS_PP_IF(NSTL_FIELD_IS_WRITABLE(NSTL_I_GETF(s, self, field)))(      \
-            JOY_SEQ_APPEND(                                                    \
-                NSTL_FIELD_S(s, field, properties, value),                     \
-                NSTL_UNSETF_S(s, self, field)                                  \
-            ),                                                                 \
-            NSTL_I_WRITE_ATTEMPT_TO_READONLY_FIELD_EXCEPTION(!)                \
-        ),                                                                     \
-        JOY_SEQ_APPEND(NSTL_FIELD_S(s, field, properties, value), self)        \
+    JOY_SEQ_APPEND(                                                            \
+        NSTL_FIELD_S(s, field, properties, value),                             \
+        NSTL_UNSETF_S(s, self, field)                                          \
     )                                                                          \
 /**/
-
-#define NSTL_I_WRITE_ATTEMPT_TO_READONLY_FIELD_EXCEPTION()
 
 /**
  * Instruction counterpart of @em NSTL_SETF().
@@ -207,7 +197,7 @@
 /**
  * Define a function as a field of an object.
  *
- * Functions are instantiable, inheritable, writable and non anonymous fields.
+ * Functions are instantiable, inheritable, and named fields.
  *
  * @param name A valid nstl token representing the name of the function.
  * @param definition The definition of the function that should be
@@ -221,7 +211,7 @@
     NSTL_DEFUN_S(CHAOS_PP_STATE(), self, name, definition)
 
 #define NSTL_DEFUN_S(s, self, name, definition) \
-    NSTL_SETF_S(s, self, name, writable inheritable instantiable, definition)
+    NSTL_SETF_S(s, self, name, inheritable instantiable, definition)
 
 /**
  * Instruction counterpart of @em NSTL_DEFUN().
@@ -243,7 +233,7 @@
 /**
  * Define a structure as a field of an object.
  *
- * Structures are instantiable, inheritable, anonymous and read only fields.
+ * Structures are instantiable, inheritable, and anonymous fields.
  *
  * @param struct The definition of the structure that should be
  *               instantiated when @em NSTL_INSTANTIATE() is called.

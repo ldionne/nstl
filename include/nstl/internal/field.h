@@ -68,12 +68,6 @@
 #define NSTL_FIELD_VALUE(field) CHAOS_PP_SEQ_ELEM(2, field)
 
 /**
- * Return whether a field is writable.
- */
-#define NSTL_FIELD_IS_WRITABLE(field) \
-    CHAOS_PP_CAT(NSTL_I_FIELD_PROP_writable_, NSTL_FIELD_PROPERTIES(field))
-
-/**
  * Return whether a field can be instantiated.
  */
 #define NSTL_FIELD_IS_INSTANTIABLE(field)                                      \
@@ -107,7 +101,7 @@ import nstl
 import itertools
 
 PROPERTIES_VALUES = [(prop, 2**power) for power, prop in enumerate([
-    'inheritable', 'instantiable', 'writable', 'anonymous',
+    'inheritable', 'instantiable', 'anonymous',
     '__nstl_dummy_field',
     ])]
 
@@ -146,22 +140,6 @@ nstl.generate(cog, *properties, token=True)
 #define NSTL_I_FIELD_PROP_inheritable_13 1
 #define NSTL_I_FIELD_PROP_inheritable_14 0
 #define NSTL_I_FIELD_PROP_inheritable_15 1
-#define NSTL_I_FIELD_PROP_inheritable_16 0
-#define NSTL_I_FIELD_PROP_inheritable_17 1
-#define NSTL_I_FIELD_PROP_inheritable_18 0
-#define NSTL_I_FIELD_PROP_inheritable_19 1
-#define NSTL_I_FIELD_PROP_inheritable_20 0
-#define NSTL_I_FIELD_PROP_inheritable_21 1
-#define NSTL_I_FIELD_PROP_inheritable_22 0
-#define NSTL_I_FIELD_PROP_inheritable_23 1
-#define NSTL_I_FIELD_PROP_inheritable_24 0
-#define NSTL_I_FIELD_PROP_inheritable_25 1
-#define NSTL_I_FIELD_PROP_inheritable_26 0
-#define NSTL_I_FIELD_PROP_inheritable_27 1
-#define NSTL_I_FIELD_PROP_inheritable_28 0
-#define NSTL_I_FIELD_PROP_inheritable_29 1
-#define NSTL_I_FIELD_PROP_inheritable_30 0
-#define NSTL_I_FIELD_PROP_inheritable_31 1
 #define NSTL_I_FIELD_PROP_instantiable 2
 #define NSTL_I_FIELD_PROP_instantiable_0 0
 #define NSTL_I_FIELD_PROP_instantiable_1 0
@@ -179,89 +157,24 @@ nstl.generate(cog, *properties, token=True)
 #define NSTL_I_FIELD_PROP_instantiable_13 0
 #define NSTL_I_FIELD_PROP_instantiable_14 1
 #define NSTL_I_FIELD_PROP_instantiable_15 1
-#define NSTL_I_FIELD_PROP_instantiable_16 0
-#define NSTL_I_FIELD_PROP_instantiable_17 0
-#define NSTL_I_FIELD_PROP_instantiable_18 1
-#define NSTL_I_FIELD_PROP_instantiable_19 1
-#define NSTL_I_FIELD_PROP_instantiable_20 0
-#define NSTL_I_FIELD_PROP_instantiable_21 0
-#define NSTL_I_FIELD_PROP_instantiable_22 1
-#define NSTL_I_FIELD_PROP_instantiable_23 1
-#define NSTL_I_FIELD_PROP_instantiable_24 0
-#define NSTL_I_FIELD_PROP_instantiable_25 0
-#define NSTL_I_FIELD_PROP_instantiable_26 1
-#define NSTL_I_FIELD_PROP_instantiable_27 1
-#define NSTL_I_FIELD_PROP_instantiable_28 0
-#define NSTL_I_FIELD_PROP_instantiable_29 0
-#define NSTL_I_FIELD_PROP_instantiable_30 1
-#define NSTL_I_FIELD_PROP_instantiable_31 1
-#define NSTL_I_FIELD_PROP_writable 4
-#define NSTL_I_FIELD_PROP_writable_0 0
-#define NSTL_I_FIELD_PROP_writable_1 0
-#define NSTL_I_FIELD_PROP_writable_2 0
-#define NSTL_I_FIELD_PROP_writable_3 0
-#define NSTL_I_FIELD_PROP_writable_4 1
-#define NSTL_I_FIELD_PROP_writable_5 1
-#define NSTL_I_FIELD_PROP_writable_6 1
-#define NSTL_I_FIELD_PROP_writable_7 1
-#define NSTL_I_FIELD_PROP_writable_8 0
-#define NSTL_I_FIELD_PROP_writable_9 0
-#define NSTL_I_FIELD_PROP_writable_10 0
-#define NSTL_I_FIELD_PROP_writable_11 0
-#define NSTL_I_FIELD_PROP_writable_12 1
-#define NSTL_I_FIELD_PROP_writable_13 1
-#define NSTL_I_FIELD_PROP_writable_14 1
-#define NSTL_I_FIELD_PROP_writable_15 1
-#define NSTL_I_FIELD_PROP_writable_16 0
-#define NSTL_I_FIELD_PROP_writable_17 0
-#define NSTL_I_FIELD_PROP_writable_18 0
-#define NSTL_I_FIELD_PROP_writable_19 0
-#define NSTL_I_FIELD_PROP_writable_20 1
-#define NSTL_I_FIELD_PROP_writable_21 1
-#define NSTL_I_FIELD_PROP_writable_22 1
-#define NSTL_I_FIELD_PROP_writable_23 1
-#define NSTL_I_FIELD_PROP_writable_24 0
-#define NSTL_I_FIELD_PROP_writable_25 0
-#define NSTL_I_FIELD_PROP_writable_26 0
-#define NSTL_I_FIELD_PROP_writable_27 0
-#define NSTL_I_FIELD_PROP_writable_28 1
-#define NSTL_I_FIELD_PROP_writable_29 1
-#define NSTL_I_FIELD_PROP_writable_30 1
-#define NSTL_I_FIELD_PROP_writable_31 1
-#define NSTL_I_FIELD_PROP_anonymous 8
+#define NSTL_I_FIELD_PROP_anonymous 4
 #define NSTL_I_FIELD_PROP_anonymous_0 0
 #define NSTL_I_FIELD_PROP_anonymous_1 0
 #define NSTL_I_FIELD_PROP_anonymous_2 0
 #define NSTL_I_FIELD_PROP_anonymous_3 0
-#define NSTL_I_FIELD_PROP_anonymous_4 0
-#define NSTL_I_FIELD_PROP_anonymous_5 0
-#define NSTL_I_FIELD_PROP_anonymous_6 0
-#define NSTL_I_FIELD_PROP_anonymous_7 0
-#define NSTL_I_FIELD_PROP_anonymous_8 1
-#define NSTL_I_FIELD_PROP_anonymous_9 1
-#define NSTL_I_FIELD_PROP_anonymous_10 1
-#define NSTL_I_FIELD_PROP_anonymous_11 1
+#define NSTL_I_FIELD_PROP_anonymous_4 1
+#define NSTL_I_FIELD_PROP_anonymous_5 1
+#define NSTL_I_FIELD_PROP_anonymous_6 1
+#define NSTL_I_FIELD_PROP_anonymous_7 1
+#define NSTL_I_FIELD_PROP_anonymous_8 0
+#define NSTL_I_FIELD_PROP_anonymous_9 0
+#define NSTL_I_FIELD_PROP_anonymous_10 0
+#define NSTL_I_FIELD_PROP_anonymous_11 0
 #define NSTL_I_FIELD_PROP_anonymous_12 1
 #define NSTL_I_FIELD_PROP_anonymous_13 1
 #define NSTL_I_FIELD_PROP_anonymous_14 1
 #define NSTL_I_FIELD_PROP_anonymous_15 1
-#define NSTL_I_FIELD_PROP_anonymous_16 0
-#define NSTL_I_FIELD_PROP_anonymous_17 0
-#define NSTL_I_FIELD_PROP_anonymous_18 0
-#define NSTL_I_FIELD_PROP_anonymous_19 0
-#define NSTL_I_FIELD_PROP_anonymous_20 0
-#define NSTL_I_FIELD_PROP_anonymous_21 0
-#define NSTL_I_FIELD_PROP_anonymous_22 0
-#define NSTL_I_FIELD_PROP_anonymous_23 0
-#define NSTL_I_FIELD_PROP_anonymous_24 1
-#define NSTL_I_FIELD_PROP_anonymous_25 1
-#define NSTL_I_FIELD_PROP_anonymous_26 1
-#define NSTL_I_FIELD_PROP_anonymous_27 1
-#define NSTL_I_FIELD_PROP_anonymous_28 1
-#define NSTL_I_FIELD_PROP_anonymous_29 1
-#define NSTL_I_FIELD_PROP_anonymous_30 1
-#define NSTL_I_FIELD_PROP_anonymous_31 1
-#define NSTL_I_FIELD_PROP___nstl_dummy_field 16
+#define NSTL_I_FIELD_PROP___nstl_dummy_field 8
 #define NSTL_I_FIELD_PROP___nstl_dummy_field_0 0
 #define NSTL_I_FIELD_PROP___nstl_dummy_field_1 0
 #define NSTL_I_FIELD_PROP___nstl_dummy_field_2 0
@@ -270,34 +183,17 @@ nstl.generate(cog, *properties, token=True)
 #define NSTL_I_FIELD_PROP___nstl_dummy_field_5 0
 #define NSTL_I_FIELD_PROP___nstl_dummy_field_6 0
 #define NSTL_I_FIELD_PROP___nstl_dummy_field_7 0
-#define NSTL_I_FIELD_PROP___nstl_dummy_field_8 0
-#define NSTL_I_FIELD_PROP___nstl_dummy_field_9 0
-#define NSTL_I_FIELD_PROP___nstl_dummy_field_10 0
-#define NSTL_I_FIELD_PROP___nstl_dummy_field_11 0
-#define NSTL_I_FIELD_PROP___nstl_dummy_field_12 0
-#define NSTL_I_FIELD_PROP___nstl_dummy_field_13 0
-#define NSTL_I_FIELD_PROP___nstl_dummy_field_14 0
-#define NSTL_I_FIELD_PROP___nstl_dummy_field_15 0
-#define NSTL_I_FIELD_PROP___nstl_dummy_field_16 1
-#define NSTL_I_FIELD_PROP___nstl_dummy_field_17 1
-#define NSTL_I_FIELD_PROP___nstl_dummy_field_18 1
-#define NSTL_I_FIELD_PROP___nstl_dummy_field_19 1
-#define NSTL_I_FIELD_PROP___nstl_dummy_field_20 1
-#define NSTL_I_FIELD_PROP___nstl_dummy_field_21 1
-#define NSTL_I_FIELD_PROP___nstl_dummy_field_22 1
-#define NSTL_I_FIELD_PROP___nstl_dummy_field_23 1
-#define NSTL_I_FIELD_PROP___nstl_dummy_field_24 1
-#define NSTL_I_FIELD_PROP___nstl_dummy_field_25 1
-#define NSTL_I_FIELD_PROP___nstl_dummy_field_26 1
-#define NSTL_I_FIELD_PROP___nstl_dummy_field_27 1
-#define NSTL_I_FIELD_PROP___nstl_dummy_field_28 1
-#define NSTL_I_FIELD_PROP___nstl_dummy_field_29 1
-#define NSTL_I_FIELD_PROP___nstl_dummy_field_30 1
-#define NSTL_I_FIELD_PROP___nstl_dummy_field_31 1
+#define NSTL_I_FIELD_PROP___nstl_dummy_field_8 1
+#define NSTL_I_FIELD_PROP___nstl_dummy_field_9 1
+#define NSTL_I_FIELD_PROP___nstl_dummy_field_10 1
+#define NSTL_I_FIELD_PROP___nstl_dummy_field_11 1
+#define NSTL_I_FIELD_PROP___nstl_dummy_field_12 1
+#define NSTL_I_FIELD_PROP___nstl_dummy_field_13 1
+#define NSTL_I_FIELD_PROP___nstl_dummy_field_14 1
+#define NSTL_I_FIELD_PROP___nstl_dummy_field_15 1
 #include <joy/cat.h>
 #define NSTL_TOKEN_inheritable (i n h e r i t a b l e)
 #define NSTL_TOKEN_instantiable (i n s t a n t i a b l e)
-#define NSTL_TOKEN_writable (w r i t a b l e)
 #define NSTL_TOKEN_anonymous (a n o n y m o u s)
 #define NSTL_TOKEN___nstl_dummy_field (_ _ n s t l _ d u m m y _ f i e l d)
 /* [[[end]]] */
