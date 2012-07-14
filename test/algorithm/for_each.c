@@ -5,9 +5,8 @@
  */
 
 #include <nstl/algorithm/for_each.h>
-#include <nstl/internal/pointer.h>
+
 #include <seatest.h>
-#include <stdbool.h>
 #include <stddef.h>
 
 
@@ -23,7 +22,7 @@ NSTL_INSTANTIATE(NSTL_FOR_EACH(intp, callback_type))
  * Global structure used to collect information when a test is run.
  */
 struct {
-    bool was_called;
+    nstl_bool was_called;
     size_t elements_processed;
     int first_elem;
     int last_elem;
@@ -34,7 +33,7 @@ struct {
  * gathered during the last test so the tests are independent.
  */
 static void set_up(void) {
-    test_info.was_called = false;
+    test_info.was_called = nstl_false;
     test_info.elements_processed = 0;
     test_info.first_elem = test_info.last_elem = -1;
 }
@@ -47,7 +46,7 @@ static void func(int elem) {
     if (!test_info.was_called)
         test_info.first_elem = elem;
     test_info.last_elem = elem;
-    test_info.was_called = true;
+    test_info.was_called = nstl_true;
     test_info.elements_processed++;
 }
 

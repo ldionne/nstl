@@ -8,11 +8,11 @@
 #ifndef NSTL_INTERNAL_OPERATOR_H
 #define NSTL_INTERNAL_OPERATOR_H
 
+#include <nstl/internal/boolean.h>
 #include <nstl/internal/config.h>
 #include <nstl/internal/type.h>
 #include <nstl/internal/workaround.h>
 
-#include <stdbool.h>
 #include <stddef.h>
 #include <stdlib.h>
 
@@ -165,37 +165,37 @@ static NSTL_INLINE T nstl_imod(T, T)(T *self, T other) {                       \
 NSTL_TYPE(                                                                     \
                                                                                \
 (defun eq                                                                      \
-static NSTL_INLINE bool nstl_eq(T, T)(T x, T y) {                              \
+static NSTL_INLINE nstl_bool nstl_eq(T, T)(T x, T y) {                         \
     return x == y;                                                             \
 }                                                                              \
 )                                                                              \
                                                                                \
 (defun ne                                                                      \
-static NSTL_INLINE bool nstl_ne(T, T)(T x, T y) {                              \
+static NSTL_INLINE nstl_bool nstl_ne(T, T)(T x, T y) {                         \
     return x != y;                                                             \
 }                                                                              \
 )                                                                              \
                                                                                \
 (defun gt                                                                      \
-static NSTL_INLINE bool nstl_gt(T, T)(T x, T y) {                              \
+static NSTL_INLINE nstl_bool nstl_gt(T, T)(T x, T y) {                         \
     return x > y;                                                              \
 }                                                                              \
 )                                                                              \
                                                                                \
 (defun lt                                                                      \
-static NSTL_INLINE bool nstl_lt(T, T)(T x, T y) {                              \
+static NSTL_INLINE nstl_bool nstl_lt(T, T)(T x, T y) {                         \
     return x < y;                                                              \
 }                                                                              \
 )                                                                              \
                                                                                \
 (defun ge                                                                      \
-static NSTL_INLINE bool nstl_ge(T, T)(T x, T y) {                              \
+static NSTL_INLINE nstl_bool nstl_ge(T, T)(T x, T y) {                         \
     return x >= y;                                                             \
 }                                                                              \
 )                                                                              \
                                                                                \
 (defun le                                                                      \
-static NSTL_INLINE bool nstl_le(T, T)(T x, T y) {                              \
+static NSTL_INLINE nstl_bool nstl_le(T, T)(T x, T y) {                         \
     return x <= y;                                                             \
 }                                                                              \
 )                                                                              \
@@ -207,7 +207,7 @@ static NSTL_INLINE bool nstl_le(T, T)(T x, T y) {                              \
 NSTL_TYPE(                                                                     \
                                                                                \
 (defun not                                                                     \
-static NSTL_INLINE bool nstl_not(T)(T self) {                                  \
+static NSTL_INLINE nstl_bool nstl_not(T)(T self) {                             \
     return !self;                                                              \
 }                                                                              \
 )                                                                              \

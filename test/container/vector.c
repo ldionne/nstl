@@ -5,6 +5,7 @@
  */
 
 #include <nstl/container/vector.h>
+
 #include <seatest.h>
 
 

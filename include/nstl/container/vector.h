@@ -11,7 +11,6 @@
 
 #include <assert.h>
 #include <stddef.h>
-#include <stdbool.h>
 #include <stdlib.h>
 
 
@@ -88,7 +87,7 @@ static NSTL_INLINE T nstl_back(vector)(vector *self) {                         \
                                     Capacity                                   \
  ****************************************************************************/ \
 (defun empty                                                                   \
-static NSTL_INLINE bool nstl_empty(vector)(vector *self) {                     \
+static NSTL_INLINE nstl_bool nstl_empty(vector)(vector *self) {                \
     return self->start == self->finish;                                        \
 }                                                                              \
 )                                                                              \

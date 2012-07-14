@@ -5,10 +5,8 @@
  */
 
 #include <nstl/algorithm/adjacent_find.h>
-#include <nstl/internal/pointer.h>
-#include <nstl/internal/primitive.h>
+
 #include <seatest.h>
-#include <stdbool.h>
 #include <stddef.h>
 
 

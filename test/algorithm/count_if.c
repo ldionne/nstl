@@ -5,32 +5,29 @@
  */
 
 #include <nstl/algorithm/count_if.h>
-#include <nstl/internal/pointer.h>
-#include <nstl/internal/workaround.h>
 
 #include <seatest.h>
-#include <stdbool.h>
 #include <stddef.h>
 
 
 typedef int *intp;
-typedef bool (*Predicate) (int elem);
+typedef nstl_bool (*Predicate) (int elem);
 NSTL_INSTANTIATE(NSTL_POINTER(int, intp))
 NSTL_INSTANTIATE(NSTL_COUNT_IF(intp, Predicate))
 
 #define count_if nstl_count_if(intp, Predicate)
 
-static bool always_false(int elem) {
+static nstl_bool always_false(int elem) {
     NSTL_SILENCE_UNUSED_VARIABLE_WARNING(elem);
-    return false;
+    return nstl_false;
 }
 
-static bool always_true(int elem) {
+static nstl_bool always_true(int elem) {
     NSTL_SILENCE_UNUSED_VARIABLE_WARNING(elem);
-    return true;
+    return nstl_true;
 }
 
-static bool is_even(int n) {
+static nstl_bool is_even(int n) {
     return n % 2 == 0;
 }
 
