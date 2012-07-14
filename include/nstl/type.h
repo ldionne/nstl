@@ -14,5 +14,6 @@
 #include <nstl/internal/static_eval.h>
 #include <nstl/internal/token.h>
 #include <nstl/internal/type.h>
+#include <nstl/internal/workaround.h>
 
 #endif /* !NSTL_TYPE_H */
