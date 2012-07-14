@@ -7,7 +7,7 @@
 #ifndef NSTL_ALGORITHM_COUNT_IF_H
 #define NSTL_ALGORITHM_COUNT_IF_H
 
-#include <nstl/type.h>
+#include <nstl/internal.h>
 
 #include <stddef.h>
 

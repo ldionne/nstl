@@ -7,7 +7,7 @@
 #ifndef NSTL_CONTAINER_VECTOR_H
 #define NSTL_CONTAINER_VECTOR_H
 
-#include <nstl/type.h>
+#include <nstl/internal.h>
 
 #include <assert.h>
 #include <stddef.h>

@@ -4,8 +4,8 @@
  * @author Louis Dionne
  */
 
-#ifndef NSTL_TYPE_H
-#define NSTL_TYPE_H
+#ifndef NSTL_INTERNAL_H
+#define NSTL_INTERNAL_H
 
 #include <nstl/internal/config.h>
 #include <nstl/internal/field.h>
@@ -16,4 +16,4 @@
 #include <nstl/internal/type.h>
 #include <nstl/internal/workaround.h>
 
-#endif /* !NSTL_TYPE_H */
+#endif /* !NSTL_INTERNAL_H */

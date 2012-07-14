@@ -7,7 +7,7 @@
 #ifndef NSTL_ALGORITHM_FIND_H
 #define NSTL_ALGORITHM_FIND_H
 
-#include <nstl/type.h>
+#include <nstl/internal.h>
 
 
 #define NSTL_FIND(InputIter, T)                                                \

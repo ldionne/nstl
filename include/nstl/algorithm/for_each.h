@@ -7,7 +7,7 @@
 #ifndef NSTL_ALGORITHM_FOR_EACH_H
 #define NSTL_ALGORITHM_FOR_EACH_H
 
-#include <nstl/type.h>
+#include <nstl/internal.h>
 
 
 #define NSTL_FOR_EACH(InputIter, Function)                                     \
