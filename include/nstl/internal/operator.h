@@ -8,7 +8,9 @@
 #ifndef NSTL_INTERNAL_OPERATOR_H
 #define NSTL_INTERNAL_OPERATOR_H
 
+#include <nstl/internal/config.h>
 #include <nstl/internal/type.h>
+#include <nstl/internal/workaround.h>
 
 #include <stdbool.h>
 #include <stddef.h>
@@ -20,7 +22,7 @@ NSTL_TYPE(                                                                     \
                                                                                \
 (defun ctor                                                                    \
 static NSTL_INLINE void nstl_ctor(T)(T *self) {                                \
-                                                                               \
+    NSTL_SILENCE_UNUSED_VARIABLE_WARNING(self);                                \
 }                                                                              \
 )                                                                              \
                                                                                \
@@ -32,7 +34,7 @@ static NSTL_INLINE void nstl_copy_ctor(T)(T *self, T other) {                  \
                                                                                \
 (defun dtor                                                                    \
 static NSTL_INLINE void nstl_dtor(T)(T *self) {                                \
-                                                                               \
+    NSTL_SILENCE_UNUSED_VARIABLE_WARNING(self);                                \
 }                                                                              \
 )                                                                              \
                                                                                \

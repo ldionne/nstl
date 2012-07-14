@@ -50,7 +50,8 @@ static NSTL_INLINE void nstl_copy_ctor(pair)(pair *self, pair other) {         \
  * Uninitialize a pair.                                                        \
  */                                                                            \
 static NSTL_INLINE void nstl_dtor(pair)(pair *self) {                          \
-                                                                               \
+    nstl_dtor(T1)(&self->first);                                               \
+    nstl_dtor(T2)(&self->second);                                              \
 }                                                                              \
 )                                                                              \
                                                                                \

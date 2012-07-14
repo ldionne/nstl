@@ -101,6 +101,7 @@ static NSTL_INLINE size_t nstl_size(vector)(vector *self) {                    \
                                                                                \
 (defun max_size                                                                \
 static NSTL_INLINE size_t nstl_max_size(vector)(vector *self) {                \
+    NSTL_SILENCE_UNUSED_VARIABLE_WARNING(self);                                \
     return (size_t)-1 / sizeof(T);                                             \
 }                                                                              \
 )                                                                              \

@@ -12,7 +12,7 @@ set(cog_fix_pypath export PYTHONPATH=${PYTHONPATH}:tools/cog)
 set(cog ${cog_fix_pypath} && python tools/cog/scripts/cog.py)
 set(macroize ${cog_fix_pypath} && python tools/macroize/macroize.py)
 set(cog_flags -I ${nstl_SOURCE_DIR}/tools/)
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Wextra -Wno-unused-function -Wno-unused-parameter -std=c89 -pedantic")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Wextra -Wno-unused-function -std=c89 -pedantic")
 
 # Clean up the source files from generated boilerplate to facilitate editing.
 add_custom_target(

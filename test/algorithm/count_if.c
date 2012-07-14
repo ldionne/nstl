@@ -6,7 +6,8 @@
 
 #include <nstl/algorithm/count_if.h>
 #include <nstl/internal/pointer.h>
-#include <nstl/internal/primitive.h>
+#include <nstl/internal/workaround.h>
+
 #include <seatest.h>
 #include <stdbool.h>
 #include <stddef.h>
@@ -20,10 +21,12 @@ NSTL_INSTANTIATE(NSTL_COUNT_IF(intp, Predicate))
 #define count_if nstl_count_if(intp, Predicate)
 
 static bool always_false(int elem) {
+    NSTL_SILENCE_UNUSED_VARIABLE_WARNING(elem);
     return false;
 }
 
 static bool always_true(int elem) {
+    NSTL_SILENCE_UNUSED_VARIABLE_WARNING(elem);
     return true;
 }
 
