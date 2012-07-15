@@ -36,4 +36,14 @@
  */
 #define NSTL_CONFIG_BOOL_IS_AVAILABLE 0
 
+/**
+ * If this flag is enabled, concept requirements will be checked whenever
+ * concept checks appear. If it is disabled, concept requirements won't
+ * be checked.
+ *
+ * Disabling this should decrease compilation time, but metatype errors will
+ * be harder to spot.
+ */
+#define NSTL_CONFIG_CHECK_CONCEPT_REQUIREMENTS 1
+
 #endif /* !NSTL_INTERNAL_CONFIG_H */

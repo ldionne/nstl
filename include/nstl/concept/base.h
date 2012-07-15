@@ -8,6 +8,7 @@
 #ifndef NSTL_CONCEPT_BASE_H
 #define NSTL_CONCEPT_BASE_H
 
+#include <nstl/internal/config.h>
 #include <nstl/internal/static_assert.h>
 
 #include <chaos/preprocessor/stringize.h>
@@ -19,7 +20,11 @@
  * When a requirement is not met, a preprocessor error is triggered with the
  * message that was provided when the requirement was specified.
  */
-#define NSTL_CONCEPT(requirements) requirements
+#if NSTL_CONFIG_CHECK_CONCEPT_REQUIREMENTS
+#   define NSTL_CONCEPT(requirements) requirements
+#else
+#   define NSTL_CONCEPT(requirements) /* nothing */
+#endif
 
 /**
  * Specify a concept requirement.
