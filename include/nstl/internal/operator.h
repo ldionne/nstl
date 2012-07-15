@@ -26,6 +26,12 @@ static NSTL_INLINE void nstl_ctor(T)(T *self) {                                \
 }                                                                              \
 )                                                                              \
                                                                                \
+(defun def_ctor                                                                \
+static NSTL_INLINE void nstl_def_ctor(T)(T *self) {                            \
+    NSTL_SILENCE_UNUSED_VARIABLE_WARNING(self);                                \
+}                                                                              \
+)                                                                              \
+                                                                               \
 (defun copy_ctor                                                               \
 static NSTL_INLINE void nstl_copy_ctor(T)(T *self, T other) {                  \
     *self = other;                                                             \
@@ -294,7 +300,8 @@ import nstl
 
 NSTL_OPERATORS = [
     # Initialization / deinitialization / allocation operators
-    'ctor(T)',      # T()
+    'ctor(T)',      # Principal constructor (most useful)
+    'def_ctor(T)',  # T()
     'copy_ctor(T)', # T(T other)
     'dtor(T)',      # ~T
     'new(T)',       # new
@@ -506,6 +513,7 @@ nstl.generate(cog,
 #define NSTL_TOKEN_c (c)
 #define NSTL_TOKEN_volatile (v o l a t i l e)
 #define NSTL_TOKEN_g (g)
+#define NSTL_TOKEN_def_ctor (d e f _ c t o r)
 #define NSTL_TOKEN_copy_ctor (c o p y _ c t o r)
 #define NSTL_TOKEN_k (k)
 #define NSTL_TOKEN_bitand (b i t a n d)
@@ -673,6 +681,7 @@ nstl.generate(cog,
 #define nstl_pop_back(T) JOY_CAT3(nstl_mangled_pop_back, _, T)
 #define nstl_max_size(T) JOY_CAT3(nstl_mangled_max_size, _, T)
 #define nstl_ilshift(R,  T) JOY_CAT5(nstl_mangled_ilshift, _, R, _,  T)
+#define nstl_def_ctor(T) JOY_CAT3(nstl_mangled_def_ctor, _, T)
 #define nstl_copy_ctor(T) JOY_CAT3(nstl_mangled_copy_ctor, _, T)
 #define nstl_capacity(T) JOY_CAT3(nstl_mangled_capacity, _, T)
 #define nstl_prom(T) JOY_CAT3(nstl_mangled_prom, _, T)

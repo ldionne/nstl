@@ -37,7 +37,20 @@ static NSTL_INLINE void nstl_ctor(pair)(pair *self, T1 first, T2 second) {     \
 }                                                                              \
 )                                                                              \
                                                                                \
+(defun def_ctor                                                                \
+/**                                                                            \
+ * Initialize a pair using the default constructor of each member.             \
+ */                                                                            \
+static NSTL_INLINE void nstl_def_ctor(pair)(pair *self) {                      \
+    nstl_def_ctor(T1)(&self->first);                                           \
+    nstl_def_ctor(T2)(&self->second);                                          \
+}                                                                              \
+)                                                                              \
+                                                                               \
 (defun copy_ctor                                                               \
+/**                                                                            \
+ * Initialize a pair from another pair, so both are identical.                 \
+ */                                                                            \
 static NSTL_INLINE void nstl_copy_ctor(pair)(pair *self, pair other) {         \
     nstl_ctor(pair)(self, other.first, other.second);                          \
 }                                                                              \
