@@ -7,7 +7,6 @@
 #ifndef NSTL_INTERNAL_H
 #define NSTL_INTERNAL_H
 
-#include <nstl/internal/concept.h>
 #include <nstl/internal/config.h>
 #include <nstl/internal/field.h>
 #include <nstl/internal/operator.h>

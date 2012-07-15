@@ -8,6 +8,7 @@
 #define NSTL_H
 
 #include <nstl/algorithm.h>
+#include <nstl/concept.h>
 #include <nstl/container.h>
 #include <nstl/pair.h>
 

@@ -5,8 +5,8 @@
  * @author Louis Dionne
  */
 
-#ifndef NSTL_INTERNAL_CONCEPT_H
-#define NSTL_INTERNAL_CONCEPT_H
+#ifndef NSTL_CONCEPT_BASE_H
+#define NSTL_CONCEPT_BASE_H
 
 #include <nstl/internal/static_assert.h>
 
@@ -31,4 +31,4 @@
     )                                                                          \
 /**/
 
-#endif /* !NSTL_INTERNAL_CONCEPT_H */
+#endif /* !NSTL_CONCEPT_BASE_H */
