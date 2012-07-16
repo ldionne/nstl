@@ -13,7 +13,7 @@
 
 
 #define NSTL_COUNT_IF(InputIter, Predicate)                                    \
-NSTL_TYPE(                                                                     \
+NSTL_TYPE(nstl_count_if(InputIter, Predicate),                                 \
                                                                                \
 (defun count_if                                                                \
 /**                                                                            \

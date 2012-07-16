@@ -18,7 +18,7 @@
 
 
 #define NSTL_INITIALIZATION_OPERATORS(T)                                       \
-NSTL_TYPE(                                                                     \
+NSTL_TYPE(nstl_initialization_operators_ ## T,                                 \
                                                                                \
 (defun ctor                                                                    \
 static NSTL_INLINE void nstl_ctor(T)(T *self) {                                \
@@ -60,7 +60,7 @@ static NSTL_INLINE void nstl_delete(T)(T *self) {                              \
 /**/
 
 #define NSTL_ARITHMETIC_OPERATORS(T)                                           \
-NSTL_TYPE(                                                                     \
+NSTL_TYPE(nstl_arithmetic_operators_ ## T,                                     \
                                                                                \
 (defun asg                                                                     \
 static NSTL_INLINE T nstl_asg(T, T)(T *self, T other) {                        \
@@ -168,7 +168,7 @@ static NSTL_INLINE T nstl_imod(T, T)(T *self, T other) {                       \
 /**/
 
 #define NSTL_COMPARISON_OPERATORS(T)                                           \
-NSTL_TYPE(                                                                     \
+NSTL_TYPE(nstl_comparison_operators_ ## T,                                     \
                                                                                \
 (defun eq                                                                      \
 static NSTL_INLINE nstl_bool nstl_eq(T, T)(T x, T y) {                         \
@@ -210,7 +210,7 @@ static NSTL_INLINE nstl_bool nstl_le(T, T)(T x, T y) {                         \
 /**/
 
 #define NSTL_LOGICAL_OPERATORS(T)                                              \
-NSTL_TYPE(                                                                     \
+NSTL_TYPE(nstl_logical_operators_ ## T,                                        \
                                                                                \
 (defun not                                                                     \
 static NSTL_INLINE nstl_bool nstl_not(T)(T self) {                             \
@@ -222,7 +222,7 @@ static NSTL_INLINE nstl_bool nstl_not(T)(T self) {                             \
 /**/
 
 #define NSTL_BITWISE_OPERATORS(T)                                              \
-NSTL_TYPE(                                                                     \
+NSTL_TYPE(nstl_bitwise_operators_ ## T,                                        \
                                                                                \
 (defun compl                                                                   \
 static NSTL_INLINE T nstl_compl(T)(T self) {                                   \

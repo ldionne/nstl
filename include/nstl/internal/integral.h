@@ -30,14 +30,14 @@
 #include <nstl/internal/type.h>
 
 
-#define NSTL_INTEGRAL(T)                                                       \
-NSTL_TYPE(                                                                     \
+#define NSTL_INTEGRAL(value_type)                                              \
+NSTL_TYPE(value_type,                                                          \
                                                                                \
-(inherit NSTL_INITIALIZATION_OPERATORS(T))                                     \
-(inherit NSTL_ARITHMETIC_OPERATORS(T))                                         \
-(inherit NSTL_COMPARISON_OPERATORS(T))                                         \
-(inherit NSTL_LOGICAL_OPERATORS(T))                                            \
-(inherit NSTL_BITWISE_OPERATORS(T))                                            \
+(inherit NSTL_INITIALIZATION_OPERATORS(value_type))                            \
+(inherit NSTL_ARITHMETIC_OPERATORS(value_type))                                \
+(inherit NSTL_COMPARISON_OPERATORS(value_type))                                \
+(inherit NSTL_LOGICAL_OPERATORS(value_type))                                   \
+(inherit NSTL_BITWISE_OPERATORS(value_type))                                   \
                                                                                \
 )                                                                              \
 /**/

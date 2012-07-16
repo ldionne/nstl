@@ -10,28 +10,32 @@
 #include <nstl/internal.h>
 
 
-#define NSTL_ADJACENT_FIND(FwdIter, T)                                         \
-NSTL_TYPE(                                                                     \
+#define NSTL_ADJACENT_FIND(iterator_type, value_type)                          \
+NSTL_TYPE(nstl_adjacent_find(iterator_type, value_type),                       \
                                                                                \
 (defun adjacent_find                                                           \
 /**                                                                            \
- * Search the range [first, last) for the first occurrence of two consecutive  \
- * equal elements, and return an iterator to the first of these two elements.  \
+ * Search the range [@p first, @p last) for the first occurrence of two        \
+ * consecutive equal elements, and return an iterator to the first of these    \
+ * two elements.                                                               \
  *                                                                             \
  * The comparison between the consecutive elements is performed by applying    \
- * the nstl_eq operator.                                                       \
+ * the @em nstl_eq operator.                                                   \
  */                                                                            \
-static NSTL_INLINE FwdIter nstl_adjacent_find(FwdIter, T)                      \
-                                    (FwdIter first, FwdIter last) {            \
-    FwdIter next;                                                              \
-    if (nstl_eq(FwdIter, FwdIter)(first, last))                                \
+static NSTL_INLINE iterator_type nstl_adjacent_find(iterator_type, value_type) \
+                                (iterator_type first, iterator_type last) {    \
+    iterator_type next;                                                        \
+    if (nstl_eq(iterator_type, iterator_type)(first, last))                    \
         return last;                                                           \
-    nstl_copy_ctor(FwdIter)(&next, first);                                     \
-    while (nstl_ne(FwdIter, FwdIter)(nstl_inc(FwdIter)(&next), last)) {        \
-        if (nstl_eq(T, T)(nstl_deref(FwdIter)(first),                          \
-                                                nstl_deref(FwdIter)(next)))    \
+    nstl_copy_ctor(iterator_type)(&next, first);                               \
+    while (nstl_ne(iterator_type, iterator_type)                               \
+                                    (nstl_inc(iterator_type)(&next), last)) {  \
+                                                                               \
+        if (nstl_eq(value_type, value_type)(nstl_deref(iterator_type)(first),  \
+                                            nstl_deref(iterator_type)(next)))  \
             return first;                                                      \
-        nstl_asg(FwdIter, FwdIter)(&first, next);                              \
+                                                                               \
+        nstl_asg(iterator_type, iterator_type)(&first, next);                  \
     }                                                                          \
     return last;                                                               \
 }                                                                              \
@@ -44,7 +48,7 @@ static NSTL_INLINE FwdIter nstl_adjacent_find(FwdIter, T)                      \
 
 import nstl
 nstl.generate(cog,
-    'adjacent_find(FwdIter, T)',
+    'adjacent_find(iterator_type, value_type)',
 
     token=True, mangle=True,
 )
@@ -52,7 +56,7 @@ nstl.generate(cog,
 ]]] */
 #include <joy/cat.h>
 #define NSTL_TOKEN_adjacent_find (a d j a c e n t _ f i n d)
-#define nstl_adjacent_find(FwdIter,  T) JOY_CAT5(nstl_mangled_adjacent_find, _, FwdIter, _,  T)
+#define nstl_adjacent_find(iterator_type,  value_type) JOY_CAT5(nstl_mangled_adjacent_find, _, iterator_type, _,  value_type)
 /* [[[end]]] */
 
 #endif /* !NSTL_ALGORITHM_ADJACENT_FIND_H */

@@ -11,7 +11,7 @@
 
 
 #define NSTL_FOR_EACH(InputIter, Function)                                     \
-NSTL_TYPE(                                                                     \
+NSTL_TYPE(nstl_for_each(InputIter, Function),                                  \
                                                                                \
 (defun for_each                                                                \
 /**                                                                            \

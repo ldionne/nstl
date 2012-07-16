@@ -17,7 +17,7 @@
 /**/
 
 #define NSTL_PAIR_INHERIT(pair, T1, T2)                                        \
-NSTL_TYPE(                                                                     \
+NSTL_TYPE(pair,                                                                \
                                                                                \
 (defstruct                                                                     \
 struct pair {                                                                  \

@@ -17,7 +17,7 @@
 #define NSTL_VECTOR(T) NSTL_VECTOR_INHERIT(nstl_vector(T), T)
 
 #define NSTL_VECTOR_INHERIT(vector, T)                                         \
-NSTL_TYPE(                                                                     \
+NSTL_TYPE(vector,                                                              \
                                                                                \
 (defstruct                                                                     \
 /**                                                                            \

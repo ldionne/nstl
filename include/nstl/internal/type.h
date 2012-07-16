@@ -39,20 +39,26 @@
 /**
  * Create a new nstl type.
  *
+ * @param unique_id A unique C identifier representing the type.
+ *                  For example, a nstl type defining a template function
+ *                  could have a unique id composed from the base name of
+ *                  the function and the unique id of the type used to
+ *                  parametrize the template.
+ *
  * @param instructions A sequence of instructions:
  *                     (instruction_1 args...)
  *                     (instruction_2 args...)
  *                              ...
  *                     (instruction_n args...)
  */
-#define NSTL_TYPE(instructions) \
-    NSTL_TYPE_S(CHAOS_PP_STATE(), instructions)
+#define NSTL_TYPE(unique_id, instructions) \
+    NSTL_TYPE_S(CHAOS_PP_STATE(), unique_id, instructions)
 
-#define NSTL_TYPE_S(s, instructions)                                           \
+#define NSTL_TYPE_S(s, unique_id, instructions)                                \
     CHAOS_PP_EXPR_S(s)(CHAOS_PP_SEQ_FOLD_LEFT_S(s,                             \
         NSTL_I_EXECUTE_STATEMENT,                                              \
         instructions,                                                          \
-        NSTL_I_INITIAL_TYPE_STATE()                                            \
+        (unique_id) (NSTL_I_INITIAL_FIELDS_STATE())                            \
     ))                                                                         \
 /**/
 
@@ -60,9 +66,9 @@
  * state in C89.
  */
 #if NSTL_CONFIG_EMPTY_MACRO_ARGS
-#   define NSTL_I_INITIAL_TYPE_STATE() /* nothing */
+#   define NSTL_I_INITIAL_FIELDS_STATE() /* nothing */
 #else
-#   define NSTL_I_INITIAL_TYPE_STATE() (NSTL_FIELD(~, anonymous, ~))
+#   define NSTL_I_INITIAL_FIELDS_STATE() (NSTL_FIELD(~, anonymous, ~))
 #endif /* NSTL_CONFIG_EMPTY_MACRO_ARGS */
 
 /**
@@ -103,6 +109,22 @@
  */
 #define NSTL_INSTRUCTION(instr) CHAOS_PP_CAT(NSTL_INSTRUCTION_, instr)
 
+/**
+ * Return the unique identifier of a nstl type.
+ */
+#define NSTL_IDENTIFIER(self) CHAOS_PP_SEQ_ELEM(0, self)
+
+/**
+ * Return the fields of a nstl type.
+ */
+#define NSTL_I_TYPE_FIELDS(self) CHAOS_PP_SEQ_ELEM(1, self)
+
+/**
+ * Replace the fields of a nstl type.
+ */
+#define NSTL_I_TYPE_SET_FIELDS(self, fields) \
+    CHAOS_PP_SEQ_REPLACE(1, self, fields)
+
 /****************************************************************************
                                   NSTL_GETF
  ****************************************************************************/
@@ -130,7 +152,7 @@
  */
 #define NSTL_I_GETF(s, self, field)                                            \
     JOY_SEQ_FIND_FIRST_S(s,                                                    \
-        NSTL_I_TYPE_COMPARE, self,                                             \
+        NSTL_I_TYPE_COMPARE, NSTL_I_TYPE_FIELDS(self),                         \
                                 NSTL_FIELD_S(s, field, __nstl_dummy_field, ~)  \
     )                                                                          \
 /**/
@@ -152,9 +174,11 @@
     NSTL_SETF_S(CHAOS_PP_STATE(), self, field, properties, value)
 
 #define NSTL_SETF_S(s, self, field, properties, value)                         \
-    JOY_SEQ_APPEND(                                                            \
-        NSTL_FIELD_S(s, field, properties, value),                             \
-        NSTL_UNSETF_S(s, self, field)                                          \
+    NSTL_I_TYPE_SET_FIELDS(self,                                               \
+        JOY_SEQ_APPEND(                                                        \
+            NSTL_FIELD_S(s, field, properties, value),                         \
+            NSTL_I_TYPE_FIELDS(NSTL_UNSETF_S(s, self, field))                  \
+        )                                                                      \
     )                                                                          \
 /**/
 
@@ -269,9 +293,11 @@
     NSTL_UNSETF_S(CHAOS_PP_STATE(), self, field)
 
 #define NSTL_UNSETF_S(s, self, field)                                          \
-    JOY_SEQ_REMOVE_IF_S(s,                                                     \
-        NSTL_I_TYPE_COMPARE, self,                                             \
+    NSTL_I_TYPE_SET_FIELDS(self,                                               \
+        JOY_SEQ_REMOVE_IF_S(s,                                                 \
+            NSTL_I_TYPE_COMPARE, NSTL_I_TYPE_FIELDS(self),                     \
                                 NSTL_FIELD_S(s, field, __nstl_dummy_field, ~)  \
+        )                                                                      \
     )                                                                          \
 /**/
 
@@ -294,27 +320,31 @@
 
 #define NSTL_INHERIT_S(s, self, super)                                         \
     NSTL_I_INHERIT_BATCH_SETF(s,                                               \
-        self, NSTL_I_INHERIT_FILTER_INHERITABLE(s, self, super)                \
+        self, NSTL_I_INHERIT_KEEP_INHERITABLE(s, super)                        \
     )                                                                          \
 /**/
 
 /**
- * Traverse a @p super type and keep only fields that are inheritable.
+ * Traverse a @p type and keep only fields that are inheritable.
  */
-#define NSTL_I_INHERIT_FILTER_INHERITABLE(s, self, super)                      \
-    CHAOS_PP_EXPR_S(s)(CHAOS_PP_SEQ_FILTER_S(s,                                \
-        NSTL_II_INHERIT_IS_INHERITABLE, super, self                            \
-    ))                                                                         \
+#define NSTL_I_INHERIT_KEEP_INHERITABLE(s, type)                               \
+    NSTL_I_TYPE_SET_FIELDS(type,                                               \
+        CHAOS_PP_EXPR_S(s)(CHAOS_PP_SEQ_FILTER_S(s,                            \
+            NSTL_II_INHERIT_KEEP_INHERITABLE_PRED, NSTL_I_TYPE_FIELDS(type), ~ \
+        ))                                                                     \
+    )                                                                          \
 /**/
-#define NSTL_II_INHERIT_IS_INHERITABLE(s, field, derived_type) \
+#define NSTL_II_INHERIT_KEEP_INHERITABLE_PRED(s, field, useless) \
     NSTL_FIELD_IS_INHERITABLE(field)
 
 /**
- * Set several fields to a type at once.
+ * Set all the fields of a type @p src to another type @p dst.
  */
-#define NSTL_I_INHERIT_BATCH_SETF(s, type, fields)                             \
+#define NSTL_I_INHERIT_BATCH_SETF(s, dst, src)                                 \
     NSTL_II_INHERIT_BATCH_SETF(s,                                              \
-        type, fields, NSTL_I_INHERIT_GET_FIELD_NAMES_TO_DROP(s, fields)        \
+        dst,                                                                   \
+        NSTL_I_INHERIT_GET_NAMED_FIELD_NAMES(s, NSTL_I_TYPE_FIELDS(src)),      \
+        NSTL_I_TYPE_FIELDS(src)                                                \
     )                                                                          \
 /**/
 
@@ -322,18 +352,21 @@
  * Drop several fields from a type and then extend the type with some other
  * given fields.
  */
-#define NSTL_II_INHERIT_BATCH_SETF(s, type, fields, to_drop)                   \
-    CHAOS_PP_IF(CHAOS_PP_IS_EMPTY(to_drop))(                                   \
-        type, NSTL_DROP_S(s, type, to_drop)                                    \
-    ) fields                                                                   \
+#define NSTL_II_INHERIT_BATCH_SETF(s, type, names_to_drop, fields_to_extend)   \
+    NSTL_I_TYPE_SET_FIELDS(type,                                               \
+        NSTL_I_TYPE_FIELDS(                                                    \
+            CHAOS_PP_IF(CHAOS_PP_IS_EMPTY(names_to_drop))(                     \
+                type, NSTL_DROP_S(s, type, names_to_drop)                      \
+            )                                                                  \
+        ) fields_to_extend                                                     \
+    )                                                                          \
 /**/
 
 /**
- * Gather a token string of field names to drop from a type.
- * The criteria for being dropped is that the field is not anonymous
- * and the @p type has a field set with that name.
+ * Gather a token string containing all the named field names in a sequence
+ * of fields.
  */
-#define NSTL_I_INHERIT_GET_FIELD_NAMES_TO_DROP(s, fields)                      \
+#define NSTL_I_INHERIT_GET_NAMED_FIELD_NAMES(s, fields)                        \
     CHAOS_PP_EXPR_S(s)(CHAOS_PP_SEQ_FOR_EACH_S(s,                              \
         NSTL_I_INHERIT_PUT_FIELD_NAME_IF, fields, ~                            \
     ))                                                                         \
@@ -368,13 +401,17 @@
     NSTL_DROP_S(CHAOS_PP_STATE(), self, fields)
 
 #define NSTL_DROP_S(s, self, fields)                                           \
-    JOY_SEQ_REMOVE_IF_S(s,                                                     \
-        NSTL_I_DROP_PRED, self, NSTL_TOKEN_STRING_TO_SEQ_S(s, fields)          \
+    NSTL_I_TYPE_SET_FIELDS(self,                                               \
+        JOY_SEQ_REMOVE_IF_S(s,                                                 \
+            NSTL_I_DROP_PRED,                                                  \
+            NSTL_I_TYPE_FIELDS(self),                                          \
+            NSTL_TOKEN_STRING_TO_SEQ_S(s, fields)                              \
+        )                                                                      \
     )                                                                          \
 /**/
 
 #define NSTL_I_DROP_PRED(s, field, to_unset)                                   \
-    CHAOS_PP_IF(NSTL_FIELD_IS_ANONYMOUS(field))(1,                             \
+    CHAOS_PP_IF(NSTL_FIELD_IS_ANONYMOUS(field))(0,                             \
         JOY_SEQ_CONTAINS_S(s,                                                  \
             NSTL_II_DROP_PRED, to_unset, NSTL_FIELD_NAME(field)                \
         )                                                                      \
@@ -403,7 +440,7 @@
 
 #define NSTL_ISSET_S(s, self, field)                                           \
     JOY_SEQ_CONTAINS_S(s,                                                      \
-        NSTL_I_TYPE_COMPARE, self,                                             \
+        NSTL_I_TYPE_COMPARE, NSTL_I_TYPE_FIELDS(self),                         \
                                 NSTL_FIELD_S(s, field, __nstl_dummy_field, ~)  \
     )                                                                          \
 /**/
@@ -423,7 +460,7 @@
 
 #define NSTL_INSTANTIATE_S(s, self)                                            \
     CHAOS_PP_EXPR_S(s)(CHAOS_PP_SEQ_FOR_EACH_S(s,                              \
-        NSTL_II_INSTANTIATE_FIELD_VALUE, self, ~                               \
+        NSTL_II_INSTANTIATE_FIELD_VALUE, NSTL_I_TYPE_FIELDS(self), ~           \
     ))                                                                         \
 /**/
 

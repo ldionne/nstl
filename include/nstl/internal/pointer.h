@@ -14,7 +14,7 @@
 
 
 #define NSTL_POINTER(ValueType, Pointer)                                       \
-NSTL_TYPE(                                                                     \
+NSTL_TYPE(Pointer,                                                             \
                                                                                \
 (inherit NSTL_INITIALIZATION_OPERATORS(Pointer))                               \
 (inherit NSTL_ARITHMETIC_OPERATORS(Pointer))                                   \

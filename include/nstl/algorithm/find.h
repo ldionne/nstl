@@ -11,7 +11,7 @@
 
 
 #define NSTL_FIND(InputIter, T)                                                \
-NSTL_TYPE(                                                                     \
+NSTL_TYPE(nstl_find(InputIter, T),                                             \
                                                                                \
 (defun find                                                                    \
 /**                                                                            \
