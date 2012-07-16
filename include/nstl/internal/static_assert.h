@@ -28,7 +28,7 @@
 
 #else /* NSTL_CONFIG_VARIADIC_MACROS is true */
 
-#define NSTL_STATIC_ASSERT(condition, pre, ...)                                \
+#define NSTL_STATIC_ASSERT_PRIMITIVE(condition, pre, ...)                      \
     CHAOS_PP_UNLESS(condition)(                                                \
         NSTL_I_STATIC_ASSERTION_FAILURE(pre, __VA_ARGS__)                      \
     )                                                                          \
