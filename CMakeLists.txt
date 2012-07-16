@@ -18,7 +18,7 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Wextra -Wno-unused-function -std=c89 
 add_custom_target(
     before-edit
     DEPENDS ${editable_files}
-    COMMAND ${cog} ${cog_flags} -x -r ${editable_files}
+    COMMAND ${cog} ${cog_flags} -x -r ${editable_files} > /dev/null
     COMMAND ${macroize} ${editable_files} -u
     WORKING_DIRECTORY ${nstl_SOURCE_DIR}
 )
@@ -28,7 +28,7 @@ add_custom_target(
     after-edit
     DEPENDS ${editable_files}
     COMMAND ${macroize} ${editable_files}
-    COMMAND ${cog} ${cog_flags} -r ${editable_files}
+    COMMAND ${cog} ${cog_flags} -r ${editable_files} > /dev/null
     WORKING_DIRECTORY ${nstl_SOURCE_DIR}
 )
 
