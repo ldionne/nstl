@@ -9,32 +9,70 @@
 #define NSTL_INTERNAL_CONFIG_H
 
 /**
+ * This flag is on whenever we are being compiled using the C99 dialect.
+ */
+#if !__cplusplus && __STDC_VERSION__ >= 199901L
+#   define NSTL_CONFIG_C99 1
+#else
+#   define NSTL_CONFIG_C99 0
+#endif
+
+/**
+ * This flag is on whenever we are being compiled using C++11.
+ */
+#if defined(__cplusplus) && __cplusplus >= 201103L
+#   define NSTL_CONFIG_CPP11 1
+#else
+#   define NSTL_CONFIG_CPP11 0
+#endif
+
+/**
  * This flag is enabled when it is allowed to pass empty arguments to macros.
  */
-#define NSTL_CONFIG_EMPTY_MACRO_ARGS 0
+#if NSTL_CONFIG_C99 || NSTL_CONFIG_CPP11
+#   define NSTL_CONFIG_EMPTY_MACRO_ARGS 1
+#else
+#   define NSTL_CONFIG_EMPTY_MACRO_ARGS 0
+#endif
 
 /**
  * This flag is enabled when variadic macros are supported.
  */
-#define NSTL_CONFIG_VARIADIC_MACROS 0
+#if NSTL_CONFIG_C99 || NSTL_CONFIG_CPP11
+#   define NSTL_CONFIG_VARIADIC_MACROS 1
+#else
+#   define NSTL_CONFIG_VARIADIC_MACROS 0
+#endif
 
 /**
  * This macro is used to specify that a function should be inlined by the
  * compiler. This is for compatibility with dialects older than C99.
  */
-#define NSTL_INLINE
+#if NSTL_CONFIG_C99 || __cplusplus
+#   define NSTL_INLINE inline
+#else
+#   define NSTL_INLINE /* nothing */
+#endif
 
 /**
  * This flag is enabled when the long long and unsigned long long types are
  * available.
  */
-#define NSTL_CONFIG_LONG_LONG_AVAILABLE 0
+#if NSTL_CONFIG_C99
+#   define NSTL_CONFIG_LONG_LONG_AVAILABLE 1
+#else
+#   define NSTL_CONFIG_LONG_LONG_AVAILABLE 0
+#endif
 
 /**
  * This flag is enabled when the @em stdbool.h header is available, i.e.
  * when @em bool, @em true, and @em false can be used.
  */
-#define NSTL_CONFIG_BOOL_IS_AVAILABLE 0
+#if NSTL_CONFIG_C99 || __cplusplus
+#   define NSTL_CONFIG_BOOL_IS_AVAILABLE 1
+#else
+#   define NSTL_CONFIG_BOOL_IS_AVAILABLE 0
+#endif
 
 /**
  * If this flag is enabled, concept requirements will be checked whenever
