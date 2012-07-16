@@ -6,6 +6,7 @@
 
 #if NSTL_I_INSTANTIATE_PRIMITIVE
     NSTL_INSTANTIATE(NSTL_BOOL)
+    NSTL_INSTANTIATE(NSTL_PBOOL)
 #else
 
 #ifndef NSTL_INTERNAL_BOOLEAN_H
@@ -13,6 +14,7 @@
 
 #include <nstl/internal/config.h>
 #include <nstl/internal/operator.h>
+#include <nstl/internal/pointer.h>
 #include <nstl/internal/type.h>
 
 
@@ -41,7 +43,9 @@ NSTL_TYPE(value_type,                                                          \
     typedef enum nstl_bool nstl_bool;
 #endif /* NSTL_CONFIG_BOOL_IS_AVAILABLE */
 
+typedef nstl_bool *nstl_pbool;
 #define NSTL_BOOL NSTL_BOOLEAN(nstl_bool)
+#define NSTL_PBOOL NSTL_POINTER(nstl_bool, nstl_pbool)
 
 #endif /* !NSTL_INTERNAL_BOOLEAN_H */
 #endif /* NSTL_I_INSTANTIATE_PRIMITIVE */

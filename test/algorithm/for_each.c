@@ -10,12 +10,10 @@
 #include <stddef.h>
 
 
-typedef int *intp;
 typedef void (*callback_type) (int elem);
-NSTL_INSTANTIATE(NSTL_POINTER(int, intp))
-NSTL_INSTANTIATE(NSTL_FOR_EACH(intp, callback_type))
+NSTL_INSTANTIATE(NSTL_FOR_EACH(nstl_pint, callback_type))
 
-#define for_each nstl_for_each(intp, callback_type)
+#define for_each nstl_for_each(nstl_pint, callback_type)
 
 
 /**

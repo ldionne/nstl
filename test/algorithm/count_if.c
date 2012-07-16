@@ -10,12 +10,10 @@
 #include <stddef.h>
 
 
-typedef int *intp;
 typedef nstl_bool (*Predicate) (int elem);
-NSTL_INSTANTIATE(NSTL_POINTER(int, intp))
-NSTL_INSTANTIATE(NSTL_COUNT_IF(intp, Predicate))
+NSTL_INSTANTIATE(NSTL_COUNT_IF(nstl_pint, Predicate))
 
-#define count_if nstl_count_if(intp, Predicate)
+#define count_if nstl_count_if(nstl_pint, Predicate)
 
 static nstl_bool always_false(int elem) {
     NSTL_SILENCE_UNUSED_VARIABLE_WARNING(elem);
