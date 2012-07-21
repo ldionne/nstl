@@ -14,6 +14,9 @@
 NSTL_TYPE(nstl_swap(ValueType1, ValueType2),                                   \
                                                                                \
 (defun swap                                                                    \
+/**                                                                            \
+ * Assign the content of @p a to @p b and the content of @p b to @p a.         \
+ */                                                                            \
 static NSTL_INLINE void nstl_swap(ValueType1, ValueType2)(ValueType1 *a,       \
                                                           ValueType2 *b) {     \
     ValueType1 tmp;                                                            \

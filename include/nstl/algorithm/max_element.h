@@ -14,6 +14,14 @@
 NSTL_TYPE(nstl_max_element(FwdIter),                                           \
                                                                                \
 (defun max_element                                                             \
+/**                                                                            \
+ * Return an iterator pointing to the element with the largest value in the    \
+ * range [@p first, @p last).                                                  \
+ *                                                                             \
+ * The comparisons are performed using the @em nstl_lt operator. An element    \
+ * is the largest if it does not compare less than any other element, but      \
+ * it may compare equal.                                                       \
+ */                                                                            \
 static NSTL_INLINE FwdIter nstl_max_element(FwdIter)(FwdIter first,            \
                                                             FwdIter last) {    \
     FwdIter result;                                                            \
@@ -36,6 +44,14 @@ static NSTL_INLINE FwdIter nstl_max_element(FwdIter)(FwdIter first,            \
 NSTL_TYPE(nstl_max_element_cmp(FwdIter, BinaryPredicate),                      \
                                                                                \
 (defun max_element_cmp                                                         \
+/**                                                                            \
+ * Return an iterator pointing to the element with the largest value in the    \
+ * range [@p first, @p last).                                                  \
+ *                                                                             \
+ * The comparisons are performed using the @p comp binary predicate. An        \
+ * element is the largest if it does not compare less than any other element,  \
+ * but it may compare equal.                                                   \
+ */                                                                            \
 static NSTL_INLINE FwdIter nstl_max_element_cmp(FwdIter, BinaryPredicate)      \
                         (FwdIter first, FwdIter last, BinaryPredicate comp) {  \
     FwdIter result;                                                            \

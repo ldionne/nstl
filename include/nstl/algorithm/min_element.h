@@ -14,6 +14,14 @@
 NSTL_TYPE(nstl_min_element(FwdIter),                                           \
                                                                                \
 (defun min_element                                                             \
+/**                                                                            \
+ * Return an iterator pointing to the element with the smallest value in the   \
+ * range [@p first, @p last).                                                  \
+ *                                                                             \
+ * The comparisons are performed using the @em nstl_lt operator. An element    \
+ * is the smallest if no other element compares less than it, but it may       \
+ * compare equal.                                                              \
+ */                                                                            \
 static NSTL_INLINE FwdIter nstl_min_element(FwdIter)(FwdIter first,            \
                                                             FwdIter last) {    \
     FwdIter result;                                                            \
@@ -36,6 +44,14 @@ static NSTL_INLINE FwdIter nstl_min_element(FwdIter)(FwdIter first,            \
 NSTL_TYPE(nstl_min_element_cmp(FwdIter, BinaryPredicate),                      \
                                                                                \
 (defun min_element_cmp                                                         \
+/**                                                                            \
+ * Return an iterator pointing to the element with the smallest value in the   \
+ * range [@p first, @p last).                                                  \
+ *                                                                             \
+ * The comparisons are performed using the @p comp binary predicate. An        \
+ * element is the smallest if no other element compares less than it, but it   \
+ * may compare equal.                                                          \
+ */                                                                            \
 static NSTL_INLINE FwdIter nstl_min_element_cmp(FwdIter, BinaryPredicate)      \
                         (FwdIter first, FwdIter last, BinaryPredicate comp) {  \
     FwdIter result;                                                            \

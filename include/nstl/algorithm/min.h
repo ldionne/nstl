@@ -14,6 +14,11 @@
 NSTL_TYPE(nstl_min(ValueType),                                                 \
                                                                                \
 (defun min                                                                     \
+/**                                                                            \
+ * Return the lesser of @p a and @p b.                                         \
+ *                                                                             \
+ * The comparison uses nstl_lt to determine which value is lesser.             \
+ */                                                                            \
 static NSTL_INLINE ValueType nstl_min(ValueType)(ValueType a, ValueType b) {   \
     return nstl_lt(ValueType, ValueType)(b, a) ? b : a;                        \
 }                                                                              \
@@ -26,6 +31,15 @@ static NSTL_INLINE ValueType nstl_min(ValueType)(ValueType a, ValueType b) {   \
 NSTL_TYPE(nstl_min_cmp(ValueType, BinaryPredicate),                            \
                                                                                \
 (defun min_cmp                                                                 \
+/**                                                                            \
+ * Return the lesser of @p a and @p b.                                         \
+ *                                                                             \
+ * The comparison uses @p pred to determine which value is lesser.             \
+ *                                                                             \
+ * @note In order for this algorithm to have the same result as the @em min    \
+ *       algorithm, the @p pred predicate should act as a strict weak          \
+ *       comparison predicate.                                                 \
+ */                                                                            \
 static NSTL_INLINE ValueType nstl_min_cmp(ValueType, BinaryPredicate)          \
                             (ValueType a, ValueType b, BinaryPredicate pred) { \
     return pred(b, a) ? b : a;                                                 \

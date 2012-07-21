@@ -14,6 +14,11 @@
 NSTL_TYPE(nstl_max(ValueType),                                                 \
                                                                                \
 (defun max                                                                     \
+/**                                                                            \
+ * Return the greater of @p a and @p b.                                        \
+ *                                                                             \
+ * The comparison uses @em nstl_lt to determine which value is greater.        \
+ */                                                                            \
 static NSTL_INLINE ValueType nstl_max(ValueType)(ValueType a, ValueType b) {   \
     return nstl_lt(ValueType, ValueType)(a, b) ? b : a;                        \
 }                                                                              \
@@ -26,6 +31,15 @@ static NSTL_INLINE ValueType nstl_max(ValueType)(ValueType a, ValueType b) {   \
 NSTL_TYPE(nstl_max_cmp(ValueType, BinaryPredicate),                            \
                                                                                \
 (defun max_cmp                                                                 \
+/**                                                                            \
+ * Return the greater of @p a and @p b.                                        \
+ *                                                                             \
+ * The comparison uses @p pred to determine which value is greater.            \
+ *                                                                             \
+ * @note In order for this algorithm to have the same result as the @em max    \
+ *       algorithm, the @p pred predicate should act as a strict weak          \
+ *       comparison predicate.                                                 \
+ */                                                                            \
 static NSTL_INLINE ValueType nstl_max_cmp(ValueType, BinaryPredicate)          \
                             (ValueType a, ValueType b, BinaryPredicate pred) { \
     return pred(a, b) ? b : a;                                                 \
