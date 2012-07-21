@@ -11,8 +11,7 @@
 
 
 typedef nstl_bool (*BinaryPred)(int a, int b);
-
-nstl_bool inverse_comp(int a, int b) {
+static nstl_bool inverse_comp(int a, int b) {
     return a > b;
 }
 
