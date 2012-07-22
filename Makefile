@@ -13,10 +13,5 @@ all:
 	make -C build $@
 
 gen-cmake:
-	if [[ -d build ]]; \
-	then \
-		rm -rf build/*; \
-	else \
-		mkdir build; \
-	fi
+	rm -rf build; mkdir build
 	cd build; cmake ..; cd ..
