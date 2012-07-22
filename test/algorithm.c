@@ -14,6 +14,7 @@ extern void test_fixture_count_if(void);
 extern void test_fixture_distance(void);
 extern void test_fixture_find(void);
 extern void test_fixture_for_each(void);
+extern void test_fixture_lower_bound(void);
 extern void test_fixture_max_element(void);
 extern void test_fixture_min_element(void);
 extern void test_fixture_min_max(void);
@@ -28,6 +29,7 @@ extern void test_suite_algorithm(void) {
     test_fixture_distance();
     test_fixture_find();
     test_fixture_for_each();
+    test_fixture_lower_bound();
     test_fixture_max_element();
     test_fixture_min_element();
     test_fixture_min_max();

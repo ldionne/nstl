@@ -14,6 +14,7 @@
 #include <nstl/algorithm/distance.h>
 #include <nstl/algorithm/find.h>
 #include <nstl/algorithm/for_each.h>
+#include <nstl/algorithm/lower_bound.h>
 #include <nstl/algorithm/max.h>
 #include <nstl/algorithm/max_element.h>
 #include <nstl/algorithm/min.h>
