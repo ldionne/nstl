@@ -27,22 +27,22 @@ static NSTL_INLINE ValueType nstl_max(ValueType)(ValueType a, ValueType b) {   \
 )                                                                              \
 /**/
 
-#define NSTL_MAX_CMP(ValueType, BinaryPredicate)                               \
-NSTL_TYPE(nstl_max_cmp(ValueType, BinaryPredicate),                            \
+#define NSTL_MAX_CMP(ValueType, Compare)                                       \
+NSTL_TYPE(nstl_max_cmp(ValueType, Compare),                                    \
                                                                                \
 (defun max_cmp                                                                 \
 /**                                                                            \
  * Return the greater of @p a and @p b.                                        \
  *                                                                             \
- * The comparison uses @p pred to determine which value is greater.            \
+ * The comparison uses @p comp to determine which value is greater.            \
  *                                                                             \
  * @note In order for this algorithm to have the same result as the @em max    \
- *       algorithm, the @p pred predicate should act as a strict weak          \
- *       comparison predicate.                                                 \
+ *       algorithm, the @p comp comparator should act as a strict weak         \
+ *       comparison operator.                                                  \
  */                                                                            \
-static NSTL_INLINE ValueType nstl_max_cmp(ValueType, BinaryPredicate)          \
-                            (ValueType a, ValueType b, BinaryPredicate pred) { \
-    return pred(a, b) ? b : a;                                                 \
+static NSTL_INLINE ValueType nstl_max_cmp(ValueType, Compare)                  \
+                                    (ValueType a, ValueType b, Compare comp) { \
+    return comp(a, b) ? b : a;                                                 \
 }                                                                              \
 )                                                                              \
                                                                                \
@@ -54,7 +54,7 @@ static NSTL_INLINE ValueType nstl_max_cmp(ValueType, BinaryPredicate)          \
 import nstl
 nstl.generate(cog,
     'max(ValueType)',
-    'max_cmp(ValueType, BinaryPredicate)',
+    'max_cmp(ValueType, Compare)',
 
     token=True, mangle=True,
 )
@@ -64,7 +64,7 @@ nstl.generate(cog,
 #define NSTL_TOKEN_max (m a x)
 #define nstl_max(ValueType) JOY_CAT3(nstl_mangled_max, _, ValueType)
 #define NSTL_TOKEN_max_cmp (m a x _ c m p)
-#define nstl_max_cmp(ValueType,  BinaryPredicate) JOY_CAT5(nstl_mangled_max_cmp, _, ValueType, _,  BinaryPredicate)
+#define nstl_max_cmp(ValueType,  Compare) JOY_CAT5(nstl_mangled_max_cmp, _, ValueType, _,  Compare)
 /* [[[end]]] */
 
 #endif /* !NSTL_ALGORITHM_MAX_H */

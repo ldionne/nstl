@@ -10,8 +10,8 @@
 #include <nstl/internal.h>
 
 
-#define NSTL_ADJACENT_FIND(iterator_type, value_type)                          \
-NSTL_TYPE(nstl_adjacent_find(iterator_type, value_type),                       \
+#define NSTL_ADJACENT_FIND(FwdIter, ValueType)                                 \
+NSTL_TYPE(nstl_adjacent_find(FwdIter, ValueType),                              \
                                                                                \
 (defun adjacent_find                                                           \
 /**                                                                            \
@@ -22,20 +22,18 @@ NSTL_TYPE(nstl_adjacent_find(iterator_type, value_type),                       \
  * The comparison between the consecutive elements is performed by applying    \
  * the @em nstl_eq operator.                                                   \
  */                                                                            \
-static NSTL_INLINE iterator_type nstl_adjacent_find(iterator_type, value_type) \
-                                (iterator_type first, iterator_type last) {    \
-    iterator_type next;                                                        \
-    if (nstl_eq(iterator_type, iterator_type)(first, last))                    \
+static NSTL_INLINE FwdIter nstl_adjacent_find(FwdIter, ValueType)              \
+                                            (FwdIter first, FwdIter last) {    \
+    FwdIter next;                                                              \
+    if (nstl_eq(FwdIter, FwdIter)(first, last))                                \
         return last;                                                           \
-    nstl_copy_ctor(iterator_type)(&next, first);                               \
-    while (nstl_ne(iterator_type, iterator_type)                               \
-                                    (nstl_inc(iterator_type)(&next), last)) {  \
-                                                                               \
-        if (nstl_eq(value_type, value_type)(nstl_deref(iterator_type)(first),  \
-                                            nstl_deref(iterator_type)(next)))  \
+    nstl_copy_ctor(FwdIter)(&next, first);                                     \
+    while (nstl_ne(FwdIter, FwdIter)(nstl_inc(FwdIter)(&next), last)) {        \
+        if (nstl_eq(ValueType, ValueType)(nstl_deref(FwdIter)(first),          \
+                                          nstl_deref(FwdIter)(next)))          \
             return first;                                                      \
                                                                                \
-        nstl_asg(iterator_type, iterator_type)(&first, next);                  \
+        nstl_asg(FwdIter, FwdIter)(&first, next);                              \
     }                                                                          \
     return last;                                                               \
 }                                                                              \
@@ -48,7 +46,7 @@ static NSTL_INLINE iterator_type nstl_adjacent_find(iterator_type, value_type) \
 
 import nstl
 nstl.generate(cog,
-    'adjacent_find(iterator_type, value_type)',
+    'adjacent_find(FwdIter, ValueType)',
 
     token=True, mangle=True,
 )
@@ -56,7 +54,7 @@ nstl.generate(cog,
 ]]] */
 #include <joy/cat.h>
 #define NSTL_TOKEN_adjacent_find (a d j a c e n t _ f i n d)
-#define nstl_adjacent_find(iterator_type,  value_type) JOY_CAT5(nstl_mangled_adjacent_find, _, iterator_type, _,  value_type)
+#define nstl_adjacent_find(FwdIter,  ValueType) JOY_CAT5(nstl_mangled_adjacent_find, _, FwdIter, _,  ValueType)
 /* [[[end]]] */
 
 #endif /* !NSTL_ALGORITHM_ADJACENT_FIND_H */

@@ -40,20 +40,20 @@ static NSTL_INLINE FwdIter nstl_min_element(FwdIter)                           \
 )                                                                              \
 /**/
 
-#define NSTL_MIN_ELEMENT_CMP(FwdIter, ValueType, BinaryPredicate)              \
-NSTL_TYPE(nstl_min_element_cmp(FwdIter, BinaryPredicate),                      \
+#define NSTL_MIN_ELEMENT_CMP(FwdIter, ValueType, Compare)                      \
+NSTL_TYPE(nstl_min_element_cmp(FwdIter, Compare),                              \
                                                                                \
 (defun min_element_cmp                                                         \
 /**                                                                            \
  * Return an iterator pointing to the element with the smallest value in the   \
  * range [@p first, @p last).                                                  \
  *                                                                             \
- * The comparisons are performed using the @p comp binary predicate. An        \
- * element is the smallest if no other element compares less than it, but it   \
- * may compare equal.                                                          \
+ * The comparisons are performed using the @p comp comparator. An element is   \
+ * the smallest if no other element compares less than it, but it may compare  \
+ * equal.                                                                      \
  */                                                                            \
-static NSTL_INLINE FwdIter nstl_min_element_cmp(FwdIter, BinaryPredicate)      \
-                        (FwdIter first, FwdIter last, BinaryPredicate comp) {  \
+static NSTL_INLINE FwdIter nstl_min_element_cmp(FwdIter, Compare)              \
+                                (FwdIter first, FwdIter last, Compare comp) {  \
     FwdIter result;                                                            \
     if (nstl_eq(FwdIter, FwdIter)(first, last))                                \
         return first;                                                          \
@@ -74,7 +74,7 @@ static NSTL_INLINE FwdIter nstl_min_element_cmp(FwdIter, BinaryPredicate)      \
 import nstl
 nstl.generate(cog,
     'min_element(FwdIter)',
-    'min_element_cmp(FwdIter, BinaryPredicate)',
+    'min_element_cmp(FwdIter, Compare)',
 
     token=True, mangle=True,
 )
@@ -84,7 +84,7 @@ nstl.generate(cog,
 #define NSTL_TOKEN_min_element (m i n _ e l e m e n t)
 #define nstl_min_element(FwdIter) JOY_CAT3(nstl_mangled_min_element, _, FwdIter)
 #define NSTL_TOKEN_min_element_cmp (m i n _ e l e m e n t _ c m p)
-#define nstl_min_element_cmp(FwdIter,  BinaryPredicate) JOY_CAT5(nstl_mangled_min_element_cmp, _, FwdIter, _,  BinaryPredicate)
+#define nstl_min_element_cmp(FwdIter,  Compare) JOY_CAT5(nstl_mangled_min_element_cmp, _, FwdIter, _,  Compare)
 /* [[[end]]] */
 
 #endif /* !NSTL_ALGORITHM_MIN_ELEMENT_H */
