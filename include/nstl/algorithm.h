@@ -8,6 +8,7 @@
 #define NSTL_ALGORITHM_H
 
 #include <nstl/algorithm/adjacent_find.h>
+#include <nstl/algorithm/advance.h>
 #include <nstl/algorithm/count.h>
 #include <nstl/algorithm/count_if.h>
 #include <nstl/algorithm/distance.h>
