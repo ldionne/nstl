@@ -1,5 +1,5 @@
 /**
- * This file defines the @em lower_bound and @em lower_bound_cmp algorithms.
+ * This file defines the @em lower_bound and @em lower_bound_comp algorithms.
  *
  * @author Louis Dionne
  */
@@ -56,10 +56,10 @@ static FwdIter nstl_lower_bound(FwdIter)                                       \
 )                                                                              \
 /**/
 
-#define NSTL_LOWER_BOUND_CMP(FwdIter, ValueType, Compare)                      \
-NSTL_TYPE(nstl_lower_bound_cmp(FwdIter, Compare),                              \
+#define NSTL_LOWER_BOUND_COMP(FwdIter, ValueType, Compare)                     \
+NSTL_TYPE(nstl_lower_bound_comp(FwdIter, Compare),                             \
                                                                                \
-(defun lower_bound_cmp                                                         \
+(defun lower_bound_comp                                                        \
 /**                                                                            \
  * Return an iterator pointing to the first element in the sorted range        \
  * [@p first, @p last) which does not compare less than @p value.              \
@@ -72,7 +72,7 @@ NSTL_TYPE(nstl_lower_bound_cmp(FwdIter, Compare),                              \
  * element also if it compares qeuivalent to @p value and not only if it       \
  * compares greater.                                                           \
  */                                                                            \
-static FwdIter nstl_lower_bound_cmp(FwdIter, Compare)                          \
+static FwdIter nstl_lower_bound_comp(FwdIter, Compare)                         \
                 (FwdIter first, FwdIter last, ValueType value, Compare comp) { \
                                                                                \
     ptrdiff_t len = nstl_distance(FwdIter)(first, last);                       \
@@ -106,7 +106,7 @@ static FwdIter nstl_lower_bound_cmp(FwdIter, Compare)                          \
 import nstl
 nstl.generate(cog,
     'lower_bound(FwdIter)',
-    'lower_bound_cmp(FwdIter, Compare)',
+    'lower_bound_comp(FwdIter, Compare)',
 
     token=True, mangle=True,
 )
@@ -115,8 +115,8 @@ nstl.generate(cog,
 #include <joy/cat.h>
 #define NSTL_TOKEN_lower_bound (l o w e r _ b o u n d)
 #define nstl_lower_bound(FwdIter) JOY_CAT3(nstl_mangled_lower_bound, _, FwdIter)
-#define NSTL_TOKEN_lower_bound_cmp (l o w e r _ b o u n d _ c m p)
-#define nstl_lower_bound_cmp(FwdIter,  Compare) JOY_CAT5(nstl_mangled_lower_bound_cmp, _, FwdIter, _,  Compare)
+#define NSTL_TOKEN_lower_bound_comp (l o w e r _ b o u n d _ c o m p)
+#define nstl_lower_bound_comp(FwdIter,  Compare) JOY_CAT5(nstl_mangled_lower_bound_comp, _, FwdIter, _,  Compare)
 /* [[[end]]] */
 
 #endif /* !NSTL_ALGORITHM_LOWER_BOUND_H */

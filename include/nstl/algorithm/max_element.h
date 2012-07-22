@@ -1,5 +1,5 @@
 /**
- * This file defines the @em max_element algorithm.
+ * This file defines the @em max_element and @em max_element_comp algorithms.
  *
  * @author Louis Dionne
  */
@@ -40,10 +40,10 @@ static NSTL_INLINE FwdIter nstl_max_element(FwdIter)                           \
 )                                                                              \
 /**/
 
-#define NSTL_MAX_ELEMENT_CMP(FwdIter, ValueType, Compare)                      \
-NSTL_TYPE(nstl_max_element_cmp(FwdIter, Compare),                              \
+#define NSTL_MAX_ELEMENT_COMP(FwdIter, ValueType, Compare)                     \
+NSTL_TYPE(nstl_max_element_comp(FwdIter, Compare),                             \
                                                                                \
-(defun max_element_cmp                                                         \
+(defun max_element_comp                                                        \
 /**                                                                            \
  * Return an iterator pointing to the element with the largest value in the    \
  * range [@p first, @p last).                                                  \
@@ -52,7 +52,7 @@ NSTL_TYPE(nstl_max_element_cmp(FwdIter, Compare),                              \
  * the largest if it does not compare less than any other element, but it may  \
  * compare equal.                                                              \
  */                                                                            \
-static NSTL_INLINE FwdIter nstl_max_element_cmp(FwdIter, Compare)              \
+static NSTL_INLINE FwdIter nstl_max_element_comp(FwdIter, Compare)             \
                                 (FwdIter first, FwdIter last, Compare comp) {  \
     FwdIter result;                                                            \
     if (nstl_eq(FwdIter, FwdIter)(first, last))                                \
@@ -74,7 +74,7 @@ static NSTL_INLINE FwdIter nstl_max_element_cmp(FwdIter, Compare)              \
 import nstl
 nstl.generate(cog,
     'max_element(FwdIter)',
-    'max_element_cmp(FwdIter, Compare)',
+    'max_element_comp(FwdIter, Compare)',
 
     token=True, mangle=True,
 )
@@ -83,8 +83,8 @@ nstl.generate(cog,
 #include <joy/cat.h>
 #define NSTL_TOKEN_max_element (m a x _ e l e m e n t)
 #define nstl_max_element(FwdIter) JOY_CAT3(nstl_mangled_max_element, _, FwdIter)
-#define NSTL_TOKEN_max_element_cmp (m a x _ e l e m e n t _ c m p)
-#define nstl_max_element_cmp(FwdIter,  Compare) JOY_CAT5(nstl_mangled_max_element_cmp, _, FwdIter, _,  Compare)
+#define NSTL_TOKEN_max_element_comp (m a x _ e l e m e n t _ c o m p)
+#define nstl_max_element_comp(FwdIter,  Compare) JOY_CAT5(nstl_mangled_max_element_comp, _, FwdIter, _,  Compare)
 /* [[[end]]] */
 
 #endif /* !NSTL_ALGORITHM_MAX_ELEMENT_H */

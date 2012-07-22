@@ -1,5 +1,5 @@
 /**
- * Unit tests for the @em min_element algorithm.
+ * Unit tests for the @em min_element and @em min_element_comp algorithms.
  *
  * @author Louis Dionne
  */
@@ -12,11 +12,11 @@
 typedef nstl_bool (*Compare)(nstl_int x, nstl_int y);
 
 NSTL_INSTANTIATE(NSTL_MIN_ELEMENT(nstl_pint, nstl_int))
-NSTL_INSTANTIATE(NSTL_MIN_ELEMENT_CMP(nstl_pint, nstl_int, Compare))
+NSTL_INSTANTIATE(NSTL_MIN_ELEMENT_COMP(nstl_pint, nstl_int, Compare))
 
 #define min_element nstl_min_element(nstl_pint)
-#define min_element_cmp(first, last)                                           \
-    nstl_min_element_cmp(nstl_pint, Compare)(                                  \
+#define min_element_comp(first, last)                                          \
+    nstl_min_element_comp(nstl_pint, Compare)(                                 \
         first, last, nstl_lt(nstl_int, nstl_int)                               \
     )                                                                          \
 /**/
@@ -24,20 +24,20 @@ NSTL_INSTANTIATE(NSTL_MIN_ELEMENT_CMP(nstl_pint, nstl_int, Compare))
 static void test_should_find_smallest_element_in_sorted_range(void) {
     nstl_int array[10] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
     nstl_pint min = min_element(array, array + 10);
-    nstl_pint min_cmp = min_element_cmp(array, array + 10);
-    assert_true(min == min_cmp);
+    nstl_pint min_comp = min_element_comp(array, array + 10);
+    assert_true(min == min_comp);
     assert_int_equal(*min, 0);
 }
 
 static void test_should_find_smallest_element_in_non_sorted_range(void) {
     nstl_int array[10] = {9, 4, 5, 2, 8, 3, 1, 6, 0, 7};
     nstl_pint min = min_element(array, array + 10);
-    nstl_pint min_cmp = min_element_cmp(array, array + 10);
-    assert_true(min == min_cmp);
+    nstl_pint min_comp = min_element_comp(array, array + 10);
+    assert_true(min == min_comp);
     assert_int_equal(*min, 0);
 }
 
-#undef min_element_cmp
+#undef min_element_comp
 #undef min_element
 
 extern void test_fixture_min_element(void) {

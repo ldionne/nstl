@@ -1,5 +1,5 @@
 /**
- * This file defines the @em max and @em max_cmp algorithms.
+ * This file defines the @em max and @em max_comp algorithms.
  *
  * @author Louis Dionne
  */
@@ -27,10 +27,10 @@ static NSTL_INLINE ValueType nstl_max(ValueType)(ValueType a, ValueType b) {   \
 )                                                                              \
 /**/
 
-#define NSTL_MAX_CMP(ValueType, Compare)                                       \
-NSTL_TYPE(nstl_max_cmp(ValueType, Compare),                                    \
+#define NSTL_MAX_COMP(ValueType, Compare)                                      \
+NSTL_TYPE(nstl_max_comp(ValueType, Compare),                                   \
                                                                                \
-(defun max_cmp                                                                 \
+(defun max_comp                                                                \
 /**                                                                            \
  * Return the greater of @p a and @p b.                                        \
  *                                                                             \
@@ -40,7 +40,7 @@ NSTL_TYPE(nstl_max_cmp(ValueType, Compare),                                    \
  *       algorithm, the @p comp comparator should act as a strict weak         \
  *       comparison operator.                                                  \
  */                                                                            \
-static NSTL_INLINE ValueType nstl_max_cmp(ValueType, Compare)                  \
+static NSTL_INLINE ValueType nstl_max_comp(ValueType, Compare)                 \
                                     (ValueType a, ValueType b, Compare comp) { \
     return comp(a, b) ? b : a;                                                 \
 }                                                                              \
@@ -54,7 +54,7 @@ static NSTL_INLINE ValueType nstl_max_cmp(ValueType, Compare)                  \
 import nstl
 nstl.generate(cog,
     'max(ValueType)',
-    'max_cmp(ValueType, Compare)',
+    'max_comp(ValueType, Compare)',
 
     token=True, mangle=True,
 )
@@ -63,8 +63,8 @@ nstl.generate(cog,
 #include <joy/cat.h>
 #define NSTL_TOKEN_max (m a x)
 #define nstl_max(ValueType) JOY_CAT3(nstl_mangled_max, _, ValueType)
-#define NSTL_TOKEN_max_cmp (m a x _ c m p)
-#define nstl_max_cmp(ValueType,  Compare) JOY_CAT5(nstl_mangled_max_cmp, _, ValueType, _,  Compare)
+#define NSTL_TOKEN_max_comp (m a x _ c o m p)
+#define nstl_max_comp(ValueType,  Compare) JOY_CAT5(nstl_mangled_max_comp, _, ValueType, _,  Compare)
 /* [[[end]]] */
 
 #endif /* !NSTL_ALGORITHM_MAX_H */

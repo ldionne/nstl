@@ -1,5 +1,6 @@
 /**
- * This file defines the @em adjacent_find algorithm.
+ * This file defines the @em adjacent_find and @em adjacent_find_comp
+ * algorithms.
  *
  * @author Louis Dionne
  */
@@ -45,10 +46,10 @@ static NSTL_INLINE FwdIter nstl_adjacent_find(FwdIter)                         \
 )                                                                              \
 /**/
 
-#define NSTL_ADJACENT_FIND_CMP(FwdIter, ValueType, Compare)                    \
-NSTL_TYPE(nstl_adjacent_find_cmp(FwdIter, Compare),                            \
+#define NSTL_ADJACENT_FIND_COMP(FwdIter, ValueType, Compare)                   \
+NSTL_TYPE(nstl_adjacent_find_comp(FwdIter, Compare),                           \
                                                                                \
-(defun adjacent_find_cmp                                                       \
+(defun adjacent_find_comp                                                      \
 /**                                                                            \
  * Search the range [@p first, @p last) for the first occurrence of two        \
  * consecutive equal elements, and return an iterator to the first of these    \
@@ -57,7 +58,7 @@ NSTL_TYPE(nstl_adjacent_find_cmp(FwdIter, Compare),                            \
  * The comparison between the consecutive elements is performed by applying    \
  * the @p comp comparator.                                                     \
  */                                                                            \
-static NSTL_INLINE FwdIter nstl_adjacent_find_cmp(FwdIter, Compare)            \
+static NSTL_INLINE FwdIter nstl_adjacent_find_comp(FwdIter, Compare)           \
                                 (FwdIter first, FwdIter last, Compare comp) {  \
     FwdIter next;                                                              \
     if (nstl_eq(FwdIter, FwdIter)(first, last))                                \
@@ -84,7 +85,7 @@ static NSTL_INLINE FwdIter nstl_adjacent_find_cmp(FwdIter, Compare)            \
 import nstl
 nstl.generate(cog,
     'adjacent_find(FwdIter)',
-    'adjacent_find_cmp(FwdIter, Compare)',
+    'adjacent_find_comp(FwdIter, Compare)',
 
     token=True, mangle=True,
 )
@@ -93,8 +94,8 @@ nstl.generate(cog,
 #include <joy/cat.h>
 #define NSTL_TOKEN_adjacent_find (a d j a c e n t _ f i n d)
 #define nstl_adjacent_find(FwdIter) JOY_CAT3(nstl_mangled_adjacent_find, _, FwdIter)
-#define NSTL_TOKEN_adjacent_find_cmp (a d j a c e n t _ f i n d _ c m p)
-#define nstl_adjacent_find_cmp(FwdIter,  Compare) JOY_CAT5(nstl_mangled_adjacent_find_cmp, _, FwdIter, _,  Compare)
+#define NSTL_TOKEN_adjacent_find_comp (a d j a c e n t _ f i n d _ c o m p)
+#define nstl_adjacent_find_comp(FwdIter,  Compare) JOY_CAT5(nstl_mangled_adjacent_find_comp, _, FwdIter, _,  Compare)
 /* [[[end]]] */
 
 #endif /* !NSTL_ALGORITHM_ADJACENT_FIND_H */
