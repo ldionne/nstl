@@ -22,8 +22,8 @@ NSTL_TYPE(nstl_min_element(FwdIter),                                           \
  * is the smallest if no other element compares less than it, but it may       \
  * compare equal.                                                              \
  */                                                                            \
-static NSTL_INLINE FwdIter nstl_min_element(FwdIter)(FwdIter first,            \
-                                                            FwdIter last) {    \
+static NSTL_INLINE FwdIter nstl_min_element(FwdIter)                           \
+                                            (FwdIter first, FwdIter last) {    \
     FwdIter result;                                                            \
     if (nstl_eq(FwdIter, FwdIter)(first, last))                                \
         return first;                                                          \

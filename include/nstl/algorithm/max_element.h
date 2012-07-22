@@ -22,8 +22,8 @@ NSTL_TYPE(nstl_max_element(FwdIter),                                           \
  * is the largest if it does not compare less than any other element, but      \
  * it may compare equal.                                                       \
  */                                                                            \
-static NSTL_INLINE FwdIter nstl_max_element(FwdIter)(FwdIter first,            \
-                                                            FwdIter last) {    \
+static NSTL_INLINE FwdIter nstl_max_element(FwdIter)                           \
+                                            (FwdIter first, FwdIter last) {    \
     FwdIter result;                                                            \
     if (nstl_eq(FwdIter, FwdIter)(first, last))                                \
         return first;                                                          \
