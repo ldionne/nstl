@@ -9,47 +9,42 @@
 #include <seatest.h>
 
 
-typedef nstl_bool(*BinaryPred)(int x, int y);
-static nstl_bool inverse_comp(int x, int y) {
-    return x > y;
-}
+typedef nstl_bool (*Compare)(int x, int y);
 
 NSTL_INSTANTIATE(NSTL_MAX_ELEMENT(nstl_pint, nstl_int))
-NSTL_INSTANTIATE(NSTL_MAX_ELEMENT_CMP(nstl_pint, nstl_int, BinaryPred))
+NSTL_INSTANTIATE(NSTL_MAX_ELEMENT_CMP(nstl_pint, nstl_int, Compare))
+
+#define max_element nstl_max_element(nstl_pint)
+#define max_element_cmp(first, last)                                           \
+    nstl_max_element_cmp(nstl_pint, Compare)(                                  \
+        first, last, nstl_lt(nstl_int, nstl_int)                               \
+    )                                                                          \
+/**/
 
 static void test_should_find_greatest_element_in_sorted_range(void) {
-    int array[10] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
-    nstl_pint max = nstl_max_element(nstl_pint)(array, array + 10);
+    nstl_int array[10] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+    nstl_pint max = max_element(array, array + 10);
+    nstl_pint max_cmp = max_element_cmp(array, array + 10);
+    assert_true(max == max_cmp);
     assert_int_equal(*max, 9);
 }
 
 static void test_should_find_greatest_element_in_non_sorted_range(void) {
-    int array[10] = {4, 5, 2, 9, 8, 3, 1, 6, 0, 7};
-    nstl_pint max = nstl_max_element(nstl_pint)(array, array + 10);
+    nstl_int array[10] = {4, 5, 2, 9, 8, 3, 1, 6, 0, 7};
+    nstl_pint max = max_element(array, array + 10);
+    nstl_pint max_cmp = max_element_cmp(array, array + 10);
+    assert_true(max == max_cmp);
     assert_int_equal(*max, 9);
 }
 
-static void test_should_find_max_element_as_determined_by_cmp_sorted(void) {
-    int array[10] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
-    nstl_pint max = nstl_max_element_cmp(nstl_pint, BinaryPred)(array,
-                                                    array + 10, inverse_comp);
-    assert_int_equal(*max, 0);
-}
-
-static void test_should_find_max_element_as_determined_by_cmp(void) {
-    int array[10] = {4, 5, 2, 9, 8, 3, 1, 6, 0, 7};
-    nstl_pint max = nstl_max_element_cmp(nstl_pint, BinaryPred)(array,
-                                                    array + 10, inverse_comp);
-    assert_int_equal(*max, 0);
-}
+#undef max_element_cmp
+#undef max_element
 
 extern void test_fixture_max_element(void) {
     test_fixture_start();
 
     run_test(test_should_find_greatest_element_in_sorted_range);
     run_test(test_should_find_greatest_element_in_non_sorted_range);
-    run_test(test_should_find_max_element_as_determined_by_cmp_sorted);
-    run_test(test_should_find_max_element_as_determined_by_cmp);
 
     test_fixture_end();
 }

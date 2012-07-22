@@ -9,11 +9,11 @@
 #include <seatest.h>
 
 
-NSTL_INSTANTIATE(NSTL_SWAP(char, char))
+NSTL_INSTANTIATE(NSTL_SWAP(nstl_char, nstl_char))
 
 static void test_should_swap_both_values(void) {
-    char a = 'a', b = 'b';
-    nstl_swap(char, char)(&a, &b);
+    nstl_char a = 'a', b = 'b';
+    nstl_swap(nstl_char, nstl_char)(&a, &b);
     assert_true(a == 'b');
     assert_true(b == 'a');
 }

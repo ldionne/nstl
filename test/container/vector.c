@@ -9,8 +9,8 @@
 #include <seatest.h>
 
 
-#define test_vector nstl_vector(int)
-NSTL_INSTANTIATE(NSTL_VECTOR(int))
+#define test_vector nstl_vector(nstl_int)
+NSTL_INSTANTIATE(NSTL_VECTOR(nstl_int))
 
 static void test_initital_state(void) {
     test_vector vector;

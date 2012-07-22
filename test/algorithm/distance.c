@@ -12,12 +12,12 @@
 NSTL_INSTANTIATE(NSTL_DISTANCE(nstl_pint))
 
 static void test_should_have_distance_of_0_when_same_iter(void) {
-    int array[10];
+    nstl_int array[10];
     assert_true(nstl_distance(nstl_pint)(array, array) == 0);
 }
 
 static void test_should_be_number_of_elements_between_both_iters(void) {
-    int array[10];
+    nstl_int array[10];
     assert_true(nstl_distance(nstl_pint)(array, array + 6) == 6);
 }
 

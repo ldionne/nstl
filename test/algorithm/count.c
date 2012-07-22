@@ -10,16 +10,16 @@
 #include <stddef.h>
 
 
-NSTL_INSTANTIATE(NSTL_COUNT(nstl_pint, int))
+NSTL_INSTANTIATE(NSTL_COUNT(nstl_pint, nstl_int))
 
 static void test_should_count_0_if_none_is_equal(void) {
-    int array[10] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+    nstl_int array[10] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
     ptrdiff_t n = nstl_count(nstl_pint)(array, array + 10, -1);
     assert_true(n == 0);
 }
 
 static void test_should_count_all_occurrences_of_equal_values(void) {
-    int array[10] = {0, 1, 4, 3, 4, 5, 4, 4, 8, 4};
+    nstl_int array[10] = {0, 1, 4, 3, 4, 5, 4, 4, 8, 4};
     ptrdiff_t n = nstl_count(nstl_pint)(array, array + 10, 4);
     assert_true(n == 5);
 }
