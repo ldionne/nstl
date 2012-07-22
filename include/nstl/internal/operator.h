@@ -13,7 +13,6 @@
 #include <nstl/internal/type.h>
 #include <nstl/internal/workaround.h>
 
-#include <stddef.h>
 #include <stdlib.h>
 
 

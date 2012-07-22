@@ -29,15 +29,15 @@ NSTL_TYPE(nstl_lower_bound(FwdIter),                                           \
 static FwdIter nstl_lower_bound(FwdIter)                                       \
                             (FwdIter first, FwdIter last, ValueType value) {   \
                                                                                \
-    ptrdiff_t len = nstl_distance(FwdIter)(first, last);                       \
-    ptrdiff_t half;                                                            \
+    nstl_ptrdiff_t len = nstl_distance(FwdIter)(first, last);                  \
+    nstl_ptrdiff_t half;                                                       \
     FwdIter middle;                                                            \
     nstl_def_ctor(FwdIter)(&middle);                                           \
                                                                                \
     while (len > 0) {                                                          \
         half = len >> 1; /* faster way of doing (len / 2) */                   \
         nstl_asg(FwdIter, FwdIter)(&middle, first);                            \
-        nstl_advance(FwdIter, ptrdiff_t)(&middle, half);                       \
+        nstl_advance(FwdIter, nstl_ptrdiff_t)(&middle, half);                  \
         if (nstl_lt(ValueType, ValueType)                                      \
                                     (nstl_deref(FwdIter)(middle), value)) {    \
             nstl_asg(FwdIter, FwdIter)(&first, middle);                        \
@@ -75,15 +75,15 @@ NSTL_TYPE(nstl_lower_bound_comp(FwdIter, Compare),                             \
 static FwdIter nstl_lower_bound_comp(FwdIter, Compare)                         \
                 (FwdIter first, FwdIter last, ValueType value, Compare comp) { \
                                                                                \
-    ptrdiff_t len = nstl_distance(FwdIter)(first, last);                       \
-    ptrdiff_t half;                                                            \
+    nstl_ptrdiff_t len = nstl_distance(FwdIter)(first, last);                  \
+    nstl_ptrdiff_t half;                                                       \
     FwdIter middle;                                                            \
     nstl_def_ctor(FwdIter)(&middle);                                           \
                                                                                \
     while (len > 0) {                                                          \
         half = len >> 1; /* faster way of doing (len / 2) */                   \
         nstl_asg(FwdIter, FwdIter)(&middle, first);                            \
-        nstl_advance(FwdIter, ptrdiff_t)(&middle, half);                       \
+        nstl_advance(FwdIter, nstl_ptrdiff_t)(&middle, half);                  \
         if (comp(nstl_deref(FwdIter)(middle), value)) {                        \
             nstl_asg(FwdIter, FwdIter)(&first, middle);                        \
             nstl_inc(FwdIter)(&first);                                         \

@@ -7,7 +7,6 @@
 #include <nstl/algorithm/find.h>
 
 #include <seatest.h>
-#include <stddef.h>
 
 
 NSTL_INSTANTIATE(NSTL_FIND(nstl_pint, nstl_int))
@@ -22,7 +21,7 @@ static void test_should_return_last_when_not_found(void) {
 
 static void test_should_return_iterator_to_found_element_when_found(void) {
     nstl_int array[10] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
-    size_t i;
+    nstl_size_t i;
     nstl_pint first = array, last = array + 10, iter;
 
     for (i = 0; i < 10; ++i) {

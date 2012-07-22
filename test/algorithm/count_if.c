@@ -7,7 +7,6 @@
 #include <nstl/algorithm/count_if.h>
 
 #include <seatest.h>
-#include <stddef.h>
 
 
 typedef nstl_bool (*Predicate) (nstl_int elem);
@@ -31,19 +30,19 @@ static nstl_bool is_even(nstl_int n) {
 
 static void test_should_count_0_if_predicate_always_false(void) {
     nstl_int array[10];
-    ptrdiff_t n = count_if(array, array + 10, always_false);
+    nstl_ptrdiff_t n = count_if(array, array + 10, always_false);
     assert_true(n == 0);
 }
 
 static void test_should_count_all_if_predicate_always_true(void) {
     nstl_int array[10];
-    ptrdiff_t n = count_if(array, array + 10, always_true);
+    nstl_ptrdiff_t n = count_if(array, array + 10, always_true);
     assert_true(n == 10);
 }
 
 static void test_should_count_only_those_for_which_pred_is_true(void) {
     nstl_int array[10] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
-    ptrdiff_t n;
+    nstl_ptrdiff_t n;
 
     n = count_if(array, array + 10, is_even);
     assert_true(n == 5);

@@ -9,8 +9,6 @@
 
 #include <nstl/internal.h>
 
-#include <stddef.h>
-
 
 #define NSTL_COUNT(InputIter, ValueType)                                       \
 NSTL_TYPE(nstl_count(InputIter),                                               \
@@ -20,9 +18,9 @@ NSTL_TYPE(nstl_count(InputIter),                                               \
  * Return the number of elements in the range delimited by [@p first, @p last) \
  * that compare equal to @p val.                                               \
  */                                                                            \
-static NSTL_INLINE ptrdiff_t nstl_count(InputIter)                             \
+static NSTL_INLINE nstl_ptrdiff_t nstl_count(InputIter)                        \
                         (InputIter first, InputIter last, ValueType val) {     \
-    ptrdiff_t n = 0;                                                           \
+    nstl_ptrdiff_t n = 0;                                                      \
     for ( ; nstl_ne(InputIter, InputIter)(first, last);                        \
                                                 nstl_inc(InputIter)(&first)) { \
         if (nstl_eq(ValueType, ValueType)(nstl_deref(InputIter)(first), val))  \

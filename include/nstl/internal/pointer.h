@@ -7,10 +7,9 @@
 #ifndef NSTL_INTERNAL_POINTER_H
 #define NSTL_INTERNAL_POINTER_H
 
+#include <nstl/internal/integral.h>
 #include <nstl/internal/operator.h>
 #include <nstl/internal/type.h>
-
-#include <stddef.h>
 
 
 #define NSTL_POINTER(ValueType, Pointer)                                       \
@@ -22,31 +21,31 @@ NSTL_TYPE(Pointer,                                                             \
 (inherit NSTL_LOGICAL_OPERATORS(Pointer))                                      \
                                                                                \
 (defun add                                                                     \
-static NSTL_INLINE Pointer nstl_add(Pointer, ptrdiff_t)(Pointer self,          \
-                                                                ptrdiff_t n) { \
+static NSTL_INLINE Pointer nstl_add(Pointer, nstl_ptrdiff_t)                   \
+                                            (Pointer self, nstl_ptrdiff_t n) { \
     return self + n;                                                           \
 }                                                                              \
 )                                                                              \
 (defun iadd                                                                    \
-static NSTL_INLINE Pointer nstl_iadd(Pointer, ptrdiff_t)(Pointer *self,        \
-                                                                ptrdiff_t n) { \
+static NSTL_INLINE Pointer nstl_iadd(Pointer, nstl_ptrdiff_t)                  \
+                                        (Pointer *self, nstl_ptrdiff_t n) {    \
     return (*self) += n;                                                       \
 }                                                                              \
 )                                                                              \
 (defun sub                                                                     \
-static NSTL_INLINE ptrdiff_t nstl_sub(Pointer, Pointer)(Pointer x,             \
-                                                                Pointer y) {   \
+static NSTL_INLINE nstl_ptrdiff_t nstl_sub(Pointer, Pointer)                   \
+                                                    (Pointer x, Pointer y) {   \
     return x - y;                                                              \
 }                                                                              \
                                                                                \
-static NSTL_INLINE Pointer nstl_sub(Pointer, ptrdiff_t)(Pointer self,          \
-                                                                ptrdiff_t n) { \
+static NSTL_INLINE Pointer nstl_sub(Pointer, nstl_ptrdiff_t)                   \
+                                            (Pointer self, nstl_ptrdiff_t n) { \
     return self - n;                                                           \
 }                                                                              \
 )                                                                              \
 (defun isub                                                                    \
-static NSTL_INLINE Pointer nstl_isub(Pointer, ptrdiff_t)(Pointer *self,        \
-                                                                ptrdiff_t n) { \
+static NSTL_INLINE Pointer nstl_isub(Pointer, nstl_ptrdiff_t)                  \
+                                        (Pointer *self, nstl_ptrdiff_t n) {    \
     return (*self) -= n;                                                       \
 }                                                                              \
 )                                                                              \

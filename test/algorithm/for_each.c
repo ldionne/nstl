@@ -7,7 +7,6 @@
 #include <nstl/algorithm/for_each.h>
 
 #include <seatest.h>
-#include <stddef.h>
 
 
 typedef void (*callback_type) (nstl_int elem);
@@ -21,7 +20,7 @@ NSTL_INSTANTIATE(NSTL_FOR_EACH(nstl_pint, callback_type))
  */
 struct {
     nstl_bool was_called;
-    size_t elements_processed;
+    nstl_size_t elements_processed;
     nstl_int first_elem;
     nstl_int last_elem;
 } test_info;

@@ -10,7 +10,6 @@
 #include <nstl/internal.h>
 
 #include <assert.h>
-#include <stddef.h>
 #include <stdlib.h>
 
 
@@ -65,7 +64,7 @@ static NSTL_INLINE T *nstl_end(vector)(vector *self) {                         \
                                 Element access                                 \
  ****************************************************************************/ \
 (defun at                                                                      \
-static NSTL_INLINE T nstl_at(vector)(vector *self, size_t n) {                 \
+static NSTL_INLINE T nstl_at(vector)(vector *self, nstl_size_t n) {            \
     assert(nstl_begin(vector)(self) + n < nstl_end(vector)(self));             \
     return *(nstl_begin(vector)(self) + n);                                    \
 }                                                                              \
@@ -93,20 +92,20 @@ static NSTL_INLINE nstl_bool nstl_empty(vector)(vector *self) {                \
 )                                                                              \
                                                                                \
 (defun size                                                                    \
-static NSTL_INLINE size_t nstl_size(vector)(vector *self) {                    \
+static NSTL_INLINE nstl_size_t nstl_size(vector)(vector *self) {               \
     return self->finish - self->start;                                         \
 }                                                                              \
 )                                                                              \
                                                                                \
 (defun max_size                                                                \
-static NSTL_INLINE size_t nstl_max_size(vector)(vector *self) {                \
+static NSTL_INLINE nstl_size_t nstl_max_size(vector)(vector *self) {           \
     NSTL_SILENCE_UNUSED_VARIABLE_WARNING(self);                                \
-    return (size_t)-1 / sizeof(T);                                             \
+    return (nstl_size_t)-1 / sizeof(T);                                        \
 }                                                                              \
 )                                                                              \
                                                                                \
 (defun capacity                                                                \
-static NSTL_INLINE size_t nstl_capacity(vector)(vector *self) {                \
+static NSTL_INLINE nstl_size_t nstl_capacity(vector)(vector *self) {           \
     return self->end_of_storage - self->start;                                 \
 }                                                                              \
 )                                                                              \
@@ -116,9 +115,9 @@ static NSTL_INLINE size_t nstl_capacity(vector)(vector *self) {                \
  * Request that the capacity of a vector be at least enough to hold @p n       \
  * elements.                                                                   \
  */                                                                            \
-static NSTL_INLINE void nstl_reserve(vector)(vector *self, size_t n) {         \
+static NSTL_INLINE void nstl_reserve(vector)(vector *self, nstl_size_t n) {    \
     if (nstl_capacity(vector)(self) < n) {                                     \
-        size_t const old_size = nstl_size(vector)(self);                       \
+        nstl_size_t const old_size = nstl_size(vector)(self);                  \
         assert(nstl_max_size(vector)(self) > n);                               \
                                                                                \
         self->start = reallocf(self->start, n * sizeof(T));                    \
@@ -135,7 +134,7 @@ static NSTL_INLINE void nstl_reserve(vector)(vector *self, size_t n) {         \
 (defun push_back                                                               \
 static NSTL_INLINE void nstl_push_back(vector)(vector *self, T x) {            \
     if (self->finish == self->end_of_storage) {                                \
-        size_t size = nstl_size(vector)(self);                                 \
+        nstl_size_t size = nstl_size(vector)(self);                            \
         nstl_reserve(vector)(self, size > 0 ? size * 2 : 1);                   \
     }                                                                          \
      *self->finish = x;                                                        \

@@ -32,6 +32,12 @@
     NSTL_INSTANTIATE(NSTL_ULONG)
     NSTL_INSTANTIATE(NSTL_PULONG)
 
+    NSTL_INSTANTIATE(NSTL_PTRDIFF_T)
+    NSTL_INSTANTIATE(NSTL_PPTRDIFF_T)
+
+    NSTL_INSTANTIATE(NSTL_SIZE_T)
+    NSTL_INSTANTIATE(NSTL_PSIZE_T)
+
 #   if NSTL_CONFIG_LONG_LONG_AVAILABLE
         NSTL_INSTANTIATE(NSTL_LONG_LONG)
         NSTL_INSTANTIATE(NSTL_PLONG_LONG)
@@ -107,6 +113,18 @@ typedef unsigned long nstl_ulong;
 typedef nstl_ulong *nstl_pulong;
 #define NSTL_ULONG NSTL_INTEGRAL(nstl_ulong)
 #define NSTL_PULONG NSTL_POINTER(nstl_ulong, nstl_pulong)
+
+#include <stddef.h>
+typedef ptrdiff_t nstl_ptrdiff_t;
+typedef nstl_ptrdiff_t *nstl_pptrdiff_t;
+#define NSTL_PTRDIFF_T NSTL_INTEGRAL(nstl_ptrdiff_t)
+#define NSTL_PPTRDIFF_T NSTL_POINTER(nstl_ptrdiff_t, nstl_pptrdiff_t)
+
+#include <stddef.h>
+typedef size_t nstl_size_t;
+typedef nstl_size_t *nstl_psize_t;
+#define NSTL_SIZE_T NSTL_INTEGRAL(nstl_size_t)
+#define NSTL_PSIZE_T NSTL_POINTER(nstl_size_t, nstl_psize_t)
 
 #if NSTL_CONFIG_LONG_LONG_AVAILABLE
     typedef long long nstl_long_long;

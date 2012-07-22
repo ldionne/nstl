@@ -9,8 +9,6 @@
 
 #include <nstl/internal.h>
 
-#include <stddef.h>
-
 
 #define NSTL_DISTANCE(InputIter)                                               \
 NSTL_TYPE(nstl_distance(InputIter),                                            \
@@ -19,9 +17,9 @@ NSTL_TYPE(nstl_distance(InputIter),                                            \
 /**                                                                            \
  * Return the number of elements between @p first and @p last.                 \
  */                                                                            \
-static NSTL_INLINE ptrdiff_t nstl_distance(InputIter)                          \
+static NSTL_INLINE nstl_ptrdiff_t nstl_distance(InputIter)                     \
                                         (InputIter first, InputIter last) {    \
-    ptrdiff_t n = 0;                                                           \
+    nstl_ptrdiff_t n = 0;                                                      \
     InputIter it;                                                              \
     nstl_copy_ctor(InputIter)(&it, first);                                     \
     while (nstl_ne(InputIter, InputIter)(it, last)) {                          \

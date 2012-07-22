@@ -13,8 +13,7 @@
 
 typedef nstl_bool (*Compare)(nstl_int x, nstl_int y);
 
-NSTL_INSTANTIATE(NSTL_INTEGRAL(ptrdiff_t))
-NSTL_INSTANTIATE(NSTL_ADVANCE(nstl_pint, ptrdiff_t))
+NSTL_INSTANTIATE(NSTL_ADVANCE(nstl_pint, nstl_ptrdiff_t))
 NSTL_INSTANTIATE(NSTL_DISTANCE(nstl_pint))
 
 NSTL_INSTANTIATE(NSTL_LOWER_BOUND(nstl_pint, nstl_int))
