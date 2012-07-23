@@ -10,8 +10,11 @@
 #include <nstl/internal.h>
 
 
-#define NSTL_MAX_ELEMENT(FwdIter, ValueType)                                   \
-NSTL_TYPE(nstl_max_element(FwdIter),                                           \
+#define NSTL_MAX_ELEMENT(FwdIter, ValueType) \
+    NSTL_I_MAX_ELEMENT(nstl_max_element(FwdIter), FwdIter, ValueType)
+
+#define NSTL_I_MAX_ELEMENT(this_func, FwdIter, ValueType)                      \
+NSTL_TYPE(this_func,                                                           \
                                                                                \
 (defun max_element                                                             \
 /**                                                                            \
@@ -22,8 +25,7 @@ NSTL_TYPE(nstl_max_element(FwdIter),                                           \
  * is the largest if it does not compare less than any other element, but      \
  * it may compare equal.                                                       \
  */                                                                            \
-static NSTL_INLINE FwdIter nstl_max_element(FwdIter)                           \
-                                            (FwdIter first, FwdIter last) {    \
+static NSTL_INLINE FwdIter this_func(FwdIter first, FwdIter last) {            \
     FwdIter result;                                                            \
     if (nstl_eq(FwdIter, FwdIter)(first, last))                                \
         return first;                                                          \
@@ -41,7 +43,13 @@ static NSTL_INLINE FwdIter nstl_max_element(FwdIter)                           \
 /**/
 
 #define NSTL_MAX_ELEMENT_COMP(FwdIter, ValueType, Compare)                     \
-NSTL_TYPE(nstl_max_element_comp(FwdIter, Compare),                             \
+    NSTL_I_MAX_ELEMENT_COMP(                                                   \
+        nstl_max_element_comp(FwdIter, Compare), FwdIter, ValueType, Compare   \
+    )                                                                          \
+/**/
+
+#define NSTL_I_MAX_ELEMENT_COMP(this_func, FwdIter, ValueType, Compare)        \
+NSTL_TYPE(this_func,                                                           \
                                                                                \
 (defun max_element_comp                                                        \
 /**                                                                            \
@@ -52,7 +60,7 @@ NSTL_TYPE(nstl_max_element_comp(FwdIter, Compare),                             \
  * the largest if it does not compare less than any other element, but it may  \
  * compare equal.                                                              \
  */                                                                            \
-static NSTL_INLINE FwdIter nstl_max_element_comp(FwdIter, Compare)             \
+static NSTL_INLINE FwdIter this_func                                           \
                                 (FwdIter first, FwdIter last, Compare comp) {  \
     FwdIter result;                                                            \
     if (nstl_eq(FwdIter, FwdIter)(first, last))                                \

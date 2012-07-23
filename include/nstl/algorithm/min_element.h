@@ -11,8 +11,11 @@
 #include <nstl/internal.h>
 
 
-#define NSTL_MIN_ELEMENT(FwdIter, ValueType)                                   \
-NSTL_TYPE(nstl_min_element(FwdIter),                                           \
+#define NSTL_MIN_ELEMENT(FwdIter, ValueType) \
+    NSTL_I_MIN_ELEMENT(nstl_min_element(FwdIter), FwdIter, ValueType)
+
+#define NSTL_I_MIN_ELEMENT(this_func, FwdIter, ValueType)                      \
+NSTL_TYPE(this_func,                                                           \
                                                                                \
 (defun min_element                                                             \
 /**                                                                            \
@@ -23,8 +26,7 @@ NSTL_TYPE(nstl_min_element(FwdIter),                                           \
  * is the smallest if no other element compares less than it, but it may       \
  * compare equal.                                                              \
  */                                                                            \
-static NSTL_INLINE FwdIter nstl_min_element(FwdIter)                           \
-                                            (FwdIter first, FwdIter last) {    \
+static NSTL_INLINE FwdIter this_func(FwdIter first, FwdIter last) {            \
     FwdIter result;                                                            \
     if (nstl_eq(FwdIter, FwdIter)(first, last))                                \
         return first;                                                          \
@@ -42,7 +44,13 @@ static NSTL_INLINE FwdIter nstl_min_element(FwdIter)                           \
 /**/
 
 #define NSTL_MIN_ELEMENT_COMP(FwdIter, ValueType, Compare)                     \
-NSTL_TYPE(nstl_min_element_comp(FwdIter, Compare),                             \
+    NSTL_I_MIN_ELEMENT_COMP(                                                   \
+        nstl_min_element_comp(FwdIter, Compare), FwdIter, ValueType, Compare   \
+    )                                                                          \
+/**/
+
+#define NSTL_I_MIN_ELEMENT_COMP(this_func, FwdIter, ValueType, Compare)        \
+NSTL_TYPE(this_func,                                                           \
                                                                                \
 (defun min_element_comp                                                        \
 /**                                                                            \
@@ -53,7 +61,7 @@ NSTL_TYPE(nstl_min_element_comp(FwdIter, Compare),                             \
  * the smallest if no other element compares less than it, but it may compare  \
  * equal.                                                                      \
  */                                                                            \
-static NSTL_INLINE FwdIter nstl_min_element_comp(FwdIter, Compare)             \
+static NSTL_INLINE FwdIter this_func                                           \
                                 (FwdIter first, FwdIter last, Compare comp) {  \
     FwdIter result;                                                            \
     if (nstl_eq(FwdIter, FwdIter)(first, last))                                \

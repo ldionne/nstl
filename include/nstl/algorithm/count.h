@@ -10,15 +10,18 @@
 #include <nstl/internal.h>
 
 
-#define NSTL_COUNT(InputIter, ValueType)                                       \
-NSTL_TYPE(nstl_count(InputIter),                                               \
+#define NSTL_COUNT(InputIter, ValueType) \
+    NSTL_I_COUNT(nstl_count(InputIter), InputIter, ValueType)
+
+#define NSTL_I_COUNT(this_func, InputIter, ValueType)                          \
+NSTL_TYPE(this_func,                                                           \
                                                                                \
 (defun count                                                                   \
 /**                                                                            \
  * Return the number of elements in the range delimited by [@p first, @p last) \
  * that compare equal to @p val.                                               \
  */                                                                            \
-static NSTL_INLINE nstl_ptrdiff_t nstl_count(InputIter)                        \
+static NSTL_INLINE nstl_ptrdiff_t this_func                                    \
                         (InputIter first, InputIter last, ValueType val) {     \
     nstl_ptrdiff_t n = 0;                                                      \
     for ( ; nstl_ne(InputIter, InputIter)(first, last);                        \

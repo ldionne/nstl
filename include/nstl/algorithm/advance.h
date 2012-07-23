@@ -10,15 +10,17 @@
 #include <nstl/internal.h>
 
 
-#define NSTL_ADVANCE(InputIter, Distance)                                      \
-NSTL_TYPE(nstl_advance(InputIter, Distance),                                   \
+#define NSTL_ADVANCE(InputIter, Distance) \
+    NSTL_I_ADVANCE(nstl_advance(InputIter, Distance), InputIter, Distance)
+
+#define NSTL_I_ADVANCE(this_func, InputIter, Distance)                         \
+NSTL_TYPE(this_func,                                                           \
                                                                                \
 (defun advance                                                                 \
 /**                                                                            \
  * Advance an iterator by @p n elements.                                       \
  */                                                                            \
-static NSTL_INLINE void nstl_advance(InputIter, Distance)                      \
-                                            (InputIter *iter, Distance n) {    \
+static NSTL_INLINE void this_func(InputIter *iter, Distance n) {               \
     while (nstl_dec_(Distance)(&n))                                            \
         nstl_inc(InputIter)(iter);                                             \
 }                                                                              \

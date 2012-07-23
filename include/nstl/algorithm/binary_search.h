@@ -11,8 +11,11 @@
 #include <nstl/internal.h>
 
 
-#define NSTL_BINARY_SEARCH(FwdIter, ValueType)                                 \
-NSTL_TYPE(nstl_binary_search(FwdIter),                                         \
+#define NSTL_BINARY_SEARCH(FwdIter, ValueType) \
+    NSTL_I_BINARY_SEARCH(nstl_binary_search(FwdIter), FwdIter, ValueType)
+
+#define NSTL_I_BINARY_SEARCH(this_func, FwdIter, ValueType)                    \
+NSTL_TYPE(this_func,                                                           \
                                                                                \
 (defun binary_search                                                           \
 /**                                                                            \
@@ -25,7 +28,7 @@ NSTL_TYPE(nstl_binary_search(FwdIter),                                         \
  * yield the expected result, the elements in the range must already be        \
  * ordered according to the same criterion.                                    \
  */                                                                            \
-static NSTL_INLINE nstl_bool nstl_binary_search(FwdIter)                       \
+static NSTL_INLINE nstl_bool this_func                                         \
                             (FwdIter first, FwdIter last, ValueType value) {   \
     FwdIter i;                                                                 \
     nstl_bool ret;                                                             \
@@ -42,7 +45,13 @@ static NSTL_INLINE nstl_bool nstl_binary_search(FwdIter)                       \
 /**/
 
 #define NSTL_BINARY_SEARCH_COMP(FwdIter, ValueType, Compare)                   \
-NSTL_TYPE(nstl_binary_search_comp(FwdIter, Compare),                           \
+    NSTL_I_BINARY_SEARCH_COMP(                                                 \
+        nstl_binary_search_comp(FwdIter, Compare), FwdIter, ValueType, Compare \
+    )                                                                          \
+/**/
+
+#define NSTL_I_BINARY_SEARCH_COMP(this_func, FwdIter, ValueType, Compare)      \
+NSTL_TYPE(this_func,                                                           \
                                                                                \
 (defun binary_search_comp                                                      \
 /**                                                                            \
@@ -55,7 +64,7 @@ NSTL_TYPE(nstl_binary_search_comp(FwdIter, Compare),                           \
  * yield the expected result, the elements in the range must already be        \
  * ordered according to the same criterion.                                    \
  */                                                                            \
-static NSTL_INLINE nstl_bool nstl_binary_search_comp(FwdIter, Compare)         \
+static NSTL_INLINE nstl_bool this_func                                         \
                 (FwdIter first, FwdIter last, ValueType value, Compare comp) { \
     FwdIter i;                                                                 \
     nstl_bool ret;                                                             \

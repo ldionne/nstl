@@ -10,8 +10,11 @@
 #include <nstl/internal.h>
 
 
-#define NSTL_COUNT_IF(InputIter, Predicate)                                    \
-NSTL_TYPE(nstl_count_if(InputIter, Predicate),                                 \
+#define NSTL_COUNT_IF(InputIter, Predicate) \
+    NSTL_I_COUNT_IF(nstl_count_if(InputIter, Predicate), InputIter, Predicate)
+
+#define NSTL_I_COUNT_IF(this_func, InputIter, Predicate)                       \
+NSTL_TYPE(this_func,                                                           \
                                                                                \
 (defun count_if                                                                \
 /**                                                                            \
@@ -21,7 +24,7 @@ NSTL_TYPE(nstl_count_if(InputIter, Predicate),                                 \
  * @param pred Unary predicate taking an element in the range as argument      \
  *             and returning whether to cound the element.                     \
  */                                                                            \
-static NSTL_INLINE nstl_ptrdiff_t nstl_count_if(InputIter, Predicate)          \
+static NSTL_INLINE nstl_ptrdiff_t this_func                                    \
                         (InputIter first, InputIter last, Predicate pred) {    \
     nstl_ptrdiff_t n = 0;                                                      \
     for ( ; nstl_ne(InputIter, InputIter)(first, last);                        \

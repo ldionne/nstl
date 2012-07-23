@@ -13,9 +13,9 @@
 #include <stdlib.h>
 
 
-#define NSTL_VECTOR(T) NSTL_VECTOR_INHERIT(nstl_vector(T), T)
+#define NSTL_VECTOR(T) NSTL_I_VECTOR(nstl_vector(T), T)
 
-#define NSTL_VECTOR_INHERIT(vector, T)                                         \
+#define NSTL_I_VECTOR(vector, T)                                               \
 NSTL_TYPE(vector,                                                              \
                                                                                \
 (defstruct                                                                     \

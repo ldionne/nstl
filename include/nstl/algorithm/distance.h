@@ -10,15 +10,17 @@
 #include <nstl/internal.h>
 
 
-#define NSTL_DISTANCE(InputIter)                                               \
-NSTL_TYPE(nstl_distance(InputIter),                                            \
+#define NSTL_DISTANCE(InputIter) \
+    NSTL_I_DISTANCE(nstl_distance(InputIter), InputIter)
+
+#define NSTL_I_DISTANCE(this_func, InputIter)                                  \
+NSTL_TYPE(this_func,                                                           \
                                                                                \
 (defun distance                                                                \
 /**                                                                            \
  * Return the number of elements between @p first and @p last.                 \
  */                                                                            \
-static NSTL_INLINE nstl_ptrdiff_t nstl_distance(InputIter)                     \
-                                        (InputIter first, InputIter last) {    \
+static NSTL_INLINE nstl_ptrdiff_t this_func(InputIter first, InputIter last) { \
     nstl_ptrdiff_t n = 0;                                                      \
     InputIter it;                                                              \
     nstl_copy_ctor(InputIter)(&it, first);                                     \

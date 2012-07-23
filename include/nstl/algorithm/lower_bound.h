@@ -10,8 +10,11 @@
 #include <nstl/internal.h>
 
 
-#define NSTL_LOWER_BOUND(FwdIter, ValueType)                                   \
-NSTL_TYPE(nstl_lower_bound(FwdIter),                                           \
+#define NSTL_LOWER_BOUND(FwdIter, ValueType) \
+    NSTL_I_LOWER_BOUND(nstl_lower_bound(FwdIter), FwdIter, ValueType)
+
+#define NSTL_I_LOWER_BOUND(this_func, FwdIter, ValueType)                      \
+NSTL_TYPE(this_func,                                                           \
                                                                                \
 (defun lower_bound                                                             \
 /**                                                                            \
@@ -26,9 +29,7 @@ NSTL_TYPE(nstl_lower_bound(FwdIter),                                           \
  * element also if it compares qeuivalent to @p value and not only if it       \
  * compares greater.                                                           \
  */                                                                            \
-static FwdIter nstl_lower_bound(FwdIter)                                       \
-                            (FwdIter first, FwdIter last, ValueType value) {   \
-                                                                               \
+static FwdIter this_func(FwdIter first, FwdIter last, ValueType value) {       \
     nstl_ptrdiff_t len = nstl_distance(FwdIter)(first, last);                  \
     nstl_ptrdiff_t half;                                                       \
     FwdIter middle;                                                            \
@@ -57,7 +58,13 @@ static FwdIter nstl_lower_bound(FwdIter)                                       \
 /**/
 
 #define NSTL_LOWER_BOUND_COMP(FwdIter, ValueType, Compare)                     \
-NSTL_TYPE(nstl_lower_bound_comp(FwdIter, Compare),                             \
+    NSTL_I_LOWER_BOUND_COMP(                                                   \
+        nstl_lower_bound_comp(FwdIter, Compare), FwdIter, ValueType, Compare   \
+    )                                                                          \
+/**/
+
+#define NSTL_I_LOWER_BOUND_COMP(this_func, FwdIter, ValueType, Compare)        \
+NSTL_TYPE(this_func,                                                           \
                                                                                \
 (defun lower_bound_comp                                                        \
 /**                                                                            \
@@ -72,7 +79,7 @@ NSTL_TYPE(nstl_lower_bound_comp(FwdIter, Compare),                             \
  * element also if it compares qeuivalent to @p value and not only if it       \
  * compares greater.                                                           \
  */                                                                            \
-static FwdIter nstl_lower_bound_comp(FwdIter, Compare)                         \
+static FwdIter this_func                                                       \
                 (FwdIter first, FwdIter last, ValueType value, Compare comp) { \
                                                                                \
     nstl_ptrdiff_t len = nstl_distance(FwdIter)(first, last);                  \

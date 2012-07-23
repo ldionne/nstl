@@ -10,8 +10,11 @@
 #include <nstl/internal.h>
 
 
-#define NSTL_MAX(ValueType)                                                    \
-NSTL_TYPE(nstl_max(ValueType),                                                 \
+#define NSTL_MAX(ValueType) \
+    NSTL_I_MAX(nstl_max(ValueType), ValueType)
+
+#define NSTL_I_MAX(this_func, ValueType)                                       \
+NSTL_TYPE(this_func,                                                           \
                                                                                \
 (defun max                                                                     \
 /**                                                                            \
@@ -19,7 +22,7 @@ NSTL_TYPE(nstl_max(ValueType),                                                 \
  *                                                                             \
  * The comparison uses @em nstl_lt to determine which value is greater.        \
  */                                                                            \
-static NSTL_INLINE ValueType nstl_max(ValueType)(ValueType a, ValueType b) {   \
+static NSTL_INLINE ValueType this_func(ValueType a, ValueType b) {             \
     return nstl_lt(ValueType, ValueType)(a, b) ? b : a;                        \
 }                                                                              \
 )                                                                              \
@@ -27,8 +30,11 @@ static NSTL_INLINE ValueType nstl_max(ValueType)(ValueType a, ValueType b) {   \
 )                                                                              \
 /**/
 
-#define NSTL_MAX_COMP(ValueType, Compare)                                      \
-NSTL_TYPE(nstl_max_comp(ValueType, Compare),                                   \
+#define NSTL_MAX_COMP(ValueType, Compare) \
+    NSTL_I_MAX_COMP(nstl_max_comp(ValueType, Compare), ValueType, Compare)
+
+#define NSTL_I_MAX_COMP(this_func, ValueType, Compare)                         \
+NSTL_TYPE(this_func,                                                           \
                                                                                \
 (defun max_comp                                                                \
 /**                                                                            \
@@ -40,7 +46,7 @@ NSTL_TYPE(nstl_max_comp(ValueType, Compare),                                   \
  *       algorithm, the @p comp comparator should act as a strict weak         \
  *       comparison operator.                                                  \
  */                                                                            \
-static NSTL_INLINE ValueType nstl_max_comp(ValueType, Compare)                 \
+static NSTL_INLINE ValueType this_func                                         \
                                     (ValueType a, ValueType b, Compare comp) { \
     return comp(a, b) ? b : a;                                                 \
 }                                                                              \

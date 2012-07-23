@@ -11,8 +11,11 @@
 #include <nstl/internal.h>
 
 
-#define NSTL_ADJACENT_FIND(FwdIter, ValueType)                                 \
-NSTL_TYPE(nstl_adjacent_find(FwdIter),                                         \
+#define NSTL_ADJACENT_FIND(FwdIter, ValueType) \
+    NSTL_I_ADJACENT_FIND(nstl_adjacent_find(FwdIter), FwdIter, ValueType)
+
+#define NSTL_I_ADJACENT_FIND(this_func, FwdIter, ValueType)                    \
+NSTL_TYPE(this_func,                                                           \
                                                                                \
 (defun adjacent_find                                                           \
 /**                                                                            \
@@ -23,8 +26,7 @@ NSTL_TYPE(nstl_adjacent_find(FwdIter),                                         \
  * The comparison between the consecutive elements is performed by applying    \
  * the @em nstl_eq operator.                                                   \
  */                                                                            \
-static NSTL_INLINE FwdIter nstl_adjacent_find(FwdIter)                         \
-                                            (FwdIter first, FwdIter last) {    \
+static NSTL_INLINE FwdIter this_func(FwdIter first, FwdIter last) {            \
     FwdIter next;                                                              \
     if (nstl_eq(FwdIter, FwdIter)(first, last))                                \
         return last;                                                           \
@@ -47,7 +49,13 @@ static NSTL_INLINE FwdIter nstl_adjacent_find(FwdIter)                         \
 /**/
 
 #define NSTL_ADJACENT_FIND_COMP(FwdIter, ValueType, Compare)                   \
-NSTL_TYPE(nstl_adjacent_find_comp(FwdIter, Compare),                           \
+    NSTL_I_ADJACENT_FIND_COMP(                                                 \
+        nstl_adjacent_find_comp(FwdIter, Compare), FwdIter, ValueType, Compare \
+    )                                                                          \
+/**/
+
+#define NSTL_I_ADJACENT_FIND_COMP(this_func, FwdIter, ValueType, Compare)      \
+NSTL_TYPE(this_func,                                                           \
                                                                                \
 (defun adjacent_find_comp                                                      \
 /**                                                                            \
@@ -58,7 +66,7 @@ NSTL_TYPE(nstl_adjacent_find_comp(FwdIter, Compare),                           \
  * The comparison between the consecutive elements is performed by applying    \
  * the @p comp comparator.                                                     \
  */                                                                            \
-static NSTL_INLINE FwdIter nstl_adjacent_find_comp(FwdIter, Compare)           \
+static NSTL_INLINE FwdIter this_func                                           \
                                 (FwdIter first, FwdIter last, Compare comp) {  \
     FwdIter next;                                                              \
     if (nstl_eq(FwdIter, FwdIter)(first, last))                                \

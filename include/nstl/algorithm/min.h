@@ -10,8 +10,11 @@
 #include <nstl/internal.h>
 
 
-#define NSTL_MIN(ValueType)                                                    \
-NSTL_TYPE(nstl_min(ValueType),                                                 \
+#define NSTL_MIN(ValueType) \
+    NSTL_I_MIN(nstl_min(ValueType), ValueType)
+
+#define NSTL_I_MIN(this_func, ValueType)                                       \
+NSTL_TYPE(this_func,                                                           \
                                                                                \
 (defun min                                                                     \
 /**                                                                            \
@@ -20,7 +23,7 @@ NSTL_TYPE(nstl_min(ValueType),                                                 \
  * The comparison uses the @em nstl_lt operator to determine which value is    \
  * lesser.                                                                     \
  */                                                                            \
-static NSTL_INLINE ValueType nstl_min(ValueType)(ValueType a, ValueType b) {   \
+static NSTL_INLINE ValueType this_func(ValueType a, ValueType b) {             \
     return nstl_lt(ValueType, ValueType)(b, a) ? b : a;                        \
 }                                                                              \
 )                                                                              \
@@ -28,8 +31,11 @@ static NSTL_INLINE ValueType nstl_min(ValueType)(ValueType a, ValueType b) {   \
 )                                                                              \
 /**/
 
-#define NSTL_MIN_COMP(ValueType, Compare)                                      \
-NSTL_TYPE(nstl_min_comp(ValueType, Compare),                                   \
+#define NSTL_MIN_COMP(ValueType, Compare) \
+    NSTL_I_MIN_COMP(nstl_min_comp(ValueType, Compare), ValueType, Compare)
+
+#define NSTL_I_MIN_COMP(this_func, ValueType, Compare)                         \
+NSTL_TYPE(this_func,                                                           \
                                                                                \
 (defun min_comp                                                                \
 /**                                                                            \
@@ -41,7 +47,7 @@ NSTL_TYPE(nstl_min_comp(ValueType, Compare),                                   \
  *       algorithm, the @p comp predicate should act as a strict weak          \
  *       comparison predicate.                                                 \
  */                                                                            \
-static NSTL_INLINE ValueType nstl_min_comp(ValueType, Compare)                 \
+static NSTL_INLINE ValueType this_func                                         \
                                     (ValueType a, ValueType b, Compare comp) { \
     return comp(b, a) ? b : a;                                                 \
 }                                                                              \

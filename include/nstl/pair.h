@@ -10,13 +10,9 @@
 #include <nstl/internal.h>
 
 
-#define NSTL_PAIR(T1, T2)                                                      \
-    NSTL_PAIR_INHERIT(                                                         \
-        nstl_pair(T1, T2), T1, T2                                              \
-    )                                                                          \
-/**/
+#define NSTL_PAIR(T1, T2) NSTL_I_PAIR(nstl_pair(T1, T2), T1, T2)
 
-#define NSTL_PAIR_INHERIT(pair, T1, T2)                                        \
+#define NSTL_I_PAIR(pair, T1, T2)                                              \
 NSTL_TYPE(pair,                                                                \
                                                                                \
 (defstruct                                                                     \
