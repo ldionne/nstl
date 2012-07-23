@@ -21,5 +21,6 @@
 #include <nstl/algorithm/min.h>
 #include <nstl/algorithm/min_element.h>
 #include <nstl/algorithm/swap.h>
+#include <nstl/algorithm/upper_bound.h>
 
 #endif /* !NSTL_ALGORITHM_H */
