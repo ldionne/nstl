@@ -4,10 +4,7 @@
  * @author Louis Dionne
  */
 
-#include <nstl/algorithm/advance.h>
 #include <nstl/algorithm/binary_search.h>
-#include <nstl/algorithm/distance.h>
-#include <nstl/algorithm/lower_bound.h>
 
 #include <seatest.h>
 
