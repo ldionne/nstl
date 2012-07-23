@@ -38,12 +38,10 @@ NSTL_GETF(NSTL_I_ADVANCE(nstl_helper(this_func, advance), FwdIter,             \
 static FwdIter this_func(FwdIter first, FwdIter last, ValueType value) {       \
     nstl_ptrdiff_t len = nstl_helper(this_func, distance)(first, last);        \
     nstl_ptrdiff_t half;                                                       \
-    FwdIter middle;                                                            \
-    nstl_def_ctor(FwdIter)(&middle);                                           \
-                                                                               \
     while (len > 0) {                                                          \
+        FwdIter middle;                                                        \
+        nstl_copy_ctor(FwdIter)(&middle, first);                               \
         half = len >> 1; /* faster way of doing (len / 2) */                   \
-        nstl_asg(FwdIter, FwdIter)(&middle, first);                            \
         nstl_helper(this_func, advance)(&middle, half);                        \
         if (nstl_lt(ValueType, ValueType)                                      \
                                     (nstl_deref(FwdIter)(middle), value)) {    \
@@ -54,8 +52,8 @@ static FwdIter this_func(FwdIter first, FwdIter last, ValueType value) {       \
         else {                                                                 \
             len = half;                                                        \
         }                                                                      \
+        nstl_dtor(FwdIter)(&middle);                                           \
     }                                                                          \
-    nstl_dtor(FwdIter)(&middle);                                               \
     return first;                                                              \
 }                                                                              \
 )                                                                              \
@@ -94,12 +92,10 @@ static FwdIter this_func                                                       \
                                                                                \
     nstl_ptrdiff_t len = nstl_helper(this_func, distance)(first, last);        \
     nstl_ptrdiff_t half;                                                       \
-    FwdIter middle;                                                            \
-    nstl_def_ctor(FwdIter)(&middle);                                           \
-                                                                               \
     while (len > 0) {                                                          \
+        FwdIter middle;                                                        \
+        nstl_copy_ctor(FwdIter)(&middle, first);                               \
         half = len >> 1; /* faster way of doing (len / 2) */                   \
-        nstl_asg(FwdIter, FwdIter)(&middle, first);                            \
         nstl_helper(this_func, advance)(&middle, half);                        \
         if (comp(nstl_deref(FwdIter)(middle), value)) {                        \
             nstl_asg(FwdIter, FwdIter)(&first, middle);                        \
@@ -109,8 +105,8 @@ static FwdIter this_func                                                       \
         else {                                                                 \
             len = half;                                                        \
         }                                                                      \
+        nstl_dtor(FwdIter)(&middle);                                           \
     }                                                                          \
-    nstl_dtor(FwdIter)(&middle);                                               \
     return first;                                                              \
 }                                                                              \
 )                                                                              \
