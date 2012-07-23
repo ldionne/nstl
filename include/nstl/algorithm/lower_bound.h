@@ -7,6 +7,8 @@
 #ifndef NSTL_ALGORITHM_LOWER_BOUND_H
 #define NSTL_ALGORITHM_LOWER_BOUND_H
 
+#include <nstl/algorithm/advance.h>
+#include <nstl/algorithm/distance.h>
 #include <nstl/internal.h>
 
 
@@ -17,6 +19,10 @@
 NSTL_TYPE(this_func,                                                           \
                                                                                \
 (defun lower_bound                                                             \
+NSTL_GETF(NSTL_I_DISTANCE(nstl_helper(this_func, distance), FwdIter),          \
+                                                                    distance)  \
+NSTL_GETF(NSTL_I_ADVANCE(nstl_helper(this_func, advance), FwdIter,             \
+                                                    nstl_ptrdiff_t), advance)  \
 /**                                                                            \
  * Return an iterator pointing to the first element in the sorted range        \
  * [@p first, @p last) which does not compare less than @p value.              \
@@ -30,7 +36,7 @@ NSTL_TYPE(this_func,                                                           \
  * compares greater.                                                           \
  */                                                                            \
 static FwdIter this_func(FwdIter first, FwdIter last, ValueType value) {       \
-    nstl_ptrdiff_t len = nstl_distance(FwdIter)(first, last);                  \
+    nstl_ptrdiff_t len = nstl_helper(this_func, distance)(first, last);        \
     nstl_ptrdiff_t half;                                                       \
     FwdIter middle;                                                            \
     nstl_def_ctor(FwdIter)(&middle);                                           \
@@ -38,7 +44,7 @@ static FwdIter this_func(FwdIter first, FwdIter last, ValueType value) {       \
     while (len > 0) {                                                          \
         half = len >> 1; /* faster way of doing (len / 2) */                   \
         nstl_asg(FwdIter, FwdIter)(&middle, first);                            \
-        nstl_advance(FwdIter, nstl_ptrdiff_t)(&middle, half);                  \
+        nstl_helper(this_func, advance)(&middle, half);                        \
         if (nstl_lt(ValueType, ValueType)                                      \
                                     (nstl_deref(FwdIter)(middle), value)) {    \
             nstl_asg(FwdIter, FwdIter)(&first, middle);                        \
@@ -67,6 +73,10 @@ static FwdIter this_func(FwdIter first, FwdIter last, ValueType value) {       \
 NSTL_TYPE(this_func,                                                           \
                                                                                \
 (defun lower_bound_comp                                                        \
+NSTL_GETF(NSTL_I_DISTANCE(                                                     \
+    nstl_helper(this_func, distance), FwdIter), distance)                      \
+NSTL_GETF(NSTL_I_ADVANCE(                                                      \
+    nstl_helper(this_func, advance), FwdIter, nstl_ptrdiff_t), advance)        \
 /**                                                                            \
  * Return an iterator pointing to the first element in the sorted range        \
  * [@p first, @p last) which does not compare less than @p value.              \
@@ -82,7 +92,7 @@ NSTL_TYPE(this_func,                                                           \
 static FwdIter this_func                                                       \
                 (FwdIter first, FwdIter last, ValueType value, Compare comp) { \
                                                                                \
-    nstl_ptrdiff_t len = nstl_distance(FwdIter)(first, last);                  \
+    nstl_ptrdiff_t len = nstl_helper(this_func, distance)(first, last);        \
     nstl_ptrdiff_t half;                                                       \
     FwdIter middle;                                                            \
     nstl_def_ctor(FwdIter)(&middle);                                           \
@@ -90,7 +100,7 @@ static FwdIter this_func                                                       \
     while (len > 0) {                                                          \
         half = len >> 1; /* faster way of doing (len / 2) */                   \
         nstl_asg(FwdIter, FwdIter)(&middle, first);                            \
-        nstl_advance(FwdIter, nstl_ptrdiff_t)(&middle, half);                  \
+        nstl_helper(this_func, advance)(&middle, half);                        \
         if (comp(nstl_deref(FwdIter)(middle), value)) {                        \
             nstl_asg(FwdIter, FwdIter)(&first, middle);                        \
             nstl_inc(FwdIter)(&first);                                         \

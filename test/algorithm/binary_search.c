@@ -14,11 +14,6 @@
 
 typedef nstl_bool (*Compare)(nstl_int x, nstl_int y);
 
-NSTL_INSTANTIATE(NSTL_ADVANCE(nstl_pint, nstl_ptrdiff_t))
-NSTL_INSTANTIATE(NSTL_DISTANCE(nstl_pint))
-NSTL_INSTANTIATE(NSTL_LOWER_BOUND(nstl_pint, nstl_int))
-NSTL_INSTANTIATE(NSTL_LOWER_BOUND_COMP(nstl_pint, nstl_int, Compare))
-
 NSTL_INSTANTIATE(NSTL_BINARY_SEARCH(nstl_pint, nstl_int))
 NSTL_INSTANTIATE(NSTL_BINARY_SEARCH_COMP(nstl_pint, nstl_int, Compare))
 

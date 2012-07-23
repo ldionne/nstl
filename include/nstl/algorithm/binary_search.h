@@ -8,6 +8,7 @@
 #ifndef NSTL_ALGORITHM_BINARY_SEARCH_H
 #define NSTL_ALGORITHM_BINARY_SEARCH_H
 
+#include <nstl/algorithm/lower_bound.h>
 #include <nstl/internal.h>
 
 
@@ -18,6 +19,8 @@
 NSTL_TYPE(this_func,                                                           \
                                                                                \
 (defun binary_search                                                           \
+NSTL_GETF(NSTL_I_LOWER_BOUND(                                                  \
+        nstl_helper(this_func, lower_bound), FwdIter, ValueType), lower_bound) \
 /**                                                                            \
  * Return true if an element in the range [@p first, @p last) is equivalent   \
  * to @p value, and false otherwise.                                           \
@@ -32,7 +35,7 @@ static NSTL_INLINE nstl_bool this_func                                         \
                             (FwdIter first, FwdIter last, ValueType value) {   \
     FwdIter i;                                                                 \
     nstl_bool ret;                                                             \
-    nstl_copy_ctor(FwdIter)(&i, nstl_lower_bound(FwdIter)                      \
+    nstl_copy_ctor(FwdIter)(&i, nstl_helper(this_func, lower_bound)            \
                                                         (first, last, value)); \
     ret = nstl_ne(FwdIter, FwdIter)(i, last) &&                                \
           !nstl_lt(ValueType, ValueType)(value, nstl_deref(FwdIter)(i));       \
@@ -54,6 +57,9 @@ static NSTL_INLINE nstl_bool this_func                                         \
 NSTL_TYPE(this_func,                                                           \
                                                                                \
 (defun binary_search_comp                                                      \
+NSTL_GETF(NSTL_I_LOWER_BOUND_COMP(                                             \
+    nstl_helper(this_func, lower_bound_comp), FwdIter, ValueType, Compare),    \
+                                                            lower_bound_comp)  \
 /**                                                                            \
  * Return true if an element in the range [@p first, @p last) is equivalent   \
  * to @p value, and false otherwise.                                           \
@@ -68,7 +74,7 @@ static NSTL_INLINE nstl_bool this_func                                         \
                 (FwdIter first, FwdIter last, ValueType value, Compare comp) { \
     FwdIter i;                                                                 \
     nstl_bool ret;                                                             \
-    nstl_copy_ctor(FwdIter)(&i, nstl_lower_bound_comp(FwdIter, Compare)        \
+    nstl_copy_ctor(FwdIter)(&i, nstl_helper(this_func, lower_bound_comp)       \
                                                 (first, last, value, comp));   \
     ret = nstl_ne(FwdIter, FwdIter)(i, last) &&                                \
           !comp(value, nstl_deref(FwdIter)(i));                                \

@@ -9,6 +9,7 @@
 
 #include <nstl/internal/config.h>
 #include <nstl/internal/field.h>
+#include <nstl/internal/helper.h>
 #include <nstl/internal/operator.h>
 #include <nstl/internal/pointer.h>
 #include <nstl/internal/primitive.h>
