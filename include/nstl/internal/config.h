@@ -84,4 +84,10 @@
  */
 #define NSTL_CONFIG_CHECK_CONCEPT_REQUIREMENTS 1
 
+/**
+ * This flag is enabled when we are internally debugging the library. This is
+ * only meant to be used by the developpers of the library.
+ */
+#define NSTL_CONFIG_INTERNAL_DEBUG 1
+
 #endif /* !NSTL_INTERNAL_CONFIG_H */
