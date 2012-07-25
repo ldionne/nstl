@@ -8,6 +8,7 @@
 #define NSTL_INTERNAL_H
 
 #include <nstl/internal/config.h>
+#include <nstl/internal/dynamic_assert.h>
 #include <nstl/internal/field.h>
 #include <nstl/internal/helper.h>
 #include <nstl/internal/operator.h>

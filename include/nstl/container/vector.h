@@ -9,7 +9,6 @@
 
 #include <nstl/internal.h>
 
-#include <assert.h>
 #include <stdlib.h>
 
 
@@ -65,7 +64,7 @@ static NSTL_INLINE T *nstl_end(vector)(vector *self) {                         \
  ****************************************************************************/ \
 (defun at                                                                      \
 static NSTL_INLINE T nstl_at(vector)(vector *self, nstl_size_t n) {            \
-    assert(nstl_begin(vector)(self) + n < nstl_end(vector)(self));             \
+    nstl_assert_true(nstl_begin(vector)(self) + n < nstl_end(vector)(self));   \
     return *(nstl_begin(vector)(self) + n);                                    \
 }                                                                              \
 )                                                                              \
@@ -118,10 +117,10 @@ static NSTL_INLINE nstl_size_t nstl_capacity(vector)(vector *self) {           \
 static NSTL_INLINE void nstl_reserve(vector)(vector *self, nstl_size_t n) {    \
     if (nstl_capacity(vector)(self) < n) {                                     \
         nstl_size_t const old_size = nstl_size(vector)(self);                  \
-        assert(nstl_max_size(vector)(self) > n);                               \
+        nstl_assert_true(nstl_max_size(vector)(self) > n);                     \
                                                                                \
         self->start = reallocf(self->start, n * sizeof(T));                    \
-        assert(self->start != NULL && "not enough memory.");                   \
+        nstl_assert_true(self->start != NULL && "not enough memory.");         \
         self->end_of_storage = self->start + n;                                \
         self->finish = self->start + old_size;                                 \
     }                                                                          \
