@@ -13,6 +13,7 @@
 #include <nstl/algorithm/count.h>
 #include <nstl/algorithm/count_if.h>
 #include <nstl/algorithm/distance.h>
+#include <nstl/algorithm/equal_range.h>
 #include <nstl/algorithm/find.h>
 #include <nstl/algorithm/for_each.h>
 #include <nstl/algorithm/lower_bound.h>
