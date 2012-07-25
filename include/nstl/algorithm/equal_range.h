@@ -50,7 +50,7 @@ static nstl_pair(FwdIter, FwdIter) this_func                                   \
     nstl_ptrdiff_t half;                                                       \
     while (len > 0) {                                                          \
         FwdIter middle;                                                        \
-        half = len >> 1; /* faster way of doing (len / 2) */                   \
+        half = len / 2;                                                        \
         nstl_copy_ctor(FwdIter)(&middle, first);                               \
         nstl_helper(this_func, advance)(&middle, half);                        \
         if (nstl_lt(ValueType, ValueType)                                      \
@@ -68,13 +68,30 @@ static nstl_pair(FwdIter, FwdIter) this_func                                   \
             FwdIter right;                                                     \
             nstl_copy_ctor(FwdIter)(&left,                                     \
                 nstl_helper(this_func, lower_bound)(first, middle, value));    \
-            /* Optimization: If lower_bound haven't found an equivalent value  \
-             *               there is no need to call upper_bound.             \
+                                                                               \
+            /* This is an optimization that was originally present in the      \
+             * StlPort stl:                                                    \
+             * If lower_bound haven't found an equivalent value there is no    \
+             * need to call upper_bound.                                       \
+             *                                                                 \
+             * However, I think that it is impossible to reach the code inside \
+             * the if statement:                                               \
+             * If we are in the current else branch of the if/else-if/else     \
+             * construct above, it means that *middle is equivalent to value.  \
+             * Since middle is also the past-the-end element of the range      \
+             * passed to lower_bound, the result of calling lower_bound must   \
+             * be either an iterator to a previous element equivalent to       \
+             * value, or middle itself (if no element was found). In both      \
+             * cases, *left __must__ be equivalent to value, and the branch    \
+             * can't be reached.                                               \
              */                                                                \
-            if (nstl_lt(ValueType, ValueType)                                  \
+            NSTL_STATIC_WHEN(NSTL_CONFIG_INTERNAL_DEBUG)(                      \
+                if (nstl_lt(ValueType, ValueType)                              \
                                         (nstl_deref(FwdIter)(left), value)) {  \
-                return nstl_make_pair(FwdIter, FwdIter)(left, left);           \
-            }                                                                  \
+                    nstl_assert_true(nstl_false);                              \
+                    return nstl_make_pair(FwdIter, FwdIter)(left, left);       \
+                }                                                              \
+            ) /* end NSTL_CONFIG_INTERNAL_DEBUG */                             \
             nstl_helper(this_func, advance)(&first, len);                      \
             nstl_copy_ctor(FwdIter)(&right,                                    \
                             nstl_helper(this_func, upper_bound)                \
@@ -127,7 +144,7 @@ static nstl_pair(FwdIter, FwdIter) this_func                                   \
     nstl_ptrdiff_t half;                                                       \
     while (len > 0) {                                                          \
         FwdIter middle;                                                        \
-        half = len >> 1; /* faster way of doing (len / 2) */                   \
+        half = len / 2;                                                        \
         nstl_copy_ctor(FwdIter)(&middle, first);                               \
         nstl_helper(this_func, advance)(&middle, half);                        \
         if (comp(nstl_deref(FwdIter)(middle), value)) {                        \
@@ -144,12 +161,28 @@ static nstl_pair(FwdIter, FwdIter) this_func                                   \
             nstl_copy_ctor(FwdIter)(&left,                                     \
                                     nstl_helper(this_func, lower_bound_comp)   \
                                                 (first, middle, value, comp)); \
-            /* Optimization: If lower_bound haven't found an equivalent value  \
-             *               there is no need to call upper_bound.             \
+            /* This is an optimization that was originally present in the      \
+             * StlPort stl:                                                    \
+             * If lower_bound haven't found an equivalent value there is no    \
+             * need to call upper_bound.                                       \
+             *                                                                 \
+             * However, I think that it is impossible to reach the code inside \
+             * the if statement:                                               \
+             * If we are in the current else branch of the if/else-if/else     \
+             * construct above, it means that *middle is equivalent to value.  \
+             * Since middle is also the past-the-end element of the range      \
+             * passed to lower_bound, the result of calling lower_bound must   \
+             * be either an iterator to a previous element equivalent to       \
+             * value, or middle itself (if no element was found). In both      \
+             * cases, *left __must__ be equivalent to value, and the branch    \
+             * can't be reached.                                               \
              */                                                                \
-            if (comp(nstl_deref(FwdIter)(left), value)) {                      \
-                return nstl_make_pair(FwdIter, FwdIter)(left, left);           \
-            }                                                                  \
+            NSTL_STATIC_WHEN(NSTL_CONFIG_INTERNAL_DEBUG)(                      \
+                if (comp(nstl_deref(FwdIter)(left), value)) {                  \
+                    nstl_assert_true(nstl_false);                              \
+                    return nstl_make_pair(FwdIter, FwdIter)(left, left);       \
+                }                                                              \
+            ) /* end NSTL_CONFIG_INTERNAL_DEBUG */                             \
             nstl_helper(this_func, advance)(&first, len);                      \
             nstl_copy_ctor(FwdIter)(&right,                                    \
                         nstl_helper(this_func, upper_bound_comp)               \
