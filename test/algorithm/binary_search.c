@@ -45,6 +45,22 @@ static void test_should_return_true_when_contained_with_duplicates(void) {
     assert_true(found);
 }
 
+static void test_check_for_off_by_one_at_beginning(void) {
+    nstl_int array[10] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+    nstl_bool found = binary_search(array, array + 10, 0);
+    nstl_bool found_comp = binary_search_comp(array, array + 10, 0);
+    assert_true(found == found_comp);
+    assert_true(found);
+}
+
+static void test_check_for_off_by_one_at_end(void) {
+    nstl_int array[10] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+    nstl_bool found = binary_search(array, array + 10, 9);
+    nstl_bool found_comp = binary_search_comp(array, array + 10, 9);
+    assert_true(found == found_comp);
+    assert_true(found);
+}
+
 #undef binary_search_comp
 #undef binary_search
 
@@ -54,6 +70,8 @@ extern void test_fixture_binary_search(void) {
     run_test(test_should_return_false_when_not_contained);
     run_test(test_should_return_true_when_contained_no_duplicates);
     run_test(test_should_return_true_when_contained_with_duplicates);
+    run_test(test_check_for_off_by_one_at_beginning);
+    run_test(test_check_for_off_by_one_at_end);
 
     test_fixture_end();
 }
