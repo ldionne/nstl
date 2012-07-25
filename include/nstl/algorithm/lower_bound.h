@@ -41,7 +41,7 @@ static FwdIter this_func(FwdIter first, FwdIter last, ValueType value) {       \
     while (len > 0) {                                                          \
         FwdIter middle;                                                        \
         nstl_copy_ctor(FwdIter)(&middle, first);                               \
-        half = len >> 1; /* faster way of doing (len / 2) */                   \
+        half = len / 2;                                                        \
         nstl_helper(this_func, advance)(&middle, half);                        \
         if (nstl_lt(ValueType, ValueType)                                      \
                                     (nstl_deref(FwdIter)(middle), value)) {    \
@@ -95,7 +95,7 @@ static FwdIter this_func                                                       \
     while (len > 0) {                                                          \
         FwdIter middle;                                                        \
         nstl_copy_ctor(FwdIter)(&middle, first);                               \
-        half = len >> 1; /* faster way of doing (len / 2) */                   \
+        half = len / 2;                                                        \
         nstl_helper(this_func, advance)(&middle, half);                        \
         if (comp(nstl_deref(FwdIter)(middle), value)) {                        \
             nstl_asg(FwdIter, FwdIter)(&first, middle);                        \
