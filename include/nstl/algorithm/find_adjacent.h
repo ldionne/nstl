@@ -1,23 +1,26 @@
 /**
- * This file defines the @em adjacent_find and @em adjacent_find_comp
+ * This file defines the @em find_adjacent and @em find_adjacent_comp
  * algorithms.
+ *
+ * @note This algorithm is equivalent to the @em find_adjacent algorithm of
+ *       the C++ standard library.
  *
  * @author Louis Dionne
  */
 
-#ifndef NSTL_ALGORITHM_ADJACENT_FIND_H
-#define NSTL_ALGORITHM_ADJACENT_FIND_H
+#ifndef NSTL_ALGORITHM_FIND_ADJACENT_H
+#define NSTL_ALGORITHM_FIND_ADJACENT_H
 
 #include <nstl/internal.h>
 
 
-#define NSTL_ADJACENT_FIND(FwdIter, ValueType) \
-    NSTL_I_ADJACENT_FIND(nstl_adjacent_find(FwdIter), FwdIter, ValueType)
+#define NSTL_FIND_ADJACENT(FwdIter, ValueType) \
+    NSTL_I_FIND_ADJACENT(nstl_find_adjacent(FwdIter), FwdIter, ValueType)
 
-#define NSTL_I_ADJACENT_FIND(this_func, FwdIter, ValueType)                    \
+#define NSTL_I_FIND_ADJACENT(this_func, FwdIter, ValueType)                    \
 NSTL_TYPE(this_func,                                                           \
                                                                                \
-(defun adjacent_find                                                           \
+(defun find_adjacent                                                           \
 static NSTL_INLINE FwdIter this_func(FwdIter first, FwdIter last) {            \
     FwdIter next;                                                              \
     if (nstl_eq(FwdIter, FwdIter)(first, last))                                \
@@ -40,16 +43,16 @@ static NSTL_INLINE FwdIter this_func(FwdIter first, FwdIter last) {            \
 )                                                                              \
 /**/
 
-#define NSTL_ADJACENT_FIND_COMP(FwdIter, ValueType, Compare)                   \
-    NSTL_I_ADJACENT_FIND_COMP(                                                 \
-        nstl_adjacent_find_comp(FwdIter, Compare), FwdIter, ValueType, Compare \
+#define NSTL_FIND_ADJACENT_COMP(FwdIter, ValueType, Compare)                   \
+    NSTL_I_FIND_ADJACENT_COMP(                                                 \
+        nstl_find_adjacent_comp(FwdIter, Compare), FwdIter, ValueType, Compare \
     )                                                                          \
 /**/
 
-#define NSTL_I_ADJACENT_FIND_COMP(this_func, FwdIter, ValueType, Compare)      \
+#define NSTL_I_FIND_ADJACENT_COMP(this_func, FwdIter, ValueType, Compare)      \
 NSTL_TYPE(this_func,                                                           \
                                                                                \
-(defun adjacent_find_comp                                                      \
+(defun find_adjacent_comp                                                      \
 static NSTL_INLINE FwdIter this_func                                           \
                                 (FwdIter first, FwdIter last, Compare comp) {  \
     FwdIter next;                                                              \
@@ -76,18 +79,18 @@ static NSTL_INLINE FwdIter this_func                                           \
 
 import nstl
 nstl.generate(cog,
-    'adjacent_find(FwdIter)',
-    'adjacent_find_comp(FwdIter, Compare)',
+    'find_adjacent(FwdIter)',
+    'find_adjacent_comp(FwdIter, Compare)',
 
     token=True, mangle=True,
 )
 
 ]]] */
 #include <joy/cat.h>
-#define NSTL_TOKEN_adjacent_find (a d j a c e n t _ f i n d)
-#define nstl_adjacent_find(FwdIter) JOY_CAT3(nstl_mangled_adjacent_find, _, FwdIter)
-#define NSTL_TOKEN_adjacent_find_comp (a d j a c e n t _ f i n d _ c o m p)
-#define nstl_adjacent_find_comp(FwdIter,  Compare) JOY_CAT5(nstl_mangled_adjacent_find_comp, _, FwdIter, _,  Compare)
+#define NSTL_TOKEN_find_adjacent (f i n d _ a d j a c e n t)
+#define nstl_find_adjacent(FwdIter) JOY_CAT3(nstl_mangled_find_adjacent, _, FwdIter)
+#define NSTL_TOKEN_find_adjacent_comp (f i n d _ a d j a c e n t _ c o m p)
+#define nstl_find_adjacent_comp(FwdIter,  Compare) JOY_CAT5(nstl_mangled_find_adjacent_comp, _, FwdIter, _,  Compare)
 /* [[[end]]] */
 
-#endif /* !NSTL_ALGORITHM_ADJACENT_FIND_H */
+#endif /* !NSTL_ALGORITHM_FIND_ADJACENT_H */
