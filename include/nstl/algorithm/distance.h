@@ -17,9 +17,6 @@
 NSTL_TYPE(this_func,                                                           \
                                                                                \
 (defun distance                                                                \
-/**                                                                            \
- * Return the number of elements between @p first and @p last.                 \
- */                                                                            \
 static NSTL_INLINE nstl_ptrdiff_t this_func(InputIter first, InputIter last) { \
     nstl_ptrdiff_t n = 0;                                                      \
     InputIter it;                                                              \

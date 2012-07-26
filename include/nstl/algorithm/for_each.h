@@ -17,14 +17,6 @@
 NSTL_TYPE(this_func,                                                           \
                                                                                \
 (defun for_each                                                                \
-/**                                                                            \
- * Apply a function to each element in a range delimited by                    \
- * [@p first, @p last). The return value of the function, if any, is ignored.  \
- *                                                                             \
- * @param f Unary function taking a pointer to an element in the range.        \
- *                                                                             \
- * @return The function @p f.                                                  \
- */                                                                            \
 static NSTL_INLINE Function this_func                                          \
                             (InputIter first, InputIter last, Function f) {    \
     for ( ; nstl_ne(InputIter, InputIter)(first, last);                        \

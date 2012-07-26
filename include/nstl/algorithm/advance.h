@@ -17,9 +17,6 @@
 NSTL_TYPE(this_func,                                                           \
                                                                                \
 (defun advance                                                                 \
-/**                                                                            \
- * Advance an iterator by @p n elements.                                       \
- */                                                                            \
 static NSTL_INLINE void this_func(InputIter *iter, Distance n) {               \
     while (nstl_dec_(Distance)(&n))                                            \
         nstl_inc(InputIter)(iter);                                             \

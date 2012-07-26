@@ -23,18 +23,7 @@ NSTL_GETF(NSTL_I_DISTANCE(nstl_helper(this_func, distance), FwdIter),          \
                                                                     distance)  \
 NSTL_GETF(NSTL_I_ADVANCE(nstl_helper(this_func, advance), FwdIter,             \
                                                     nstl_ptrdiff_t), advance)  \
-/**                                                                            \
- * Return an iterator pointing to the first element in the sorted range        \
- * [@p first, @p last) which does not compare less than @p value.              \
- *                                                                             \
- * The comparison is done using the @em nstl_lt operator.                      \
- * For the algorithm to yield the expected result, the elements in the range   \
- * must already be ordered according to the same criterion.                    \
- *                                                                             \
- * Unlike @em nstl_upper_bound, this algorithm returns an iterator to the      \
- * element also if it compares qeuivalent to @p value and not only if it       \
- * compares greater.                                                           \
- */                                                                            \
+                                                                               \
 static FwdIter this_func(FwdIter first, FwdIter last, ValueType value) {       \
     nstl_ptrdiff_t len = nstl_helper(this_func, distance)(first, last);        \
     nstl_ptrdiff_t half;                                                       \
@@ -75,18 +64,7 @@ NSTL_GETF(NSTL_I_DISTANCE(                                                     \
     nstl_helper(this_func, distance), FwdIter), distance)                      \
 NSTL_GETF(NSTL_I_ADVANCE(                                                      \
     nstl_helper(this_func, advance), FwdIter, nstl_ptrdiff_t), advance)        \
-/**                                                                            \
- * Return an iterator pointing to the first element in the sorted range        \
- * [@p first, @p last) which does not compare less than @p value.              \
- *                                                                             \
- * The comparison is done using the @p comp predicate.                         \
- * For the algorithm to yield the expected result, the elements in the range   \
- * must already be ordered according to the same criterion.                    \
- *                                                                             \
- * Unlike @em nstl_upper_bound, this algorithm returns an iterator to the      \
- * element also if it compares qeuivalent to @p value and not only if it       \
- * compares greater.                                                           \
- */                                                                            \
+                                                                               \
 static FwdIter this_func                                                       \
                 (FwdIter first, FwdIter last, ValueType value, Compare comp) { \
                                                                                \

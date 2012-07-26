@@ -17,14 +17,6 @@
 NSTL_TYPE(this_func,                                                           \
                                                                                \
 (defun max_element                                                             \
-/**                                                                            \
- * Return an iterator pointing to the element with the largest value in the    \
- * range [@p first, @p last).                                                  \
- *                                                                             \
- * The comparisons are performed using the @em nstl_lt operator. An element    \
- * is the largest if it does not compare less than any other element, but      \
- * it may compare equal.                                                       \
- */                                                                            \
 static NSTL_INLINE FwdIter this_func(FwdIter first, FwdIter last) {            \
     FwdIter result;                                                            \
     if (nstl_eq(FwdIter, FwdIter)(first, last))                                \
@@ -52,14 +44,6 @@ static NSTL_INLINE FwdIter this_func(FwdIter first, FwdIter last) {            \
 NSTL_TYPE(this_func,                                                           \
                                                                                \
 (defun max_element_comp                                                        \
-/**                                                                            \
- * Return an iterator pointing to the element with the largest value in the    \
- * range [@p first, @p last).                                                  \
- *                                                                             \
- * The comparisons are performed using the @p comp comparator. An element is   \
- * the largest if it does not compare less than any other element, but it may  \
- * compare equal.                                                              \
- */                                                                            \
 static NSTL_INLINE FwdIter this_func                                           \
                                 (FwdIter first, FwdIter last, Compare comp) {  \
     FwdIter result;                                                            \

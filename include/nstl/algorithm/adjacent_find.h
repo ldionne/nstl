@@ -18,14 +18,6 @@
 NSTL_TYPE(this_func,                                                           \
                                                                                \
 (defun adjacent_find                                                           \
-/**                                                                            \
- * Search the range [@p first, @p last) for the first occurrence of two        \
- * consecutive equal elements, and return an iterator to the first of these    \
- * two elements.                                                               \
- *                                                                             \
- * The comparison between the consecutive elements is performed by applying    \
- * the @em nstl_eq operator.                                                   \
- */                                                                            \
 static NSTL_INLINE FwdIter this_func(FwdIter first, FwdIter last) {            \
     FwdIter next;                                                              \
     if (nstl_eq(FwdIter, FwdIter)(first, last))                                \
@@ -58,14 +50,6 @@ static NSTL_INLINE FwdIter this_func(FwdIter first, FwdIter last) {            \
 NSTL_TYPE(this_func,                                                           \
                                                                                \
 (defun adjacent_find_comp                                                      \
-/**                                                                            \
- * Search the range [@p first, @p last) for the first occurrence of two        \
- * consecutive equal elements, and return an iterator to the first of these    \
- * two elements.                                                               \
- *                                                                             \
- * The comparison between the consecutive elements is performed by applying    \
- * the @p comp comparator.                                                     \
- */                                                                            \
 static NSTL_INLINE FwdIter this_func                                           \
                                 (FwdIter first, FwdIter last, Compare comp) {  \
     FwdIter next;                                                              \

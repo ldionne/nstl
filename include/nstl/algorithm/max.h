@@ -17,11 +17,6 @@
 NSTL_TYPE(this_func,                                                           \
                                                                                \
 (defun max                                                                     \
-/**                                                                            \
- * Return the greater of @p a and @p b.                                        \
- *                                                                             \
- * The comparison uses @em nstl_lt to determine which value is greater.        \
- */                                                                            \
 static NSTL_INLINE ValueType this_func(ValueType a, ValueType b) {             \
     return nstl_lt(ValueType, ValueType)(a, b) ? b : a;                        \
 }                                                                              \
@@ -37,15 +32,6 @@ static NSTL_INLINE ValueType this_func(ValueType a, ValueType b) {             \
 NSTL_TYPE(this_func,                                                           \
                                                                                \
 (defun max_comp                                                                \
-/**                                                                            \
- * Return the greater of @p a and @p b.                                        \
- *                                                                             \
- * The comparison uses @p comp to determine which value is greater.            \
- *                                                                             \
- * @note In order for this algorithm to have the same result as the @em max    \
- *       algorithm, the @p comp comparator should act as a strict weak         \
- *       comparison operator.                                                  \
- */                                                                            \
 static NSTL_INLINE ValueType this_func                                         \
                                     (ValueType a, ValueType b, Compare comp) { \
     return comp(a, b) ? b : a;                                                 \

@@ -17,13 +17,6 @@
 NSTL_TYPE(this_func,                                                           \
                                                                                \
 (defun count_if                                                                \
-/**                                                                            \
- * Return the number of elements in the range delimited by [@p first, @p last) \
- * for which the predicate @p pred is true.                                    \
- *                                                                             \
- * @param pred Unary predicate taking an element in the range as argument      \
- *             and returning whether to cound the element.                     \
- */                                                                            \
 static NSTL_INLINE nstl_ptrdiff_t this_func                                    \
                         (InputIter first, InputIter last, Predicate pred) {    \
     nstl_ptrdiff_t n = 0;                                                      \

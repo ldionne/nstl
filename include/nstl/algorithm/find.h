@@ -17,10 +17,6 @@
 NSTL_TYPE(this_func,                                                           \
                                                                                \
 (defun find                                                                    \
-/**                                                                            \
- * Return an iterator to the first element in the range [@p first, @p last)    \
- * that compares equal to @p value, or @em last if not found.                  \
- */                                                                            \
 static NSTL_INLINE InputIter this_func                                         \
                     (InputIter first, InputIter last, ValueType const value) { \
     while (nstl_ne(InputIter, InputIter)(first, last) &&                       \

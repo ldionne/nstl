@@ -30,20 +30,6 @@ NSTL_GETF(NSTL_I_UPPER_BOUND(nstl_helper(this_func, upper_bound), FwdIter,     \
                                                     ValueType), upper_bound)   \
 NSTL_GETF(NSTL_I_LOWER_BOUND(nstl_helper(this_func, lower_bound), FwdIter,     \
                                                     ValueType), lower_bound)   \
-/**                                                                            \
- * Return the bounds of the largest subrange included in the range delimited   \
- * by [@p first, @p last) with values equivalent to @p value.                  \
- *                                                                             \
- * The comparison is performed using the @em nstl_lt operator. A value @em a   \
- * is considered to a value @em b when @code (!(a < b) && !(b < a)) @endcode . \
- * If @p value is not equivalent to any value in the range, the subrange       \
- * returned has a length of zero, with both iterators pointing to the nearest  \
- * value greater than @p value, if any, or to @p last, if @p value compares    \
- * greater than all the elements in the range.                                 \
- *                                                                             \
- * @note For the algorithm to yield the expected result, the elements in the   \
- *       range must already be ordered using the same criterion.               \
- */                                                                            \
 static nstl_pair(FwdIter, FwdIter) this_func                                   \
                             (FwdIter first, FwdIter last, ValueType value) {   \
     nstl_ptrdiff_t len = nstl_helper(this_func, distance)(first, last);        \
@@ -124,20 +110,7 @@ NSTL_GETF(NSTL_I_UPPER_BOUND_COMP(nstl_helper(this_func, upper_bound_comp),    \
                             FwdIter, ValueType, Compare), upper_bound_comp)    \
 NSTL_GETF(NSTL_I_LOWER_BOUND_COMP(nstl_helper(this_func, lower_bound_comp),    \
                             FwdIter, ValueType, Compare), lower_bound_comp)    \
-/**                                                                            \
- * Return the bounds of the largest subrange included in the range delimited   \
- * by [@p first, @p last) with values equivalent to @p value.                  \
- *                                                                             \
- * The comparison is performed using the @p comp comparator. A value @em a is  \
- * considered to a value @em b when @code (!comp(a, b) && !comp(b, a))         \
- * @endcode . If @p value is not equivalent to any value in the range, the     \
- * subrange returned has a length of zero, with both iterators pointing to     \
- * the nearest value greater than @p value, if any, or to @p last, if          \
- * @p value compares greater than all the elements in the range.               \
- *                                                                             \
- * @note For the algorithm to yield the expected result, the elements in the   \
- *       range must already be ordered using the same criterion.               \
- */                                                                            \
+                                                                               \
 static nstl_pair(FwdIter, FwdIter) this_func                                   \
                 (FwdIter first, FwdIter last, ValueType value, Compare comp) { \
     nstl_ptrdiff_t len = nstl_helper(this_func, distance)(first, last);        \

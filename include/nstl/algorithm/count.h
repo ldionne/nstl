@@ -17,10 +17,6 @@
 NSTL_TYPE(this_func,                                                           \
                                                                                \
 (defun count                                                                   \
-/**                                                                            \
- * Return the number of elements in the range delimited by [@p first, @p last) \
- * that compare equal to @p val.                                               \
- */                                                                            \
 static NSTL_INLINE nstl_ptrdiff_t this_func                                    \
                         (InputIter first, InputIter last, ValueType val) {     \
     nstl_ptrdiff_t n = 0;                                                      \

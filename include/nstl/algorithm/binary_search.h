@@ -21,16 +21,7 @@ NSTL_TYPE(this_func,                                                           \
 (defun binary_search                                                           \
 NSTL_GETF(NSTL_I_LOWER_BOUND(                                                  \
         nstl_helper(this_func, lower_bound), FwdIter, ValueType), lower_bound) \
-/**                                                                            \
- * Return true if an element in the range [@p first, @p last) is equivalent   \
- * to @p value, and false otherwise.                                           \
- *                                                                             \
- * The comparison is performed using the @em nstl_lt operator. A value @em x   \
- * is considered equivalent to another value @em y when                        \
- * @code (!nstl_lt(a, b) && !nstl_lt(b, a)) @endcode . For the algorithm to    \
- * yield the expected result, the elements in the range must already be        \
- * ordered according to the same criterion.                                    \
- */                                                                            \
+                                                                               \
 static NSTL_INLINE nstl_bool this_func                                         \
                             (FwdIter first, FwdIter last, ValueType value) {   \
     FwdIter i;                                                                 \
@@ -60,16 +51,6 @@ NSTL_TYPE(this_func,                                                           \
 NSTL_GETF(NSTL_I_LOWER_BOUND_COMP(                                             \
     nstl_helper(this_func, lower_bound_comp), FwdIter, ValueType, Compare),    \
                                                             lower_bound_comp)  \
-/**                                                                            \
- * Return true if an element in the range [@p first, @p last) is equivalent   \
- * to @p value, and false otherwise.                                           \
- *                                                                             \
- * The comparison is performed using the @p comp comparator. A value @em x     \
- * is considered equivalent to another value @em y when                        \
- * @code (!comp(a, b) && !comp(b, a)) @endcode . For the algorithm to          \
- * yield the expected result, the elements in the range must already be        \
- * ordered according to the same criterion.                                    \
- */                                                                            \
 static NSTL_INLINE nstl_bool this_func                                         \
                 (FwdIter first, FwdIter last, ValueType value, Compare comp) { \
     FwdIter i;                                                                 \
