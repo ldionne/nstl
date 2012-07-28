@@ -8,6 +8,7 @@
 #define NSTL_ALGORITHM_H
 
 #include <nstl/algorithm/advance.h>
+#include <nstl/algorithm/all_of.h>
 #include <nstl/algorithm/binary_search.h>
 #include <nstl/algorithm/count.h>
 #include <nstl/algorithm/count_if.h>
