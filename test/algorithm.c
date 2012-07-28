@@ -19,6 +19,7 @@ extern void test_fixture_lower_bound(void);
 extern void test_fixture_max_element(void);
 extern void test_fixture_min_element(void);
 extern void test_fixture_min_max(void);
+extern void test_fixture_none_of(void);
 extern void test_fixture_swap(void);
 extern void test_fixture_upper_bound(void);
 
@@ -39,6 +40,7 @@ extern void test_suite_algorithm(void) {
     test_fixture_max_element();
     test_fixture_min_element();
     test_fixture_min_max();
+    test_fixture_none_of();
     test_fixture_swap();
     test_fixture_upper_bound();
 }

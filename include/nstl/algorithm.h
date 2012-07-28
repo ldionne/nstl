@@ -23,6 +23,7 @@
 #include <nstl/algorithm/max_element.h>
 #include <nstl/algorithm/min.h>
 #include <nstl/algorithm/min_element.h>
+#include <nstl/algorithm/none_of.h>
 #include <nstl/algorithm/swap.h>
 #include <nstl/algorithm/upper_bound.h>
 
