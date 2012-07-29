@@ -15,6 +15,7 @@ extern void test_fixture_distance(void);
 extern void test_fixture_equal_range(void);
 extern void test_fixture_find(void);
 extern void test_fixture_find_adjacent(void);
+extern void test_fixture_find_if(void);
 extern void test_fixture_find_if_not(void);
 extern void test_fixture_for_each(void);
 extern void test_fixture_is_equal(void);
@@ -44,6 +45,7 @@ extern void test_suite_algorithm(void) {
     test_fixture_equal_range();
     test_fixture_find();
     test_fixture_find_adjacent();
+    test_fixture_find_if();
     test_fixture_find_if_not();
     test_fixture_for_each();
     test_fixture_is_equal();
