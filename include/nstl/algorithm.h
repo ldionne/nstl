@@ -11,6 +11,7 @@
 #include <nstl/algorithm/count.h>
 #include <nstl/algorithm/count_if.h>
 #include <nstl/algorithm/find.h>
+#include <nstl/algorithm/find_if.h>
 #include <nstl/algorithm/for_each.h>
 #include <nstl/algorithm/max.h>
 #include <nstl/algorithm/max_element.h>
