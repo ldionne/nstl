@@ -1,5 +1,27 @@
 # __nstl__ - the non standard template library
-The __nstl__ is a collection of generic data structures written in ANSI-C.
+The __nstl__ is a collection of generic data structures and algorithms written
+in ANSI-C.
+
+
+## Name mapping with the C++ STL
+Although most algorithms and data structures are named as their counterpart
+in the C++ STL, some names differ. This happened when we felt that a name in
+in the C++ STL could be made clearer or more expressive. The following list
+shows the mapping of the names from the C++ STL to the __nstl__.
+
+* _adjacent\_find_ --> _find\_adjacent_
+* _equal_ --> _is\_equal_
+* _find\_first\_of_ --> _find\_any\_of_
+* _find\_end_ --> ?
+* _search_ --> ?
+* _search\_n_ --> ?
+* _remove_ --> ?
+* _remove\_copy_ --> ?
+* _replace_ --> ?
+* _replace\_copy_ --> ?
+* _unique_ --> _remove\_adjacent_
+* _unique\_copy_ --> _remove\_adjacent\_copy_
+
 
 ## Code style / conventions
 The conventions listed here are used throughout the entire library, without
