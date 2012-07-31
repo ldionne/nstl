@@ -23,6 +23,29 @@ shows the mapping of the names from the C++ STL to the __nstl__.
 * _unique\_copy_ --> _remove\_adjacent\_copy_
 
 
+## Building
+
+1. `git clone https://github.com/ldionne/nstl.git`
+
+    Clones the repository.
+
+2. `git submodule update --init`
+
+    Fetches the dependencies stored as submodules.
+
+3. `make gen-cmake`
+
+    Generate the Makefiles on your platform using CMake.
+
+4. `make`
+
+    Builds the library and unit tests.
+
+5. `make run-tests`
+
+    Runs all the unit tests of the library.
+
+
 ## Code style / conventions
 The conventions listed here are used throughout the entire library, without
 derogation:
