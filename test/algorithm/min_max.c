@@ -12,7 +12,6 @@
 
 
 typedef nstl_bool (*Compare)(nstl_int a, nstl_int b);
-
 NSTL_INSTANTIATE(NSTL_MAX(nstl_int))
 NSTL_INSTANTIATE(NSTL_MAX_COMP(nstl_int, Compare))
 

@@ -10,7 +10,6 @@
 
 
 typedef nstl_bool (*Compare)(nstl_int x, nstl_int y);
-
 NSTL_INSTANTIATE(NSTL_BINARY_SEARCH(nstl_pint, nstl_int))
 NSTL_INSTANTIATE(NSTL_BINARY_SEARCH_COMP(nstl_pint, nstl_int, Compare))
 

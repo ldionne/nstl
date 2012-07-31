@@ -9,8 +9,7 @@
 #include <seatest.h>
 
 
-typedef nstl_bool (*Compare)(int x, int y);
-
+typedef nstl_bool (*Compare)(nstl_int x, nstl_int y);
 NSTL_INSTANTIATE(NSTL_MAX_ELEMENT(nstl_pint, nstl_int))
 NSTL_INSTANTIATE(NSTL_MAX_ELEMENT_COMP(nstl_pint, nstl_int, Compare))
 

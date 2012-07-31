@@ -11,7 +11,6 @@
 
 
 typedef nstl_bool (*Compare)(nstl_int x, nstl_int y);
-
 NSTL_INSTANTIATE(NSTL_PAIR(nstl_pint, nstl_pint))
 NSTL_INSTANTIATE(NSTL_EQUAL_RANGE(nstl_pint, nstl_int))
 NSTL_INSTANTIATE(NSTL_EQUAL_RANGE_COMP(nstl_pint, nstl_int, Compare))
