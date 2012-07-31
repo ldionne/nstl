@@ -22,7 +22,7 @@ NSTL_TYPE(this_func,                                                           \
 NSTL_GETF(NSTL_I_DISTANCE(nstl_helper(this_func, distance), FwdIter),          \
                                                                     distance)  \
 NSTL_GETF(NSTL_I_ADVANCE(nstl_helper(this_func, advance), FwdIter,             \
-                                                    nstl_ptrdiff_t), advance)  \
+                        nstl_ptrdiff_t, /*is_bidirectionnal=*/ 0), advance)    \
                                                                                \
 static FwdIter this_func(FwdIter first, FwdIter last, ValueType value) {       \
     nstl_ptrdiff_t len = nstl_helper(this_func, distance)(first, last);        \
@@ -63,8 +63,8 @@ NSTL_TYPE(this_func,                                                           \
 NSTL_GETF(NSTL_I_DISTANCE(                                                     \
     nstl_helper(this_func, distance), FwdIter), distance)                      \
 NSTL_GETF(NSTL_I_ADVANCE(                                                      \
-    nstl_helper(this_func, advance), FwdIter, nstl_ptrdiff_t), advance)        \
-                                                                               \
+    nstl_helper(this_func, advance), FwdIter, nstl_ptrdiff_t,                  \
+                                        /*is_bidirectionnal=*/ 0), advance)    \
 static FwdIter this_func                                                       \
                 (FwdIter first, FwdIter last, ValueType value, Compare comp) { \
                                                                                \

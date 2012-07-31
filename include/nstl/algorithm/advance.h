@@ -10,16 +10,48 @@
 #include <nstl/internal.h>
 
 
-#define NSTL_ADVANCE(InputIter, Distance) \
-    NSTL_I_ADVANCE(nstl_advance(InputIter, Distance), InputIter, Distance)
+#define NSTL_ADVANCE(InputIter, Distance, is_bidirectionnal)                   \
+    NSTL_I_ADVANCE(nstl_advance(InputIter, Distance),                          \
+        InputIter, Distance, is_bidirectionnal                                 \
+    )                                                                          \
+/**/
 
-#define NSTL_I_ADVANCE(this_func, InputIter, Distance)                         \
+#define NSTL_I_ADVANCE(this_func, InputIter, Distance, is_bidirectionnal)      \
+    NSTL_STATIC_IF(is_bidirectionnal)(                                         \
+        NSTL_I_ADVANCE_BIDIRECTIONNAL, NSTL_I_ADVANCE_FORWARD                  \
+    )(this_func, InputIter, Distance)                                          \
+/**/
+
+#define NSTL_I_ADVANCE_BIDIRECTIONNAL(this_func, InputIter, Distance)          \
 NSTL_TYPE(this_func,                                                           \
                                                                                \
 (defun advance                                                                 \
 static NSTL_INLINE void this_func(InputIter *iter, Distance n) {               \
-    while (nstl_dec_(Distance)(&n))                                            \
+    if (nstl_gt(Distance, Distance)(n, 0))                                     \
+        while (n) {                                                            \
+            nstl_dec(Distance)(&n);                                            \
+            nstl_inc(InputIter)(iter);                                         \
+        }                                                                      \
+    else                                                                       \
+        while (n) {                                                            \
+            nstl_inc(Distance)(&n);                                            \
+            nstl_dec(InputIter)(iter);                                         \
+        }                                                                      \
+}                                                                              \
+)                                                                              \
+                                                                               \
+)                                                                              \
+/**/
+
+#define NSTL_I_ADVANCE_FORWARD(this_func, InputIter, Distance)                 \
+NSTL_TYPE(this_func,                                                           \
+                                                                               \
+(defun advance                                                                 \
+static NSTL_INLINE void this_func(InputIter *iter, Distance n) {               \
+    while (n) {                                                                \
+        nstl_dec(Distance)(&n);                                                \
         nstl_inc(InputIter)(iter);                                             \
+    }                                                                          \
 }                                                                              \
 )                                                                              \
                                                                                \

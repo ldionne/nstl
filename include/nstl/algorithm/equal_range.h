@@ -25,7 +25,7 @@ NSTL_TYPE(this_func,                                                           \
 NSTL_GETF(NSTL_I_DISTANCE(nstl_helper(this_func, distance), FwdIter),          \
                                                                     distance)  \
 NSTL_GETF(NSTL_I_ADVANCE(nstl_helper(this_func, advance), FwdIter,             \
-                                                    nstl_ptrdiff_t), advance)  \
+                        nstl_ptrdiff_t, /*is_bidirectionnal=*/ 0), advance)    \
 NSTL_GETF(NSTL_I_UPPER_BOUND(nstl_helper(this_func, upper_bound), FwdIter,     \
                                                     ValueType), upper_bound)   \
 NSTL_GETF(NSTL_I_LOWER_BOUND(nstl_helper(this_func, lower_bound), FwdIter,     \
@@ -105,7 +105,7 @@ NSTL_TYPE(this_func,                                                           \
 NSTL_GETF(NSTL_I_DISTANCE(nstl_helper(this_func, distance), FwdIter),          \
                                                                     distance)  \
 NSTL_GETF(NSTL_I_ADVANCE(nstl_helper(this_func, advance), FwdIter,             \
-                                                    nstl_ptrdiff_t), advance)  \
+                        nstl_ptrdiff_t, /*is_bidirectionnal=*/ 0), advance)    \
 NSTL_GETF(NSTL_I_UPPER_BOUND_COMP(nstl_helper(this_func, upper_bound_comp),    \
                             FwdIter, ValueType, Compare), upper_bound_comp)    \
 NSTL_GETF(NSTL_I_LOWER_BOUND_COMP(nstl_helper(this_func, lower_bound_comp),    \
