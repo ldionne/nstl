@@ -23,6 +23,14 @@ shows the mapping of the names from the C++ STL to the __nstl__.
 * _unique\_copy_ --> _remove\_adjacent\_copy_
 
 
+## Documentation
+Since a large portion of the __nstl__ is a reimplementation of the C++ STL,
+the choice to not rewrite the documentation was made. For anything sharing
+its name with something in the C++ STL, the documentation available for
+the C++ STL also applies unless stated otherwise. For anything else, the
+documentation appears in the sources as Javadoc comments.
+
+
 ## Building
 
 1. `git clone https://github.com/ldionne/nstl.git`
