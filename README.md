@@ -54,6 +54,68 @@ documentation appears in the sources as Javadoc comments.
     Runs all the unit tests of the library.
 
 
+## To do
+The tasks listed here are things that could/should be considered/done to
+improve the __nstl__. The list is certainly incomplete and the order in which
+things are listed is irrelevant.
+
+* Think of a way to instantiate C99 style inline functions (when available)
+  instead of static inline functions only.
+
+* Consider the possibility of using metatypes as template arguments.
+
+* Use concept checks whenever possible.
+
+* Put the _deref_ operator in the operators, and add a subscript operator.
+
+* Refactor the concepts currently implemented and fix them so they correspond
+  to the SGI concepts (or other concepts, if we can find better) where needed.
+
+* Find a way to give O(1) access to the native operators in the metatypes.
+
+* Precompute the macro expansion of primitive types (not to confound with
+  their instantiation, which is already done).
+
+* Consider implementing a reference type.
+
+* Consider instantiating a pointer, pointer to const, reference, const
+  reference, etc... for primitive types.
+
+* Find a way to manage temporaries consistently, to avoid memory leaks. One
+  challenge is to find a way to deal with unused return values which are
+  copies. In C++, their destructor would be called automatically after the
+  expression is evaluated, but it is not the case in C, so it must be done
+  explicitly in some way.
+
+* Use type traits. Amongst others, it will allow us to eliminate redundant
+  `ValueType` arguments to some algorithms dealing with iterators only by
+  giving access to `ValueType` via the iterator's traits. Also, we will be
+  able to specialize algorithms depending on an iterator's traits.
+
+* Refactor the names used for iterators in the algorithms to make them
+  coherent with boost iterator categories, which are superior to the C++ STL
+  iterator categories.
+
+* Find a way to share helper functions across many levels of algorithms,
+  avoiding the useless duplication of function instantiations.
+
+* Leverage variadic macros when available by providing overloaded functions
+  and other goodies.
+
+* Implement all the algorithms and data structures available in the C++11 STL.
+
+* Design ranges and write wrappers to use ranges with all the algorithms that
+  support it.
+
+* Find a way to factor out common code for \_comp versions of algorithms to
+  reduce code size (some algorithms like _equal\_range_ are quite lengthy).
+
+* Consider renaming _min\_element_ and _max\_element_ to something clearer
+  like _min\_in_ and _max\_in_ or something similar.
+
+* Implement debug facilities such as validity checks and code instrumentation.
+
+
 ## Code style / conventions
 The conventions listed here are used throughout the entire library, without
 derogation:
