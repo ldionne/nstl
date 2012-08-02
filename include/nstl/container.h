@@ -1,7 +1,5 @@
 /**
  * Master header of the nstl/container module.
- *
- * @author Louis Dionne
  */
 
 #ifndef NSTL_CONTAINER_H

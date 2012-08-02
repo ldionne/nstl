@@ -1,7 +1,5 @@
 /**
  * Unit tests for the @em find_adjacent and @em find_adjacent_comp algorithms.
- *
- * @author Louis Dionne
  */
 
 #include <nstl/algorithm/find_adjacent.h>

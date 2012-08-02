@@ -1,7 +1,5 @@
 /**
  * Unit tests for the @em equal_range and @em equal_range_comp algorithms.
- *
- * @author Louis Dionne
  */
 
 #include <nstl/algorithm/equal_range.h>

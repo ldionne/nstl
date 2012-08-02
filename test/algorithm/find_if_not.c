@@ -1,7 +1,5 @@
 /**
  * Unit tests for the @em find_if_not algorithm.
- *
- * @author Louis Dionne
  */
 
 #include <nstl/algorithm/find_if_not.h>

@@ -1,7 +1,5 @@
 /**
  * Unit tests for the @em for_each algorithm.
- *
- * @author Louis Dionne
  */
 
 #include <nstl/algorithm/for_each.h>

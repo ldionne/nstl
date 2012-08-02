@@ -1,7 +1,5 @@
 /**
  * This file defines the @em upper_bound and @em upper_bound_comp algorithms.
- *
- * @author Louis Dionne
  */
 
 #ifndef NSTL_ALGORITHM_UPPER_BOUND_H

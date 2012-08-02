@@ -1,7 +1,5 @@
 /**
  * This file defines the @em none_of algorithm.
- *
- * @author Louis Dionne
  */
 
 #ifndef NSTL_ALGORITHM_NONE_OF_H

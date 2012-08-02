@@ -1,7 +1,5 @@
 /**
  * Specification of the @em default_constructible concept.
- *
- * @author Louis Dionne
  */
 
 #ifndef NSTL_CONCEPT_DEFAULT_CONSTRUCTIBLE_H

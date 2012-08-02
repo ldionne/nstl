@@ -1,7 +1,5 @@
 /**
  * Unit tests for the @em any_of algorithm.
- *
- * @author Louis Dionne
  */
 
 #include <nstl/algorithm/any_of.h>

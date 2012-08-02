@@ -1,7 +1,5 @@
 /**
  * Master header of the nstl/concept module.
- *
- * @author Louis Dionne
  */
 
 #ifndef NSTL_CONCEPT_H

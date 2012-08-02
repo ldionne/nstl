@@ -1,7 +1,5 @@
 /**
  * Macros to dynamically assert conditions.
- *
- * @author Louis Dionne
  */
 
 #ifndef NSTL_INTERNAL_DYNAMIC_ASSERT_H

@@ -1,7 +1,5 @@
 /**
  * Specification of the @em less_than_comparable concept.
- *
- * @author Louis Dionne
  */
 
 #ifndef NSTL_CONCEPT_LESS_THAN_COMPARABLE_H

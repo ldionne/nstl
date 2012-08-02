@@ -1,7 +1,5 @@
 /**
  * Main for the unit tests of nstl.
- *
- * @author Louis Dionne
  */
 
 #include <seatest.h>

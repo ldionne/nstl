@@ -1,8 +1,6 @@
 /**
  * This file defines the @em min_element and @em nstl_min_element_comp
  * algorithms.
- *
- * @author Louis Dionne
  */
 
 #ifndef NSTL_ALGORITHM_MIN_ELEMENT_H

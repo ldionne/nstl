@@ -1,7 +1,5 @@
 /**
  * This file defines the @em max_element and @em max_element_comp algorithms.
- *
- * @author Louis Dionne
  */
 
 #ifndef NSTL_ALGORITHM_MAX_ELEMENT_H

@@ -1,7 +1,5 @@
 /**
  * This file defines the @em next and @em next_n algorithms.
- *
- * @author Louis Dionne
  */
 
 #ifndef NSTL_ALGORITHM_NEXT_H

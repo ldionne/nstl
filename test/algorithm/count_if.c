@@ -1,7 +1,5 @@
 /**
  * Unit tests for the @em count_if algorithm.
- *
- * @author Louis Dionne
  */
 
 #include <nstl/algorithm/count_if.h>

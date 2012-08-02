@@ -1,7 +1,5 @@
 /**
  * This file defines the @em any_of algorithm.
- *
- * @author Louis Dionne
  */
 
 #ifndef NSTL_ALGORITHM_ANY_OF_H

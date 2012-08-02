@@ -1,7 +1,5 @@
 /**
  * Specification of the single pass concept for iterators.
- *
- * @author Louis Dionne
  */
 
 #ifndef NSTL_CONCEPT_ITERATOR_SINGLE_PASS_H

@@ -1,7 +1,5 @@
 /**
  * Test suite for the @em container module of nstl.
- *
- * @author Louis Dionne
  */
 
 #include <seatest.h>

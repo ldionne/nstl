@@ -1,7 +1,5 @@
 /**
  * Specification of the @em assignable concept.
- *
- * @author Louis Dionne
  */
 
 #ifndef NSTL_CONCEPT_ASSIGNABLE_H

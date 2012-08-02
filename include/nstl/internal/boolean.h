@@ -1,7 +1,5 @@
 /**
  * Implementation of the C boolean type.
- *
- * @author Louis Dionne
  */
 
 #if NSTL_I_INSTANTIATE_PRIMITIVE

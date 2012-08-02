@@ -1,7 +1,5 @@
 /**
  * Implementation of a vector template.
- *
- * @author Louis Dionne
  */
 
 #ifndef NSTL_CONTAINER_VECTOR_H

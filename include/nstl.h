@@ -1,7 +1,5 @@
 /**
  * Master header of the nstl library.
- *
- * @author Louis Dionne
  */
 
 #ifndef NSTL_H

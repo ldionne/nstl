@@ -1,7 +1,5 @@
 /**
  * Macros to statically assert conditions.
- *
- * @author Louis Dionne
  */
 
 #ifndef NSTL_INTERNAL_STATIC_ASSERT_H

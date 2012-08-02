@@ -1,7 +1,5 @@
 /**
  * This file defines the @em all_of algorithm.
- *
- * @author Louis Dionne
  */
 
 #ifndef NSTL_ALGORITHM_ALL_OF_H

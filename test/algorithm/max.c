@@ -1,7 +1,5 @@
 /**
  * Unit tests for the @em max and @em max_comp algorithms.
- *
- * @author Louis Dionne
  */
 
 #include <nstl/algorithm/max.h>

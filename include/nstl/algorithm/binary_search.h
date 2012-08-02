@@ -1,8 +1,6 @@
 /**
  * This file defines the @em binary_search and @em binary_search_comp
  * algorithms.
- *
- * @author Louis Dionne
  */
 
 #ifndef NSTL_ALGORITHM_BINARY_SEARCH_H

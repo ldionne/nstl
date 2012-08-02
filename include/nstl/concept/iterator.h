@@ -1,7 +1,5 @@
 /**
  * Master header of the nstl/concept/iterator module.
- *
- * @author Louis Dionne
  */
 
 #ifndef NSTL_CONCEPT_ITERATOR_H

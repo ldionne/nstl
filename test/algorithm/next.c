@@ -1,7 +1,5 @@
 /**
  * Unit tests for the @em next and @em next_n algorithms.
- *
- * @author Louis Dionne
  */
 
 #include <nstl/algorithm/next.h>

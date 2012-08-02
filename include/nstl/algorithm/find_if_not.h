@@ -1,7 +1,5 @@
 /**
  * This file defines the @em find_if_not algorithm.
- *
- * @author Louis Dionne
  */
 
 #ifndef NSTL_ALGORITHM_FIND_IF_NOT_H

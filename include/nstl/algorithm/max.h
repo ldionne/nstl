@@ -1,7 +1,5 @@
 /**
  * This file defines the @em max and @em max_comp algorithms.
- *
- * @author Louis Dionne
  */
 
 #ifndef NSTL_ALGORITHM_MAX_H

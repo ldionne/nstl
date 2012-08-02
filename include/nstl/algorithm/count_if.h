@@ -1,7 +1,5 @@
 /**
  * This file defines the @em count_if algorithm.
- *
- * @author Louis Dionne
  */
 
 #ifndef NSTL_ALGORITHM_COUNT_IF_H

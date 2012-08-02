@@ -1,7 +1,5 @@
 /**
  * Unit tests for the @em none_of algorithm.
- *
- * @author Louis Dionne
  */
 
 #include <nstl/algorithm/none_of.h>

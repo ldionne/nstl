@@ -1,7 +1,5 @@
 /**
  * This file defines the @em equal_range and @em equal_range_comp algorithms.
- *
- * @author Louis Dionne
  */
 
 #ifndef NSTL_ALGORITHM_EQUAL_RANGE_H

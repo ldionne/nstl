@@ -1,7 +1,5 @@
 /**
  * This file defines the @em advance algorithm.
- *
- * @author Louis Dionne
  */
 
 #ifndef NSTL_ALGORITHM_ADVANCE_H

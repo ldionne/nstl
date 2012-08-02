@@ -5,8 +5,6 @@
  *       to the original authors. The reason I use a copy of their string/core
  *       operations is that I needed to be able to define tokens using the
  *       NSTL_TOKEN_ construct.
- *
- * @author Louis Dionne
  */
 
 #ifndef NSTL_INTERNAL_TOKEN_H

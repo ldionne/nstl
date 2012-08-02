@@ -1,7 +1,5 @@
 /**
  * This file defines the @em lower_bound and @em lower_bound_comp algorithms.
- *
- * @author Louis Dionne
  */
 
 #ifndef NSTL_ALGORITHM_LOWER_BOUND_H

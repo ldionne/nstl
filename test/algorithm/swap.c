@@ -1,7 +1,5 @@
 /**
  * Unit tests for the @em swap algorithm.
- *
- * @author Louis Dionne
  */
 
 #include <nstl/algorithm/swap.h>

@@ -1,7 +1,5 @@
 /**
  * Specification of the forward traversal concept for iterators.
- *
- * @author Louis Dionne
  */
 
 #ifndef NSTL_CONCEPT_ITERATOR_FORWARD_TRAVERSAL_H

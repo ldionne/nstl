@@ -4,8 +4,6 @@
  *
  * @note This algorithm is equivalent to the @em find_adjacent algorithm of
  *       the C++ standard library.
- *
- * @author Louis Dionne
  */
 
 #ifndef NSTL_ALGORITHM_FIND_ADJACENT_H

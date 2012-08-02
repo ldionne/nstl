@@ -1,7 +1,5 @@
 /**
  * Unit tests for the @em all_of algorithm.
- *
- * @author Louis Dionne
  */
 
 #include <nstl/algorithm/all_of.h>

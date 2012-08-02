@@ -1,7 +1,5 @@
 /**
  * Master header for the @em nstl/internal header files.
- *
- * @author Louis Dionne
  */
 
 #ifndef NSTL_INTERNAL_H

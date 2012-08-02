@@ -1,7 +1,5 @@
 /**
  * Specification of the incrementable concept for iterators.
- *
- * @author Louis Dionne
  */
 
 #ifndef NSTL_CONCEPT_ITERATOR_INCREMENTABLE_H

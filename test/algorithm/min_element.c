@@ -1,7 +1,5 @@
 /**
  * Unit tests for the @em min_element and @em min_element_comp algorithms.
- *
- * @author Louis Dionne
  */
 
 #include <nstl/algorithm/min_element.h>

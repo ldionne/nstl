@@ -1,7 +1,5 @@
 /**
  * This file defines the @em min and @em min_comp algorithm.
- *
- * @author Louis Dionne
  */
 
 #ifndef NSTL_ALGORITHM_MIN_H

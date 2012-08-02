@@ -1,7 +1,5 @@
 /**
  * Implementation of a pair template.
- *
- * @author Louis Dionne
  */
 
 #ifndef NSTL_PAIR_H

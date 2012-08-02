@@ -1,8 +1,6 @@
 /**
  * This file defines a macro to generate mangled names for helper functions
  * inside template implementations.
- *
- * @author Louis Dionne
  */
 
 #ifndef NSTL_INTERNAL_HELPER_H

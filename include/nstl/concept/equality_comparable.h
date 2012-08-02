@@ -1,7 +1,5 @@
 /**
  * Specification of the @em equality_comparable concept.
- *
- * @author Louis Dionne
  */
 
 #ifndef NSTL_CONCEPT_EQUALITY_COMPARABLE_H

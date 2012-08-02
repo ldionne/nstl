@@ -1,7 +1,5 @@
 /**
  * Unit tests for the @em prev and @em prev_n algorithms.
- *
- * @author Louis Dionne
  */
 
 #include <nstl/algorithm/prev.h>

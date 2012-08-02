@@ -1,7 +1,5 @@
 /**
  * Implementation of C pointer types.
- *
- * @author Louis Dionne
  */
 
 #ifndef NSTL_INTERNAL_POINTER_H

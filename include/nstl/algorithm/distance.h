@@ -1,7 +1,5 @@
 /**
  * This file defines the @em distance algorithm.
- *
- * @author Louis Dionne
  */
 
 #ifndef NSTL_ALGORITHM_DISTANCE_H

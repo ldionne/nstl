@@ -1,7 +1,5 @@
 /**
  * Specification of the bidirectional traversal concept for iterators.
- *
- * @author Louis Dionne
  */
 
 #ifndef NSTL_CONCEPT_ITERATOR_BIDIRECTIONAL_TRAVERSAL_H

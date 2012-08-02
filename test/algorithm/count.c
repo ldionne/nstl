@@ -1,7 +1,5 @@
 /**
  * Unit tests for the @em count algorithm.
- *
- * @author Louis Dionne
  */
 
 #include <nstl/algorithm/count.h>

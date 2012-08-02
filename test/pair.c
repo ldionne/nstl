@@ -1,7 +1,5 @@
 /**
  * Unit tests for the pair template.
- *
- * @author Louis Dionne
  */
 
 #include <nstl/pair.h>

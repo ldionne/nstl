@@ -1,7 +1,5 @@
 /**
  * Specification of the swappable concept for iterators.
- *
- * @author Louis Dionne
  */
 
 #ifndef NSTL_CONCEPT_ITERATOR_SWAPPABLE_H

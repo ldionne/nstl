@@ -1,7 +1,5 @@
 /**
  * Unit tests for the vector template.
- *
- * @author Louis Dionne
  */
 
 #include <nstl/container/vector.h>

@@ -1,7 +1,5 @@
 /**
  * This file defines the @em prev and @em prev_n algorithms.
- *
- * @author Louis Dionne
  */
 
 #ifndef NSTL_ALGORITHM_PREV_H

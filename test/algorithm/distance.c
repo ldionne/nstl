@@ -1,7 +1,5 @@
 /**
  * Unit tests for the @em distance algorithm.
- *
- * @author Louis Dionne
  */
 
 #include <nstl/algorithm/distance.h>

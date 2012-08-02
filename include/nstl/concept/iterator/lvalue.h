@@ -1,7 +1,5 @@
 /**
  * Specification of the lvalue concept for iterators.
- *
- * @author Louis Dionne
  */
 
 #ifndef NSTL_CONCEPT_ITERATOR_LVALUE_H

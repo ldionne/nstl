@@ -1,7 +1,5 @@
 /**
  * Unit tests for the @em find algorithm.
- *
- * @author Louis Dionne
  */
 
 #include <nstl/algorithm/find.h>

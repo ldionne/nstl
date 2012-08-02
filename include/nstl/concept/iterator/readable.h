@@ -1,7 +1,5 @@
 /**
  * Specification of the readable concept for iterators.
- *
- * @author Louis Dionne
  */
 
 #ifndef NSTL_CONCEPT_ITERATOR_READABLE_H

@@ -1,7 +1,5 @@
 /**
  * Macros to manipulate fields.
- *
- * @author Louis Dionne
  */
 
 #ifndef NSTL_INTERNAL_FIELD_H

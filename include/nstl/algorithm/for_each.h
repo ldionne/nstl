@@ -1,7 +1,5 @@
 /**
  * This file defines the @em for_each algorithm.
- *
- * @author Louis Dionne
  */
 
 #ifndef NSTL_ALGORITHM_FOR_EACH_H

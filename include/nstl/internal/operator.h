@@ -1,8 +1,6 @@
 /**
  * Definition of the basic operators in C, and definition
  * of commonly used tokens.
- *
- * @author Louis Dionne
  */
 
 #ifndef NSTL_INTERNAL_OPERATOR_H

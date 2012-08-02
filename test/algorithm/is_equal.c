@@ -1,7 +1,5 @@
 /**
  * Unit tests for the @em is_equal and @em is_equal_comp algorithms.
- *
- * @author Louis Dionne
  */
 
 #include <nstl/algorithm/is_equal.h>

@@ -1,7 +1,5 @@
 /**
  * Specification of the writable concept for iterators.
- *
- * @author Louis Dionne
  */
 
 #ifndef NSTL_CONCEPT_ITERATOR_WRITABLE_H

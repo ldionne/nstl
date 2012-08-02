@@ -3,8 +3,6 @@
  *
  * @note This algorithm is equivalent to the @em equal algorithm of the C++
  *       standard library.
- *
- * @author Louis Dionne
  */
 
 #ifndef NSTL_ALGORITHM_IS_EQUAL_H

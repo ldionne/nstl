@@ -1,7 +1,5 @@
 /**
  * This file defines the @em swap algorithm.
- *
- * @author Louis Dionne
  */
 
 #ifndef NSTL_ALGORITHM_SWAP_H

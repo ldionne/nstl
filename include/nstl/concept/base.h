@@ -1,8 +1,6 @@
 /**
  * Macros to specify concept requirements and assert that
  * requirements are met.
- *
- * @author Louis Dionne
  */
 
 #ifndef NSTL_CONCEPT_BASE_H

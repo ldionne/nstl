@@ -1,8 +1,6 @@
 /**
  * Internal configuration file to enable/disable features depending on the
  * platform.
- *
- * @author Louis Dionne
  */
 
 #ifndef NSTL_INTERNAL_CONFIG_H

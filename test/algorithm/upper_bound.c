@@ -1,7 +1,5 @@
 /**
  * Unit tests for the @em upper_bound and @em upper_bound_comp algorithms.
- *
- * @author Louis Dionne
  */
 
 #include <nstl/algorithm/upper_bound.h>

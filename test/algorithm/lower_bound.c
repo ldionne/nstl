@@ -1,7 +1,5 @@
 /**
  * Unit tests for the @em lower_bound and @em lower_bound_comp algorithms.
- *
- * @author Louis Dionne
  */
 
 #include <nstl/algorithm/lower_bound.h>

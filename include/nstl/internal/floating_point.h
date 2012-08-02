@@ -1,7 +1,5 @@
 /**
  * Implementation of C floating point types.
- *
- * @author Louis Dionne
  */
 
 #if NSTL_I_INSTANTIATE_PRIMITIVE

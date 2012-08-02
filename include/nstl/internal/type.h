@@ -1,7 +1,5 @@
 /**
  * Macros to create and manipulate metatypes.
- *
- * @author Louis Dionne
  */
 
 #ifndef NSTL_INTERNAL_TYPE_H

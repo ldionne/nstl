@@ -1,7 +1,5 @@
 /**
  * Unit tests for the @em binary_search and @em binary_search_comp algorithms.
- *
- * @author Louis Dionne
  */
 
 #include <nstl/algorithm/binary_search.h>

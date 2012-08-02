@@ -1,7 +1,5 @@
 /**
  * Master header of the nstl/algorithm module.
- *
- * @author Louis Dionne
  */
 
 #ifndef NSTL_ALGORITHM_H

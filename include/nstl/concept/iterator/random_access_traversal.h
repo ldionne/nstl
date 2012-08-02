@@ -1,7 +1,5 @@
 /**
  * Specification of the random access traversal concept for iterators.
- *
- * @author Louis Dionne
  */
 
 #ifndef NSTL_CONCEPT_ITERATOR_RANDOM_ACCESS_TRAVERSAL_H

@@ -10,8 +10,6 @@
  * between the two ``------'' lines is kept and written to
  * ``nstl/internal/primitive.i''. This precomputes the primitive types,
  * allowing for a great speedup of the compilation time.
- *
- * @author Louis Dionne
  */
 
 /* If we are not generating the primitives, it should be already generated

@@ -1,7 +1,5 @@
 /**
  * This file defines the @em find algorithm.
- *
- * @author Louis Dionne
  */
 
 #ifndef NSTL_ALGORITHM_FIND_H

@@ -1,7 +1,5 @@
 /**
  * Specification of the @em copy_constructible concept.
- *
- * @author Louis Dionne
  */
 
 #ifndef NSTL_CONCEPT_COPY_CONSTRUCTIBLE_H

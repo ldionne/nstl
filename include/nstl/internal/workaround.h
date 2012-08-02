@@ -1,8 +1,6 @@
 /**
  * Workarounds (read hacks) to fix several issues.
  * Let's hope this stays small.
- *
- * @author Louis Dionne
  */
 
 #ifndef NSTL_INTERNAL_WORKAROUND_H

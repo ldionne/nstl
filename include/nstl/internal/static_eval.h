@@ -1,7 +1,5 @@
 /**
  * Macros to statically evaluate expressions.
- *
- * @author Louis Dionne
  */
 
 #ifndef NSTL_INTERNAL_STATIC_EVAL_H
