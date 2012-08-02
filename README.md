@@ -69,7 +69,7 @@ things are listed is irrelevant.
 * Put the _deref_ operator in the operators, and add a subscript operator.
 
 * Refactor the concepts currently implemented and fix them so they correspond
-  to the SGI concepts (or other concepts, if we can find better) where needed.
+  to the boost concepts where needed.
 
 * Find a way to give O(1) access to the native operators in the metatypes.
 
@@ -93,8 +93,7 @@ things are listed is irrelevant.
   able to specialize algorithms depending on an iterator's traits.
 
 * Refactor the names used for iterators in the algorithms to make them
-  coherent with boost iterator categories, which are superior to the C++ STL
-  iterator categories.
+  consistent with boost iterator categories.
 
 * Find a way to share helper functions across many levels of algorithms,
   avoiding the useless duplication of function instantiations.
