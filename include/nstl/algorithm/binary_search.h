@@ -17,19 +17,15 @@
 NSTL_TYPE(this_func,                                                           \
                                                                                \
 (defun binary_search                                                           \
-NSTL_GETF(NSTL_I_LOWER_BOUND(                                                  \
-        nstl_helper(this_func, lower_bound), FwdIter, ValueType), lower_bound) \
+typedef nstl_bool (*nstl_helper(this_func, impl_pred))(ValueType, ValueType);  \
+                                                                               \
+NSTL_GETF(NSTL_I_BINARY_SEARCH_COMP(nstl_helper(this_func, impl),              \
+FwdIter, ValueType, nstl_helper(this_func, impl_pred)), binary_search_comp)    \
                                                                                \
 static NSTL_INLINE nstl_bool this_func                                         \
                             (FwdIter first, FwdIter last, ValueType value) {   \
-    FwdIter i;                                                                 \
-    nstl_bool ret;                                                             \
-    nstl_copy_ctor(FwdIter)(&i, nstl_helper(this_func, lower_bound)            \
-                                                        (first, last, value)); \
-    ret = nstl_ne(FwdIter, FwdIter)(i, last) &&                                \
-          !nstl_lt(ValueType, ValueType)(value, nstl_deref(FwdIter)(i));       \
-    nstl_dtor(FwdIter)(&i);                                                    \
-    return ret;                                                                \
+    return nstl_helper(this_func, impl)                                        \
+                        (first, last, value, nstl_lt(ValueType, ValueType));   \
 }                                                                              \
 )                                                                              \
                                                                                \
@@ -51,12 +47,10 @@ NSTL_GETF(NSTL_I_LOWER_BOUND_COMP(                                             \
                                                             lower_bound_comp)  \
 static NSTL_INLINE nstl_bool this_func                                         \
                 (FwdIter first, FwdIter last, ValueType value, Compare comp) { \
-    FwdIter i;                                                                 \
-    nstl_bool ret;                                                             \
-    nstl_copy_ctor(FwdIter)(&i, nstl_helper(this_func, lower_bound_comp)       \
-                                                (first, last, value, comp));   \
-    ret = nstl_ne(FwdIter, FwdIter)(i, last) &&                                \
-          !comp(value, nstl_deref(FwdIter)(i));                                \
+    FwdIter i = nstl_helper(this_func, lower_bound_comp)                       \
+                                                (first, last, value, comp);    \
+    nstl_bool ret = nstl_ne(FwdIter, FwdIter)(i, last) &&                      \
+                    !comp(value, nstl_deref(FwdIter)(i));                      \
     nstl_dtor(FwdIter)(&i);                                                    \
     return ret;                                                                \
 }                                                                              \

@@ -19,22 +19,14 @@
 NSTL_TYPE(this_func,                                                           \
                                                                                \
 (defun find_adjacent                                                           \
-static NSTL_INLINE FwdIter this_func(FwdIter first, FwdIter last) {            \
-    FwdIter next;                                                              \
-    if (nstl_eq(FwdIter, FwdIter)(first, last))                                \
-        return last;                                                           \
-    nstl_copy_ctor(FwdIter)(&next, first);                                     \
-    while (nstl_ne(FwdIter, FwdIter)(nstl_inc(FwdIter)(&next), last)) {        \
-        if (nstl_eq(ValueType, ValueType)(nstl_deref(FwdIter)(first),          \
-                                          nstl_deref(FwdIter)(next))) {        \
-            nstl_dtor(FwdIter)(&next);                                         \
-            return first;                                                      \
-        }                                                                      \
+typedef nstl_bool (*nstl_helper(this_func, impl_comp))(ValueType, ValueType);  \
                                                                                \
-        nstl_asg(FwdIter, FwdIter)(&first, next);                              \
-    }                                                                          \
-    nstl_dtor(FwdIter)(&next);                                                 \
-    return last;                                                               \
+NSTL_GETF(NSTL_I_FIND_ADJACENT_COMP(nstl_helper(this_func, impl), FwdIter,     \
+            ValueType, nstl_helper(this_func, impl_comp)), find_adjacent_comp) \
+                                                                               \
+static NSTL_INLINE FwdIter this_func(FwdIter first, FwdIter last) {            \
+    return nstl_helper(this_func, impl)                                        \
+                                (first, last, nstl_eq(ValueType, ValueType));  \
 }                                                                              \
 )                                                                              \
                                                                                \
@@ -52,10 +44,12 @@ NSTL_TYPE(this_func,                                                           \
                                                                                \
 (defun find_adjacent_comp                                                      \
 static NSTL_INLINE FwdIter this_func                                           \
-                                (FwdIter first, FwdIter last, Compare comp) {  \
+                                (FwdIter first_, FwdIter last, Compare comp) { \
     FwdIter next;                                                              \
+    FwdIter first;                                                             \
+    nstl_copy_ctor(FwdIter)(&first, first_);                                   \
     if (nstl_eq(FwdIter, FwdIter)(first, last))                                \
-        return last;                                                           \
+        return first;                                                          \
     nstl_copy_ctor(FwdIter)(&next, first);                                     \
     while (nstl_ne(FwdIter, FwdIter)(nstl_inc(FwdIter)(&next), last)) {        \
         if (comp(nstl_deref(FwdIter)(first), nstl_deref(FwdIter)(next))) {     \
@@ -66,7 +60,8 @@ static NSTL_INLINE FwdIter this_func                                           \
         nstl_asg(FwdIter, FwdIter)(&first, next);                              \
     }                                                                          \
     nstl_dtor(FwdIter)(&next);                                                 \
-    return last;                                                               \
+    nstl_asg(FwdIter, FwdIter)(&first, last);                                  \
+    return first;                                                              \
 }                                                                              \
 )                                                                              \
                                                                                \

@@ -16,7 +16,9 @@
 NSTL_TYPE(this_func,                                                           \
                                                                                \
 (defun prev                                                                    \
-static NSTL_INLINE BidirIter this_func(BidirIter iter) {                       \
+static NSTL_INLINE BidirIter this_func(BidirIter iter_) {                      \
+    BidirIter iter;                                                            \
+    nstl_copy_ctor(BidirIter)(&iter, iter_);                                   \
     nstl_dec(BidirIter)(&iter);                                                \
     return iter;                                                               \
 }                                                                              \
@@ -35,7 +37,9 @@ NSTL_TYPE(this_func,                                                           \
 NSTL_GETF(NSTL_I_ADVANCE(nstl_helper(this_func, advance), BidirIter,           \
                                 Distance, /*is_bidirectionnal=*/ 1), advance)  \
                                                                                \
-static NSTL_INLINE BidirIter this_func(BidirIter iter, Distance n) {           \
+static NSTL_INLINE BidirIter this_func(BidirIter iter_, Distance n) {          \
+    BidirIter iter;                                                            \
+    nstl_copy_ctor(BidirIter)(&iter, iter_);                                   \
     nstl_helper(this_func, advance)(&iter, -n);                                \
     return iter;                                                               \
 }                                                                              \

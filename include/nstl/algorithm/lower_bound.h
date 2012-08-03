@@ -17,31 +17,14 @@
 NSTL_TYPE(this_func,                                                           \
                                                                                \
 (defun lower_bound                                                             \
-NSTL_GETF(NSTL_I_DISTANCE(nstl_helper(this_func, distance), FwdIter),          \
-                                                                    distance)  \
-NSTL_GETF(NSTL_I_ADVANCE(nstl_helper(this_func, advance), FwdIter,             \
-                        nstl_ptrdiff_t, /*is_bidirectionnal=*/ 0), advance)    \
+typedef nstl_bool (*nstl_helper(this_func, impl_comp))(ValueType, ValueType);  \
+                                                                               \
+NSTL_GETF(NSTL_I_LOWER_BOUND_COMP(nstl_helper(this_func, impl), FwdIter,       \
+            ValueType, nstl_helper(this_func, impl_comp)), lower_bound_comp)   \
                                                                                \
 static FwdIter this_func(FwdIter first, FwdIter last, ValueType value) {       \
-    nstl_ptrdiff_t len = nstl_helper(this_func, distance)(first, last);        \
-    nstl_ptrdiff_t half;                                                       \
-    while (len > 0) {                                                          \
-        FwdIter middle;                                                        \
-        nstl_copy_ctor(FwdIter)(&middle, first);                               \
-        half = len / 2;                                                        \
-        nstl_helper(this_func, advance)(&middle, half);                        \
-        if (nstl_lt(ValueType, ValueType)                                      \
-                                    (nstl_deref(FwdIter)(middle), value)) {    \
-            nstl_asg(FwdIter, FwdIter)(&first, middle);                        \
-            nstl_inc(FwdIter)(&first);                                         \
-            len = len - half - 1;                                              \
-        }                                                                      \
-        else {                                                                 \
-            len = half;                                                        \
-        }                                                                      \
-        nstl_dtor(FwdIter)(&middle);                                           \
-    }                                                                          \
-    return first;                                                              \
+    return nstl_helper(this_func, impl)                                        \
+                        (first, last, value, nstl_lt(ValueType, ValueType));   \
 }                                                                              \
 )                                                                              \
                                                                                \
@@ -64,10 +47,12 @@ NSTL_GETF(NSTL_I_ADVANCE(                                                      \
     nstl_helper(this_func, advance), FwdIter, nstl_ptrdiff_t,                  \
                                         /*is_bidirectionnal=*/ 0), advance)    \
 static FwdIter this_func                                                       \
-                (FwdIter first, FwdIter last, ValueType value, Compare comp) { \
-                                                                               \
-    nstl_ptrdiff_t len = nstl_helper(this_func, distance)(first, last);        \
+            (FwdIter first_, FwdIter last, ValueType value, Compare comp) {    \
+    nstl_ptrdiff_t len = nstl_helper(this_func, distance)(first_, last);       \
     nstl_ptrdiff_t half;                                                       \
+    FwdIter first;                                                             \
+    nstl_copy_ctor(FwdIter)(&first, first_);                                   \
+                                                                               \
     while (len > 0) {                                                          \
         FwdIter middle;                                                        \
         nstl_copy_ctor(FwdIter)(&middle, first);                               \

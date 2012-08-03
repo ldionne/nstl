@@ -20,70 +20,15 @@
 NSTL_TYPE(this_func,                                                           \
                                                                                \
 (defun equal_range                                                             \
-NSTL_GETF(NSTL_I_DISTANCE(nstl_helper(this_func, distance), FwdIter),          \
-                                                                    distance)  \
-NSTL_GETF(NSTL_I_ADVANCE(nstl_helper(this_func, advance), FwdIter,             \
-                        nstl_ptrdiff_t, /*is_bidirectionnal=*/ 0), advance)    \
-NSTL_GETF(NSTL_I_UPPER_BOUND(nstl_helper(this_func, upper_bound), FwdIter,     \
-                                                    ValueType), upper_bound)   \
-NSTL_GETF(NSTL_I_LOWER_BOUND(nstl_helper(this_func, lower_bound), FwdIter,     \
-                                                    ValueType), lower_bound)   \
+typedef nstl_bool (*nstl_helper(this_func, impl_comp))(ValueType, ValueType);  \
+                                                                               \
+NSTL_GETF(NSTL_I_EQUAL_RANGE_COMP(nstl_helper(this_func, impl),                \
+    FwdIter, ValueType, nstl_helper(this_func, impl_comp)), equal_range_comp)  \
+                                                                               \
 static nstl_pair(FwdIter, FwdIter) this_func                                   \
                             (FwdIter first, FwdIter last, ValueType value) {   \
-    nstl_ptrdiff_t len = nstl_helper(this_func, distance)(first, last);        \
-    nstl_ptrdiff_t half;                                                       \
-    while (len > 0) {                                                          \
-        FwdIter middle;                                                        \
-        half = len / 2;                                                        \
-        nstl_copy_ctor(FwdIter)(&middle, first);                               \
-        nstl_helper(this_func, advance)(&middle, half);                        \
-        if (nstl_lt(ValueType, ValueType)                                      \
-                                    (nstl_deref(FwdIter)(middle), value)) {    \
-            nstl_asg(FwdIter, FwdIter)(&first, middle);                        \
-            nstl_inc(FwdIter)(&first);                                         \
-            len = len - half - 1;                                              \
-        }                                                                      \
-        else if (nstl_lt(ValueType, ValueType)                                 \
-                                    (value, nstl_deref(FwdIter)(middle))) {    \
-            len = half;                                                        \
-        }                                                                      \
-        else {                                                                 \
-            FwdIter left;                                                      \
-            FwdIter right;                                                     \
-            nstl_copy_ctor(FwdIter)(&left,                                     \
-                nstl_helper(this_func, lower_bound)(first, middle, value));    \
-                                                                               \
-            /* This is an optimization that was originally present in the      \
-             * StlPort stl:                                                    \
-             * If lower_bound haven't found an equivalent value there is no    \
-             * need to call upper_bound.                                       \
-             *                                                                 \
-             * However, I think that it is impossible to reach the code inside \
-             * the if statement:                                               \
-             * If we are in the current else branch of the if/else-if/else     \
-             * construct above, it means that *middle is equivalent to value.  \
-             * Since middle is also the past-the-end element of the range      \
-             * passed to lower_bound, the result of calling lower_bound must   \
-             * be either an iterator to a previous element equivalent to       \
-             * value, or middle itself (if no element was found). In both      \
-             * cases, *left __must__ be equivalent to value, and the branch    \
-             * can't be reached.                                               \
-             */                                                                \
-            NSTL_STATIC_WHEN(NSTL_CONFIG_INTERNAL_DEBUG)(                      \
-                if (nstl_lt(ValueType, ValueType)                              \
-                                        (nstl_deref(FwdIter)(left), value)) {  \
-                    nstl_assert_true(nstl_false);                              \
-                    return nstl_make_pair(FwdIter, FwdIter)(left, left);       \
-                }                                                              \
-            ) /* end NSTL_CONFIG_INTERNAL_DEBUG */                             \
-            nstl_helper(this_func, advance)(&first, len);                      \
-            nstl_copy_ctor(FwdIter)(&right,                                    \
-                            nstl_helper(this_func, upper_bound)                \
-                                (nstl_inc(FwdIter)(&middle), first, value));   \
-            return nstl_make_pair(FwdIter, FwdIter)(left, right);              \
-        }                                                                      \
-    }                                                                          \
-    return nstl_make_pair(FwdIter, FwdIter)(first, first);                     \
+    return nstl_helper(this_func, impl)                                        \
+                        (first, last, value, nstl_lt(ValueType, ValueType));   \
 }                                                                              \
 )                                                                              \
                                                                                \
@@ -110,9 +55,13 @@ NSTL_GETF(NSTL_I_LOWER_BOUND_COMP(nstl_helper(this_func, lower_bound_comp),    \
                             FwdIter, ValueType, Compare), lower_bound_comp)    \
                                                                                \
 static nstl_pair(FwdIter, FwdIter) this_func                                   \
-                (FwdIter first, FwdIter last, ValueType value, Compare comp) { \
-    nstl_ptrdiff_t len = nstl_helper(this_func, distance)(first, last);        \
+            (FwdIter first_, FwdIter last, ValueType value, Compare comp) {    \
+    FwdIter first;                                                             \
+    nstl_ptrdiff_t len = nstl_helper(this_func, distance)(first_, last);       \
     nstl_ptrdiff_t half;                                                       \
+    nstl_pair(FwdIter, FwdIter) ret;                                           \
+    nstl_copy_ctor(FwdIter)(&first, first_);                                   \
+                                                                               \
     while (len > 0) {                                                          \
         FwdIter middle;                                                        \
         half = len / 2;                                                        \
@@ -127,11 +76,9 @@ static nstl_pair(FwdIter, FwdIter) this_func                                   \
             len = half;                                                        \
         }                                                                      \
         else {                                                                 \
-            FwdIter left;                                                      \
+            FwdIter left = nstl_helper(this_func, lower_bound_comp)            \
+                                                (first, middle, value, comp);  \
             FwdIter right;                                                     \
-            nstl_copy_ctor(FwdIter)(&left,                                     \
-                                    nstl_helper(this_func, lower_bound_comp)   \
-                                                (first, middle, value, comp)); \
             /* This is an optimization that was originally present in the      \
              * StlPort stl:                                                    \
              * If lower_bound haven't found an equivalent value there is no    \
@@ -151,17 +98,27 @@ static nstl_pair(FwdIter, FwdIter) this_func                                   \
             NSTL_STATIC_WHEN(NSTL_CONFIG_INTERNAL_DEBUG)(                      \
                 if (comp(nstl_deref(FwdIter)(left), value)) {                  \
                     nstl_assert_true(nstl_false);                              \
-                    return nstl_make_pair(FwdIter, FwdIter)(left, left);       \
+                    ret = nstl_make_pair(FwdIter, FwdIter)(left, left);        \
+                    nstl_dtor(FwdIter)(&first);                                \
+                    nstl_dtor(FwdIter)(&left);                                 \
+                    nstl_dtor(FwdIter)(&middle);                               \
+                    return ret;                                                \
                 }                                                              \
             ) /* end NSTL_CONFIG_INTERNAL_DEBUG */                             \
             nstl_helper(this_func, advance)(&first, len);                      \
-            nstl_copy_ctor(FwdIter)(&right,                                    \
-                        nstl_helper(this_func, upper_bound_comp)               \
-                            (nstl_inc(FwdIter)(&middle), first, value, comp)); \
-            return nstl_make_pair(FwdIter, FwdIter)(left, right);              \
+            right = nstl_helper(this_func, upper_bound_comp)                   \
+                            (nstl_inc(FwdIter)(&middle), first, value, comp);  \
+            ret = nstl_make_pair(FwdIter, FwdIter)(left, right);               \
+            nstl_dtor(FwdIter)(&first);                                        \
+            nstl_dtor(FwdIter)(&left);                                         \
+            nstl_dtor(FwdIter)(&right);                                        \
+            nstl_dtor(FwdIter)(&middle);                                       \
+            return ret;                                                        \
         }                                                                      \
     }                                                                          \
-    return nstl_make_pair(FwdIter, FwdIter)(first, first);                     \
+    ret = nstl_make_pair(FwdIter, FwdIter)(first, first);                      \
+    nstl_dtor(FwdIter)(&first);                                                \
+    return ret;                                                                \
 }                                                                              \
 )                                                                              \
                                                                                \

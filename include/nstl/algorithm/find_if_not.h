@@ -19,7 +19,9 @@ NSTL_TYPE(this_func,                                                           \
                                                                                \
 (defun find_if_not                                                             \
 static NSTL_INLINE InputIter this_func                                         \
-                        (InputIter first, InputIter last, Predicate pred) {    \
+                        (InputIter first_, InputIter last, Predicate pred) {   \
+    InputIter first;                                                           \
+    nstl_copy_ctor(InputIter)(&first, first_);                                 \
     while (nstl_ne(InputIter, InputIter)(first, last) &&                       \
            pred(nstl_deref(InputIter)(first)))                                 \
         nstl_inc(InputIter)(&first);                                           \

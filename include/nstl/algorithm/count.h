@@ -16,13 +16,16 @@ NSTL_TYPE(this_func,                                                           \
                                                                                \
 (defun count                                                                   \
 static NSTL_INLINE nstl_ptrdiff_t this_func                                    \
-                        (InputIter first, InputIter last, ValueType val) {     \
+                        (InputIter first_, InputIter last, ValueType val) {    \
+    InputIter first;                                                           \
     nstl_ptrdiff_t n = 0;                                                      \
+    nstl_copy_ctor(InputIter)(&first, first_);                                 \
     for ( ; nstl_ne(InputIter, InputIter)(first, last);                        \
                                                 nstl_inc(InputIter)(&first)) { \
         if (nstl_eq(ValueType, ValueType)(nstl_deref(InputIter)(first), val))  \
             ++n;                                                               \
     }                                                                          \
+    nstl_dtor(InputIter)(&first);                                              \
     return n;                                                                  \
 }                                                                              \
 )                                                                              \

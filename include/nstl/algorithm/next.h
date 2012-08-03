@@ -16,7 +16,9 @@
 NSTL_TYPE(this_func,                                                           \
                                                                                \
 (defun next                                                                    \
-static NSTL_INLINE InputIter this_func(InputIter iter) {                       \
+static NSTL_INLINE InputIter this_func(InputIter iter_) {                      \
+    InputIter iter;                                                            \
+    nstl_copy_ctor(InputIter)(&iter, iter_);                                   \
     nstl_inc(InputIter)(&iter);                                                \
     return iter;                                                               \
 }                                                                              \
@@ -35,7 +37,9 @@ NSTL_TYPE(this_func,                                                           \
 NSTL_GETF(NSTL_I_ADVANCE(nstl_helper(this_func, advance), InputIter,           \
                                 Distance, /*is_bidirectionnal=*/ 0), advance)  \
                                                                                \
-static NSTL_INLINE InputIter this_func(InputIter iter, Distance n) {           \
+static NSTL_INLINE InputIter this_func(InputIter iter_, Distance n) {          \
+    InputIter iter;                                                            \
+    nstl_copy_ctor(InputIter)(&iter, iter_);                                   \
     nstl_helper(this_func, advance)(&iter, n);                                 \
     return iter;                                                               \
 }                                                                              \

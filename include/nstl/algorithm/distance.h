@@ -15,14 +15,16 @@
 NSTL_TYPE(this_func,                                                           \
                                                                                \
 (defun distance                                                                \
-static NSTL_INLINE nstl_ptrdiff_t this_func(InputIter first, InputIter last) { \
+static NSTL_INLINE nstl_ptrdiff_t this_func                                    \
+                                        (InputIter first_, InputIter last) {   \
     nstl_ptrdiff_t n = 0;                                                      \
-    InputIter it;                                                              \
-    nstl_copy_ctor(InputIter)(&it, first);                                     \
-    while (nstl_ne(InputIter, InputIter)(it, last)) {                          \
-        nstl_inc(InputIter)(&it);                                              \
+    InputIter first;                                                           \
+    nstl_copy_ctor(InputIter)(&first, first_);                                 \
+    while (nstl_ne(InputIter, InputIter)(first, last)) {                       \
+        nstl_inc(InputIter)(&first);                                           \
         ++n;                                                                   \
     }                                                                          \
+    nstl_dtor(InputIter)(&first);                                              \
     return n;                                                                  \
 }                                                                              \
 )                                                                              \

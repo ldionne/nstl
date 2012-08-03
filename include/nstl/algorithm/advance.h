@@ -24,7 +24,9 @@
 NSTL_TYPE(this_func,                                                           \
                                                                                \
 (defun advance                                                                 \
-static NSTL_INLINE void this_func(InputIter *iter, Distance n) {               \
+static NSTL_INLINE void this_func(InputIter *iter, Distance n_) {              \
+    Distance n;                                                                \
+    nstl_copy_ctor(Distance)(&n, n_);                                          \
     if (nstl_gt(Distance, Distance)(n, 0))                                     \
         while (n) {                                                            \
             nstl_dec(Distance)(&n);                                            \
@@ -35,6 +37,7 @@ static NSTL_INLINE void this_func(InputIter *iter, Distance n) {               \
             nstl_inc(Distance)(&n);                                            \
             nstl_dec(InputIter)(iter);                                         \
         }                                                                      \
+    nstl_dtor(Distance)(&n);                                                   \
 }                                                                              \
 )                                                                              \
                                                                                \
@@ -45,11 +48,14 @@ static NSTL_INLINE void this_func(InputIter *iter, Distance n) {               \
 NSTL_TYPE(this_func,                                                           \
                                                                                \
 (defun advance                                                                 \
-static NSTL_INLINE void this_func(InputIter *iter, Distance n) {               \
+static NSTL_INLINE void this_func(InputIter *iter, Distance n_) {              \
+    Distance n;                                                                \
+    nstl_copy_ctor(Distance)(&n, n_);                                          \
     while (n) {                                                                \
         nstl_dec(Distance)(&n);                                                \
         nstl_inc(InputIter)(iter);                                             \
     }                                                                          \
+    nstl_dtor(Distance)(&n);                                                   \
 }                                                                              \
 )                                                                              \
                                                                                \

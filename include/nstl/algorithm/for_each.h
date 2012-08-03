@@ -16,10 +16,13 @@ NSTL_TYPE(this_func,                                                           \
                                                                                \
 (defun for_each                                                                \
 static NSTL_INLINE Function this_func                                          \
-                            (InputIter first, InputIter last, Function f) {    \
+                            (InputIter first_, InputIter last, Function f) {   \
+    InputIter first;                                                           \
+    nstl_copy_ctor(InputIter)(&first, first_);                                 \
     for ( ; nstl_ne(InputIter, InputIter)(first, last);                        \
                                                 nstl_inc(InputIter)(&first))   \
         f(nstl_deref(InputIter)(first));                                       \
+    nstl_dtor(InputIter)(&first);                                              \
     return f;                                                                  \
 }                                                                              \
 )                                                                              \

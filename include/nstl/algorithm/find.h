@@ -16,7 +16,9 @@ NSTL_TYPE(this_func,                                                           \
                                                                                \
 (defun find                                                                    \
 static NSTL_INLINE InputIter this_func                                         \
-                    (InputIter first, InputIter last, ValueType const value) { \
+                        (InputIter first_, InputIter last, ValueType value) {  \
+    InputIter first;                                                           \
+    nstl_copy_ctor(InputIter)(&first, first_);                                 \
     while (nstl_ne(InputIter, InputIter)(first, last) &&                       \
            nstl_ne(ValueType, ValueType)(nstl_deref(InputIter)(first), value)) \
         nstl_inc(InputIter)(&first);                                           \

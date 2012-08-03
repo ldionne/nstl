@@ -21,14 +21,15 @@
 NSTL_TYPE(this_func,                                                           \
                                                                                \
 (defun is_equal                                                                \
-static nstl_bool this_func                                                     \
-                    (InputIter1 first1, InputIter1 last1, InputIter2 first2) { \
-    for ( ; nstl_ne(InputIter1, InputIter1)(first1, last1);                    \
-                nstl_inc(InputIter1)(&first1), nstl_inc(InputIter2)(&first2))  \
-        if (!(nstl_eq(ValueType, ValueType)(nstl_deref(InputIter1)(first1),    \
-                                            nstl_deref(InputIter2)(first2))))  \
-            return nstl_false;                                                 \
-    return nstl_true;                                                          \
+typedef nstl_bool (*nstl_helper(this_func, impl_comp))(ValueType, ValueType);  \
+                                                                               \
+NSTL_GETF(NSTL_I_IS_EQUAL_COMP(nstl_helper(this_func, impl), InputIter1,       \
+                InputIter2, nstl_helper(this_func, impl_comp)), is_equal_comp) \
+                                                                               \
+static nstl_bool this_func(InputIter1 first1, InputIter1 last1,                \
+                           InputIter2 first2) {                                \
+    return nstl_helper(this_func, impl)                                        \
+                    (first1, last1, first2, nstl_eq(ValueType, ValueType));    \
 }                                                                              \
 )                                                                              \
                                                                                \
@@ -45,13 +46,22 @@ static nstl_bool this_func                                                     \
 NSTL_TYPE(this_func,                                                           \
                                                                                \
 (defun is_equal_comp                                                           \
-static nstl_bool this_func(InputIter1 first1, InputIter1 last1,                \
-                                            InputIter2 first2, Compare comp) { \
+static nstl_bool this_func(InputIter1 first1_, InputIter1 last1,               \
+                           InputIter2 first2_, Compare comp) {                 \
+    InputIter1 first1;                                                         \
+    InputIter2 first2;                                                         \
+    nstl_copy_ctor(InputIter1)(&first1, first1_);                              \
+    nstl_copy_ctor(InputIter2)(&first2, first2_);                              \
     for ( ; nstl_ne(InputIter1, InputIter1)(first1, last1);                    \
                 nstl_inc(InputIter1)(&first1), nstl_inc(InputIter2)(&first2))  \
         if (!(comp(nstl_deref(InputIter1)(first1),                             \
-                   nstl_deref(InputIter2)(first2))))                           \
+                   nstl_deref(InputIter2)(first2)))) {                         \
+            nstl_dtor(InputIter1)(&first1);                                    \
+            nstl_dtor(InputIter2)(&first2);                                    \
             return nstl_false;                                                 \
+        }                                                                      \
+    nstl_dtor(InputIter1)(&first1);                                            \
+    nstl_dtor(InputIter2)(&first2);                                            \
     return nstl_true;                                                          \
 }                                                                              \
 )                                                                              \

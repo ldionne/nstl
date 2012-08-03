@@ -16,17 +16,14 @@
 NSTL_TYPE(this_func,                                                           \
                                                                                \
 (defun min_element                                                             \
-static NSTL_INLINE FwdIter this_func(FwdIter first, FwdIter last) {            \
-    FwdIter result;                                                            \
-    if (nstl_eq(FwdIter, FwdIter)(first, last))                                \
-        return first;                                                          \
-    nstl_copy_ctor(FwdIter)(&result, first);                                   \
-    while (nstl_ne(FwdIter, FwdIter)(nstl_inc(FwdIter)(&first), last))         \
-        if (nstl_lt(ValueType, ValueType)(nstl_deref(FwdIter)(first),          \
-                                          nstl_deref(FwdIter)(result)))        \
-            nstl_asg(FwdIter, FwdIter)(&result, first);                        \
+typedef nstl_bool (*nstl_helper(this_func, impl_comp))(ValueType, ValueType);  \
                                                                                \
-    return result;                                                             \
+NSTL_GETF(NSTL_I_MIN_ELEMENT_COMP(nstl_helper(this_func, impl),                \
+    FwdIter, ValueType, nstl_helper(this_func, impl_comp)), min_element_comp)  \
+                                                                               \
+static NSTL_INLINE FwdIter this_func(FwdIter first, FwdIter last) {            \
+    return nstl_helper(this_func, impl)                                        \
+                                (first, last, nstl_lt(ValueType, ValueType));  \
 }                                                                              \
 )                                                                              \
                                                                                \
@@ -44,8 +41,10 @@ NSTL_TYPE(this_func,                                                           \
                                                                                \
 (defun min_element_comp                                                        \
 static NSTL_INLINE FwdIter this_func                                           \
-                                (FwdIter first, FwdIter last, Compare comp) {  \
+                                (FwdIter first_, FwdIter last, Compare comp) { \
+    FwdIter first;                                                             \
     FwdIter result;                                                            \
+    nstl_copy_ctor(FwdIter)(&first, first_);                                   \
     if (nstl_eq(FwdIter, FwdIter)(first, last))                                \
         return first;                                                          \
     nstl_copy_ctor(FwdIter)(&result, first);                                   \
@@ -53,6 +52,7 @@ static NSTL_INLINE FwdIter this_func                                           \
         if (comp(nstl_deref(FwdIter)(first), nstl_deref(FwdIter)(result)))     \
             nstl_asg(FwdIter, FwdIter)(&result, first);                        \
                                                                                \
+    nstl_dtor(FwdIter)(&first);                                                \
     return result;                                                             \
 }                                                                              \
 )                                                                              \
