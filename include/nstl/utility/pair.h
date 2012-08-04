@@ -2,8 +2,8 @@
  * Implementation of a pair template.
  */
 
-#ifndef NSTL_PAIR_H
-#define NSTL_PAIR_H
+#ifndef NSTL_UTILITY_PAIR_H
+#define NSTL_UTILITY_PAIR_H
 
 #include <nstl/internal.h>
 
@@ -121,4 +121,4 @@ nstl.generate(cog,
 #define nstl_pair(T1,  T2) JOY_CAT5(nstl_mangled_pair, _, T1, _,  T2)
 /* [[[end]]] */
 
-#endif /* !NSTL_PAIR_H */
+#endif /* !NSTL_UTILITY_PAIR_H */

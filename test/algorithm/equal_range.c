@@ -3,7 +3,7 @@
  */
 
 #include <nstl/algorithm/equal_range.h>
-#include <nstl/pair.h>
+#include <nstl/utility/pair.h>
 
 #include <seatest.h>
 

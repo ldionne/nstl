@@ -7,13 +7,13 @@
 
 extern void test_suite_algorithm(void);
 extern void test_suite_container(void);
-extern void test_fixture_pair(void);
+extern void test_suite_utility(void);
 
 
 static void all_tests(void) {
     test_suite_algorithm();
     test_suite_container();
-    test_fixture_pair();
+    test_suite_utility();
 }
 
 int main(int argc, char *argv[]) {

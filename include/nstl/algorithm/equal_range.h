@@ -10,7 +10,7 @@
 #include <nstl/algorithm/lower_bound.h>
 #include <nstl/algorithm/upper_bound.h>
 #include <nstl/internal.h>
-#include <nstl/pair.h>
+#include <nstl/utility/pair.h>
 
 
 #define NSTL_EQUAL_RANGE(ForwardTraversalReadableIterator, ValueType)          \

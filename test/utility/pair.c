@@ -2,7 +2,7 @@
  * Unit tests for the pair template.
  */
 
-#include <nstl/pair.h>
+#include <nstl/utility/pair.h>
 
 #include <seatest.h>
 
