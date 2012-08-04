@@ -20,6 +20,9 @@
 NSTL_TYPE(value_type,                                                          \
                                                                                \
 (inherit NSTL_INITIALIZATION_OPERATORS(value_type))                            \
+(defun asg                                                                     \
+NSTL_GETF(NSTL_ARITHMETIC_OPERATORS(value_type), asg)                          \
+)                                                                              \
 (inherit NSTL_COMPARISON_OPERATORS(value_type))                                \
 (inherit NSTL_LOGICAL_OPERATORS(value_type))                                   \
 (inherit NSTL_BITWISE_OPERATORS(value_type))                                   \
