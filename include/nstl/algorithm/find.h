@@ -8,20 +8,25 @@
 #include <nstl/internal.h>
 
 
-#define NSTL_FIND(InputIter, ValueType) \
-    NSTL_I_FIND(nstl_find(InputIter, ValueType), InputIter, ValueType)
+#define NSTL_FIND(SinglePassReadableIterator, ValueType)                       \
+    NSTL_I_FIND(                                                               \
+        nstl_find(SinglePassReadableIterator, ValueType),                      \
+        SinglePassReadableIterator,                                            \
+        ValueType                                                              \
+    )                                                                          \
+/**/
 
-#define NSTL_I_FIND(this_func, InputIter, ValueType)                           \
-NSTL_TYPE(this_func,                                                           \
+#define NSTL_I_FIND(algo, Iter, Value)                                         \
+NSTL_TYPE(algo,                                                                \
                                                                                \
 (defun find                                                                    \
-static NSTL_INLINE InputIter this_func                                         \
-                        (InputIter first_, InputIter last, ValueType value) {  \
-    InputIter first;                                                           \
-    nstl_copy_ctor(InputIter)(&first, first_);                                 \
-    while (nstl_ne(InputIter, InputIter)(first, last) &&                       \
-           nstl_ne(ValueType, ValueType)(nstl_deref(InputIter)(first), value)) \
-        nstl_inc(InputIter)(&first);                                           \
+static NSTL_INLINE Iter algo(Iter first_, Iter last, Value value) {            \
+    Iter first;                                                                \
+    nstl_copy_ctor(Iter)(&first, first_);                                      \
+                                                                               \
+    while (nstl_ne(Iter, Iter)(first, last) &&                                 \
+           nstl_ne(Value, Value)(nstl_deref(Iter)(first), value))              \
+        nstl_inc(Iter)(&first);                                                \
     return first;                                                              \
 }                                                                              \
 )                                                                              \
@@ -29,11 +34,12 @@ static NSTL_INLINE InputIter this_func                                         \
 )                                                                              \
 /**/
 
+
 /* [[[cog
 
 import nstl
 nstl.generate(cog,
-    'find(InputIter, ValueType)',
+    'find(SinglePassReadableIterator, ValueType)',
 
     token=True, mangle=True,
 )
@@ -41,7 +47,7 @@ nstl.generate(cog,
 ]]] */
 #include <joy/cat.h>
 #define NSTL_TOKEN_find (f i n d)
-#define nstl_find(InputIter,  ValueType) JOY_CAT5(nstl_mangled_find, _, InputIter, _,  ValueType)
+#define nstl_find(SinglePassReadableIterator,  ValueType) JOY_CAT5(nstl_mangled_find, _, SinglePassReadableIterator, _,  ValueType)
 /* [[[end]]] */
 
 #endif /* !NSTL_ALGORITHM_FIND_H */

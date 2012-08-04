@@ -9,17 +9,21 @@
 #include <nstl/internal.h>
 
 
-#define NSTL_NEXT(InputIter) \
-    NSTL_I_NEXT(nstl_next(InputIter), InputIter)
+#define NSTL_NEXT(IncrementableIterator)                                       \
+    NSTL_I_NEXT(                                                               \
+        nstl_next(IncrementableIterator),                                      \
+        IncrementableIterator                                                  \
+    )                                                                          \
+/**/
 
-#define NSTL_I_NEXT(this_func, InputIter)                                      \
-NSTL_TYPE(this_func,                                                           \
+#define NSTL_I_NEXT(algo, Iter)                                                \
+NSTL_TYPE(algo,                                                                \
                                                                                \
 (defun next                                                                    \
-static NSTL_INLINE InputIter this_func(InputIter iter_) {                      \
-    InputIter iter;                                                            \
-    nstl_copy_ctor(InputIter)(&iter, iter_);                                   \
-    nstl_inc(InputIter)(&iter);                                                \
+static NSTL_INLINE Iter algo(Iter iter_) {                                     \
+    Iter iter;                                                                 \
+    nstl_copy_ctor(Iter)(&iter, iter_);                                        \
+    nstl_inc(Iter)(&iter);                                                     \
     return iter;                                                               \
 }                                                                              \
 )                                                                              \
@@ -27,33 +31,47 @@ static NSTL_INLINE InputIter this_func(InputIter iter_) {                      \
 )                                                                              \
 /**/
 
-#define NSTL_NEXT_N(InputIter, Distance) \
-    NSTL_I_NEXT_N(nstl_next_n(InputIter, Distance), InputIter, Distance)
 
-#define NSTL_I_NEXT_N(this_func, InputIter, Distance)                          \
-NSTL_TYPE(this_func,                                                           \
+#define NSTL_NEXT_N(IncrementableIterator, Distance)                           \
+    NSTL_I_NEXT_N(                                                             \
+        nstl_next_n(IncrementableIterator, Distance),                          \
+        IncrementableIterator,                                                 \
+        Distance                                                               \
+    )                                                                          \
+/**/
+
+#define NSTL_I_NEXT_N(algo, Iter, Distance)                                    \
+NSTL_TYPE(algo,                                                                \
                                                                                \
 (defun next_n                                                                  \
-NSTL_GETF(NSTL_I_ADVANCE(nstl_helper(this_func, advance), InputIter,           \
-                                Distance, /*is_bidirectionnal=*/ 0), advance)  \
+NSTL_GETF(                                                                     \
+    NSTL_I_ADVANCE(                                                            \
+        nstl_helper(algo, advance),                                            \
+        Iter,                                                                  \
+        Distance,                                                              \
+        /*is_bidirectionnal=*/ 0                                               \
+    ),                                                                         \
+    advance                                                                    \
+)                                                                              \
                                                                                \
-static NSTL_INLINE InputIter this_func(InputIter iter_, Distance n) {          \
-    InputIter iter;                                                            \
-    nstl_copy_ctor(InputIter)(&iter, iter_);                                   \
-    nstl_helper(this_func, advance)(&iter, n);                                 \
+static NSTL_INLINE Iter algo(Iter iter_, Distance n) {                         \
+    Iter iter;                                                                 \
+    nstl_copy_ctor(Iter)(&iter, iter_);                                        \
+    nstl_helper(algo, advance)(&iter, n);                                      \
     return iter;                                                               \
 }                                                                              \
 )                                                                              \
                                                                                \
 )                                                                              \
 /**/
+
 
 /* [[[cog
 
 import nstl
 nstl.generate(cog,
-    'next(InputIter)',
-    'next_n(InputIter, Distance)',
+    'next(IncrementableIterator)',
+    'next_n(IncrementableIterator, Distance)',
 
     token=True, mangle=True,
 )
@@ -61,9 +79,9 @@ nstl.generate(cog,
 ]]] */
 #include <joy/cat.h>
 #define NSTL_TOKEN_next (n e x t)
-#define nstl_next(InputIter) JOY_CAT3(nstl_mangled_next, _, InputIter)
+#define nstl_next(IncrementableIterator) JOY_CAT3(nstl_mangled_next, _, IncrementableIterator)
 #define NSTL_TOKEN_next_n (n e x t _ n)
-#define nstl_next_n(InputIter,  Distance) JOY_CAT5(nstl_mangled_next_n, _, InputIter, _,  Distance)
+#define nstl_next_n(IncrementableIterator,  Distance) JOY_CAT5(nstl_mangled_next_n, _, IncrementableIterator, _,  Distance)
 /* [[[end]]] */
 
 #endif /* !NSTL_ALGORITHM_NEXT_H */

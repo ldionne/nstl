@@ -9,7 +9,7 @@
 
 typedef nstl_bool (*Compare)(nstl_int x, nstl_int y);
 NSTL_INSTANTIATE(NSTL_FIND_ADJACENT(nstl_pint, nstl_int))
-NSTL_INSTANTIATE(NSTL_FIND_ADJACENT_COMP(nstl_pint, nstl_int, Compare))
+NSTL_INSTANTIATE(NSTL_FIND_ADJACENT_COMP(nstl_pint, Compare))
 
 #define find_adjacent nstl_find_adjacent(nstl_pint)
 #define find_adjacent_comp(first, last)                                        \

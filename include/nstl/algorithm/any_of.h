@@ -8,24 +8,29 @@
 #include <nstl/internal.h>
 
 
-#define NSTL_ANY_OF(InputIter, Predicate) \
-    NSTL_I_ANY_OF(nstl_any_of(InputIter, Predicate), InputIter, Predicate)
+#define NSTL_ANY_OF(SinglePassReadableIterator, Predicate)                     \
+    NSTL_I_ANY_OF(                                                             \
+        nstl_any_of(SinglePassReadableIterator, Predicate),                    \
+        SinglePassReadableIterator,                                            \
+        Predicate                                                              \
+    )                                                                          \
+/**/
 
-#define NSTL_I_ANY_OF(this_func, InputIter, Predicate)                         \
-NSTL_TYPE(this_func,                                                           \
+#define NSTL_I_ANY_OF(algo, Iter, Pred)                                        \
+NSTL_TYPE(algo,                                                                \
                                                                                \
 (defun any_of                                                                  \
-static NSTL_INLINE nstl_bool this_func                                         \
-                        (InputIter first_, InputIter last, Predicate pred) {   \
-    InputIter first;                                                           \
-    nstl_copy_ctor(InputIter)(&first, first_);                                 \
-    for ( ; nstl_ne(InputIter, InputIter)(first, last);                        \
-                                                nstl_inc(InputIter)(&first))   \
-        if (pred(nstl_deref(InputIter)(first))) {                              \
-            nstl_dtor(InputIter)(&first);                                      \
+static NSTL_INLINE nstl_bool algo(Iter first_, Iter last, Pred pred) {         \
+    Iter first;                                                                \
+    nstl_copy_ctor(Iter)(&first, first_);                                      \
+                                                                               \
+    for ( ; nstl_ne(Iter, Iter)(first, last); nstl_inc(Iter)(&first))          \
+        if (pred(nstl_deref(Iter)(first))) {                                   \
+            nstl_dtor(Iter)(&first);                                           \
             return nstl_true;                                                  \
         }                                                                      \
-    nstl_dtor(InputIter)(&first);                                              \
+                                                                               \
+    nstl_dtor(Iter)(&first);                                                   \
     return nstl_false;                                                         \
 }                                                                              \
 )                                                                              \
@@ -33,11 +38,12 @@ static NSTL_INLINE nstl_bool this_func                                         \
 )                                                                              \
 /**/
 
+
 /* [[[cog
 
 import nstl
 nstl.generate(cog,
-    'any_of(InputIter, Predicate)',
+    'any_of(SinglePassReadableIterator, Predicate)',
 
     token=True, mangle=True,
 )
@@ -45,7 +51,7 @@ nstl.generate(cog,
 ]]] */
 #include <joy/cat.h>
 #define NSTL_TOKEN_any_of (a n y _ o f)
-#define nstl_any_of(InputIter,  Predicate) JOY_CAT5(nstl_mangled_any_of, _, InputIter, _,  Predicate)
+#define nstl_any_of(SinglePassReadableIterator,  Predicate) JOY_CAT5(nstl_mangled_any_of, _, SinglePassReadableIterator, _,  Predicate)
 /* [[[end]]] */
 
 #endif /* !NSTL_ALGORITHM_ANY_OF_H */

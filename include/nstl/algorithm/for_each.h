@@ -8,21 +8,26 @@
 #include <nstl/internal.h>
 
 
-#define NSTL_FOR_EACH(InputIter, Function) \
-    NSTL_I_FOR_EACH(nstl_for_each(InputIter, Function), InputIter, Function)
+#define NSTL_FOR_EACH(SinglePassReadableIterator, Function)                    \
+    NSTL_I_FOR_EACH(                                                           \
+        nstl_for_each(SinglePassReadableIterator, Function),                   \
+        SinglePassReadableIterator,                                            \
+        Function                                                               \
+    )                                                                          \
+/**/
 
-#define NSTL_I_FOR_EACH(this_func, InputIter, Function)                        \
-NSTL_TYPE(this_func,                                                           \
+#define NSTL_I_FOR_EACH(algo, Iter, Func)                                      \
+NSTL_TYPE(algo,                                                                \
                                                                                \
 (defun for_each                                                                \
-static NSTL_INLINE Function this_func                                          \
-                            (InputIter first_, InputIter last, Function f) {   \
-    InputIter first;                                                           \
-    nstl_copy_ctor(InputIter)(&first, first_);                                 \
-    for ( ; nstl_ne(InputIter, InputIter)(first, last);                        \
-                                                nstl_inc(InputIter)(&first))   \
-        f(nstl_deref(InputIter)(first));                                       \
-    nstl_dtor(InputIter)(&first);                                              \
+static NSTL_INLINE Func algo(Iter first_, Iter last, Func f) {                 \
+    Iter first;                                                                \
+    nstl_copy_ctor(Iter)(&first, first_);                                      \
+                                                                               \
+    for ( ; nstl_ne(Iter, Iter)(first, last); nstl_inc(Iter)(&first))          \
+        f(nstl_deref(Iter)(first));                                            \
+                                                                               \
+    nstl_dtor(Iter)(&first);                                                   \
     return f;                                                                  \
 }                                                                              \
 )                                                                              \
@@ -30,11 +35,12 @@ static NSTL_INLINE Function this_func                                          \
 )                                                                              \
 /**/
 
+
 /* [[[cog
 
 import nstl
 nstl.generate(cog,
-    'for_each(InputIter, Function)',
+    'for_each(SinglePassReadableIterator, Function)',
 
     token=True, mangle=True,
 )
@@ -42,7 +48,7 @@ nstl.generate(cog,
 ]]] */
 #include <joy/cat.h>
 #define NSTL_TOKEN_for_each (f o r _ e a c h)
-#define nstl_for_each(InputIter,  Function) JOY_CAT5(nstl_mangled_for_each, _, InputIter, _,  Function)
+#define nstl_for_each(SinglePassReadableIterator,  Function) JOY_CAT5(nstl_mangled_for_each, _, SinglePassReadableIterator, _,  Function)
 /* [[[end]]] */
 
 #endif /* !NSTL_ALGORITHM_FOR_EACH_H */

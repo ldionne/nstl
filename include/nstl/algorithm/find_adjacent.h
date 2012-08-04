@@ -12,55 +12,67 @@
 #include <nstl/internal.h>
 
 
-#define NSTL_FIND_ADJACENT(FwdIter, ValueType) \
-    NSTL_I_FIND_ADJACENT(nstl_find_adjacent(FwdIter), FwdIter, ValueType)
+#define NSTL_FIND_ADJACENT(ForwardTraversalReadableIterator, ValueType)        \
+    NSTL_I_FIND_ADJACENT(                                                      \
+        nstl_find_adjacent(ForwardTraversalReadableIterator),                  \
+        ForwardTraversalReadableIterator,                                      \
+        ValueType                                                              \
+    )                                                                          \
+/**/
 
-#define NSTL_I_FIND_ADJACENT(this_func, FwdIter, ValueType)                    \
-NSTL_TYPE(this_func,                                                           \
+#define NSTL_I_FIND_ADJACENT(algo, Iter, Value)                                \
+NSTL_TYPE(algo,                                                                \
                                                                                \
 (defun find_adjacent                                                           \
-typedef nstl_bool (*nstl_helper(this_func, impl_comp))(ValueType, ValueType);  \
+typedef nstl_bool (*nstl_helper(algo, impl_comp))(Value, Value);               \
+NSTL_GETF(                                                                     \
+    NSTL_I_FIND_ADJACENT_COMP(                                                 \
+        nstl_helper(algo, impl),                                               \
+        Iter,                                                                  \
+        nstl_helper(algo, impl_comp)                                           \
+    ),                                                                         \
+    find_adjacent_comp                                                         \
+)                                                                              \
                                                                                \
-NSTL_GETF(NSTL_I_FIND_ADJACENT_COMP(nstl_helper(this_func, impl), FwdIter,     \
-            ValueType, nstl_helper(this_func, impl_comp)), find_adjacent_comp) \
-                                                                               \
-static NSTL_INLINE FwdIter this_func(FwdIter first, FwdIter last) {            \
-    return nstl_helper(this_func, impl)                                        \
-                                (first, last, nstl_eq(ValueType, ValueType));  \
+static NSTL_INLINE Iter algo(Iter first, Iter last) {                          \
+    return nstl_helper(algo, impl)(first, last, nstl_eq(Value, Value));        \
 }                                                                              \
 )                                                                              \
                                                                                \
 )                                                                              \
 /**/
 
-#define NSTL_FIND_ADJACENT_COMP(FwdIter, ValueType, Compare)                   \
+
+#define NSTL_FIND_ADJACENT_COMP(ForwardTraversalReadableIterator, Compare)     \
     NSTL_I_FIND_ADJACENT_COMP(                                                 \
-        nstl_find_adjacent_comp(FwdIter, Compare), FwdIter, ValueType, Compare \
+        nstl_find_adjacent_comp(ForwardTraversalReadableIterator, Compare),    \
+        ForwardTraversalReadableIterator,                                      \
+        Compare                                                                \
     )                                                                          \
 /**/
 
-#define NSTL_I_FIND_ADJACENT_COMP(this_func, FwdIter, ValueType, Compare)      \
-NSTL_TYPE(this_func,                                                           \
+#define NSTL_I_FIND_ADJACENT_COMP(algo, Iter, Comp)                            \
+NSTL_TYPE(algo,                                                                \
                                                                                \
 (defun find_adjacent_comp                                                      \
-static NSTL_INLINE FwdIter this_func                                           \
-                                (FwdIter first_, FwdIter last, Compare comp) { \
-    FwdIter next;                                                              \
-    FwdIter first;                                                             \
-    nstl_copy_ctor(FwdIter)(&first, first_);                                   \
-    if (nstl_eq(FwdIter, FwdIter)(first, last))                                \
+static NSTL_INLINE Iter algo(Iter first_, Iter last, Comp comp) {              \
+    Iter next;                                                                 \
+    Iter first;                                                                \
+    nstl_copy_ctor(Iter)(&first, first_);                                      \
+                                                                               \
+    if (nstl_eq(Iter, Iter)(first, last))                                      \
         return first;                                                          \
-    nstl_copy_ctor(FwdIter)(&next, first);                                     \
-    while (nstl_ne(FwdIter, FwdIter)(nstl_inc(FwdIter)(&next), last)) {        \
-        if (comp(nstl_deref(FwdIter)(first), nstl_deref(FwdIter)(next))) {     \
-            nstl_dtor(FwdIter)(&next);                                         \
+    nstl_copy_ctor(Iter)(&next, first);                                        \
+    while (nstl_ne(Iter, Iter)(nstl_inc(Iter)(&next), last)) {                 \
+        if (comp(nstl_deref(Iter)(first), nstl_deref(Iter)(next))) {           \
+            nstl_dtor(Iter)(&next);                                            \
             return first;                                                      \
         }                                                                      \
-                                                                               \
-        nstl_asg(FwdIter, FwdIter)(&first, next);                              \
+        nstl_asg(Iter, Iter)(&first, next);                                    \
     }                                                                          \
-    nstl_dtor(FwdIter)(&next);                                                 \
-    nstl_asg(FwdIter, FwdIter)(&first, last);                                  \
+                                                                               \
+    nstl_dtor(Iter)(&next);                                                    \
+    nstl_asg(Iter, Iter)(&first, last);                                        \
     return first;                                                              \
 }                                                                              \
 )                                                                              \
@@ -68,12 +80,13 @@ static NSTL_INLINE FwdIter this_func                                           \
 )                                                                              \
 /**/
 
+
 /* [[[cog
 
 import nstl
 nstl.generate(cog,
-    'find_adjacent(FwdIter)',
-    'find_adjacent_comp(FwdIter, Compare)',
+    'find_adjacent(ForwardTraversalReadableIterator)',
+    'find_adjacent_comp(ForwardTraversalReadableIterator, Compare)',
 
     token=True, mangle=True,
 )
@@ -81,9 +94,9 @@ nstl.generate(cog,
 ]]] */
 #include <joy/cat.h>
 #define NSTL_TOKEN_find_adjacent (f i n d _ a d j a c e n t)
-#define nstl_find_adjacent(FwdIter) JOY_CAT3(nstl_mangled_find_adjacent, _, FwdIter)
+#define nstl_find_adjacent(ForwardTraversalReadableIterator) JOY_CAT3(nstl_mangled_find_adjacent, _, ForwardTraversalReadableIterator)
 #define NSTL_TOKEN_find_adjacent_comp (f i n d _ a d j a c e n t _ c o m p)
-#define nstl_find_adjacent_comp(FwdIter,  Compare) JOY_CAT5(nstl_mangled_find_adjacent_comp, _, FwdIter, _,  Compare)
+#define nstl_find_adjacent_comp(ForwardTraversalReadableIterator,  Compare) JOY_CAT5(nstl_mangled_find_adjacent_comp, _, ForwardTraversalReadableIterator, _,  Compare)
 /* [[[end]]] */
 
 #endif /* !NSTL_ALGORITHM_FIND_ADJACENT_H */

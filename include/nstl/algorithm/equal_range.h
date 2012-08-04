@@ -13,72 +13,118 @@
 #include <nstl/pair.h>
 
 
-#define NSTL_EQUAL_RANGE(FwdIter, ValueType) \
-    NSTL_I_EQUAL_RANGE(nstl_equal_range(FwdIter), FwdIter, ValueType)
+#define NSTL_EQUAL_RANGE(ForwardTraversalReadableIterator, ValueType)          \
+    NSTL_I_EQUAL_RANGE(                                                        \
+        nstl_equal_range(ForwardTraversalReadableIterator),                    \
+        ForwardTraversalReadableIterator,                                      \
+        ValueType                                                              \
+    )                                                                          \
+/**/
 
-#define NSTL_I_EQUAL_RANGE(this_func, FwdIter, ValueType)                      \
-NSTL_TYPE(this_func,                                                           \
+#define NSTL_I_EQUAL_RANGE(algo, Iter, Value)                                  \
+NSTL_TYPE(algo,                                                                \
                                                                                \
 (defun equal_range                                                             \
-typedef nstl_bool (*nstl_helper(this_func, impl_comp))(ValueType, ValueType);  \
+typedef nstl_bool (*nstl_helper(algo, impl_comp))(Value, Value);               \
+NSTL_GETF(                                                                     \
+    NSTL_I_EQUAL_RANGE_COMP(                                                   \
+        nstl_helper(algo, impl),                                               \
+        Iter,                                                                  \
+        Value,                                                                 \
+        nstl_helper(algo, impl_comp)                                           \
+    ),                                                                         \
+    equal_range_comp                                                           \
+)                                                                              \
                                                                                \
-NSTL_GETF(NSTL_I_EQUAL_RANGE_COMP(nstl_helper(this_func, impl),                \
-    FwdIter, ValueType, nstl_helper(this_func, impl_comp)), equal_range_comp)  \
-                                                                               \
-static nstl_pair(FwdIter, FwdIter) this_func                                   \
-                            (FwdIter first, FwdIter last, ValueType value) {   \
-    return nstl_helper(this_func, impl)                                        \
-                        (first, last, value, nstl_lt(ValueType, ValueType));   \
+static NSTL_INLINE nstl_pair(Iter, Iter) algo(Iter first, Iter last,           \
+                                                          Value value) {       \
+    return nstl_helper(algo, impl)(first, last, value, nstl_lt(Value, Value)); \
 }                                                                              \
 )                                                                              \
                                                                                \
 )                                                                              \
 /**/
 
-#define NSTL_EQUAL_RANGE_COMP(FwdIter, ValueType, Compare)                     \
+
+#define NSTL_EQUAL_RANGE_COMP(ForwardTraversalReadableIterator, ValueType,     \
+                                                                Compare)       \
     NSTL_I_EQUAL_RANGE_COMP(                                                   \
-        nstl_equal_range_comp(FwdIter, Compare), FwdIter, ValueType, Compare   \
+        nstl_equal_range_comp(ForwardTraversalReadableIterator, Compare),      \
+        ForwardTraversalReadableIterator,                                      \
+        ValueType,                                                             \
+        Compare                                                                \
     )                                                                          \
 /**/
 
-#define NSTL_I_EQUAL_RANGE_COMP(this_func, FwdIter, ValueType, Compare)        \
+#define NSTL_I_EQUAL_RANGE_COMP(algo, Iter, Value, Comp)                       \
 NSTL_TYPE(this_func,                                                           \
                                                                                \
 (defun equal_range_comp                                                        \
-NSTL_GETF(NSTL_I_DISTANCE(nstl_helper(this_func, distance), FwdIter),          \
-                                                                    distance)  \
-NSTL_GETF(NSTL_I_ADVANCE(nstl_helper(this_func, advance), FwdIter,             \
-                        nstl_ptrdiff_t, /*is_bidirectionnal=*/ 0), advance)    \
-NSTL_GETF(NSTL_I_UPPER_BOUND_COMP(nstl_helper(this_func, upper_bound_comp),    \
-                            FwdIter, ValueType, Compare), upper_bound_comp)    \
-NSTL_GETF(NSTL_I_LOWER_BOUND_COMP(nstl_helper(this_func, lower_bound_comp),    \
-                            FwdIter, ValueType, Compare), lower_bound_comp)    \
+NSTL_GETF(                                                                     \
+    NSTL_I_DISTANCE(                                                           \
+        nstl_helper(algo, distance),                                           \
+        Iter                                                                   \
+    ),                                                                         \
+    distance                                                                   \
+)                                                                              \
                                                                                \
-static nstl_pair(FwdIter, FwdIter) this_func                                   \
-            (FwdIter first_, FwdIter last, ValueType value, Compare comp) {    \
-    FwdIter first;                                                             \
-    nstl_ptrdiff_t len = nstl_helper(this_func, distance)(first_, last);       \
+NSTL_GETF(                                                                     \
+    NSTL_I_ADVANCE(                                                            \
+        nstl_helper(algo, advance),                                            \
+        Iter,                                                                  \
+        nstl_ptrdiff_t,                                                        \
+        /*is_bidirectionnal=*/ 0                                               \
+    ),                                                                         \
+    advance                                                                    \
+)                                                                              \
+                                                                               \
+NSTL_GETF(                                                                     \
+    NSTL_I_UPPER_BOUND_COMP(                                                   \
+        nstl_helper(algo, upper_bound_comp),                                   \
+        Iter,                                                                  \
+        Value,                                                                 \
+        Comp                                                                   \
+    ),                                                                         \
+    upper_bound_comp                                                           \
+)                                                                              \
+                                                                               \
+NSTL_GETF(                                                                     \
+    NSTL_I_LOWER_BOUND_COMP(                                                   \
+        nstl_helper(algo, lower_bound_comp),                                   \
+        Iter,                                                                  \
+        Value,                                                                 \
+        Comp                                                                   \
+    ),                                                                         \
+    lower_bound_comp                                                           \
+)                                                                              \
+                                                                               \
+static nstl_pair(Iter, Iter) algo(Iter first_, Iter last, Value value,         \
+                                                          Comp comp) {         \
+    Iter first;                                                                \
+    nstl_ptrdiff_t len = nstl_helper(algo, distance)(first_, last);            \
     nstl_ptrdiff_t half;                                                       \
-    nstl_pair(FwdIter, FwdIter) ret;                                           \
-    nstl_copy_ctor(FwdIter)(&first, first_);                                   \
+    nstl_pair(Iter, Iter) ret;                                                 \
+    nstl_copy_ctor(Iter)(&first, first_);                                      \
                                                                                \
     while (len > 0) {                                                          \
-        FwdIter middle;                                                        \
+        Iter middle;                                                           \
+        nstl_copy_ctor(Iter)(&middle, first);                                  \
+                                                                               \
         half = len / 2;                                                        \
-        nstl_copy_ctor(FwdIter)(&middle, first);                               \
-        nstl_helper(this_func, advance)(&middle, half);                        \
-        if (comp(nstl_deref(FwdIter)(middle), value)) {                        \
-            nstl_asg(FwdIter, FwdIter)(&first, middle);                        \
-            nstl_inc(FwdIter)(&first);                                         \
+        nstl_helper(algo, advance)(&middle, half);                             \
+        if (comp(nstl_deref(Iter)(middle), value)) {                           \
+            nstl_asg(Iter, Iter)(&first, middle);                              \
+            nstl_inc(Iter)(&first);                                            \
             len = len - half - 1;                                              \
         }                                                                      \
-        else if (comp(value, nstl_deref(FwdIter)(middle))) {                   \
+        else if (comp(value, nstl_deref(Iter)(middle))) {                      \
             len = half;                                                        \
         }                                                                      \
         else {                                                                 \
-            FwdIter left = nstl_helper(this_func, lower_bound_comp)            \
-                                                (first, middle, value, comp);  \
-            FwdIter right;                                                     \
+            Iter left = nstl_helper(algo, lower_bound_comp)(first, middle,     \
+                                                                value, comp);  \
+            Iter right;                                                        \
+                                                                               \
             /* This is an optimization that was originally present in the      \
              * StlPort stl:                                                    \
              * If lower_bound haven't found an equivalent value there is no    \
@@ -96,28 +142,29 @@ static nstl_pair(FwdIter, FwdIter) this_func                                   \
              * can't be reached.                                               \
              */                                                                \
             NSTL_STATIC_WHEN(NSTL_CONFIG_INTERNAL_DEBUG)(                      \
-                if (comp(nstl_deref(FwdIter)(left), value)) {                  \
+                if (comp(nstl_deref(Iter)(left), value)) {                     \
                     nstl_assert_true(nstl_false);                              \
-                    ret = nstl_make_pair(FwdIter, FwdIter)(left, left);        \
-                    nstl_dtor(FwdIter)(&first);                                \
-                    nstl_dtor(FwdIter)(&left);                                 \
-                    nstl_dtor(FwdIter)(&middle);                               \
+                    ret = nstl_make_pair(Iter, Iter)(left, left);              \
+                    nstl_dtor(Iter)(&first);                                   \
+                    nstl_dtor(Iter)(&left);                                    \
+                    nstl_dtor(Iter)(&middle);                                  \
                     return ret;                                                \
                 }                                                              \
             ) /* end NSTL_CONFIG_INTERNAL_DEBUG */                             \
-            nstl_helper(this_func, advance)(&first, len);                      \
-            right = nstl_helper(this_func, upper_bound_comp)                   \
-                            (nstl_inc(FwdIter)(&middle), first, value, comp);  \
-            ret = nstl_make_pair(FwdIter, FwdIter)(left, right);               \
-            nstl_dtor(FwdIter)(&first);                                        \
-            nstl_dtor(FwdIter)(&left);                                         \
-            nstl_dtor(FwdIter)(&right);                                        \
-            nstl_dtor(FwdIter)(&middle);                                       \
+                                                                               \
+            nstl_helper(algo, advance)(&first, len);                           \
+            right = nstl_helper(algo, upper_bound_comp)                        \
+                                (nstl_inc(Iter)(&middle), first, value, comp); \
+            ret = nstl_make_pair(Iter, Iter)(left, right);                     \
+            nstl_dtor(Iter)(&first);                                           \
+            nstl_dtor(Iter)(&left);                                            \
+            nstl_dtor(Iter)(&right);                                           \
+            nstl_dtor(Iter)(&middle);                                          \
             return ret;                                                        \
         }                                                                      \
     }                                                                          \
-    ret = nstl_make_pair(FwdIter, FwdIter)(first, first);                      \
-    nstl_dtor(FwdIter)(&first);                                                \
+    ret = nstl_make_pair(Iter, Iter)(first, first);                            \
+    nstl_dtor(Iter)(&first);                                                   \
     return ret;                                                                \
 }                                                                              \
 )                                                                              \
@@ -125,12 +172,13 @@ static nstl_pair(FwdIter, FwdIter) this_func                                   \
 )                                                                              \
 /**/
 
+
 /* [[[cog
 
 import nstl
 nstl.generate(cog,
-    'equal_range(FwdIter)',
-    'equal_range_comp(FwdIter, Compare)',
+    'equal_range(ForwardTraversalReadableIterator)',
+    'equal_range_comp(ForwardTraversalReadableIterator, Compare)',
 
     token=True, mangle=True,
 )
@@ -138,9 +186,9 @@ nstl.generate(cog,
 ]]] */
 #include <joy/cat.h>
 #define NSTL_TOKEN_equal_range (e q u a l _ r a n g e)
-#define nstl_equal_range(FwdIter) JOY_CAT3(nstl_mangled_equal_range, _, FwdIter)
+#define nstl_equal_range(ForwardTraversalReadableIterator) JOY_CAT3(nstl_mangled_equal_range, _, ForwardTraversalReadableIterator)
 #define NSTL_TOKEN_equal_range_comp (e q u a l _ r a n g e _ c o m p)
-#define nstl_equal_range_comp(FwdIter,  Compare) JOY_CAT5(nstl_mangled_equal_range_comp, _, FwdIter, _,  Compare)
+#define nstl_equal_range_comp(ForwardTraversalReadableIterator,  Compare) JOY_CAT5(nstl_mangled_equal_range_comp, _, ForwardTraversalReadableIterator, _,  Compare)
 /* [[[end]]] */
 
 #endif /* !NSTL_ALGORITHM_EQUAL_RANGE_H */

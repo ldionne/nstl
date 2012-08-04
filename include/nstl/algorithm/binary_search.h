@@ -10,48 +10,68 @@
 #include <nstl/internal.h>
 
 
-#define NSTL_BINARY_SEARCH(FwdIter, ValueType) \
-    NSTL_I_BINARY_SEARCH(nstl_binary_search(FwdIter), FwdIter, ValueType)
+#define NSTL_BINARY_SEARCH(ForwardTraversalReadableIterator, ValueType)        \
+    NSTL_I_BINARY_SEARCH(                                                      \
+        nstl_binary_search(ForwardTraversalReadableIterator),                  \
+        ForwardTraversalReadableIterator,                                      \
+        ValueType                                                              \
+    )                                                                          \
+/**/
 
-#define NSTL_I_BINARY_SEARCH(this_func, FwdIter, ValueType)                    \
-NSTL_TYPE(this_func,                                                           \
+#define NSTL_I_BINARY_SEARCH(algo, Iter, Value)                                \
+NSTL_TYPE(algo,                                                                \
                                                                                \
 (defun binary_search                                                           \
-typedef nstl_bool (*nstl_helper(this_func, impl_pred))(ValueType, ValueType);  \
+typedef nstl_bool (*nstl_helper(algo, impl_pred))(Value, Value);               \
+NSTL_GETF(                                                                     \
+    NSTL_I_BINARY_SEARCH_COMP(                                                 \
+        nstl_helper(algo, impl),                                               \
+        Iter,                                                                  \
+        Value,                                                                 \
+        nstl_helper(algo, impl_pred)                                           \
+    ),                                                                         \
+    binary_search_comp                                                         \
+)                                                                              \
                                                                                \
-NSTL_GETF(NSTL_I_BINARY_SEARCH_COMP(nstl_helper(this_func, impl),              \
-FwdIter, ValueType, nstl_helper(this_func, impl_pred)), binary_search_comp)    \
-                                                                               \
-static NSTL_INLINE nstl_bool this_func                                         \
-                            (FwdIter first, FwdIter last, ValueType value) {   \
-    return nstl_helper(this_func, impl)                                        \
-                        (first, last, value, nstl_lt(ValueType, ValueType));   \
+static NSTL_INLINE nstl_bool algo(Iter first, Iter last, Value value) {        \
+    return nstl_helper(algo, impl)(first, last, value, nstl_lt(Value, Value)); \
 }                                                                              \
 )                                                                              \
                                                                                \
 )                                                                              \
 /**/
 
-#define NSTL_BINARY_SEARCH_COMP(FwdIter, ValueType, Compare)                   \
+
+#define NSTL_BINARY_SEARCH_COMP(ForwardTraversalReadableIterator, ValueType,   \
+                                                                  Compare)     \
     NSTL_I_BINARY_SEARCH_COMP(                                                 \
-        nstl_binary_search_comp(FwdIter, Compare), FwdIter, ValueType, Compare \
+        nstl_binary_search_comp(ForwardTraversalReadableIterator, Compare),    \
+        ForwardTraversalReadableIterator,                                      \
+        ValueType,                                                             \
+        Compare                                                                \
     )                                                                          \
 /**/
 
-#define NSTL_I_BINARY_SEARCH_COMP(this_func, FwdIter, ValueType, Compare)      \
-NSTL_TYPE(this_func,                                                           \
+#define NSTL_I_BINARY_SEARCH_COMP(algo, Iter, Value, Comp)                     \
+NSTL_TYPE(algo,                                                                \
                                                                                \
 (defun binary_search_comp                                                      \
-NSTL_GETF(NSTL_I_LOWER_BOUND_COMP(                                             \
-    nstl_helper(this_func, lower_bound_comp), FwdIter, ValueType, Compare),    \
-                                                            lower_bound_comp)  \
-static NSTL_INLINE nstl_bool this_func                                         \
-                (FwdIter first, FwdIter last, ValueType value, Compare comp) { \
-    FwdIter i = nstl_helper(this_func, lower_bound_comp)                       \
-                                                (first, last, value, comp);    \
-    nstl_bool ret = nstl_ne(FwdIter, FwdIter)(i, last) &&                      \
-                    !comp(value, nstl_deref(FwdIter)(i));                      \
-    nstl_dtor(FwdIter)(&i);                                                    \
+NSTL_GETF(                                                                     \
+    NSTL_I_LOWER_BOUND_COMP(                                                   \
+        nstl_helper(algo, lower_bound_comp),                                   \
+        Iter,                                                                  \
+        Value,                                                                 \
+        Comp                                                                   \
+    ),                                                                         \
+    lower_bound_comp                                                           \
+)                                                                              \
+                                                                               \
+static NSTL_INLINE nstl_bool algo(Iter first, Iter last, Value value,          \
+                                                         Comp comp) {          \
+    Iter i = nstl_helper(algo, lower_bound_comp)(first, last, value, comp);    \
+    nstl_bool ret = nstl_ne(Iter, Iter)(i, last) &&                            \
+                    !comp(value, nstl_deref(Iter)(i));                         \
+    nstl_dtor(Iter)(&i);                                                       \
     return ret;                                                                \
 }                                                                              \
 )                                                                              \
@@ -59,12 +79,13 @@ static NSTL_INLINE nstl_bool this_func                                         \
 )                                                                              \
 /**/
 
+
 /* [[[cog
 
 import nstl
 nstl.generate(cog,
-    'binary_search(FwdIter)',
-    'binary_search_comp(FwdIter, Compare)',
+    'binary_search(ForwardTraversalReadableIterator)',
+    'binary_search_comp(ForwardTraversalReadableIterator, Compare)',
 
     token=True, mangle=True,
 )
@@ -72,9 +93,9 @@ nstl.generate(cog,
 ]]] */
 #include <joy/cat.h>
 #define NSTL_TOKEN_binary_search (b i n a r y _ s e a r c h)
-#define nstl_binary_search(FwdIter) JOY_CAT3(nstl_mangled_binary_search, _, FwdIter)
+#define nstl_binary_search(ForwardTraversalReadableIterator) JOY_CAT3(nstl_mangled_binary_search, _, ForwardTraversalReadableIterator)
 #define NSTL_TOKEN_binary_search_comp (b i n a r y _ s e a r c h _ c o m p)
-#define nstl_binary_search_comp(FwdIter,  Compare) JOY_CAT5(nstl_mangled_binary_search_comp, _, FwdIter, _,  Compare)
+#define nstl_binary_search_comp(ForwardTraversalReadableIterator,  Compare) JOY_CAT5(nstl_mangled_binary_search_comp, _, ForwardTraversalReadableIterator, _,  Compare)
 /* [[[end]]] */
 
 #endif /* !NSTL_ALGORITHM_BINARY_SEARCH_H */

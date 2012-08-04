@@ -10,63 +10,90 @@
 #include <nstl/internal.h>
 
 
-#define NSTL_UPPER_BOUND(FwdIter, ValueType) \
-    NSTL_I_UPPER_BOUND(nstl_upper_bound(FwdIter), FwdIter, ValueType)
+#define NSTL_UPPER_BOUND(ForwardTraversalReadableIterator, ValueType)          \
+    NSTL_I_UPPER_BOUND(                                                        \
+        nstl_upper_bound(ForwardTraversalReadableIterator),                    \
+        ForwardTraversalReadableIterator,                                      \
+        ValueType                                                              \
+    )                                                                          \
+/**/
 
-#define NSTL_I_UPPER_BOUND(this_func, FwdIter, ValueType)                      \
-NSTL_TYPE(this_func,                                                           \
+#define NSTL_I_UPPER_BOUND(algo, Iter, Value)                                  \
+NSTL_TYPE(algo,                                                                \
                                                                                \
 (defun upper_bound                                                             \
-typedef nstl_bool (*nstl_helper(this_func, impl_comp))(ValueType, ValueType);  \
+typedef nstl_bool (*nstl_helper(algo, impl_comp))(Value, Value);               \
+NSTL_GETF(                                                                     \
+    NSTL_I_UPPER_BOUND_COMP(                                                   \
+        nstl_helper(algo, impl),                                               \
+        Iter,                                                                  \
+        Value,                                                                 \
+        nstl_helper(algo, impl_comp)                                           \
+    ),                                                                         \
+    upper_bound_comp                                                           \
+)                                                                              \
                                                                                \
-NSTL_GETF(NSTL_I_UPPER_BOUND_COMP(nstl_helper(this_func, impl), FwdIter,       \
-            ValueType, nstl_helper(this_func, impl_comp)), upper_bound_comp)   \
-                                                                               \
-static FwdIter this_func(FwdIter first, FwdIter last, ValueType value) {       \
-    return nstl_helper(this_func, impl)                                        \
-                        (first, last, value, nstl_lt(ValueType, ValueType));   \
+static NSTL_INLINE Iter algo(Iter first, Iter last, Value value) {             \
+    return nstl_helper(algo, impl)(first, last, value, nstl_lt(Value, Value)); \
 }                                                                              \
 )                                                                              \
                                                                                \
 )                                                                              \
 /**/
 
-#define NSTL_UPPER_BOUND_COMP(FwdIter, ValueType, Compare)                     \
+
+#define NSTL_UPPER_BOUND_COMP(ForwardTraversalReadableIterator, ValueType,     \
+                                                                Compare)       \
     NSTL_I_UPPER_BOUND_COMP(                                                   \
-        nstl_upper_bound_comp(FwdIter, Compare), FwdIter, ValueType, Compare   \
+        nstl_upper_bound_comp(ForwardTraversalReadableIterator, Compare),      \
+        ForwardTraversalReadableIterator,                                      \
+        ValueType,                                                             \
+        Compare                                                                \
     )                                                                          \
 /**/
 
-#define NSTL_I_UPPER_BOUND_COMP(this_func, FwdIter, ValueType, Compare)        \
-NSTL_TYPE(this_func,                                                           \
+#define NSTL_I_UPPER_BOUND_COMP(algo, Iter, Value, Comp)                       \
+NSTL_TYPE(algo,                                                                \
                                                                                \
 (defun upper_bound_comp                                                        \
-NSTL_GETF(NSTL_I_DISTANCE(nstl_helper(this_func, distance), FwdIter),          \
-                                                                    distance)  \
-NSTL_GETF(NSTL_I_ADVANCE(nstl_helper(this_func, advance), FwdIter,             \
-                        nstl_ptrdiff_t, /*is_bidirectionnal=*/ 0), advance)    \
+NSTL_GETF(                                                                     \
+    NSTL_I_DISTANCE(                                                           \
+        nstl_helper(algo, distance),                                           \
+        Iter                                                                   \
+    ),                                                                         \
+    distance                                                                   \
+)                                                                              \
                                                                                \
-static FwdIter this_func                                                       \
-            (FwdIter first_, FwdIter last, ValueType value, Compare comp) {    \
-    nstl_ptrdiff_t len = nstl_helper(this_func, distance)(first_, last);       \
+NSTL_GETF(                                                                     \
+    NSTL_I_ADVANCE(                                                            \
+        nstl_helper(algo, advance),                                            \
+        Iter,                                                                  \
+        nstl_ptrdiff_t,                                                        \
+        /*is_bidirectionnal=*/ 0                                               \
+    ),                                                                         \
+    advance                                                                    \
+)                                                                              \
+                                                                               \
+static Iter algo(Iter first_, Iter last, Value value, Comp comp) {             \
+    nstl_ptrdiff_t len = nstl_helper(algo, distance)(first_, last);            \
     nstl_ptrdiff_t half;                                                       \
-    FwdIter first;                                                             \
-    nstl_copy_ctor(FwdIter)(&first, first_);                                   \
+    Iter first;                                                                \
+    nstl_copy_ctor(Iter)(&first, first_);                                      \
                                                                                \
     while (len > 0) {                                                          \
-        FwdIter middle;                                                        \
-        nstl_copy_ctor(FwdIter)(&middle, first);                               \
+        Iter middle;                                                           \
+        nstl_copy_ctor(Iter)(&middle, first);                                  \
         half = len / 2;                                                        \
-        nstl_helper(this_func, advance)(&middle, half);                        \
-        if (comp(value, nstl_deref(FwdIter)(middle))) {                        \
+        nstl_helper(algo, advance)(&middle, half);                             \
+        if (comp(value, nstl_deref(Iter)(middle))) {                           \
             len = half;                                                        \
         }                                                                      \
         else {                                                                 \
-            nstl_asg(FwdIter, FwdIter)(&first, middle);                        \
-            nstl_inc(FwdIter)(&first);                                         \
+            nstl_asg(Iter, Iter)(&first, middle);                              \
+            nstl_inc(Iter)(&first);                                            \
             len = len - half - 1;                                              \
         }                                                                      \
-        nstl_dtor(FwdIter)(&middle);                                           \
+        nstl_dtor(Iter)(&middle);                                              \
     }                                                                          \
     return first;                                                              \
 }                                                                              \
@@ -75,12 +102,13 @@ static FwdIter this_func                                                       \
 )                                                                              \
 /**/
 
+
 /* [[[cog
 
 import nstl
 nstl.generate(cog,
-    'upper_bound(FwdIter)',
-    'upper_bound_comp(FwdIter, Compare)',
+    'upper_bound(ForwardTraversalReadableIterator)',
+    'upper_bound_comp(ForwardTraversalReadableIterator, Compare)',
 
     token=True, mangle=True,
 )
@@ -88,9 +116,9 @@ nstl.generate(cog,
 ]]] */
 #include <joy/cat.h>
 #define NSTL_TOKEN_upper_bound (u p p e r _ b o u n d)
-#define nstl_upper_bound(FwdIter) JOY_CAT3(nstl_mangled_upper_bound, _, FwdIter)
+#define nstl_upper_bound(ForwardTraversalReadableIterator) JOY_CAT3(nstl_mangled_upper_bound, _, ForwardTraversalReadableIterator)
 #define NSTL_TOKEN_upper_bound_comp (u p p e r _ b o u n d _ c o m p)
-#define nstl_upper_bound_comp(FwdIter,  Compare) JOY_CAT5(nstl_mangled_upper_bound_comp, _, FwdIter, _,  Compare)
+#define nstl_upper_bound_comp(ForwardTraversalReadableIterator,  Compare) JOY_CAT5(nstl_mangled_upper_bound_comp, _, ForwardTraversalReadableIterator, _,  Compare)
 /* [[[end]]] */
 
 #endif /* !NSTL_ALGORITHM_UPPER_BOUND_H */

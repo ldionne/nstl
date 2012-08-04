@@ -8,24 +8,30 @@
 #include <nstl/internal.h>
 
 
-#define NSTL_SWAP(ValueType1, ValueType2) \
-    NSTL_I_SWAP(nstl_swap(ValueType1, ValueType2), ValueType1, ValueType2)
+#define NSTL_SWAP(ValueType1, ValueType2)                                      \
+    NSTL_I_SWAP(                                                               \
+        nstl_swap(ValueType1, ValueType2),                                     \
+        ValueType1,                                                            \
+        ValueType2                                                             \
+    )                                                                          \
+/**/
 
-#define NSTL_I_SWAP(this_func, ValueType1, ValueType2)                         \
-NSTL_TYPE(this_func,                                                           \
+#define NSTL_I_SWAP(algo, Value1, Value2)                                      \
+NSTL_TYPE(algo,                                                                \
                                                                                \
 (defun swap                                                                    \
-static NSTL_INLINE void this_func(ValueType1 *a, ValueType2 *b) {              \
-    ValueType1 tmp;                                                            \
-    nstl_copy_ctor(ValueType1)(&tmp, *a);                                      \
-    nstl_asg(ValueType1, ValueType2)(a, *b);                                   \
-    nstl_asg(ValueType2, ValueType1)(b, tmp);                                  \
-    nstl_dtor(ValueType1)(&tmp);                                               \
+static NSTL_INLINE void algo(Value1 *a, Value2 *b) {                           \
+    Value1 tmp;                                                                \
+    nstl_copy_ctor(Value1)(&tmp, *a);                                          \
+    nstl_asg(Value1, Value2)(a, *b);                                           \
+    nstl_asg(Value1, Value2)(b, tmp);                                          \
+    nstl_dtor(Value1)(&tmp);                                                   \
 }                                                                              \
 )                                                                              \
                                                                                \
 )                                                                              \
 /**/
+
 
 /* [[[cog
 

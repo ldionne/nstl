@@ -9,50 +9,64 @@
 #include <nstl/internal.h>
 
 
-#define NSTL_MIN_ELEMENT(FwdIter, ValueType) \
-    NSTL_I_MIN_ELEMENT(nstl_min_element(FwdIter), FwdIter, ValueType)
+#define NSTL_MIN_ELEMENT(SinglePassReadableIterator, ValueType)                \
+    NSTL_I_MIN_ELEMENT(                                                        \
+        nstl_min_element(SinglePassReadableIterator),                          \
+        SinglePassReadableIterator,                                            \
+        ValueType                                                              \
+    )                                                                          \
+/**/
 
-#define NSTL_I_MIN_ELEMENT(this_func, FwdIter, ValueType)                      \
-NSTL_TYPE(this_func,                                                           \
+#define NSTL_I_MIN_ELEMENT(algo, Iter, Value)                                  \
+NSTL_TYPE(algo,                                                                \
                                                                                \
 (defun min_element                                                             \
-typedef nstl_bool (*nstl_helper(this_func, impl_comp))(ValueType, ValueType);  \
+typedef nstl_bool (*nstl_helper(algo, impl_comp))(Value, Value);               \
+NSTL_GETF(                                                                     \
+    NSTL_I_MIN_ELEMENT_COMP(                                                   \
+        nstl_helper(algo, impl),                                               \
+        Iter,                                                                  \
+        Value,                                                                 \
+        nstl_helper(algo, impl_comp)                                           \
+    ),                                                                         \
+    min_element_comp                                                           \
+)                                                                              \
                                                                                \
-NSTL_GETF(NSTL_I_MIN_ELEMENT_COMP(nstl_helper(this_func, impl),                \
-    FwdIter, ValueType, nstl_helper(this_func, impl_comp)), min_element_comp)  \
-                                                                               \
-static NSTL_INLINE FwdIter this_func(FwdIter first, FwdIter last) {            \
-    return nstl_helper(this_func, impl)                                        \
-                                (first, last, nstl_lt(ValueType, ValueType));  \
+static NSTL_INLINE Iter algo(Iter first, Iter last) {                          \
+    return nstl_helper(algo, impl)(first, last, nstl_lt(Value, Value));        \
 }                                                                              \
 )                                                                              \
                                                                                \
 )                                                                              \
 /**/
 
-#define NSTL_MIN_ELEMENT_COMP(FwdIter, ValueType, Compare)                     \
+
+#define NSTL_MIN_ELEMENT_COMP(SinglePassReadableIterator, ValueType, Compare)  \
     NSTL_I_MIN_ELEMENT_COMP(                                                   \
-        nstl_min_element_comp(FwdIter, Compare), FwdIter, ValueType, Compare   \
+        nstl_min_element_comp(SinglePassReadableIterator, Compare),            \
+        SinglePassReadableIterator,                                            \
+        ValueType,                                                             \
+        Compare                                                                \
     )                                                                          \
 /**/
 
-#define NSTL_I_MIN_ELEMENT_COMP(this_func, FwdIter, ValueType, Compare)        \
-NSTL_TYPE(this_func,                                                           \
+#define NSTL_I_MIN_ELEMENT_COMP(algo, Iter, Value, Comp)                       \
+NSTL_TYPE(algo,                                                                \
                                                                                \
 (defun min_element_comp                                                        \
-static NSTL_INLINE FwdIter this_func                                           \
-                                (FwdIter first_, FwdIter last, Compare comp) { \
-    FwdIter first;                                                             \
-    FwdIter result;                                                            \
-    nstl_copy_ctor(FwdIter)(&first, first_);                                   \
-    if (nstl_eq(FwdIter, FwdIter)(first, last))                                \
-        return first;                                                          \
-    nstl_copy_ctor(FwdIter)(&result, first);                                   \
-    while (nstl_ne(FwdIter, FwdIter)(nstl_inc(FwdIter)(&first), last))         \
-        if (comp(nstl_deref(FwdIter)(first), nstl_deref(FwdIter)(result)))     \
-            nstl_asg(FwdIter, FwdIter)(&result, first);                        \
+static NSTL_INLINE Iter algo(Iter first_, Iter last, Comp comp) {              \
+    Iter first;                                                                \
+    Iter result;                                                               \
+    nstl_copy_ctor(Iter)(&first, first_);                                      \
                                                                                \
-    nstl_dtor(FwdIter)(&first);                                                \
+    if (nstl_eq(Iter, Iter)(first, last))                                      \
+        return first;                                                          \
+    nstl_copy_ctor(Iter)(&result, first);                                      \
+    while (nstl_ne(Iter, Iter)(nstl_inc(Iter)(&first), last))                  \
+        if (comp(nstl_deref(Iter)(first), nstl_deref(Iter)(result)))           \
+            nstl_asg(Iter, Iter)(&result, first);                              \
+                                                                               \
+    nstl_dtor(Iter)(&first);                                                   \
     return result;                                                             \
 }                                                                              \
 )                                                                              \
@@ -60,12 +74,13 @@ static NSTL_INLINE FwdIter this_func                                           \
 )                                                                              \
 /**/
 
+
 /* [[[cog
 
 import nstl
 nstl.generate(cog,
-    'min_element(FwdIter)',
-    'min_element_comp(FwdIter, Compare)',
+    'min_element(SinglePassReadableIterator)',
+    'min_element_comp(SinglePassReadableIterator, Compare)',
 
     token=True, mangle=True,
 )
@@ -73,9 +88,9 @@ nstl.generate(cog,
 ]]] */
 #include <joy/cat.h>
 #define NSTL_TOKEN_min_element (m i n _ e l e m e n t)
-#define nstl_min_element(FwdIter) JOY_CAT3(nstl_mangled_min_element, _, FwdIter)
+#define nstl_min_element(SinglePassReadableIterator) JOY_CAT3(nstl_mangled_min_element, _, SinglePassReadableIterator)
 #define NSTL_TOKEN_min_element_comp (m i n _ e l e m e n t _ c o m p)
-#define nstl_min_element_comp(FwdIter,  Compare) JOY_CAT5(nstl_mangled_min_element_comp, _, FwdIter, _,  Compare)
+#define nstl_min_element_comp(SinglePassReadableIterator,  Compare) JOY_CAT5(nstl_mangled_min_element_comp, _, SinglePassReadableIterator, _,  Compare)
 /* [[[end]]] */
 
 #endif /* !NSTL_ALGORITHM_MIN_ELEMENT_H */

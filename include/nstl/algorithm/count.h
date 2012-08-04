@@ -8,24 +8,28 @@
 #include <nstl/internal.h>
 
 
-#define NSTL_COUNT(InputIter, ValueType) \
-    NSTL_I_COUNT(nstl_count(InputIter), InputIter, ValueType)
+#define NSTL_COUNT(SinglePassReadableIterator, ValueType)                      \
+    NSTL_I_COUNT(                                                              \
+        nstl_count(SinglePassReadableIterator),                                \
+        SinglePassReadableIterator,                                            \
+        ValueType                                                              \
+    )                                                                          \
+/**/
 
-#define NSTL_I_COUNT(this_func, InputIter, ValueType)                          \
-NSTL_TYPE(this_func,                                                           \
+#define NSTL_I_COUNT(algo, Iter, Value)                                        \
+NSTL_TYPE(algo,                                                                \
                                                                                \
 (defun count                                                                   \
-static NSTL_INLINE nstl_ptrdiff_t this_func                                    \
-                        (InputIter first_, InputIter last, ValueType val) {    \
-    InputIter first;                                                           \
+static NSTL_INLINE nstl_ptrdiff_t algo(Iter first_, Iter last, Value value) {  \
+    Iter first;                                                                \
     nstl_ptrdiff_t n = 0;                                                      \
-    nstl_copy_ctor(InputIter)(&first, first_);                                 \
-    for ( ; nstl_ne(InputIter, InputIter)(first, last);                        \
-                                                nstl_inc(InputIter)(&first)) { \
-        if (nstl_eq(ValueType, ValueType)(nstl_deref(InputIter)(first), val))  \
+    nstl_copy_ctor(Iter)(&first, first_);                                      \
+                                                                               \
+    for ( ; nstl_ne(Iter, Iter)(first, last); nstl_inc(Iter)(&first))          \
+        if (nstl_eq(Value, Value)(nstl_deref(Iter)(first), value))             \
             ++n;                                                               \
-    }                                                                          \
-    nstl_dtor(InputIter)(&first);                                              \
+                                                                               \
+    nstl_dtor(Iter)(&first);                                                   \
     return n;                                                                  \
 }                                                                              \
 )                                                                              \
@@ -33,11 +37,12 @@ static NSTL_INLINE nstl_ptrdiff_t this_func                                    \
 )                                                                              \
 /**/
 
+
 /* [[[cog
 
 import nstl
 nstl.generate(cog,
-    'count(InputIter)',
+    'count(SinglePassReadableIterator)',
 
     token=True, mangle=True,
 )
@@ -45,7 +50,7 @@ nstl.generate(cog,
 ]]] */
 #include <joy/cat.h>
 #define NSTL_TOKEN_count (c o u n t)
-#define nstl_count(InputIter) JOY_CAT3(nstl_mangled_count, _, InputIter)
+#define nstl_count(SinglePassReadableIterator) JOY_CAT3(nstl_mangled_count, _, SinglePassReadableIterator)
 /* [[[end]]] */
 
 #endif /* !NSTL_ALGORITHM_COUNT_H */

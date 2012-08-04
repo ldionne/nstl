@@ -8,24 +8,28 @@
 #include <nstl/internal.h>
 
 
-#define NSTL_COUNT_IF(InputIter, Predicate) \
-    NSTL_I_COUNT_IF(nstl_count_if(InputIter, Predicate), InputIter, Predicate)
+#define NSTL_COUNT_IF(SinglePassReadableIterator, Predicate)                   \
+    NSTL_I_COUNT_IF(                                                           \
+        nstl_count_if(SinglePassReadableIterator, Predicate),                  \
+        SinglePassReadableIterator,                                            \
+        Predicate                                                              \
+    )                                                                          \
+/**/
 
-#define NSTL_I_COUNT_IF(this_func, InputIter, Predicate)                       \
-NSTL_TYPE(this_func,                                                           \
+#define NSTL_I_COUNT_IF(algo, Iter, Pred)                                      \
+NSTL_TYPE(algo,                                                                \
                                                                                \
 (defun count_if                                                                \
-static NSTL_INLINE nstl_ptrdiff_t this_func                                    \
-                        (InputIter first_, InputIter last, Predicate pred) {   \
-    InputIter first;                                                           \
+static NSTL_INLINE nstl_ptrdiff_t algo(Iter first_, Iter last, Pred pred) {    \
+    Iter first;                                                                \
     nstl_ptrdiff_t n = 0;                                                      \
-    nstl_copy_ctor(InputIter)(&first, first_);                                 \
-    for ( ; nstl_ne(InputIter, InputIter)(first, last);                        \
-                                                nstl_inc(InputIter)(&first)) { \
-        if (pred(nstl_deref(InputIter)(first)))                                \
+    nstl_copy_ctor(Iter)(&first, first_);                                      \
+                                                                               \
+    for ( ; nstl_ne(Iter, Iter)(first, last); nstl_inc(Iter)(&first))          \
+        if (pred(nstl_deref(Iter)(first)))                                     \
             ++n;                                                               \
-    }                                                                          \
-    nstl_dtor(InputIter)(&first);                                              \
+                                                                               \
+    nstl_dtor(Iter)(&first);                                                   \
     return n;                                                                  \
 }                                                                              \
 )                                                                              \
@@ -33,11 +37,12 @@ static NSTL_INLINE nstl_ptrdiff_t this_func                                    \
 )                                                                              \
 /**/
 
+
 /* [[[cog
 
 import nstl
 nstl.generate(cog,
-    'count_if(InputIter, Predicate)',
+    'count_if(SinglePassReadableIterator, Predicate)',
 
     token=True, mangle=True,
 )
@@ -45,7 +50,7 @@ nstl.generate(cog,
 ]]] */
 #include <joy/cat.h>
 #define NSTL_TOKEN_count_if (c o u n t _ i f)
-#define nstl_count_if(InputIter,  Predicate) JOY_CAT5(nstl_mangled_count_if, _, InputIter, _,  Predicate)
+#define nstl_count_if(SinglePassReadableIterator,  Predicate) JOY_CAT5(nstl_mangled_count_if, _, SinglePassReadableIterator, _,  Predicate)
 /* [[[end]]] */
 
 #endif /* !NSTL_ALGORITHM_COUNT_IF_H */

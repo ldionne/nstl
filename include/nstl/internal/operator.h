@@ -352,7 +352,7 @@ NSTL_COMMON_FIELDS = [
     # Extended initialization / deinitialization
     'size_ctor(T)',
     'fill_ctor(T)',
-    'range_ctor(T, InputIter)',
+    'range_ctor(T, ReadableIterator)',
 
     # Iterators
     'begin(T)',
@@ -417,7 +417,6 @@ nstl.generate(cog,
 
 ]]] */
 #include <joy/cat.h>
-#define NSTL_TOKEN_iadd (i a d d)
 #define NSTL_TOKEN_rbegin (r b e g i n)
 #define NSTL_TOKEN_mod (m o d)
 #define NSTL_TOKEN_clear (c l e a r)
@@ -438,7 +437,7 @@ nstl.generate(cog,
 #define NSTL_TOKEN_0 (0)
 #define NSTL_TOKEN_4 (4)
 #define NSTL_TOKEN_dec_ (d e c _)
-#define NSTL_TOKEN_override (o v e r r i d e)
+#define NSTL_TOKEN_range_ctor (r a n g e _ c t o r)
 #define NSTL_TOKEN_8 (8)
 #define NSTL_TOKEN_typedef (t y p e d e f)
 #define NSTL_TOKEN_asg (a s g)
@@ -548,6 +547,7 @@ nstl.generate(cog,
 #define NSTL_TOKEN_dtor (d t o r)
 #define NSTL_TOKEN_J (J)
 #define NSTL_TOKEN_N (N)
+#define NSTL_TOKEN_override (o v e r r i d e)
 #define NSTL_TOKEN_div (d i v)
 #define NSTL_TOKEN_V (V)
 #define NSTL_TOKEN_catch (c a t c h)
@@ -586,7 +586,7 @@ nstl.generate(cog,
 #define NSTL_TOKEN_if (i f)
 #define NSTL_TOKEN_F (F)
 #define NSTL_TOKEN_xor_eq (x o r _ e q)
-#define NSTL_TOKEN_range_ctor (r a n g e _ c t o r)
+#define NSTL_TOKEN_iadd (i a d d)
 #define NSTL_TOKEN_namespace (n a m e s p a c e)
 #define NSTL_TOKEN_virtual (v i r t u a l)
 #define NSTL_TOKEN_1 (1)
@@ -636,7 +636,6 @@ nstl.generate(cog,
 #define nstl_inv(T) JOY_CAT3(nstl_mangled_inv, _, T)
 #define nstl_back(T) JOY_CAT3(nstl_mangled_back, _, T)
 #define nstl_ior(R,  T) JOY_CAT5(nstl_mangled_ior, _, R, _,  T)
-#define nstl_range_ctor(T,  InputIter) JOY_CAT5(nstl_mangled_range_ctor, _, T, _,  InputIter)
 #define nstl_mod(R,  T) JOY_CAT5(nstl_mangled_mod, _, R, _,  T)
 #define nstl_clear(T) JOY_CAT3(nstl_mangled_clear, _, T)
 #define nstl_rend(T) JOY_CAT3(nstl_mangled_rend, _, T)
@@ -659,6 +658,7 @@ nstl.generate(cog,
 #define nstl_ge(R,  T) JOY_CAT5(nstl_mangled_ge, _, R, _,  T)
 #define nstl_ne(R,  T) JOY_CAT5(nstl_mangled_ne, _, R, _,  T)
 #define nstl_delete(T) JOY_CAT3(nstl_mangled_delete, _, T)
+#define nstl_range_ctor(T,  ReadableIterator) JOY_CAT5(nstl_mangled_range_ctor, _, T, _,  ReadableIterator)
 #define nstl_isub(R,  T) JOY_CAT5(nstl_mangled_isub, _, R, _,  T)
 #define nstl_asg(R,  T) JOY_CAT5(nstl_mangled_asg, _, R, _,  T)
 #define nstl_iand(R,  T) JOY_CAT5(nstl_mangled_iand, _, R, _,  T)

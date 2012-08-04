@@ -8,36 +8,46 @@
 #include <nstl/internal.h>
 
 
-#define NSTL_MIN(ValueType) \
-    NSTL_I_MIN(nstl_min(ValueType), ValueType)
+#define NSTL_MIN(ValueType)                                                    \
+    NSTL_I_MIN(                                                                \
+        nstl_min(ValueType),                                                   \
+        ValueType                                                              \
+    )                                                                          \
+/**/
 
-#define NSTL_I_MIN(this_func, ValueType)                                       \
-NSTL_TYPE(this_func,                                                           \
+#define NSTL_I_MIN(algo, Value)                                                \
+NSTL_TYPE(algo,                                                                \
                                                                                \
 (defun min                                                                     \
-static NSTL_INLINE ValueType this_func(ValueType a, ValueType b) {             \
-    return nstl_lt(ValueType, ValueType)(b, a) ? b : a;                        \
+static NSTL_INLINE Value algo(Value a, Value b) {                              \
+    return nstl_lt(Value, Value)(b, a) ? b : a;                                \
 }                                                                              \
 )                                                                              \
                                                                                \
 )                                                                              \
 /**/
 
-#define NSTL_MIN_COMP(ValueType, Compare) \
-    NSTL_I_MIN_COMP(nstl_min_comp(ValueType, Compare), ValueType, Compare)
 
-#define NSTL_I_MIN_COMP(this_func, ValueType, Compare)                         \
-NSTL_TYPE(this_func,                                                           \
+#define NSTL_MIN_COMP(ValueType, Compare)                                      \
+    NSTL_I_MIN_COMP(                                                           \
+        nstl_min_comp(ValueType, Compare),                                     \
+        ValueType,                                                             \
+        Compare                                                                \
+    )                                                                          \
+/**/
+
+#define NSTL_I_MIN_COMP(algo, Value, Comp)                                     \
+NSTL_TYPE(algo,                                                                \
                                                                                \
 (defun min_comp                                                                \
-static NSTL_INLINE ValueType this_func                                         \
-                                    (ValueType a, ValueType b, Compare comp) { \
+static NSTL_INLINE Value algo(Value a, Value b, Comp comp) {                   \
     return comp(b, a) ? b : a;                                                 \
 }                                                                              \
 )                                                                              \
                                                                                \
 )                                                                              \
 /**/
+
 
 /* [[[cog
 
