@@ -8,19 +8,19 @@
 #include <nstl/internal.h>
 
 
-#define NSTL_MIN(ValueType)                                                    \
+#define NSTL_MIN(T)                                                            \
     NSTL_I_MIN(                                                                \
-        nstl_min(ValueType),                                                   \
-        ValueType                                                              \
+        nstl_min(T),                                                           \
+        T                                                                      \
     )                                                                          \
 /**/
 
-#define NSTL_I_MIN(algo, Value)                                                \
+#define NSTL_I_MIN(algo, T)                                                    \
 NSTL_TYPE(algo,                                                                \
                                                                                \
 (defun min                                                                     \
-static NSTL_INLINE Value algo(Value a, Value b) {                              \
-    return nstl_lt(Value, Value)(b, a) ? b : a;                                \
+static NSTL_INLINE T algo(T a, T b) {                                          \
+    return nstl_lt(T, T)(b, a) ? b : a;                                        \
 }                                                                              \
 )                                                                              \
                                                                                \
@@ -28,19 +28,19 @@ static NSTL_INLINE Value algo(Value a, Value b) {                              \
 /**/
 
 
-#define NSTL_MIN_COMP(ValueType, Compare)                                      \
+#define NSTL_MIN_COMP(T, Compare)                                              \
     NSTL_I_MIN_COMP(                                                           \
-        nstl_min_comp(ValueType, Compare),                                     \
-        ValueType,                                                             \
+        nstl_min_comp(T, Compare),                                             \
+        T,                                                                     \
         Compare                                                                \
     )                                                                          \
 /**/
 
-#define NSTL_I_MIN_COMP(algo, Value, Comp)                                     \
+#define NSTL_I_MIN_COMP(algo, T, Comp)                                         \
 NSTL_TYPE(algo,                                                                \
                                                                                \
 (defun min_comp                                                                \
-static NSTL_INLINE Value algo(Value a, Value b, Comp comp) {                   \
+static NSTL_INLINE T algo(T a, T b, Comp comp) {                               \
     return comp(b, a) ? b : a;                                                 \
 }                                                                              \
 )                                                                              \
@@ -53,8 +53,8 @@ static NSTL_INLINE Value algo(Value a, Value b, Comp comp) {                   \
 
 import nstl
 nstl.generate(cog,
-    'min(ValueType)',
-    'min_comp(ValueType, Compare)',
+    'min(T)',
+    'min_comp(T, Compare)',
 
     token=True, mangle=True,
 )
@@ -62,9 +62,9 @@ nstl.generate(cog,
 ]]] */
 #include <joy/cat.h>
 #define NSTL_TOKEN_min (m i n)
-#define nstl_min(ValueType) JOY_CAT3(nstl_mangled_min, _, ValueType)
+#define nstl_min(T) JOY_CAT3(nstl_mangled_min, _, T)
 #define NSTL_TOKEN_min_comp (m i n _ c o m p)
-#define nstl_min_comp(ValueType,  Compare) JOY_CAT5(nstl_mangled_min_comp, _, ValueType, _,  Compare)
+#define nstl_min_comp(T,  Compare) JOY_CAT5(nstl_mangled_min_comp, _, T, _,  Compare)
 /* [[[end]]] */
 
 #endif /* !NSTL_ALGORITHM_MIN_H */

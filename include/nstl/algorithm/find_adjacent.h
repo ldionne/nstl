@@ -12,19 +12,19 @@
 #include <nstl/internal.h>
 
 
-#define NSTL_FIND_ADJACENT(ForwardTraversalReadableIterator, ValueType)        \
+#define NSTL_FIND_ADJACENT(ForwardTraversalReadableIterator, T)                \
     NSTL_I_FIND_ADJACENT(                                                      \
         nstl_find_adjacent(ForwardTraversalReadableIterator),                  \
         ForwardTraversalReadableIterator,                                      \
-        ValueType                                                              \
+        T                                                                      \
     )                                                                          \
 /**/
 
-#define NSTL_I_FIND_ADJACENT(algo, Iter, Value)                                \
+#define NSTL_I_FIND_ADJACENT(algo, Iter, T)                                    \
 NSTL_TYPE(algo,                                                                \
                                                                                \
 (defun find_adjacent                                                           \
-typedef nstl_bool (*nstl_helper(algo, impl_comp))(Value, Value);               \
+typedef nstl_bool (*nstl_helper(algo, impl_comp))(T, T);                       \
 NSTL_GETF(                                                                     \
     NSTL_I_FIND_ADJACENT_COMP(                                                 \
         nstl_helper(algo, impl),                                               \
@@ -35,7 +35,7 @@ NSTL_GETF(                                                                     \
 )                                                                              \
                                                                                \
 static NSTL_INLINE Iter algo(Iter first, Iter last) {                          \
-    return nstl_helper(algo, impl)(first, last, nstl_eq(Value, Value));        \
+    return nstl_helper(algo, impl)(first, last, nstl_eq(T, T));                \
 }                                                                              \
 )                                                                              \
                                                                                \

@@ -13,7 +13,7 @@ static void test_should_return_last_when_not_found(void) {
     nstl_int array[10] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
     nstl_pint first = array, last = array + 10, iter;
 
-    iter = nstl_find(nstl_pint, nstl_int)(first, last, -1);
+    iter = nstl_find(nstl_pint)(first, last, -1);
     assert_true(iter == last);
 }
 
@@ -23,7 +23,7 @@ static void test_should_return_iterator_to_found_element_when_found(void) {
     nstl_pint first = array, last = array + 10, iter;
 
     for (i = 0; i < 10; ++i) {
-        iter = nstl_find(nstl_pint, nstl_int)(first, last, i);
+        iter = nstl_find(nstl_pint)(first, last, i);
         assert_true(iter == first + i);
         assert_int_equal(*iter, i);
     }

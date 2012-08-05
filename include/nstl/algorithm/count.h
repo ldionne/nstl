@@ -8,20 +8,20 @@
 #include <nstl/internal.h>
 
 
-#define NSTL_COUNT(SinglePassReadableIterator, ValueType)                      \
+#define NSTL_COUNT(SinglePassReadableIterator, T)                              \
     NSTL_I_COUNT(                                                              \
         nstl_count(SinglePassReadableIterator),                                \
         SinglePassReadableIterator,                                            \
-        ValueType                                                              \
+        T                                                                      \
     )                                                                          \
 /**/
 
-#define NSTL_I_COUNT(algo, Iter, Value)                                        \
+#define NSTL_I_COUNT(algo, Iter, T)                                            \
 NSTL_TYPE(algo,                                                                \
                                                                                \
 (defun count                                                                   \
                                                                                \
-static NSTL_INLINE nstl_ptrdiff_t algo(Iter first_, Iter last, Value value) {  \
+static NSTL_INLINE nstl_ptrdiff_t algo(Iter first_, Iter last, T value) {      \
     Iter first;                                                                \
     nstl_ptrdiff_t n = 0;                                                      \
     nstl_copy_ctor(Iter)(&first, first_);                                      \
@@ -31,7 +31,7 @@ static NSTL_INLINE nstl_ptrdiff_t algo(Iter first_, Iter last, Value value) {  \
         {                                                                      \
             nstl_deref_proxy(Iter) proxy;                                      \
             nstl_ctor(nstl_deref_proxy(Iter))(&proxy, first);                  \
-            must_count = nstl_eq(Value, Value)                                 \
+            must_count = nstl_eq(T, T)                                         \
                             (nstl_get(nstl_deref_proxy(Iter))(proxy), value);  \
             nstl_dtor(nstl_deref_proxy(Iter)(&proxy));                         \
         }                                                                      \

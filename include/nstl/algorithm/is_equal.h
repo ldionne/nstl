@@ -12,21 +12,21 @@
 
 
 #define NSTL_IS_EQUAL(SinglePassReadableIterator,                              \
-                      IncrementableReadableIterator, ValueType)                \
+                      IncrementableReadableIterator, T)                        \
     NSTL_I_IS_EQUAL(                                                           \
         nstl_is_equal(SinglePassReadableIterator,                              \
                       IncrementableReadableIterator),                          \
         SinglePassReadableIterator,                                            \
         IncrementableReadableIterator,                                         \
-        ValueType                                                              \
+        T                                                                      \
     )                                                                          \
 /**/
 
-#define NSTL_I_IS_EQUAL(algo, Iter1, Iter2, Value)                             \
+#define NSTL_I_IS_EQUAL(algo, Iter1, Iter2, T)                                 \
 NSTL_TYPE(algo,                                                                \
                                                                                \
 (defun is_equal                                                                \
-typedef nstl_bool (*nstl_helper(algo, impl_comp))(Value, Value);               \
+typedef nstl_bool (*nstl_helper(algo, impl_comp))(T, T);                       \
 NSTL_GETF(                                                                     \
     NSTL_I_IS_EQUAL_COMP(                                                      \
         nstl_helper(algo, impl),                                               \
@@ -38,8 +38,7 @@ NSTL_GETF(                                                                     \
 )                                                                              \
                                                                                \
 static NSTL_INLINE nstl_bool algo(Iter1 first1, Iter1 last1, Iter2 first2) {   \
-    return nstl_helper(algo, impl)(first1, last1, first2,                      \
-                                                    nstl_eq(Value, Value));    \
+    return nstl_helper(algo, impl)(first1, last1, first2, nstl_eq(T, T));      \
 }                                                                              \
 )                                                                              \
                                                                                \

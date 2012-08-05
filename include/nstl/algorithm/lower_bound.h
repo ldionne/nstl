@@ -10,31 +10,31 @@
 #include <nstl/internal.h>
 
 
-#define NSTL_LOWER_BOUND(ForwardTraversalReadableIterator, ValueType)          \
+#define NSTL_LOWER_BOUND(ForwardTraversalReadableIterator, T)                  \
     NSTL_I_LOWER_BOUND(                                                        \
         nstl_lower_bound(ForwardTraversalReadableIterator),                    \
         ForwardTraversalReadableIterator,                                      \
-        ValueType                                                              \
+        T                                                                      \
     )                                                                          \
 /**/
 
-#define NSTL_I_LOWER_BOUND(algo, Iter, Value)                                  \
+#define NSTL_I_LOWER_BOUND(algo, Iter, T)                                      \
 NSTL_TYPE(algo,                                                                \
                                                                                \
 (defun lower_bound                                                             \
-typedef nstl_bool (*nstl_helper(algo, impl_comp))(Value, Value);               \
+typedef nstl_bool (*nstl_helper(algo, impl_comp))(T, T);                       \
 NSTL_GETF(                                                                     \
     NSTL_I_LOWER_BOUND_COMP(                                                   \
         nstl_helper(algo, impl),                                               \
         Iter,                                                                  \
-        Value,                                                                 \
+        T,                                                                     \
         nstl_helper(algo, impl_comp)                                           \
     ),                                                                         \
     lower_bound_comp                                                           \
 )                                                                              \
                                                                                \
-static NSTL_INLINE Iter algo(Iter first, Iter last, Value value) {             \
-    return nstl_helper(algo, impl)(first, last, value, nstl_lt(Value, Value)); \
+static NSTL_INLINE Iter algo(Iter first, Iter last, T value) {                 \
+    return nstl_helper(algo, impl)(first, last, value, nstl_lt(T, T));         \
 }                                                                              \
 )                                                                              \
                                                                                \
@@ -42,17 +42,16 @@ static NSTL_INLINE Iter algo(Iter first, Iter last, Value value) {             \
 /**/
 
 
-#define NSTL_LOWER_BOUND_COMP(ForwardTraversalReadableIterator, ValueType,     \
-                                                                Compare)       \
+#define NSTL_LOWER_BOUND_COMP(ForwardTraversalReadableIterator, T, Compare)    \
     NSTL_I_LOWER_BOUND_COMP(                                                   \
         nstl_lower_bound_comp(ForwardTraversalReadableIterator, Compare),      \
         ForwardTraversalReadableIterator,                                      \
-        ValueType,                                                             \
+        T,                                                                     \
         Compare                                                                \
     )                                                                          \
 /**/
 
-#define NSTL_I_LOWER_BOUND_COMP(algo, Iter, Value, Comp)                       \
+#define NSTL_I_LOWER_BOUND_COMP(algo, Iter, T, Comp)                           \
 NSTL_TYPE(algo,                                                                \
                                                                                \
 (defun lower_bound_comp                                                        \
@@ -74,7 +73,7 @@ NSTL_GETF(                                                                     \
     advance                                                                    \
 )                                                                              \
                                                                                \
-static Iter algo(Iter first_, Iter last, Value value, Comp comp) {             \
+static Iter algo(Iter first_, Iter last, T value, Comp comp) {                 \
     nstl_ptrdiff_t len = nstl_helper(algo, distance)(first_, last);            \
     nstl_ptrdiff_t half;                                                       \
     Iter first;                                                                \

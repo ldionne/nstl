@@ -9,19 +9,19 @@
 #include <nstl/internal.h>
 
 
-#define NSTL_MIN_ELEMENT(SinglePassReadableIterator, ValueType)                \
+#define NSTL_MIN_ELEMENT(SinglePassReadableIterator, T)                        \
     NSTL_I_MIN_ELEMENT(                                                        \
         nstl_min_element(SinglePassReadableIterator),                          \
         SinglePassReadableIterator,                                            \
-        ValueType                                                              \
+        T                                                                      \
     )                                                                          \
 /**/
 
-#define NSTL_I_MIN_ELEMENT(algo, Iter, Value)                                  \
+#define NSTL_I_MIN_ELEMENT(algo, Iter, T)                                      \
 NSTL_TYPE(algo,                                                                \
                                                                                \
 (defun min_element                                                             \
-typedef nstl_bool (*nstl_helper(algo, impl_comp))(Value, Value);               \
+typedef nstl_bool (*nstl_helper(algo, impl_comp))(T, T);                       \
 NSTL_GETF(                                                                     \
     NSTL_I_MIN_ELEMENT_COMP(                                                   \
         nstl_helper(algo, impl),                                               \
@@ -32,7 +32,7 @@ NSTL_GETF(                                                                     \
 )                                                                              \
                                                                                \
 static NSTL_INLINE Iter algo(Iter first, Iter last) {                          \
-    return nstl_helper(algo, impl)(first, last, nstl_lt(Value, Value));        \
+    return nstl_helper(algo, impl)(first, last, nstl_lt(T, T));                \
 }                                                                              \
 )                                                                              \
                                                                                \

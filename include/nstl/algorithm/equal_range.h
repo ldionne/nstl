@@ -13,32 +13,31 @@
 #include <nstl/utility/pair.h>
 
 
-#define NSTL_EQUAL_RANGE(ForwardTraversalReadableIterator, ValueType)          \
+#define NSTL_EQUAL_RANGE(ForwardTraversalReadableIterator, T)                  \
     NSTL_I_EQUAL_RANGE(                                                        \
         nstl_equal_range(ForwardTraversalReadableIterator),                    \
         ForwardTraversalReadableIterator,                                      \
-        ValueType                                                              \
+        T                                                                      \
     )                                                                          \
 /**/
 
-#define NSTL_I_EQUAL_RANGE(algo, Iter, Value)                                  \
+#define NSTL_I_EQUAL_RANGE(algo, Iter, T)                                      \
 NSTL_TYPE(algo,                                                                \
                                                                                \
 (defun equal_range                                                             \
-typedef nstl_bool (*nstl_helper(algo, impl_comp))(Value, Value);               \
+typedef nstl_bool (*nstl_helper(algo, impl_comp))(T, T);                       \
 NSTL_GETF(                                                                     \
     NSTL_I_EQUAL_RANGE_COMP(                                                   \
         nstl_helper(algo, impl),                                               \
         Iter,                                                                  \
-        Value,                                                                 \
+        T,                                                                     \
         nstl_helper(algo, impl_comp)                                           \
     ),                                                                         \
     equal_range_comp                                                           \
 )                                                                              \
                                                                                \
-static NSTL_INLINE nstl_pair(Iter, Iter) algo(Iter first, Iter last,           \
-                                                          Value value) {       \
-    return nstl_helper(algo, impl)(first, last, value, nstl_lt(Value, Value)); \
+static NSTL_INLINE nstl_pair(Iter, Iter) algo(Iter first, Iter last,T value) { \
+    return nstl_helper(algo, impl)(first, last, value, nstl_lt(T, T));         \
 }                                                                              \
 )                                                                              \
                                                                                \
@@ -46,17 +45,16 @@ static NSTL_INLINE nstl_pair(Iter, Iter) algo(Iter first, Iter last,           \
 /**/
 
 
-#define NSTL_EQUAL_RANGE_COMP(ForwardTraversalReadableIterator, ValueType,     \
-                                                                Compare)       \
+#define NSTL_EQUAL_RANGE_COMP(ForwardTraversalReadableIterator, T, Compare)    \
     NSTL_I_EQUAL_RANGE_COMP(                                                   \
         nstl_equal_range_comp(ForwardTraversalReadableIterator, Compare),      \
         ForwardTraversalReadableIterator,                                      \
-        ValueType,                                                             \
+        T,                                                                     \
         Compare                                                                \
     )                                                                          \
 /**/
 
-#define NSTL_I_EQUAL_RANGE_COMP(algo, Iter, Value, Comp)                       \
+#define NSTL_I_EQUAL_RANGE_COMP(algo, Iter, T, Comp)                           \
 NSTL_TYPE(this_func,                                                           \
                                                                                \
 (defun equal_range_comp                                                        \
@@ -82,7 +80,7 @@ NSTL_GETF(                                                                     \
     NSTL_I_UPPER_BOUND_COMP(                                                   \
         nstl_helper(algo, upper_bound_comp),                                   \
         Iter,                                                                  \
-        Value,                                                                 \
+        T,                                                                     \
         Comp                                                                   \
     ),                                                                         \
     upper_bound_comp                                                           \
@@ -92,23 +90,22 @@ NSTL_GETF(                                                                     \
     NSTL_I_LOWER_BOUND_COMP(                                                   \
         nstl_helper(algo, lower_bound_comp),                                   \
         Iter,                                                                  \
-        Value,                                                                 \
+        T,                                                                     \
         Comp                                                                   \
     ),                                                                         \
     lower_bound_comp                                                           \
 )                                                                              \
                                                                                \
-static NSTL_INLINE Value nstl_helper(algo, deref)(Iter it) {                   \
+static NSTL_INLINE T nstl_helper(algo, deref)(Iter it) {                       \
     nstl_deref_proxy(Iter) proxy;                                              \
-    Value ret;                                                                 \
+    T ret;                                                                     \
     nstl_ctor(nstl_deref_proxy(Iter))(&proxy, it);                             \
     ret = nstl_get(nstl_deref_proxy(Iter))(proxy);                             \
     nstl_dtor(nstl_deref_proxy(Iter))(&proxy);                                 \
     return ret;                                                                \
 }                                                                              \
                                                                                \
-static nstl_pair(Iter, Iter) algo(Iter first_, Iter last, Value value,         \
-                                                          Comp comp) {         \
+static nstl_pair(Iter, Iter) algo(Iter first_, Iter last, T value,Comp comp) { \
     Iter first;                                                                \
     nstl_ptrdiff_t len = nstl_helper(algo, distance)(first_, last);            \
     nstl_ptrdiff_t half;                                                       \
@@ -117,7 +114,7 @@ static nstl_pair(Iter, Iter) algo(Iter first_, Iter last, Value value,         \
                                                                                \
     while (len > 0) {                                                          \
         Iter middle;                                                           \
-        Value at_middle;                                                       \
+        T at_middle;                                                           \
         nstl_copy_ctor(Iter)(&middle, first);                                  \
                                                                                \
         half = len / 2;                                                        \
