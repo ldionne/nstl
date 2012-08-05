@@ -96,9 +96,6 @@ things are listed is irrelevant.
   giving access to `ValueType` via the iterator's traits. Also, we will be
   able to specialize algorithms depending on an iterator's traits.
 
-* Refactor the names used for iterators in the algorithms to make them
-  consistent with boost iterator categories.
-
 * Find a way to share helper functions across many levels of algorithms,
   avoiding the useless duplication of function instantiations.
 
@@ -109,9 +106,6 @@ things are listed is irrelevant.
 
 * Design ranges and write wrappers to use ranges with all the algorithms that
   support it.
-
-* Find a way to factor out common code for \_comp versions of algorithms to
-  reduce code size (some algorithms like _equal\_range_ are quite lengthy).
 
 * Consider renaming _min\_element_ and _max\_element_ to something clearer
   like _min\_in_ and _max\_in_ or something similar.
