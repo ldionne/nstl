@@ -9,7 +9,7 @@
 
 typedef nstl_bool (*Compare)(nstl_int x, nstl_int y);
 NSTL_INSTANTIATE(NSTL_MAX_ELEMENT(nstl_pint, nstl_int))
-NSTL_INSTANTIATE(NSTL_MAX_ELEMENT_COMP(nstl_pint, nstl_int, Compare))
+NSTL_INSTANTIATE(NSTL_MAX_ELEMENT_COMP(nstl_pint, Compare))
 
 #define max_element nstl_max_element(nstl_pint)
 #define max_element_comp(first, last)                                          \

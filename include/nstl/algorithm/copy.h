@@ -36,8 +36,8 @@ static NSTL_INLINE Output algo(Input first_, Input last, Output result_) {     \
         nstl_put(nstl_deref_proxy(Output))(out_proxy,                          \
                                 nstl_get(nstl_deref_proxy(Input))(in_proxy));  \
                                                                                \
-        nstl_dtor(nstl_deref_proxy(Input)(&in_proxy));                         \
         nstl_dtor(nstl_deref_proxy(Output))(&out_proxy);                       \
+        nstl_dtor(nstl_deref_proxy(Input)(&in_proxy));                         \
     }                                                                          \
                                                                                \
     nstl_dtor(Input)(&first);                                                  \

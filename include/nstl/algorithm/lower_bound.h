@@ -81,11 +81,19 @@ static Iter algo(Iter first_, Iter last, Value value, Comp comp) {             \
     nstl_copy_ctor(Iter)(&first, first_);                                      \
                                                                                \
     while (len > 0) {                                                          \
+        nstl_bool is_lt;                                                       \
         Iter middle;                                                           \
         nstl_copy_ctor(Iter)(&middle, first);                                  \
+                                                                               \
         half = len / 2;                                                        \
         nstl_helper(algo, advance)(&middle, half);                             \
-        if (comp(nstl_deref(Iter)(middle), value)) {                           \
+        {                                                                      \
+            nstl_deref_proxy(Iter) proxy;                                      \
+            nstl_ctor(nstl_deref_proxy(Iter))(&proxy, middle);                 \
+            is_lt = comp(nstl_get(nstl_deref_proxy(Iter)(proxy)), value);      \
+            nstl_dtor(nstl_deref_proxy(Iter))(&proxy);                         \
+        }                                                                      \
+        if (is_lt) {                                                           \
             nstl_asg(Iter, Iter)(&first, middle);                              \
             nstl_inc(Iter)(&first);                                            \
             len = len - half - 1;                                              \

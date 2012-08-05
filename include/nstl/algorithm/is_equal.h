@@ -69,15 +69,29 @@ static nstl_bool algo(Iter1 first1_, Iter1 last1, Iter2 first2_, Comp comp) {  \
     nstl_copy_ctor(Iter2)(&first2, first2_);                                   \
                                                                                \
     for ( ; nstl_ne(Iter1, Iter1)(first1, last1); nstl_inc(Iter1)(&first1),    \
-                                                  nstl_inc(Iter2)(&first2))    \
-        if (!(comp(nstl_deref(Iter1)(first1), nstl_deref(Iter2)(first2)))) {   \
-            nstl_dtor(Iter1)(&first1);                                         \
+                                                  nstl_inc(Iter2)(&first2)) {  \
+        nstl_bool both_equal;                                                  \
+        {                                                                      \
+            nstl_deref_proxy(Iter1) proxy1;                                    \
+            nstl_deref_proxy(Iter2) proxy2;                                    \
+            nstl_ctor(nstl_deref_proxy(Iter1))(&proxy1, first1);               \
+            nstl_ctor(nstl_deref_proxy(Iter2))(&proxy2, first2);               \
+                                                                               \
+            both_equal = comp(nstl_get(nstl_deref_proxy(Iter1))(proxy1),       \
+                              nstl_get(nstl_deref_proxy(Iter2))(proxy2));      \
+                                                                               \
+            nstl_dtor(nstl_deref_proxy(Iter2))(&proxy2);                       \
+            nstl_dtor(nstl_deref_proxy(Iter1))(&proxy1);                       \
+        }                                                                      \
+        if (!both_equal) {                                                     \
             nstl_dtor(Iter2)(&first2);                                         \
+            nstl_dtor(Iter1)(&first1);                                         \
             return nstl_false;                                                 \
         }                                                                      \
+    }                                                                          \
                                                                                \
-    nstl_dtor(Iter1)(&first1);                                                 \
     nstl_dtor(Iter2)(&first2);                                                 \
+    nstl_dtor(Iter1)(&first1);                                                 \
     return nstl_true;                                                          \
 }                                                                              \
 )                                                                              \

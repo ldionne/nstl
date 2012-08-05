@@ -9,7 +9,7 @@
 
 typedef nstl_bool (*Compare)(nstl_int x, nstl_int y);
 NSTL_INSTANTIATE(NSTL_MIN_ELEMENT(nstl_pint, nstl_int))
-NSTL_INSTANTIATE(NSTL_MIN_ELEMENT_COMP(nstl_pint, nstl_int, Compare))
+NSTL_INSTANTIATE(NSTL_MIN_ELEMENT_COMP(nstl_pint, Compare))
 
 #define min_element nstl_min_element(nstl_pint)
 #define min_element_comp(first, last)                                          \

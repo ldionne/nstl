@@ -64,7 +64,20 @@ static NSTL_INLINE Iter algo(Iter first_, Iter last, Comp comp) {              \
         return first;                                                          \
     nstl_copy_ctor(Iter)(&next, first);                                        \
     while (nstl_ne(Iter, Iter)(nstl_inc(Iter)(&next), last)) {                 \
-        if (comp(nstl_deref(Iter)(first), nstl_deref(Iter)(next))) {           \
+        nstl_bool are_same;                                                    \
+        {                                                                      \
+            nstl_deref_proxy(Iter) first_proxy;                                \
+            nstl_deref_proxy(Iter) next_proxy;                                 \
+            nstl_ctor(nstl_deref_proxy(Iter))(&first_proxy, first);            \
+            nstl_ctor(nstl_deref_proxy(Iter))(&next_proxy, next);              \
+                                                                               \
+            are_same = comp(nstl_get(nstl_deref_proxy(Iter))(first_proxy),     \
+                            nstl_get(nstl_deref_proxy(Iter))(next_proxy));     \
+                                                                               \
+            nstl_dtor(nstl_deref_proxy(Iter))(&next_proxy);                    \
+            nstl_dtor(nstl_deref_proxy(Iter))(&first_proxy);                   \
+        }                                                                      \
+        if (are_same) {                                                        \
             nstl_dtor(Iter)(&next);                                            \
             return first;                                                      \
         }                                                                      \

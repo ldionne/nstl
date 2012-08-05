@@ -24,11 +24,19 @@ static NSTL_INLINE nstl_bool algo(Iter first_, Iter last, Pred pred) {         \
     Iter first;                                                                \
     nstl_copy_ctor(Iter)(&first, first_);                                      \
                                                                                \
-    for ( ; nstl_ne(Iter, Iter)(first, last); nstl_inc(Iter)(&first))          \
-        if (pred(nstl_deref(Iter)(first))) {                                   \
+    for ( ; nstl_ne(Iter, Iter)(first, last); nstl_inc(Iter)(&first)) {        \
+        nstl_bool one_is_true;                                                 \
+        {                                                                      \
+            nstl_deref_proxy(Iter) proxy;                                      \
+            nstl_ctor(nstl_deref_proxy(Iter))(&proxy, first);                  \
+            one_is_true = pred(nstl_get(nstl_deref_proxy(Iter))(proxy));       \
+            nstl_dtor(nstl_deref_proxy(Iter))(&proxy);                         \
+        }                                                                      \
+        if (one_is_true) {                                                     \
             nstl_dtor(Iter)(&first);                                           \
             return nstl_true;                                                  \
         }                                                                      \
+    }                                                                          \
                                                                                \
     nstl_dtor(Iter)(&first);                                                   \
     return nstl_false;                                                         \

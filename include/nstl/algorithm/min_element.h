@@ -26,7 +26,6 @@ NSTL_GETF(                                                                     \
     NSTL_I_MIN_ELEMENT_COMP(                                                   \
         nstl_helper(algo, impl),                                               \
         Iter,                                                                  \
-        Value,                                                                 \
         nstl_helper(algo, impl_comp)                                           \
     ),                                                                         \
     min_element_comp                                                           \
@@ -41,16 +40,15 @@ static NSTL_INLINE Iter algo(Iter first, Iter last) {                          \
 /**/
 
 
-#define NSTL_MIN_ELEMENT_COMP(SinglePassReadableIterator, ValueType, Compare)  \
+#define NSTL_MIN_ELEMENT_COMP(SinglePassReadableIterator, Compare)             \
     NSTL_I_MIN_ELEMENT_COMP(                                                   \
         nstl_min_element_comp(SinglePassReadableIterator, Compare),            \
         SinglePassReadableIterator,                                            \
-        ValueType,                                                             \
         Compare                                                                \
     )                                                                          \
 /**/
 
-#define NSTL_I_MIN_ELEMENT_COMP(algo, Iter, Value, Comp)                       \
+#define NSTL_I_MIN_ELEMENT_COMP(algo, Iter, Comp)                              \
 NSTL_TYPE(algo,                                                                \
                                                                                \
 (defun min_element_comp                                                        \
@@ -58,13 +56,27 @@ static NSTL_INLINE Iter algo(Iter first_, Iter last, Comp comp) {              \
     Iter first;                                                                \
     Iter result;                                                               \
     nstl_copy_ctor(Iter)(&first, first_);                                      \
-                                                                               \
     if (nstl_eq(Iter, Iter)(first, last))                                      \
         return first;                                                          \
     nstl_copy_ctor(Iter)(&result, first);                                      \
-    while (nstl_ne(Iter, Iter)(nstl_inc(Iter)(&first), last))                  \
-        if (comp(nstl_deref(Iter)(first), nstl_deref(Iter)(result)))           \
+                                                                               \
+    while (nstl_ne(Iter, Iter)(nstl_inc(Iter)(&first), last)) {                \
+        nstl_bool is_lt;                                                       \
+        {                                                                      \
+            nstl_deref_proxy(Iter) result_proxy;                               \
+            nstl_deref_proxy(Iter) first_proxy;                                \
+            nstl_ctor(nstl_deref_proxy(Iter))(&result_proxy, result);          \
+            nstl_ctor(nstl_deref_proxy(Iter))(&first_proxy, first);            \
+                                                                               \
+            is_lt = comp(nstl_get(nstl_deref_proxy(Iter))(first_proxy),        \
+                         nstl_get(nstl_deref_proxy(Iter))(result_proxy));      \
+                                                                               \
+            nstl_dtor(nstl_deref_proxy(Iter))(&first_proxy);                   \
+            nstl_dtor(nstl_deref_proxy(Iter))(&result_proxy);                  \
+        }                                                                      \
+        if (is_lt)                                                             \
             nstl_asg(Iter, Iter)(&result, first);                              \
+    }                                                                          \
                                                                                \
     nstl_dtor(Iter)(&first);                                                   \
     return result;                                                             \

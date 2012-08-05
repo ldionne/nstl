@@ -68,11 +68,20 @@ NSTL_GETF(                                                                     \
                                                                                \
 static NSTL_INLINE nstl_bool algo(Iter first, Iter last, Value value,          \
                                                          Comp comp) {          \
-    Iter i = nstl_helper(algo, lower_bound_comp)(first, last, value, comp);    \
-    nstl_bool ret = nstl_ne(Iter, Iter)(i, last) &&                            \
-                    !comp(value, nstl_deref(Iter)(i));                         \
-    nstl_dtor(Iter)(&i);                                                       \
-    return ret;                                                                \
+    Iter it = nstl_helper(algo, lower_bound_comp)(first, last, value, comp);   \
+    if (nstl_ne(Iter, Iter)(it, last)) {                                       \
+        nstl_bool ret;                                                         \
+        {                                                                      \
+            nstl_deref_proxy(Iter) proxy;                                      \
+            nstl_ctor(nstl_deref_proxy(Iter))(&proxy, it);                     \
+            ret = !comp(value, nstl_get(nstl_deref_proxy(Iter))(proxy));       \
+            nstl_dtor(nstl_deref_proxy(Iter))(&proxy);                         \
+        }                                                                      \
+        nstl_dtor(Iter)(&it);                                                  \
+        return ret;                                                            \
+    }                                                                          \
+    nstl_dtor(Iter)(&it);                                                      \
+    return nstl_false;                                                         \
 }                                                                              \
 )                                                                              \
                                                                                \

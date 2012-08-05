@@ -25,9 +25,17 @@ static NSTL_INLINE nstl_ptrdiff_t algo(Iter first_, Iter last, Pred pred) {    \
     nstl_ptrdiff_t n = 0;                                                      \
     nstl_copy_ctor(Iter)(&first, first_);                                      \
                                                                                \
-    for ( ; nstl_ne(Iter, Iter)(first, last); nstl_inc(Iter)(&first))          \
-        if (pred(nstl_deref(Iter)(first)))                                     \
+    for ( ; nstl_ne(Iter, Iter)(first, last); nstl_inc(Iter)(&first)) {        \
+        nstl_bool must_count;                                                  \
+        {                                                                      \
+            nstl_deref_proxy(Iter) proxy;                                      \
+            nstl_ctor(nstl_deref_proxy(Iter))(&proxy, first);                  \
+            must_count = pred(nstl_get(nstl_deref_proxy(Iter))(proxy));        \
+            nstl_dtor(nstl_deref_proxy(Iter)(&proxy));                         \
+        }                                                                      \
+        if (must_count)                                                        \
             ++n;                                                               \
+    }                                                                          \
                                                                                \
     nstl_dtor(Iter)(&first);                                                   \
     return n;                                                                  \
