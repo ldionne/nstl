@@ -382,7 +382,8 @@ ALPHANUM = list(
             '_0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ')
 
 C_CPP_KEYWORDS = [
-    '_Bool', '_Complex', '_Imaginary',
+    '_Alignas', '_Alignof', '_Atomic', '_Bool', '_Complex', '_Generic',
+    '_Imaginary', '_Noreturn', '_Static_assert', '_Thread_local',
     'alignas', 'alignof', 'and', 'and_eq', 'asm', 'auto',
     'bitand', 'bitor', 'bool', 'break',
     'case', 'catch', 'char', 'char16_t', 'char32_t', 'class', 'compl',
@@ -460,6 +461,7 @@ nstl.generate(cog,
 #define NSTL_TOKEN_h (h)
 #define NSTL_TOKEN_nullptr (n u l l p t r)
 #define NSTL_TOKEN_l (l)
+#define NSTL_TOKEN__Thread_local (_ T h r e a d _ l o c a l)
 #define NSTL_TOKEN_prom (p r o m)
 #define NSTL_TOKEN_p (p)
 #define NSTL_TOKEN_continue (c o n t i n u e)
@@ -479,6 +481,7 @@ nstl.generate(cog,
 #define NSTL_TOKEN_end (e n d)
 #define NSTL_TOKEN_and (a n d)
 #define NSTL_TOKEN_add (a d d)
+#define NSTL_TOKEN_while (w h i l e)
 #define NSTL_TOKEN_I (I)
 #define NSTL_TOKEN_3 (3)
 #define NSTL_TOKEN_protected (p r o t e c t e d)
@@ -487,7 +490,7 @@ nstl.generate(cog,
 #define NSTL_TOKEN_char16_t (c h a r 1 6 _ t)
 #define NSTL_TOKEN_new (n e w)
 #define NSTL_TOKEN_dynamic_cast (d y n a m i c _ c a s t)
-#define NSTL_TOKEN_template (t e m p l a t e)
+#define NSTL_TOKEN__Static_assert (_ S t a t i c _ a s s e r t)
 #define NSTL_TOKEN_public (p u b l i c)
 #define NSTL_TOKEN__Complex (_ C o m p l e x)
 #define NSTL_TOKEN_C (C)
@@ -502,6 +505,7 @@ nstl.generate(cog,
 #define NSTL_TOKEN_pop_back (p o p _ b a c k)
 #define NSTL_TOKEN_constexpr (c o n s t e x p r)
 #define NSTL_TOKEN_S (S)
+#define NSTL_TOKEN_compl (c o m p l)
 #define NSTL_TOKEN_W (W)
 #define NSTL_TOKEN_not_eq (n o t _ e q)
 #define NSTL_TOKEN_throw (t h r o w)
@@ -521,6 +525,7 @@ nstl.generate(cog,
 #define NSTL_TOKEN_explicit (e x p l i c i t)
 #define NSTL_TOKEN_this (t h i s)
 #define NSTL_TOKEN__Bool (_ B o o l)
+#define NSTL_TOKEN_or_eq (o r _ e q)
 #define NSTL_TOKEN_float (f l o a t)
 #define NSTL_TOKEN_private (p r i v a t e)
 #define NSTL_TOKEN_restrict (r e s t r i c t)
@@ -546,6 +551,7 @@ nstl.generate(cog,
 #define NSTL_TOKEN_B (B)
 #define NSTL_TOKEN_dtor (d t o r)
 #define NSTL_TOKEN_J (J)
+#define NSTL_TOKEN__Generic (_ G e n e r i c)
 #define NSTL_TOKEN_N (N)
 #define NSTL_TOKEN_override (o v e r r i d e)
 #define NSTL_TOKEN_div (d i v)
@@ -561,10 +567,11 @@ nstl.generate(cog,
 #define NSTL_TOKEN_double (d o u b l e)
 #define NSTL_TOKEN_noexcept (n o e x c e p t)
 #define NSTL_TOKEN_j (j)
+#define NSTL_TOKEN__Noreturn (_ N o r e t u r n)
 #define NSTL_TOKEN_signed (s i g n e d)
 #define NSTL_TOKEN_n (n)
 #define NSTL_TOKEN_typename (t y p e n a m e)
-#define NSTL_TOKEN_while (w h i l e)
+#define NSTL_TOKEN_template (t e m p l a t e)
 #define NSTL_TOKEN_r (r)
 #define NSTL_TOKEN_wchar_t (w c h a r _ t)
 #define NSTL_TOKEN_v (v)
@@ -583,7 +590,7 @@ nstl.generate(cog,
 #define NSTL_TOKEN_push_back (p u s h _ b a c k)
 #define NSTL_TOKEN_R (R)
 #define NSTL_TOKEN_irshift (i r s h i f t)
-#define NSTL_TOKEN_if (i f)
+#define NSTL_TOKEN__Atomic (_ A t o m i c)
 #define NSTL_TOKEN_F (F)
 #define NSTL_TOKEN_xor_eq (x o r _ e q)
 #define NSTL_TOKEN_iadd (i a d d)
@@ -594,7 +601,7 @@ nstl.generate(cog,
 #define NSTL_TOKEN_delete (d e l e t e)
 #define NSTL_TOKEN_9 (9)
 #define NSTL_TOKEN_mutable (m u t a b l e)
-#define NSTL_TOKEN_or_eq (o r _ e q)
+#define NSTL_TOKEN_if (i f)
 #define NSTL_TOKEN_isub (i s u b)
 #define NSTL_TOKEN_void (v o i d)
 #define NSTL_TOKEN_A (A)
@@ -603,7 +610,7 @@ nstl.generate(cog,
 #define NSTL_TOKEN_alignof (a l i g n o f)
 #define NSTL_TOKEN_mul (m u l)
 #define NSTL_TOKEN_compl (c o m p l)
-#define NSTL_TOKEN_compl (c o m p l)
+#define NSTL_TOKEN__Alignas (_ A l i g n a s)
 #define NSTL_TOKEN_inc (i n c)
 #define NSTL_TOKEN_Q (Q)
 #define NSTL_TOKEN_size (s i z e)
@@ -629,6 +636,7 @@ nstl.generate(cog,
 #define NSTL_TOKEN_rshift (r s h i f t)
 #define NSTL_TOKEN_y (y)
 #define NSTL_TOKEN_inline (i n l i n e)
+#define NSTL_TOKEN__Alignof (_ A l i g n o f)
 #include <joy/cat.h>
 #define nstl_inc_(T) JOY_CAT3(nstl_mangled_inc_, _, T)
 #define nstl_or(R,  T) JOY_CAT5(nstl_mangled_or, _, R, _,  T)
