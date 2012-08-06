@@ -10,6 +10,7 @@
 #include <nstl/algorithm/any_of.h>
 #include <nstl/algorithm/binary_search.h>
 #include <nstl/algorithm/copy.h>
+#include <nstl/algorithm/copy_if.h>
 #include <nstl/algorithm/count.h>
 #include <nstl/algorithm/count_if.h>
 #include <nstl/algorithm/distance.h>
