@@ -18,7 +18,6 @@
 
 #define NSTL_I_COUNT(algo, Iter, T)                                            \
 NSTL_TYPE(algo,                                                                \
-                                                                               \
 (defun count                                                                   \
                                                                                \
 static NSTL_INLINE nstl_ptrdiff_t algo(Iter first_, Iter last, T value) {      \

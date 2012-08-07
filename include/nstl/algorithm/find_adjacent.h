@@ -85,6 +85,7 @@ static NSTL_INLINE Iter algo(Iter first_, Iter last, Comp comp) {              \
     }                                                                          \
                                                                                \
     nstl_dtor(Iter)(&next);                                                    \
+    /* This is to return a copy of last without copy_ctor()ing. */             \
     nstl_asg(Iter, Iter)(&first, last);                                        \
     return first;                                                              \
 }                                                                              \

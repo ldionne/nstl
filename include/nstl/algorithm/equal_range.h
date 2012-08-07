@@ -160,10 +160,7 @@ static nstl_pair(Iter, Iter) algo(Iter first_, Iter last, T value,Comp comp) { \
                 if (comp(nstl_helper(algo, deref)(left), value)) {             \
                     nstl_assert_true(nstl_false);                              \
                     ret = nstl_make_pair(Iter, Iter)(left, left);              \
-                    nstl_dtor(Iter)(&left);                                    \
-                    nstl_dtor(Iter)(&middle);                                  \
-                    nstl_dtor(Iter)(&first);                                   \
-                    return ret;                                                \
+                    goto left_middle_first_dtor_and_ret;                       \
                 }                                                              \
             ) /* end NSTL_CONFIG_INTERNAL_DEBUG */                             \
                                                                                \
@@ -172,14 +169,17 @@ static nstl_pair(Iter, Iter) algo(Iter first_, Iter last, T value,Comp comp) { \
                                 (nstl_inc(Iter)(&middle), first, value, comp); \
             ret = nstl_make_pair(Iter, Iter)(left, right);                     \
             nstl_dtor(Iter)(&right);                                           \
+                                                                               \
+left_middle_first_dtor_and_ret:                                                \
             nstl_dtor(Iter)(&left);                                            \
             nstl_dtor(Iter)(&middle);                                          \
-            nstl_dtor(Iter)(&first);                                           \
-            return ret;                                                        \
+            goto first_dtor_and_ret;                                           \
         }                                                                      \
         nstl_dtor(Iter)(&middle);                                              \
     }                                                                          \
     ret = nstl_make_pair(Iter, Iter)(first, first);                            \
+                                                                               \
+first_dtor_and_ret:                                                            \
     nstl_dtor(Iter)(&first);                                                   \
     return ret;                                                                \
 }                                                                              \
