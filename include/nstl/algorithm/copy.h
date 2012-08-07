@@ -17,6 +17,11 @@
 /**/
 
 #define NSTL_I_COPY(algo, Input, Output)                                       \
+    NSTL_I_COPY_DEFAULT(algo, Input, Output)                                   \
+/**/
+
+
+#define NSTL_I_COPY_DEFAULT(algo, Input, Output)                               \
 NSTL_TYPE(algo,                                                                \
                                                                                \
 (defun copy                                                                    \
@@ -42,6 +47,24 @@ static NSTL_INLINE Output algo(Input first_, Input last, Output result_) {     \
                                                                                \
     nstl_dtor(Input)(&first);                                                  \
     return result;                                                             \
+}                                                                              \
+)                                                                              \
+                                                                               \
+)                                                                              \
+/**/
+
+
+#define NSTL_I_COPY_TRIVIAL(algo, Input, Output)                               \
+NSTL_TYPE(algo,                                                                \
+                                                                               \
+(defun copy                                                                    \
+/* Note: Iterators should be pointers.                                         \
+ *       If they are not, it won't compile anyway.                             \
+ */                                                                            \
+static NSTL_INLINE Output algo(Input first, Input last, Output result) {       \
+    nstl_size_t const n = last - first;                                        \
+    nstl_memmove(result, first, n * sizeof(*result));                          \
+    return result + n;                                                         \
 }                                                                              \
 )                                                                              \
                                                                                \
