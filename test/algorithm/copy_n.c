@@ -7,10 +7,10 @@
 #include <seatest.h>
 
 
-NSTL_INSTANTIATE(NSTL_I_COPY_N_DEFAULT(copy_n_def, nstl_pint, nstl_size_t,
-                                                              nstl_pint))
-NSTL_INSTANTIATE(NSTL_I_COPY_N_TRIVIAL(copy_n_triv, nstl_pint, nstl_size_t,
-                                                               nstl_pint))
+NSTL_INSTANTIATE(
+    NSTL_I_COPY_N_DEFAULT(copy_n_def, nstl_pint, nstl_size_t, nstl_pint))
+NSTL_INSTANTIATE(
+    NSTL_I_COPY_N_TRIVIAL(copy_n_triv, nstl_pint, nstl_size_t, nstl_pint))
 
 static void test_should_copy_n_for_any_n_def(void) {
     nstl_int n;
