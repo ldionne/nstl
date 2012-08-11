@@ -8,6 +8,7 @@ extern void test_fixture_any_of(void);
 extern void test_fixture_binary_search(void);
 extern void test_fixture_copy(void);
 extern void test_fixture_copy_if(void);
+extern void test_fixture_copy_n(void);
 extern void test_fixture_count(void);
 extern void test_fixture_count_if(void);
 extern void test_fixture_distance(void);
@@ -36,6 +37,7 @@ extern void test_suite_algorithm(void) {
     test_fixture_binary_search();
     test_fixture_copy();
     test_fixture_copy_if();
+    test_fixture_copy_n();
     test_fixture_count();
     test_fixture_count_if();
     test_fixture_distance();
