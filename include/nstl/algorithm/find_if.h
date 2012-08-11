@@ -9,19 +9,25 @@
 
 #include <nstl/internal.h>
 
+
 #define NSTL_FIND_IF(InputIter, Predicate)                                     \
-NSTL_TYPE(nstl_find_if(InputIter, Predicate),                                  \
+    NSTL_I_FIND_IF(                                                            \
+        nstl_find_if(InputIter, Predicate), InputIter, Predicate               \
+        )                                                                      \
+    /**/
+
+#define NSTL_I_FIND_IF(this_func, InputIter, Predicate)                        \
+NSTL_TYPE(this_func,                                                           \
                                                                                \
 (defun find_if                                                                 \
-static NSTL_INLINE InputIter nstl_find_if(InputIter, Predicate)                \
-                    (InputIter first, InputIter last, Predicate pred) {        \
+static NSTL_INLINE InputIter this_func                                         \
+                        (InputIter first, InputIter last, Predicate pred) {    \
                                                                                \
-    while (nstl_ne(InputIter, InputIter)(first, last)) {                       \
-            if (pred(nstl_deref(InputIter)(first)))                            \
-                return first;                                                  \
+    while (nstl_ne(InputIter, InputIter)(first, last)                          \
+           && !(pred(nstl_deref(InputIter)(first))))                           \
         nstl_inc(InputIter)(&first);                                           \
-        }                                                                      \
-        return first;                                                          \
+                                                                               \
+   return first;                                                               \
 }                                                                              \
 )                                                                              \
                                                                                \
@@ -45,3 +51,4 @@ nstl.generate(cog,
 /* [[[end]]] */
 
 #endif /* !NSTL_ALGORITHM_FIND_IF_H */
+
