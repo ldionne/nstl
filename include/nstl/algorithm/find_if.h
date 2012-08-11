@@ -1,7 +1,5 @@
 /**
  * This file defines the @em find_if algorithm.
- *
- * @author Alexandre Girard
  */
 
 #ifndef NSTL_ALGORITHM_FIND_IF_H
@@ -10,30 +8,41 @@
 #include <nstl/internal.h>
 
 
-#define NSTL_FIND_IF(InputIter, Predicate)                                     \
+#define NSTL_FIND_IF(SinglePassReadableIterator, Predicate)                    \
     NSTL_I_FIND_IF(                                                            \
-        nstl_find_if(InputIter, Predicate), InputIter, Predicate               \
-        )                                                                      \
-    /**/
+        nstl_find_if(SinglePassReadableIterator, Predicate),                   \
+        SinglePassReadableIterator,                                            \
+        Predicate                                                              \
+    )                                                                          \
+/**/
 
-#define NSTL_I_FIND_IF(this_func, InputIter, Predicate)                        \
-NSTL_TYPE(this_func,                                                           \
+#define NSTL_I_FIND_IF(algo, Iter, Pred)                                       \
+NSTL_TYPE(algo,                                                                \
                                                                                \
 (defun find_if                                                                 \
-static NSTL_INLINE InputIter this_func                                         \
-                        (InputIter first, InputIter last, Predicate pred) {    \
+static NSTL_INLINE Iter algo(Iter first_, Iter last, Pred pred) {              \
+    Iter first;                                                                \
+    nstl_copy_ctor(Iter)(&first, first_);                                      \
                                                                                \
-    while (nstl_ne(InputIter, InputIter)(first, last)                          \
-           && !(pred(nstl_deref(InputIter)(first))))                           \
-        nstl_inc(InputIter)(&first);                                           \
-                                                                               \
+    while (nstl_ne(Iter, Iter)(first, last)) {                                 \
+        nstl_bool pred_result;                                                 \
+        {                                                                      \
+            nstl_deref_proxy(Iter) proxy;                                      \
+            nstl_ctor(nstl_deref_proxy(Iter))(&proxy, first);                  \
+            pred_result = pred(nstl_get(nstl_deref_proxy(Iter))(proxy));       \
+            nstl_dtor(nstl_deref_proxy(Iter))(&proxy);                         \
+        }                                                                      \
+        if (pred_result)                                                       \
+            break;                                                             \
+        nstl_inc(Iter)(&first);                                                \
+    }                                                                          \
    return first;                                                               \
 }                                                                              \
 )                                                                              \
                                                                                \
 )                                                                              \
-                                                                               \
 /**/
+
 
 /* [[[cog
 
@@ -51,4 +60,3 @@ nstl.generate(cog,
 /* [[[end]]] */
 
 #endif /* !NSTL_ALGORITHM_FIND_IF_H */
-
