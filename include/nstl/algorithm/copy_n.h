@@ -5,6 +5,8 @@
 #ifndef NSTL_ALGORITHM_COPY_N_H
 #define NSTL_ALGORITHM_COPY_N_H
 
+#include <nstl/algorithm/copy.h>
+#include <nstl/algorithm/next.h>
 #include <nstl/internal.h>
 
 
@@ -71,16 +73,33 @@ static NSTL_INLINE Output algo(Input first_, Size count_, Output result_) {    \
 /**/
 
 
-#define NSTL_I_COPY_N_TRIVIAL(algo, Input, Size, Output)                       \
+#define NSTL_I_COPY_N_RANDOM_ACCESS(algo, Input, Size, Output)                 \
 NSTL_TYPE(algo,                                                                \
                                                                                \
 (defun copy_n                                                                  \
-/* Note: Iterators must be pointers anyway, so                                 \
- *       it won't compile if they are not.                                     \
- */                                                                            \
+NSTL_GETF(                                                                     \
+    NSTL_I_NEXT_N(                                                             \
+        nstl_helper(algo, next_n),                                             \
+        Input,                                                                 \
+        Size                                                                   \
+    ),                                                                         \
+    next_n                                                                     \
+)                                                                              \
+                                                                               \
+NSTL_GETF(                                                                     \
+    NSTL_I_COPY(                                                               \
+        nstl_helper(algo, copy),                                               \
+        Input,                                                                 \
+        Output                                                                 \
+    ),                                                                         \
+    copy                                                                       \
+)                                                                              \
+                                                                               \
 static NSTL_INLINE Output algo(Input first_, Size count_, Output result_) {    \
-    nstl_memmove(result_, first_, count_ * sizeof(*result_));                  \
-    return result_ + count_;                                                   \
+    Input last = nstl_helper(algo, next_n)(first_, count_);                    \
+    Output result = nstl_helper(algo, copy)(first_, last, result_);            \
+    nstl_dtor(Input)(&last);                                                   \
+    return result;                                                             \
 }                                                                              \
 )                                                                              \
                                                                                \
