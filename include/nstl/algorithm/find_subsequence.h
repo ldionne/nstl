@@ -1,43 +1,43 @@
 /**
- * This file defines the @em find_first_seq and @em find_first_seq_comp
+ * This file defines the @em find_subsequence and @em find_subsequence_comp
  * algorithms.
  *
  * @note These algorithms are equivalent to the @em search algorithms of the
  *       C++ standard library.
  */
 
-#ifndef NSTL_ALGORITHM_FIND_FIRST_SEQ_H
-#define NSTL_ALGORITHM_FIND_FIRST_SEQ_H
+#ifndef NSTL_ALGORITHM_FIND_SUBSEQUENCE_H
+#define NSTL_ALGORITHM_FIND_SUBSEQUENCE_H
 
 #include <nstl/algorithm/find.h>
 #include <nstl/internal.h>
 
 
-#define NSTL_FIND_FIRST_SEQ(ForwardTraversalReadableIterator1,                 \
-                            ForwardTraversalReadableIterator2, T)              \
-    NSTL_I_FIND_FIRST_SEQ(                                                     \
-        nstl_find_first_seq(ForwardTraversalReadableIterator1,                 \
-                            ForwardTraversalReadableIterator2),                \
+#define NSTL_FIND_SUBSEQUENCE(ForwardTraversalReadableIterator1,               \
+                              ForwardTraversalReadableIterator2, T)            \
+    NSTL_I_FIND_SUBSEQUENCE(                                                   \
+        nstl_find_subsequence(ForwardTraversalReadableIterator1,               \
+                              ForwardTraversalReadableIterator2),              \
         ForwardTraversalReadableIterator1,                                     \
         ForwardTraversalReadableIterator2,                                     \
         T                                                                      \
     )                                                                          \
 /**/
 
-#define NSTL_I_FIND_FIRST_SEQ(algo, Iter1, Iter2, T)                           \
+#define NSTL_I_FIND_SUBSEQUENCE(algo, Iter1, Iter2, T)                         \
 NSTL_TYPE(algo,                                                                \
                                                                                \
-(defun find_first_seq                                                          \
+(defun find_subsequence                                                        \
 typedef nstl_bool (*nstl_helper(algo, impl_comp))(T, T);                       \
 NSTL_GETF(                                                                     \
-    NSTL_I_FIND_FIRST_SEQ_COMP(                                                \
+    NSTL_I_FIND_SUBSEQUENCE_COMP(                                              \
         nstl_helper(algo, impl),                                               \
         Iter1,                                                                 \
         Iter2,                                                                 \
         nstl_helper(algo, impl_comp),                                          \
         T                                                                      \
     ),                                                                         \
-    find_first_seq_comp                                                        \
+    find_subsequence_comp                                                      \
 )                                                                              \
                                                                                \
 static NSTL_INLINE Iter1 algo(Iter1 first1, Iter1 last1,                       \
@@ -51,12 +51,12 @@ static NSTL_INLINE Iter1 algo(Iter1 first1, Iter1 last1,                       \
 /**/
 
 
-#define NSTL_FIND_FIRST_SEQ_COMP(ForwardTraversalReadableIterator1,            \
-                                 ForwardTraversalReadableIterator2,            \
-                                 Compare, T)                                   \
-    NSTL_I_FIND_FIRST_SEQ_COMP(                                                \
-        nstl_find_first_seq_comp(ForwardTraversalReadableIterator1,            \
-                                 ForwardTraversalReadableIterator2, Compare),  \
+#define NSTL_FIND_SUBSEQUENCE_COMP(ForwardTraversalReadableIterator1,          \
+                                   ForwardTraversalReadableIterator2,          \
+                                   Compare, T)                                 \
+    NSTL_I_FIND_SUBSEQUENCE_COMP(                                              \
+        nstl_find_subsequence_comp(ForwardTraversalReadableIterator1,          \
+                                   ForwardTraversalReadableIterator2,Compare), \
         ForwardTraversalReadableIterator1,                                     \
         ForwardTraversalReadableIterator2,                                     \
         Compare,                                                               \
@@ -64,10 +64,10 @@ static NSTL_INLINE Iter1 algo(Iter1 first1, Iter1 last1,                       \
     )                                                                          \
 /**/
 
-#define NSTL_I_FIND_FIRST_SEQ_COMP(algo, Iter1, Iter2, Comp, T)                \
+#define NSTL_I_FIND_SUBSEQUENCE_COMP(algo, Iter1, Iter2, Comp, T)              \
 NSTL_TYPE(algo,                                                                \
                                                                                \
-(defun find_first_seq_comp                                                     \
+(defun find_subsequence_comp                                                   \
 NSTL_GETF(                                                                     \
     NSTL_I_FIND_COMP(                                                          \
         nstl_helper(algo, find_comp),                                          \
@@ -187,20 +187,20 @@ end:                                                                           \
 
 import nstl
 nstl.generate(cog,
-    'find_first_seq(ForwardTraversalReadableIterator1, ' +
-                   'ForwardTraversalReadableIterator2)',
-   'find_first_seq_comp(ForwardTraversalReadableIterator1, ' +
-                       'ForwardTraversalReadableIterator2, Compare)',
+    'find_subsequence(ForwardTraversalReadableIterator1, ' +
+                     'ForwardTraversalReadableIterator2)',
+   'find_subsequence_comp(ForwardTraversalReadableIterator1, ' +
+                         'ForwardTraversalReadableIterator2, Compare)',
 
     token=True, mangle=True,
 )
 
 ]]] */
 #include <joy/cat.h>
-#define NSTL_TOKEN_find_first_seq (f i n d _ f i r s t _ s e q)
-#define nstl_find_first_seq(ForwardTraversalReadableIterator1,  ForwardTraversalReadableIterator2) JOY_CAT5(nstl_mangled_find_first_seq, _, ForwardTraversalReadableIterator1, _,  ForwardTraversalReadableIterator2)
-#define NSTL_TOKEN_find_first_seq_comp (f i n d _ f i r s t _ s e q _ c o m p)
-#define nstl_find_first_seq_comp(ForwardTraversalReadableIterator1,  ForwardTraversalReadableIterator2,  Compare) JOY_CAT7(nstl_mangled_find_first_seq_comp, _, ForwardTraversalReadableIterator1, _,  ForwardTraversalReadableIterator2, _,  Compare)
+#define NSTL_TOKEN_find_subsequence (f i n d _ s u b s e q u e n c e)
+#define nstl_find_subsequence(ForwardTraversalReadableIterator1,  ForwardTraversalReadableIterator2) JOY_CAT5(nstl_mangled_find_subsequence, _, ForwardTraversalReadableIterator1, _,  ForwardTraversalReadableIterator2)
+#define NSTL_TOKEN_find_subsequence_comp (f i n d _ s u b s e q u e n c e _ c o m p)
+#define nstl_find_subsequence_comp(ForwardTraversalReadableIterator1,  ForwardTraversalReadableIterator2,  Compare) JOY_CAT7(nstl_mangled_find_subsequence_comp, _, ForwardTraversalReadableIterator1, _,  ForwardTraversalReadableIterator2, _,  Compare)
 /* [[[end]]] */
 
-#endif /* !NSTL_ALGORITHM_FIND_FIRST_SEQ_H */
+#endif /* !NSTL_ALGORITHM_FIND_SUBSEQUENCE_H */

@@ -18,10 +18,10 @@
 #include <nstl/algorithm/equal_range.h>
 #include <nstl/algorithm/find.h>
 #include <nstl/algorithm/find_adjacent.h>
-#include <nstl/algorithm/find_first_seq.h>
 #include <nstl/algorithm/find_if.h>
 #include <nstl/algorithm/find_if_not.h>
 #include <nstl/algorithm/find_mismatch.h>
+#include <nstl/algorithm/find_subsequence.h>
 #include <nstl/algorithm/for_each.h>
 #include <nstl/algorithm/is_equal.h>
 #include <nstl/algorithm/lower_bound.h>
