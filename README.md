@@ -15,7 +15,7 @@ shows the mapping of the names from the C++ STL to the __nstl__.
 * _find\_first\_of_ --> _find\_any\_of_
 * _find\_end_ --> ?
 * _mismatch_ --> _find\_mismatch_
-* _search_ --> ?
+* _search_ --> _find\_first\_seq_
 * _search\_n_ --> ?
 * _remove_ --> ?
 * _remove\_copy_ --> ?
