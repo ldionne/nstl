@@ -7,8 +7,9 @@
 #include <seatest.h>
 
 
-NSTL_INSTANTIATE(NSTL_I_DISTANCE_DEFAULT(distance, nstl_pint))
-NSTL_INSTANTIATE(NSTL_I_DISTANCE_RANDOM_ACCESS(distance_rand, nstl_pint))
+NSTL_INSTANTIATE(NSTL_I_DISTANCE_DEFAULT(distance, nstl_pint, nstl_ptrdiff_t))
+NSTL_INSTANTIATE(
+    NSTL_I_DISTANCE_RANDOM_ACCESS(distance_rand, nstl_pint, nstl_ptrdiff_t))
 
 static void test_should_have_distance_of_0_when_same_iter(void) {
     nstl_int array[10];

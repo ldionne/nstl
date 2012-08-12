@@ -16,22 +16,23 @@
 /**/
 
 #define NSTL_I_DISTANCE(algo, Iter)                                            \
-    NSTL_I_DISTANCE_DEFAULT(algo, Iter)                                        \
+    NSTL_I_DISTANCE_DEFAULT(algo, Iter, nstl_ptrdiff_t)                        \
 /**/
 
 
-#define NSTL_I_DISTANCE_DEFAULT(algo, Iter)                                    \
+#define NSTL_I_DISTANCE_DEFAULT(algo, Iter, Distance)                          \
 NSTL_TYPE(algo,                                                                \
                                                                                \
 (defun distance                                                                \
-static NSTL_INLINE nstl_ptrdiff_t algo(Iter first_, Iter last_) {              \
-    nstl_ptrdiff_t n = 0;                                                      \
+static NSTL_INLINE Distance algo(Iter first_, Iter last_) {                    \
+    Distance n;                                                                \
     Iter first;                                                                \
+    nstl_copy_ctor(Distance)(&n, 0);                                           \
     nstl_copy_ctor(Iter)(&first, first_);                                      \
                                                                                \
     while (nstl_ne(Iter, Iter)(first, last_)) {                                \
         nstl_inc(Iter)(&first);                                                \
-        ++n;                                                                   \
+        nstl_inc(Distance)(&n);                                                \
     }                                                                          \
                                                                                \
     nstl_dtor(Iter)(&first);                                                   \
@@ -43,11 +44,11 @@ static NSTL_INLINE nstl_ptrdiff_t algo(Iter first_, Iter last_) {              \
 /**/
 
 
-#define NSTL_I_DISTANCE_RANDOM_ACCESS(algo, Iter)                              \
+#define NSTL_I_DISTANCE_RANDOM_ACCESS(algo, Iter, Distance)                    \
 NSTL_TYPE(algo,                                                                \
                                                                                \
 (defun distance                                                                \
-static NSTL_INLINE nstl_ptrdiff_t algo(Iter first_, Iter last_) {              \
+static NSTL_INLINE Distance algo(Iter first_, Iter last_) {                    \
     return nstl_sub(Iter, Iter)(last_, first_);                                \
 }                                                                              \
 )                                                                              \
