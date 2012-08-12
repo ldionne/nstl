@@ -8,6 +8,7 @@
 #include <string.h>
 
 
+#define nstl_memcpy memcpy
 #define nstl_memmove memmove
 
 #endif /* !NSTL_INTERNAL_STDLIB_WRAPPER_H */

@@ -5,6 +5,7 @@
 #ifndef NSTL_ALGORITHM_COPY_H
 #define NSTL_ALGORITHM_COPY_H
 
+#include <nstl/algorithm/distance.h>
 #include <nstl/internal.h>
 
 
@@ -54,6 +55,55 @@ static NSTL_INLINE Output algo(Input first_, Input last_, Output result_) {    \
 /**/
 
 
+#define NSTL_I_COPY_RANDOM_ACCESS(algo, Input, Output)                         \
+    NSTL_II_COPY_RANDOM_ACCESS(algo, Input, Output, nstl_ptrdiff_t)            \
+/**/
+
+#define NSTL_II_COPY_RANDOM_ACCESS(algo, Input, Output, Distance)              \
+NSTL_TYPE(algo,                                                                \
+                                                                               \
+(defun copy                                                                    \
+NSTL_GETF(                                                                     \
+    NSTL_I_DISTANCE(                                                           \
+        nstl_helper(algo, distance),                                           \
+        Input                                                                  \
+    ),                                                                         \
+    distance                                                                   \
+)                                                                              \
+                                                                               \
+static NSTL_INLINE Output algo(Input first_, Input last_, Output result_) {    \
+    Distance n = nstl_helper(algo, distance)(first_, last_);                   \
+    Input first;                                                               \
+    Output result;                                                             \
+    nstl_copy_ctor(Input)(&first, first_);                                     \
+    nstl_copy_ctor(Output)(&result, result_);                                  \
+                                                                               \
+    for ( ; nstl_gt(Distance, Distance)(n, 0); nstl_dec(Distance)(&n)) {       \
+        nstl_deref_proxy(Input) in_proxy;                                      \
+        nstl_deref_proxy(Output) out_proxy;                                    \
+        nstl_ctor(nstl_deref_proxy(Input))(&in_proxy, first);                  \
+        nstl_ctor(nstl_deref_proxy(Output))(&out_proxy, result);               \
+                                                                               \
+        nstl_put(nstl_deref_proxy(Output))(out_proxy,                          \
+                                nstl_get(nstl_deref_proxy(Input))(in_proxy));  \
+                                                                               \
+        nstl_dtor(nstl_deref_proxy(Output))(&out_proxy);                       \
+        nstl_dtor(nstl_deref_proxy(Input)(&in_proxy));                         \
+                                                                               \
+        nstl_inc(Input)(&first);                                               \
+        nstl_inc(Output)(&result);                                             \
+    }                                                                          \
+                                                                               \
+    nstl_dtor(Input)(&first);                                                  \
+    nstl_dtor(Distance)(&n);                                                   \
+    return result;                                                             \
+}                                                                              \
+)                                                                              \
+                                                                               \
+)                                                                              \
+/**/
+
+
 #define NSTL_I_COPY_TRIVIAL(algo, Input, Output)                               \
 NSTL_TYPE(algo,                                                                \
                                                                                \
@@ -62,9 +112,22 @@ NSTL_TYPE(algo,                                                                \
  *       If they are not, it won't compile anyway.                             \
  */                                                                            \
 static NSTL_INLINE Output algo(Input first_, Input last_, Output result_) {    \
-    nstl_size_t const n = last_ - first_;                                      \
-    nstl_memmove(result_, first_, n * sizeof(*result_));                       \
-    return result_ + n;                                                        \
+    nstl_size_t const n = (char const*)last_ - (char const*)first_;            \
+    return n ? (Output)((char*)nstl_memmove(result_, first_, n) + n) :result_; \
+}                                                                              \
+)                                                                              \
+                                                                               \
+)                                                                              \
+/**/
+
+
+#define NSTL_I_COPY_TRIVIAL_NO_OVERLAP(algo, Input, Output)                    \
+NSTL_TYPE(algo,                                                                \
+                                                                               \
+(defun copy                                                                    \
+static NSTL_INLINE Output algo(Input first_, Input last_, Output result_) {    \
+    nstl_size_t const n = (char const*)last_ - (char const*)first_;            \
+    return n ? (Output)((char*)nstl_memcpy(result_, first_, n) + n) : result_; \
 }                                                                              \
 )                                                                              \
                                                                                \
