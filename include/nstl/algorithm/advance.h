@@ -8,18 +8,18 @@
 #include <nstl/internal.h>
 
 
-#define NSTL_ADVANCE(IncrementableIterator, Distance, is_bidirectionnal)       \
+#define NSTL_ADVANCE(IncrementableIterator, Distance, is_bidirectional)        \
     NSTL_I_ADVANCE(                                                            \
         nstl_advance(IncrementableIterator, Distance),                         \
         IncrementableIterator,                                                 \
         Distance,                                                              \
-        is_bidirectionnal                                                      \
+        is_bidirectional                                                       \
     )                                                                          \
 /**/
 
-#define NSTL_I_ADVANCE(algo, Iter, Distance, is_bidirectionnal)                \
-    NSTL_STATIC_IF(is_bidirectionnal)(                                         \
-        NSTL_I_ADVANCE_BIDIRECTIONNAL, NSTL_I_ADVANCE_FORWARD                  \
+#define NSTL_I_ADVANCE(algo, Iter, Distance, is_bidirectional)                 \
+    NSTL_STATIC_IF(is_bidirectional)(                                          \
+        NSTL_I_ADVANCE_BIDIRECTIONAL, NSTL_I_ADVANCE_FORWARD                   \
     )(algo, Iter, Distance)                                                    \
 /**/
 
@@ -45,7 +45,7 @@ static NSTL_INLINE void algo(Iter *iter_, Distance n_) {                       \
 /**/
 
 
-#define NSTL_I_ADVANCE_BIDIRECTIONNAL(algo, Iter, Distance)                    \
+#define NSTL_I_ADVANCE_BIDIRECTIONAL(algo, Iter, Distance)                     \
 NSTL_TYPE(algo,                                                                \
                                                                                \
 (defun advance                                                                 \

@@ -10,7 +10,7 @@
 NSTL_INSTANTIATE(
     NSTL_I_ADVANCE_FORWARD(fwd_advance, nstl_pint, nstl_ptrdiff_t))
 NSTL_INSTANTIATE(
-    NSTL_I_ADVANCE_BIDIRECTIONNAL(bidir_advance, nstl_pint, nstl_ptrdiff_t))
+    NSTL_I_ADVANCE_BIDIRECTIONAL(bidir_advance, nstl_pint, nstl_ptrdiff_t))
 NSTL_INSTANTIATE(
     NSTL_I_ADVANCE_RANDOM_ACCESS(rand_advance, nstl_pint, nstl_ptrdiff_t))
 
