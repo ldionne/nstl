@@ -2,8 +2,8 @@
  * This file defines the @em find_adjacent and @em find_adjacent_comp
  * algorithms.
  *
- * @note This algorithm is equivalent to the @em find_adjacent algorithm of
- *       the C++ standard library.
+ * @note These algorithms are equivalent to the @em adjacent_find algorithms
+ *       of the C++ standard library.
  */
 
 #ifndef NSTL_ALGORITHM_FIND_ADJACENT_H
