@@ -32,7 +32,7 @@ static NSTL_INLINE void algo(Iter *iter_, Distance n_) {                       \
     Distance n;                                                                \
     nstl_copy_ctor(Distance)(&n, n_);                                          \
                                                                                \
-    while (n) {                                                                \
+    while (nstl_ne(Distance, Distance)(n, 0)) {                                \
         nstl_dec(Distance)(&n);                                                \
         nstl_inc(Iter)(iter_);                                                 \
     }                                                                          \
@@ -53,13 +53,13 @@ static NSTL_INLINE void algo(Iter *iter_, Distance n_) {                       \
     Distance n;                                                                \
     nstl_copy_ctor(Distance)(&n, n_);                                          \
                                                                                \
-    if (nstl_gt(Distance, Distance)(n, 0))                                     \
+    if (nstl_lt(Distance, Distance)(0, n))                                     \
         do {                                                                   \
             nstl_dec(Distance)(&n);                                            \
             nstl_inc(Iter)(iter_);                                             \
-        } while (nstl_gt(Distance, Distance)(n, 0));                           \
+        } while (nstl_ne(Distance, Distance)(n, 0));                           \
     else                                                                       \
-        while (nstl_lt(Distance, Distance)(n, 0)) {                            \
+        while (nstl_ne(Distance, Distance)(n, 0)) {                            \
             nstl_inc(Distance)(&n);                                            \
             nstl_dec(Iter)(iter_);                                             \
         }                                                                      \
