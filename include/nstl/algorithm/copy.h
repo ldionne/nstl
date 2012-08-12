@@ -25,14 +25,14 @@
 NSTL_TYPE(algo,                                                                \
                                                                                \
 (defun copy                                                                    \
-static NSTL_INLINE Output algo(Input first_, Input last, Output result_) {     \
+static NSTL_INLINE Output algo(Input first_, Input last_, Output result_) {    \
     Input first;                                                               \
     Output result;                                                             \
     nstl_copy_ctor(Input)(&first, first_);                                     \
     nstl_copy_ctor(Output)(&result, result_);                                  \
                                                                                \
-    for ( ; nstl_ne(Input, Input)(first, last); nstl_inc(Output)(&result),     \
-                                                nstl_inc(Input)(&first)) {     \
+    for ( ; nstl_ne(Input, Input)(first, last_); nstl_inc(Output)(&result),    \
+                                                 nstl_inc(Input)(&first)) {    \
         nstl_deref_proxy(Input) in_proxy;                                      \
         nstl_deref_proxy(Output) out_proxy;                                    \
         nstl_ctor(nstl_deref_proxy(Input))(&in_proxy, first);                  \
@@ -61,10 +61,10 @@ NSTL_TYPE(algo,                                                                \
 /* Note: Iterators should be pointers.                                         \
  *       If they are not, it won't compile anyway.                             \
  */                                                                            \
-static NSTL_INLINE Output algo(Input first, Input last, Output result) {       \
-    nstl_size_t const n = last - first;                                        \
-    nstl_memmove(result, first, n * sizeof(*result));                          \
-    return result + n;                                                         \
+static NSTL_INLINE Output algo(Input first_, Input last_, Output result_) {    \
+    nstl_size_t const n = last_ - first_;                                      \
+    nstl_memmove(result_, first_, n * sizeof(*result_));                       \
+    return result_ + n;                                                        \
 }                                                                              \
 )                                                                              \
                                                                                \

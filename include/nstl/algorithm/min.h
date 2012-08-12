@@ -19,8 +19,10 @@
 NSTL_TYPE(algo,                                                                \
                                                                                \
 (defun min                                                                     \
-static NSTL_INLINE T algo(T a, T b) {                                          \
-    return nstl_lt(T, T)(b, a) ? b : a;                                        \
+static NSTL_INLINE T algo(T a_, T b_) {                                        \
+    T result;                                                                  \
+    nstl_copy_ctor(T)(&result, nstl_lt(T, T)(b_, a_) ? b_ : a_);               \
+    return result;                                                             \
 }                                                                              \
 )                                                                              \
                                                                                \
@@ -40,8 +42,10 @@ static NSTL_INLINE T algo(T a, T b) {                                          \
 NSTL_TYPE(algo,                                                                \
                                                                                \
 (defun min_comp                                                                \
-static NSTL_INLINE T algo(T a, T b, Comp comp) {                               \
-    return comp(b, a) ? b : a;                                                 \
+static NSTL_INLINE T algo(T a_, T b_, Comp comp_) {                            \
+    T result;                                                                  \
+    nstl_copy_ctor(T)(&result, comp_(b_, a_) ? b_ : a_);                       \
+    return result;                                                             \
 }                                                                              \
 )                                                                              \
                                                                                \

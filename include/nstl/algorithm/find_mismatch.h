@@ -64,15 +64,15 @@ static NSTL_INLINE nstl_pair(Iter1, Iter2) algo(Iter1 first1, Iter1 last1,     \
 NSTL_TYPE(algo,                                                                \
                                                                                \
 (defun find_mismatch_comp                                                      \
-static nstl_pair(Iter1, Iter2) algo(Iter1 first1_, Iter1 last1, Iter2 first2_, \
-                                                                Comp comp) {   \
+static nstl_pair(Iter1, Iter2) algo(Iter1 first1_, Iter1 last1_,               \
+                                    Iter2 first2_, Comp comp_) {               \
     Iter1 first1;                                                              \
     Iter2 first2;                                                              \
-    nstl_pair(Iter1, Iter2) ret;                                               \
+    nstl_pair(Iter1, Iter2) result;                                            \
     nstl_copy_ctor(Iter1)(&first1, first1_);                                   \
     nstl_copy_ctor(Iter2)(&first2, first2_);                                   \
                                                                                \
-    while (nstl_ne(Iter1, Iter1)(first1, last1)) {                             \
+    while (nstl_ne(Iter1, Iter1)(first1, last1_)) {                            \
         nstl_bool both_equal;                                                  \
         {                                                                      \
             nstl_deref_proxy(Iter1) proxy1;                                    \
@@ -80,22 +80,24 @@ static nstl_pair(Iter1, Iter2) algo(Iter1 first1_, Iter1 last1, Iter2 first2_, \
             nstl_ctor(nstl_deref_proxy(Iter1))(&proxy1, first1);               \
             nstl_ctor(nstl_deref_proxy(Iter2))(&proxy2, first2);               \
                                                                                \
-            both_equal = comp(nstl_get(nstl_deref_proxy(Iter1))(proxy1),       \
-                              nstl_get(nstl_deref_proxy(Iter2))(proxy2));      \
+            both_equal = comp_(nstl_get(nstl_deref_proxy(Iter1))(proxy1),      \
+                               nstl_get(nstl_deref_proxy(Iter2))(proxy2));     \
                                                                                \
             nstl_dtor(nstl_deref_proxy(Iter2))(&proxy2);                       \
             nstl_dtor(nstl_deref_proxy(Iter1))(&proxy1);                       \
         }                                                                      \
         if (!both_equal)                                                       \
             break;                                                             \
-        nstl_inc(Iter1)(&first1);                                              \
-        nstl_inc(Iter2)(&first2);                                              \
+        else {                                                                 \
+            nstl_inc(Iter1)(&first1);                                          \
+            nstl_inc(Iter2)(&first2);                                          \
+        }                                                                      \
     }                                                                          \
                                                                                \
-    ret = nstl_make_pair(Iter1, Iter2)(first1, first2);                        \
+    result = nstl_make_pair(Iter1, Iter2)(first1, first2);                     \
     nstl_dtor(Iter2)(&first2);                                                 \
     nstl_dtor(Iter1)(&first1);                                                 \
-    return ret;                                                                \
+    return result;                                                             \
 }                                                                              \
 )                                                                              \
                                                                                \

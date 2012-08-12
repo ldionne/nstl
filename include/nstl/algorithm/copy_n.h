@@ -60,9 +60,9 @@ static NSTL_INLINE Output algo(Input first_, Size count_, Output result_) {    \
         else                                                                   \
             nstl_inc(Input)(&first);                                           \
     }                                                                          \
+                                                                               \
     nstl_dtor(Size)(&count);                                                   \
     nstl_dtor(Input)(&first);                                                  \
-                                                                               \
     return result;                                                             \
 }                                                                              \
 )                                                                              \
@@ -78,9 +78,9 @@ NSTL_TYPE(algo,                                                                \
 /* Note: Iterators must be pointers anyway, so                                 \
  *       it won't compile if they are not.                                     \
  */                                                                            \
-static NSTL_INLINE Output algo(Input first, Size count, Output result) {       \
-    nstl_memmove(result, first, count * sizeof(*result));                      \
-    return result + count;                                                     \
+static NSTL_INLINE Output algo(Input first_, Size count_, Output result_) {    \
+    nstl_memmove(result_, first_, count_ * sizeof(*result_));                  \
+    return result_ + count_;                                                   \
 }                                                                              \
 )                                                                              \
                                                                                \

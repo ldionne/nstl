@@ -52,15 +52,15 @@ static NSTL_INLINE Iter algo(Iter first, Iter last) {                          \
 NSTL_TYPE(algo,                                                                \
                                                                                \
 (defun min_element_comp                                                        \
-static NSTL_INLINE Iter algo(Iter first_, Iter last, Comp comp) {              \
+static NSTL_INLINE Iter algo(Iter first_, Iter last_, Comp comp_) {            \
     Iter first;                                                                \
     Iter result;                                                               \
     nstl_copy_ctor(Iter)(&first, first_);                                      \
-    if (nstl_eq(Iter, Iter)(first, last))                                      \
+    if (nstl_eq(Iter, Iter)(first, last_))                                     \
         return first;                                                          \
-    nstl_copy_ctor(Iter)(&result, first);                                      \
                                                                                \
-    while (nstl_ne(Iter, Iter)(nstl_inc(Iter)(&first), last)) {                \
+    nstl_copy_ctor(Iter)(&result, first);                                      \
+    while (nstl_ne(Iter, Iter)(nstl_inc(Iter)(&first), last_)) {               \
         nstl_bool is_lt;                                                       \
         {                                                                      \
             nstl_deref_proxy(Iter) result_proxy;                               \
@@ -68,8 +68,8 @@ static NSTL_INLINE Iter algo(Iter first_, Iter last, Comp comp) {              \
             nstl_ctor(nstl_deref_proxy(Iter))(&result_proxy, result);          \
             nstl_ctor(nstl_deref_proxy(Iter))(&first_proxy, first);            \
                                                                                \
-            is_lt = comp(nstl_get(nstl_deref_proxy(Iter))(first_proxy),        \
-                         nstl_get(nstl_deref_proxy(Iter))(result_proxy));      \
+            is_lt = comp_(nstl_get(nstl_deref_proxy(Iter))(first_proxy),       \
+                          nstl_get(nstl_deref_proxy(Iter))(result_proxy));     \
                                                                                \
             nstl_dtor(nstl_deref_proxy(Iter))(&first_proxy);                   \
             nstl_dtor(nstl_deref_proxy(Iter))(&result_proxy);                  \

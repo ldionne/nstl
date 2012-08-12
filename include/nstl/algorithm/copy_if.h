@@ -23,17 +23,17 @@
 NSTL_TYPE(algo,                                                                \
                                                                                \
 (defun copy_if                                                                 \
-static NSTL_INLINE Output algo(Input first_, Input last, Output result_,       \
-                                                         Pred pred) {          \
+static NSTL_INLINE Output algo(Input first_, Input last_,                      \
+                               Output result_, Pred pred_) {                   \
     Input first;                                                               \
     Output result;                                                             \
     nstl_copy_ctor(Input)(&first, first_);                                     \
     nstl_copy_ctor(Output)(&result, result_);                                  \
                                                                                \
-    for ( ; nstl_ne(Input, Input)(first, last); nstl_inc(Input)(&first)) {     \
+    for ( ; nstl_ne(Input, Input)(first, last_); nstl_inc(Input)(&first)) {    \
         nstl_deref_proxy(Input) in_proxy;                                      \
         nstl_ctor(nstl_deref_proxy(Input))(&in_proxy, first);                  \
-        if (pred(nstl_get(nstl_deref_proxy(Input))(in_proxy))) {               \
+        if (pred_(nstl_get(nstl_deref_proxy(Input))(in_proxy))) {              \
             nstl_deref_proxy(Output) out_proxy;                                \
             nstl_ctor(nstl_deref_proxy(Output))(&out_proxy, result);           \
                                                                                \

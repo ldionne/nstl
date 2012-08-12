@@ -24,12 +24,12 @@
 NSTL_TYPE(algo,                                                                \
                                                                                \
 (defun distance                                                                \
-static NSTL_INLINE nstl_ptrdiff_t algo(Iter first_, Iter last) {               \
+static NSTL_INLINE nstl_ptrdiff_t algo(Iter first_, Iter last_) {              \
     nstl_ptrdiff_t n = 0;                                                      \
     Iter first;                                                                \
     nstl_copy_ctor(Iter)(&first, first_);                                      \
                                                                                \
-    while (nstl_ne(Iter, Iter)(first, last)) {                                 \
+    while (nstl_ne(Iter, Iter)(first, last_)) {                                \
         nstl_inc(Iter)(&first);                                                \
         ++n;                                                                   \
     }                                                                          \
@@ -47,8 +47,8 @@ static NSTL_INLINE nstl_ptrdiff_t algo(Iter first_, Iter last) {               \
 NSTL_TYPE(algo,                                                                \
                                                                                \
 (defun distance                                                                \
-static NSTL_INLINE nstl_ptrdiff_t algo(Iter first, Iter last) {                \
-    return nstl_sub(Iter, Iter)(last, first);                                  \
+static NSTL_INLINE nstl_ptrdiff_t algo(Iter first_, Iter last_) {              \
+    return nstl_sub(Iter, Iter)(last_, first_);                                \
 }                                                                              \
 )                                                                              \
                                                                                \

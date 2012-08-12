@@ -28,13 +28,15 @@
 NSTL_TYPE(algo,                                                                \
                                                                                \
 (defun advance                                                                 \
-static NSTL_INLINE void algo(Iter *iter, Distance n_) {                        \
+static NSTL_INLINE void algo(Iter *iter_, Distance n_) {                       \
     Distance n;                                                                \
     nstl_copy_ctor(Distance)(&n, n_);                                          \
+                                                                               \
     while (n) {                                                                \
         nstl_dec(Distance)(&n);                                                \
-        nstl_inc(Iter)(iter);                                                  \
+        nstl_inc(Iter)(iter_);                                                 \
     }                                                                          \
+                                                                               \
     nstl_dtor(Distance)(&n);                                                   \
 }                                                                              \
 )                                                                              \
@@ -47,19 +49,19 @@ static NSTL_INLINE void algo(Iter *iter, Distance n_) {                        \
 NSTL_TYPE(algo,                                                                \
                                                                                \
 (defun advance                                                                 \
-static NSTL_INLINE void algo(Iter *iter, Distance n_) {                        \
+static NSTL_INLINE void algo(Iter *iter_, Distance n_) {                       \
     Distance n;                                                                \
     nstl_copy_ctor(Distance)(&n, n_);                                          \
                                                                                \
     if (nstl_gt(Distance, Distance)(n, 0))                                     \
-        while (n) {                                                            \
+        do {                                                                   \
             nstl_dec(Distance)(&n);                                            \
-            nstl_inc(Iter)(iter);                                              \
-        }                                                                      \
+            nstl_inc(Iter)(iter_);                                             \
+        } while (nstl_gt(Distance, Distance)(n, 0));                           \
     else                                                                       \
-        while (n) {                                                            \
+        while (nstl_lt(Distance, Distance)(n, 0)) {                            \
             nstl_inc(Distance)(&n);                                            \
-            nstl_dec(Iter)(iter);                                              \
+            nstl_dec(Iter)(iter_);                                             \
         }                                                                      \
                                                                                \
     nstl_dtor(Distance)(&n);                                                   \
@@ -74,8 +76,8 @@ static NSTL_INLINE void algo(Iter *iter, Distance n_) {                        \
 NSTL_TYPE(algo,                                                                \
                                                                                \
 (defun advance                                                                 \
-static NSTL_INLINE void algo(Iter *iter, Distance n) {                         \
-    nstl_iadd(Iter, Distance)(iter, n);                                        \
+static NSTL_INLINE void algo(Iter *iter_, Distance n_) {                       \
+    nstl_iadd(Iter, Distance)(iter_, n_);                                      \
 }                                                                              \
 )                                                                              \
                                                                                \

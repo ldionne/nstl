@@ -96,20 +96,21 @@ NSTL_GETF(                                                                     \
     lower_bound_comp                                                           \
 )                                                                              \
                                                                                \
-static NSTL_INLINE T nstl_helper(algo, deref)(Iter it) {                       \
+static NSTL_INLINE T nstl_helper(algo, deref)(Iter it_) {                      \
     nstl_deref_proxy(Iter) proxy;                                              \
-    T ret;                                                                     \
-    nstl_ctor(nstl_deref_proxy(Iter))(&proxy, it);                             \
-    ret = nstl_get(nstl_deref_proxy(Iter))(proxy);                             \
+    T result;                                                                  \
+    nstl_ctor(nstl_deref_proxy(Iter))(&proxy, it_);                            \
+    result = nstl_get(nstl_deref_proxy(Iter))(proxy);                          \
     nstl_dtor(nstl_deref_proxy(Iter))(&proxy);                                 \
-    return ret;                                                                \
+    return result;                                                             \
 }                                                                              \
                                                                                \
-static nstl_pair(Iter, Iter) algo(Iter first_, Iter last, T value,Comp comp) { \
+static nstl_pair(Iter, Iter) algo(Iter first_, Iter last_,                     \
+                                  T value_, Comp comp_) {                      \
     Iter first;                                                                \
-    nstl_ptrdiff_t len = nstl_helper(algo, distance)(first_, last);            \
+    nstl_ptrdiff_t len = nstl_helper(algo, distance)(first_, last_);           \
     nstl_ptrdiff_t half;                                                       \
-    nstl_pair(Iter, Iter) ret;                                                 \
+    nstl_pair(Iter, Iter) result;                                              \
     nstl_copy_ctor(Iter)(&first, first_);                                      \
                                                                                \
     while (len > 0) {                                                          \
@@ -127,17 +128,17 @@ static nstl_pair(Iter, Iter) algo(Iter first_, Iter last, T value,Comp comp) { \
          *       arguments of comp must be convertible to Value.               \
          */                                                                    \
         at_middle = nstl_helper(algo, deref)(middle);                          \
-        if (comp(at_middle, value)) {                                          \
+        if (comp_(at_middle, value_)) {                                        \
             nstl_asg(Iter, Iter)(&first, middle);                              \
             nstl_inc(Iter)(&first);                                            \
             len = len - half - 1;                                              \
         }                                                                      \
-        else if (comp(value, at_middle)) {                                     \
+        else if (comp_(value_, at_middle)) {                                   \
             len = half;                                                        \
         }                                                                      \
         else {                                                                 \
             Iter left = nstl_helper(algo, lower_bound_comp)(first, middle,     \
-                                                                value, comp);  \
+                                                            value_, comp_);    \
             Iter right;                                                        \
                                                                                \
             /* This is an optimization that was originally present in the      \
@@ -157,17 +158,17 @@ static nstl_pair(Iter, Iter) algo(Iter first_, Iter last, T value,Comp comp) { \
              * can't be reached.                                               \
              */                                                                \
             NSTL_STATIC_WHEN(NSTL_CONFIG_INTERNAL_DEBUG)(                      \
-                if (comp(nstl_helper(algo, deref)(left), value)) {             \
+                if (comp_(nstl_helper(algo, deref)(left), value_)) {           \
                     nstl_assert_true(nstl_false);                              \
-                    ret = nstl_make_pair(Iter, Iter)(left, left);              \
+                    result = nstl_make_pair(Iter, Iter)(left, left);           \
                     goto left_middle_first_dtor_and_ret;                       \
                 }                                                              \
             ) /* end NSTL_CONFIG_INTERNAL_DEBUG */                             \
                                                                                \
             nstl_helper(algo, advance)(&first, len);                           \
             right = nstl_helper(algo, upper_bound_comp)                        \
-                                (nstl_inc(Iter)(&middle), first, value, comp); \
-            ret = nstl_make_pair(Iter, Iter)(left, right);                     \
+                            (nstl_inc(Iter)(&middle), first, value_, comp_);   \
+            result = nstl_make_pair(Iter, Iter)(left, right);                  \
             nstl_dtor(Iter)(&right);                                           \
                                                                                \
 left_middle_first_dtor_and_ret:                                                \
@@ -177,11 +178,11 @@ left_middle_first_dtor_and_ret:                                                \
         }                                                                      \
         nstl_dtor(Iter)(&middle);                                              \
     }                                                                          \
-    ret = nstl_make_pair(Iter, Iter)(first, first);                            \
+    result = nstl_make_pair(Iter, Iter)(first, first);                         \
                                                                                \
 first_dtor_and_ret:                                                            \
     nstl_dtor(Iter)(&first);                                                   \
-    return ret;                                                                \
+    return result;                                                             \
 }                                                                              \
 )                                                                              \
                                                                                \

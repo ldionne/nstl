@@ -20,11 +20,11 @@
 NSTL_TYPE(algo,                                                                \
                                                                                \
 (defun swap                                                                    \
-static NSTL_INLINE void algo(T1 *a, T2 *b) {                                   \
+static NSTL_INLINE void algo(T1 *a_, T2 *b_) {                                 \
     T1 tmp;                                                                    \
-    nstl_copy_ctor(T1)(&tmp, *a);                                              \
-    nstl_asg(T1, T2)(a, *b);                                                   \
-    nstl_asg(T2, T1)(b, tmp);                                                  \
+    nstl_copy_ctor(T1)(&tmp, *a_);                                             \
+    nstl_asg(T1, T2)(a_, *b_);                                                 \
+    nstl_asg(T2, T1)(b_, tmp);                                                 \
     nstl_dtor(T1)(&tmp);                                                       \
 }                                                                              \
 )                                                                              \

@@ -20,19 +20,19 @@
 NSTL_TYPE(algo,                                                                \
                                                                                \
 (defun for_each                                                                \
-static NSTL_INLINE Func algo(Iter first_, Iter last, Func f) {                 \
+static NSTL_INLINE Func algo(Iter first_, Iter last_, Func f_) {               \
     Iter first;                                                                \
     nstl_copy_ctor(Iter)(&first, first_);                                      \
                                                                                \
-    for ( ; nstl_ne(Iter, Iter)(first, last); nstl_inc(Iter)(&first)) {        \
+    for ( ; nstl_ne(Iter, Iter)(first, last_); nstl_inc(Iter)(&first)) {       \
         nstl_deref_proxy(Iter) proxy;                                          \
         nstl_ctor(nstl_deref_proxy(Iter))(&proxy, first);                      \
-        f(nstl_get(nstl_deref_proxy(Iter))(proxy));                            \
+        f_(nstl_get(nstl_deref_proxy(Iter))(proxy));                           \
         nstl_dtor(nstl_deref_proxy(Iter))(&proxy);                             \
     }                                                                          \
                                                                                \
     nstl_dtor(Iter)(&first);                                                   \
-    return f;                                                                  \
+    return f_;                                                                 \
 }                                                                              \
 )                                                                              \
                                                                                \

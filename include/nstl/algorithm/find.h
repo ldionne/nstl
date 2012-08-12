@@ -20,21 +20,21 @@
 NSTL_TYPE(algo,                                                                \
                                                                                \
 (defun find                                                                    \
-static NSTL_INLINE T nstl_helper(algo, deref)(Iter it) {                       \
+static NSTL_INLINE T nstl_helper(algo, deref)(Iter it_) {                      \
     nstl_deref_proxy(Iter) proxy;                                              \
-    T ret;                                                                     \
-    nstl_ctor(nstl_deref_proxy(Iter))(&proxy, it);                             \
-    ret = nstl_get(nstl_deref_proxy(Iter))(proxy);                             \
+    T result;                                                                  \
+    nstl_ctor(nstl_deref_proxy(Iter))(&proxy, it_);                            \
+    result = nstl_get(nstl_deref_proxy(Iter))(proxy);                          \
     nstl_dtor(nstl_deref_proxy(Iter))(&proxy);                                 \
-    return ret;                                                                \
+    return result;                                                             \
 }                                                                              \
                                                                                \
-static NSTL_INLINE Iter algo(Iter first_, Iter last, T value) {                \
+static NSTL_INLINE Iter algo(Iter first_, Iter last_, T value_) {              \
     Iter first;                                                                \
     nstl_copy_ctor(Iter)(&first, first_);                                      \
                                                                                \
-    while (nstl_ne(Iter, Iter)(first, last) &&                                 \
-           nstl_ne(T, T)(nstl_helper(algo, deref)(first), value))              \
+    while (nstl_ne(Iter, Iter)(first, last_) &&                                \
+           nstl_ne(T, T)(nstl_helper(algo, deref)(first), value_))             \
         nstl_inc(Iter)(&first);                                                \
     return first;                                                              \
 }                                                                              \

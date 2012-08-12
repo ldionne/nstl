@@ -65,19 +65,22 @@ NSTL_GETF(                                                                     \
     lower_bound_comp                                                           \
 )                                                                              \
                                                                                \
-static NSTL_INLINE nstl_bool algo(Iter first, Iter last, T value, Comp comp) { \
-    Iter it = nstl_helper(algo, lower_bound_comp)(first, last, value, comp);   \
-    if (nstl_ne(Iter, Iter)(it, last)) {                                       \
+static NSTL_INLINE nstl_bool algo(Iter first_, Iter last_,                     \
+                                  T value_, Comp comp_) {                      \
+    Iter it = nstl_helper(algo, lower_bound_comp)(first_, last_,               \
+                                                  value_, comp_);              \
+    if (nstl_ne(Iter, Iter)(it, last_)) {                                      \
         nstl_bool ret;                                                         \
         {                                                                      \
             nstl_deref_proxy(Iter) proxy;                                      \
             nstl_ctor(nstl_deref_proxy(Iter))(&proxy, it);                     \
-            ret = !comp(value, nstl_get(nstl_deref_proxy(Iter))(proxy));       \
+            ret = !comp_(value_, nstl_get(nstl_deref_proxy(Iter))(proxy));     \
             nstl_dtor(nstl_deref_proxy(Iter))(&proxy);                         \
         }                                                                      \
         nstl_dtor(Iter)(&it);                                                  \
         return ret;                                                            \
     }                                                                          \
+                                                                               \
     nstl_dtor(Iter)(&it);                                                      \
     return nstl_false;                                                         \
 }                                                                              \

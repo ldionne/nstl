@@ -54,10 +54,10 @@ NSTL_GETF(                                                                     \
     advance                                                                    \
 )                                                                              \
                                                                                \
-static NSTL_INLINE Iter algo(Iter iter_, Distance n) {                         \
+static NSTL_INLINE Iter algo(Iter iter_, Distance n_) {                        \
     Iter iter;                                                                 \
     nstl_copy_ctor(Iter)(&iter, iter_);                                        \
-    nstl_helper(algo, advance)(&iter, n);                                      \
+    nstl_helper(algo, advance)(&iter, n_);                                     \
     return iter;                                                               \
 }                                                                              \
 )                                                                              \

@@ -61,14 +61,14 @@ static NSTL_INLINE nstl_bool algo(Iter1 first1, Iter1 last1, Iter2 first2) {   \
 NSTL_TYPE(algo,                                                                \
                                                                                \
 (defun is_equal_comp                                                           \
-static nstl_bool algo(Iter1 first1_, Iter1 last1, Iter2 first2_, Comp comp) {  \
+static nstl_bool algo(Iter1 first1_, Iter1 last1_, Iter2 first2_,Comp comp_) { \
     Iter1 first1;                                                              \
     Iter2 first2;                                                              \
     nstl_copy_ctor(Iter1)(&first1, first1_);                                   \
     nstl_copy_ctor(Iter2)(&first2, first2_);                                   \
                                                                                \
-    for ( ; nstl_ne(Iter1, Iter1)(first1, last1); nstl_inc(Iter1)(&first1),    \
-                                                  nstl_inc(Iter2)(&first2)) {  \
+    for ( ; nstl_ne(Iter1, Iter1)(first1, last1_); nstl_inc(Iter1)(&first1),   \
+                                                   nstl_inc(Iter2)(&first2)) { \
         nstl_bool both_equal;                                                  \
         {                                                                      \
             nstl_deref_proxy(Iter1) proxy1;                                    \
@@ -76,8 +76,8 @@ static nstl_bool algo(Iter1 first1_, Iter1 last1, Iter2 first2_, Comp comp) {  \
             nstl_ctor(nstl_deref_proxy(Iter1))(&proxy1, first1);               \
             nstl_ctor(nstl_deref_proxy(Iter2))(&proxy2, first2);               \
                                                                                \
-            both_equal = comp(nstl_get(nstl_deref_proxy(Iter1))(proxy1),       \
-                              nstl_get(nstl_deref_proxy(Iter2))(proxy2));      \
+            both_equal = comp_(nstl_get(nstl_deref_proxy(Iter1))(proxy1),      \
+                               nstl_get(nstl_deref_proxy(Iter2))(proxy2));     \
                                                                                \
             nstl_dtor(nstl_deref_proxy(Iter2))(&proxy2);                       \
             nstl_dtor(nstl_deref_proxy(Iter1))(&proxy1);                       \

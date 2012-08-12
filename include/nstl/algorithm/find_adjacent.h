@@ -55,15 +55,17 @@ static NSTL_INLINE Iter algo(Iter first, Iter last) {                          \
 NSTL_TYPE(algo,                                                                \
                                                                                \
 (defun find_adjacent_comp                                                      \
-static NSTL_INLINE Iter algo(Iter first_, Iter last, Comp comp) {              \
+static NSTL_INLINE Iter algo(Iter first_, Iter last_, Comp comp_) {            \
     Iter next;                                                                 \
     Iter first;                                                                \
     nstl_copy_ctor(Iter)(&first, first_);                                      \
                                                                                \
-    if (nstl_eq(Iter, Iter)(first, last))                                      \
+    /* Check for an empty range. */                                            \
+    if (nstl_eq(Iter, Iter)(first, last_))                                     \
         return first;                                                          \
+                                                                               \
     nstl_copy_ctor(Iter)(&next, first);                                        \
-    while (nstl_ne(Iter, Iter)(nstl_inc(Iter)(&next), last)) {                 \
+    while (nstl_ne(Iter, Iter)(nstl_inc(Iter)(&next), last_)) {                \
         nstl_bool are_same;                                                    \
         {                                                                      \
             nstl_deref_proxy(Iter) first_proxy;                                \
@@ -71,8 +73,8 @@ static NSTL_INLINE Iter algo(Iter first_, Iter last, Comp comp) {              \
             nstl_ctor(nstl_deref_proxy(Iter))(&first_proxy, first);            \
             nstl_ctor(nstl_deref_proxy(Iter))(&next_proxy, next);              \
                                                                                \
-            are_same = comp(nstl_get(nstl_deref_proxy(Iter))(first_proxy),     \
-                            nstl_get(nstl_deref_proxy(Iter))(next_proxy));     \
+            are_same = comp_(nstl_get(nstl_deref_proxy(Iter))(first_proxy),    \
+                             nstl_get(nstl_deref_proxy(Iter))(next_proxy));    \
                                                                                \
             nstl_dtor(nstl_deref_proxy(Iter))(&next_proxy);                    \
             nstl_dtor(nstl_deref_proxy(Iter))(&first_proxy);                   \
@@ -85,8 +87,8 @@ static NSTL_INLINE Iter algo(Iter first_, Iter last, Comp comp) {              \
     }                                                                          \
                                                                                \
     nstl_dtor(Iter)(&next);                                                    \
-    /* This is to return a copy of last without copy_ctor()ing. */             \
-    nstl_asg(Iter, Iter)(&first, last);                                        \
+    /* This is to return a copy of last_ without copy_ctor()ing. */            \
+    nstl_asg(Iter, Iter)(&first, last_);                                       \
     return first;                                                              \
 }                                                                              \
 )                                                                              \

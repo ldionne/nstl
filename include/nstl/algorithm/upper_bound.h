@@ -73,8 +73,8 @@ NSTL_GETF(                                                                     \
     advance                                                                    \
 )                                                                              \
                                                                                \
-static Iter algo(Iter first_, Iter last, T value, Comp comp) {                 \
-    nstl_ptrdiff_t len = nstl_helper(algo, distance)(first_, last);            \
+static Iter algo(Iter first_, Iter last_, T value_, Comp comp_) {              \
+    nstl_ptrdiff_t len = nstl_helper(algo, distance)(first_, last_);           \
     nstl_ptrdiff_t half;                                                       \
     Iter first;                                                                \
     nstl_copy_ctor(Iter)(&first, first_);                                      \
@@ -89,7 +89,7 @@ static Iter algo(Iter first_, Iter last, T value, Comp comp) {                 \
         {                                                                      \
             nstl_deref_proxy(Iter) proxy;                                      \
             nstl_ctor(nstl_deref_proxy(Iter))(&proxy, middle);                 \
-            is_gt = comp(value, nstl_get(nstl_deref_proxy(Iter)(proxy)));      \
+            is_gt = comp_(value_, nstl_get(nstl_deref_proxy(Iter)(proxy)));    \
             nstl_dtor(nstl_deref_proxy(Iter))(&proxy);                         \
         }                                                                      \
         if (is_gt) {                                                           \
