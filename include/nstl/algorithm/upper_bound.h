@@ -51,7 +51,10 @@ static NSTL_INLINE Iter algo(Iter first, Iter last, T value) {                 \
     )                                                                          \
 /**/
 
-#define NSTL_I_UPPER_BOUND_COMP(algo, Iter, T, Comp)                           \
+#define NSTL_I_UPPER_BOUND_COMP(algo, Iter, T, Comp) \
+    NSTL_II_UPPER_BOUND_COMP(algo, Iter, T, Comp, nstl_ptrdiff_t)
+
+#define NSTL_II_UPPER_BOUND_COMP(algo, Iter, T, Comp, Distance)                \
 NSTL_TYPE(algo,                                                                \
                                                                                \
 (defun upper_bound_comp                                                        \
@@ -67,24 +70,24 @@ NSTL_GETF(                                                                     \
     NSTL_I_ADVANCE(                                                            \
         nstl_helper(algo, advance),                                            \
         Iter,                                                                  \
-        nstl_ptrdiff_t,                                                        \
+        Distance,                                                              \
         /*is_bidirectionnal=*/ 0                                               \
     ),                                                                         \
     advance                                                                    \
 )                                                                              \
                                                                                \
 static Iter algo(Iter first_, Iter last_, T value_, Comp comp_) {              \
-    nstl_ptrdiff_t len = nstl_helper(algo, distance)(first_, last_);           \
-    nstl_ptrdiff_t half;                                                       \
+    Distance len = nstl_helper(algo, distance)(first_, last_);                 \
+    Distance half;                                                             \
     Iter first;                                                                \
     nstl_copy_ctor(Iter)(&first, first_);                                      \
                                                                                \
-    while (len > 0) {                                                          \
+    while (nstl_gt(Distance, Distance)(len, 0)) {                              \
         nstl_bool is_gt;                                                       \
         Iter middle;                                                           \
         nstl_copy_ctor(Iter)(&middle, first);                                  \
                                                                                \
-        half = len / 2;                                                        \
+        half = nstl_div(Distance, Distance)(len, 2);                           \
         nstl_helper(algo, advance)(&middle, half);                             \
         {                                                                      \
             nstl_deref_proxy(Iter) proxy;                                      \
@@ -93,13 +96,16 @@ static Iter algo(Iter first_, Iter last_, T value_, Comp comp_) {              \
             nstl_dtor(nstl_deref_proxy(Iter))(&proxy);                         \
         }                                                                      \
         if (is_gt) {                                                           \
-            len = half;                                                        \
+            nstl_asg(Distance, Distance)(&len, half);                          \
         }                                                                      \
         else {                                                                 \
+            Distance half_minus_one = nstl_sub(Distance, Distance)(half, 1);   \
+            nstl_isub(Distance, Distance)(&len, half_minus_one);               \
+            nstl_dtor(Distance)(&half_minus_one);                              \
             nstl_asg(Iter, Iter)(&first, middle);                              \
             nstl_inc(Iter)(&first);                                            \
-            len = len - half - 1;                                              \
         }                                                                      \
+        nstl_dtor(Distance)(&half);                                            \
         nstl_dtor(Iter)(&middle);                                              \
     }                                                                          \
     return first;                                                              \
