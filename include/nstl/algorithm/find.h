@@ -5,6 +5,7 @@
 #ifndef NSTL_ALGORITHM_FIND_H
 #define NSTL_ALGORITHM_FIND_H
 
+#include <nstl/algorithm/distance.h>
 #include <nstl/internal.h>
 
 
@@ -17,6 +18,15 @@
 /**/
 
 #define NSTL_I_FIND(algo, Iter, T)                                             \
+    NSTL_I_FIND_DEFAULT(                                                       \
+        algo,                                                                  \
+        Iter,                                                                  \
+        T                                                                      \
+    )                                                                          \
+/**/
+
+
+#define NSTL_I_FIND_DEFAULT(algo, Iter, T)                                     \
 NSTL_TYPE(algo,                                                                \
                                                                                \
 (defun find                                                                    \
@@ -40,6 +50,20 @@ static NSTL_INLINE Iter algo(Iter first, Iter last, T value) {                 \
 /**/
 
 
+#define NSTL_I_FIND_BYTE(algo, Iter, T)                                        \
+NSTL_TYPE(algo,                                                                \
+                                                                               \
+(defun find                                                                    \
+static NSTL_INLINE Iter algo(Iter first_, Iter last_, T value_) {              \
+    void *result = nstl_memchr(first_, value_, last_ - first_);                \
+    return result != nstl_nullptr ? (Iter)result : last_;                      \
+}                                                                              \
+)                                                                              \
+                                                                               \
+)                                                                              \
+/**/
+
+
 #define NSTL_FIND_COMP(SinglePassReadableIterator, T, Compare)                 \
     NSTL_I_FIND_COMP(                                                          \
         nstl_find_comp(SinglePassReadableIterator, Compare),                   \
@@ -50,6 +74,16 @@ static NSTL_INLINE Iter algo(Iter first, Iter last, T value) {                 \
 /**/
 
 #define NSTL_I_FIND_COMP(algo, Iter, T, Comp)                                  \
+    NSTL_I_FIND_COMP_SINGLE_PASS(                                              \
+        algo,                                                                  \
+        Iter,                                                                  \
+        T,                                                                     \
+        Comp                                                                   \
+    )                                                                          \
+/**/
+
+
+#define NSTL_I_FIND_COMP_SINGLE_PASS(algo, Iter, T, Comp)                      \
 NSTL_TYPE(algo,                                                                \
                                                                                \
 (defun find_comp                                                               \
@@ -69,6 +103,88 @@ static NSTL_INLINE Iter algo(Iter first_, Iter last_, T value_, Comp comp_) {  \
             break;                                                             \
     }                                                                          \
                                                                                \
+    return first;                                                              \
+}                                                                              \
+)                                                                              \
+                                                                               \
+)                                                                              \
+/**/
+
+
+#define NSTL_I_FIND_COMP_RANDOM_ACCESS(algo, Iter, T, Comp) \
+    NSTL_II_FIND_COMP_RANDOM_ACCESS(algo, Iter, T, Comp, nstl_ptrdiff_t)
+
+#define NSTL_II_FIND_COMP_RANDOM_ACCESS(algo, Iter, T, Comp, Distance)         \
+NSTL_TYPE(algo,                                                                \
+                                                                               \
+(defun find_comp                                                               \
+NSTL_GETF(                                                                     \
+    NSTL_I_DISTANCE(                                                           \
+        nstl_helper(algo, distance),                                           \
+        Iter                                                                   \
+    ),                                                                         \
+    distance                                                                   \
+)                                                                              \
+                                                                               \
+static NSTL_INLINE nstl_bool nstl_helper(algo, make_comp)                      \
+                                        (Iter first_, T value_, Comp comp_) {  \
+    nstl_bool result;                                                          \
+    nstl_deref_proxy(Iter) proxy;                                              \
+    nstl_ctor(nstl_deref_proxy(Iter))(&proxy, first_);                         \
+    result = comp_(nstl_get(nstl_deref_proxy(Iter))(proxy), value_);           \
+    nstl_dtor(nstl_deref_proxy(Iter))(&proxy);                                 \
+    return result;                                                             \
+}                                                                              \
+                                                                               \
+static NSTL_INLINE Iter algo(Iter first_, Iter last_, T value_, Comp comp_) {  \
+    Iter first;                                                                \
+    Distance trip_count = nstl_helper(algo, distance)(first_, last_);          \
+    Distance remaining;                                                        \
+    nstl_idiv(Distance, Distance)(&trip_count, 4);                             \
+    nstl_copy_ctor(Iter)(&first, first_);                                      \
+                                                                               \
+    for ( ; nstl_gt(Distance, Distance)(trip_count, 0);                        \
+            nstl_dec(Distance)(&trip_count)) {                                 \
+        if (nstl_helper(algo, make_comp)(first, value_, comp_))                \
+            goto end;                                                          \
+        nstl_inc(Iter)(&first);                                                \
+                                                                               \
+        if (nstl_helper(algo, make_comp)(first, value_, comp_))                \
+            goto end;                                                          \
+        nstl_inc(Iter)(&first);                                                \
+                                                                               \
+        if (nstl_helper(algo, make_comp)(first, value_, comp_))                \
+            goto end;                                                          \
+        nstl_inc(Iter)(&first);                                                \
+                                                                               \
+        if (nstl_helper(algo, make_comp)(first, value_, comp_))                \
+            goto end;                                                          \
+        nstl_inc(Iter)(&first);                                                \
+    }                                                                          \
+                                                                               \
+    remaining = nstl_helper(algo, distance)(first, last_);                     \
+    switch (remaining) {                                                       \
+        case 3:                                                                \
+            if (nstl_helper(algo, make_comp)(first, value_, comp_))            \
+                goto end_with_remaining;                                       \
+            nstl_inc(Iter)(&first);                                            \
+        case 2:                                                                \
+            if (nstl_helper(algo, make_comp)(first, value_, comp_))            \
+                goto end_with_remaining;                                       \
+            nstl_inc(Iter)(&first);                                            \
+        case 1:                                                                \
+            if (nstl_helper(algo, make_comp)(first, value_, comp_))            \
+                goto end_with_remaining;                                       \
+        case 0:                                                                \
+        default:                                                               \
+            /* This is to avoid copy_ctor()ing last. */                        \
+            nstl_asg(Iter, Iter)(&first, last_);                               \
+            goto end_with_remaining;                                           \
+    }                                                                          \
+end_with_remaining:                                                            \
+    nstl_dtor(Distance)(&remaining);                                           \
+end:                                                                           \
+    nstl_dtor(Distance)(&trip_count);                                          \
     return first;                                                              \
 }                                                                              \
 )                                                                              \
