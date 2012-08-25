@@ -9,6 +9,7 @@
 
 #include <chaos/preprocessor/cat.h>
 #include <chaos/preprocessor/control/unless.h>
+#include <chaos/preprocessor/logical/not.h>
 #include <chaos/preprocessor/stringize.h>
 
 
@@ -44,5 +45,10 @@
         message                                                                \
     )                                                                          \
 /**/
+
+#define NSTL_STATIC_ASSERT_TRUE NSTL_STATIC_ASSERT
+
+#define NSTL_STATIC_ASSERT_FALSE(condition, message) \
+    NSTL_STATIC_ASSERT(CHAOS_PP_NOT(condition), message)
 
 #endif /* !NSTL_INTERNAL_STATIC_ASSERT_H */
