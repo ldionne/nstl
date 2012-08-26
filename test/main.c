@@ -7,12 +7,14 @@
 
 extern void test_suite_algorithm(void);
 extern void test_suite_container(void);
+extern void test_suite_iterator(void);
 extern void test_suite_utility(void);
 
 
 static void all_tests(void) {
     test_suite_algorithm();
     test_suite_container();
+    test_suite_iterator();
     test_suite_utility();
 }
 
