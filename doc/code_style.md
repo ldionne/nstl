@@ -92,7 +92,5 @@ derogation:
 * Comments
     - C-style comments only (`/* */`). This is required for ANSI-C compliance.
     - Comments go before the code they comment.
-    - Doxygen comments begin with `/**`, not `/*!`.
-    - Doxygen special tags are used with `@` instead of `\`.
 
 * No compiler dependant features are used.
