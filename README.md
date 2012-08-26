@@ -10,19 +10,19 @@ in the C++ STL, some names differ. This happened when we felt that a name in
 in the C++ STL could be made clearer or more expressive. The following list
 shows the mapping of the names from the C++ STL to the __nstl__.
 
-* _adjacent\_find_ --> _find\_adjacent_
-* _equal_ --> _is\_equal_
-* _find\_first\_of_ --> _find\_any\_of_
-* _find\_end_ --> ?
-* _mismatch_ --> _find\_mismatch_
-* _search_ --> _find\_subsequence_
-* _search\_n_ --> ?
-* _remove_ --> ?
-* _remove\_copy_ --> ?
-* _replace_ --> ?
-* _replace\_copy_ --> ?
-* _unique_ --> _remove\_adjacent_
-* _unique\_copy_ --> _remove\_adjacent\_copy_
+* `adjacent_find` --> `find_adjacent`
+* `equal` --> `is_equal`
+* `find_first_of` --> `find_any_of`
+* `find_end` --> ?
+* `mismatch` --> `find_mismatch`
+* `search` --> `find_subsequence`
+* `search_n` --> ?
+* `remove` --> ?
+* `remove_copy` --> ?
+* `replace` --> ?
+* `replace_copy` --> ?
+* `unique` --> `remove_adjacent`
+* `unique_copy` --> `remove_adjacent_copy`
 
 
 
@@ -71,7 +71,7 @@ things are listed is irrelevant.
 
 * Use concept checks whenever possible.
 
-* Put the _deref_ operator in the operators, and add a subscript operator.
+* Put the `deref` operator in the operators, and add a subscript operator.
 
 * Refactor the concepts currently implemented and fix them so they correspond
   to the boost concepts where needed.
@@ -108,8 +108,8 @@ things are listed is irrelevant.
 * Design ranges and write wrappers to use ranges with all the algorithms that
   support it.
 
-* Consider renaming _min\_element_ and _max\_element_ to something clearer
-  like _min\_in_ and _max\_in_ or something similar.
+* Consider renaming `min_element` and `max_element` to something clearer
+  like `min_in` and `max_in` or something similar.
 
 * Implement debug facilities such as validity checks and code instrumentation.
 
