@@ -10,7 +10,10 @@
 #ifndef NSTL_INTERNAL_TOKEN_H
 #define NSTL_INTERNAL_TOKEN_H
 
-#include <chaos/preprocessor/algorithm/concat.h>
+#include <joy/cat.h>
+#include <joy/string/to_tuple.h>
+
+#include <chaos/preprocessor/algorithm/size.h>
 #include <chaos/preprocessor/cat.h>
 #include <chaos/preprocessor/config.h>
 #include <chaos/preprocessor/control/iif.h>
@@ -59,20 +62,35 @@
  * Return the first token of a token string.
  */
 #define NSTL_TOKEN_STRING_HEAD(string)                                         \
+    NSTL_I_TOKEN_STRING_HEAD_CONCAT(                                           \
+        NSTL_I_TOKEN_STRING_HEAD_EXTRACT_PP_STRING(string)                     \
+    )                                                                          \
+/**/
+
+#define NSTL_I_TOKEN_STRING_HEAD_CONCAT(string)                                \
+    NSTL_I_TOKEN_STRING_HEAD_CONCAT_N(                                         \
+        string, CHAOS_PP_SIZE((CHAOS_PP_STRING) string)                        \
+    )                                                                          \
+/**/
+
+#define NSTL_I_TOKEN_STRING_HEAD_CONCAT_N(string, length)                      \
+    CHAOS_PP_EXPAND(                                                           \
+        CHAOS_PP_CAT(JOY_CAT_NOEXP, length) JOY_STRING_TO_TUPLE(string)        \
+    )                                                                          \
+/**/
+
+#define NSTL_I_TOKEN_STRING_HEAD_EXTRACT_PP_STRING(string)                     \
     CHAOS_PP_IIF(NSTL_TOKEN_STRING_IS_NIL(string))(                            \
         NSTL_I_TOKEN_STRING_NIL_INPUT_EXCEPTION(!),                            \
-                                                                               \
-        CHAOS_PP_CONCAT((CHAOS_PP_STRING)                                      \
-            CHAOS_PP_SPLIT(0,                                                  \
-                CHAOS_PP_EXPAND(                                               \
-                    NSTL_I_TOKEN_STRING_HEAD                                   \
-                        CHAOS_PP_PRIMITIVE_CAT(NSTL_TOKEN_, string)            \
-                )                                                              \
+        CHAOS_PP_SPLIT(0,                                                      \
+            CHAOS_PP_EXPAND(                                                   \
+                NSTL_I_TOKEN_STRING_HEAD_EXTRACT_PP_STRING_SPLIT               \
+                    CHAOS_PP_PRIMITIVE_CAT(NSTL_TOKEN_, string)                \
             )                                                                  \
         )                                                                      \
     )                                                                          \
 /**/
-#define NSTL_I_TOKEN_STRING_HEAD(x) x, ~
+#define NSTL_I_TOKEN_STRING_HEAD_EXTRACT_PP_STRING_SPLIT(x) x, ~
 
 /**
  * Return the string with its head removed.
