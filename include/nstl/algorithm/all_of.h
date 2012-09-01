@@ -6,17 +6,42 @@
 #define NSTL_ALGORITHM_ALL_OF_H
 
 #include <nstl/internal.h>
+#include <nstl/iterator/traits.h>
 
 
-#define NSTL_ALL_OF(SinglePassReadableIterator, Predicate)                     \
+#define NSTL_ALL_OF(SinglePassReadableIteratorTraits, Predicate)               \
     NSTL_I_ALL_OF(                                                             \
-        nstl_all_of(SinglePassReadableIterator, Predicate),                    \
-        SinglePassReadableIterator,                                            \
+        SinglePassReadableIteratorTraits,                                      \
+        NSTL_TRAIT_SELF_TYPE(SinglePassReadableIteratorTraits),                \
         Predicate                                                              \
     )                                                                          \
 /**/
 
-#define NSTL_I_ALL_OF(algo, Iter, Pred)                                        \
+#define NSTL_I_ALL_OF(traits, Iter, Pred)                                      \
+    NSTL_I_ADVANCE_NAMED(                                                      \
+        nstl_all_of(Iter, Pred),                                               \
+        traits,                                                                \
+        Iter,                                                                  \
+        Pred                                                                   \
+    )                                                                          \
+/**/
+
+#define NSTL_ALL_OF_NAMED(AlgorithmName, SinglePassReadableIteratorTraits,     \
+                                         Predicate)                            \
+    NSTL_I_ALL_OF_NAMED(                                                       \
+        AlgorithmName,                                                         \
+        SinglePassReadableIteratorTraits,                                      \
+        NSTL_TRAIT_SELF_TYPE(SinglePassReadableIteratorTraits),                \
+        Predicate                                                              \
+    )                                                                          \
+/**/
+
+#define NSTL_I_ALL_OF_NAMED(algo, traits, Iter, Pred)                          \
+    NSTL_I_ALL_OF_DEFAULT(algo, Iter, Pred)                                    \
+/**/
+
+
+#define NSTL_I_ALL_OF_DEFAULT(algo, Iter, Pred)                                \
 NSTL_TYPE(algo,                                                                \
                                                                                \
 (defun all_of                                                                  \
