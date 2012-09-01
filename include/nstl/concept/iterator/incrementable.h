@@ -20,7 +20,7 @@
  *  - it can be prefix incremented
  *  - it can be dereferenced
  */
-#define NSTL_CONCEPT_READABLE_ITERATOR(T)                                      \
+#define NSTL_CONCEPT_INCREMENTABLE_ITERATOR(T)                                 \
 NSTL_CONCEPT_ASSIGNABLE(T)                                                     \
 NSTL_CONCEPT_COPY_CONSTRUCTIBLE(T)                                             \
                                                                                \

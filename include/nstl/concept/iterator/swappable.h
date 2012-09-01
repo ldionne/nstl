@@ -17,7 +17,7 @@
  *  - it is possible to swap the pointed to values of two iterators by using
  *    the @em iter_swap function.
  */
-#define NSTL_CONCEPT_WRITABLE_ITERATOR(T)                                      \
+#define NSTL_CONCEPT_SWAPPABLE_ITERATOR(T)                                     \
 NSTL_CONCEPT_COPY_CONSTRUCTIBLE(T)                                             \
                                                                                \
 NSTL_CONCEPT(                                                                  \
