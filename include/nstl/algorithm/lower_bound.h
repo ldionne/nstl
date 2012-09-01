@@ -67,11 +67,10 @@ NSTL_GETF(                                                                     \
 )                                                                              \
                                                                                \
 NSTL_GETF(                                                                     \
-    NSTL_I_ADVANCE(                                                            \
+    NSTL_ADVANCE_NAMED(                                                        \
         nstl_helper(algo, advance),                                            \
-        Iter,                                                                  \
-        Distance,                                                              \
-        /*is_bidirectionnal=*/ 0                                               \
+        (self_type Iter) (diff_traits (self_type Distance))                    \
+        (traversal_category nstl_bidirectional_traversal_category)             \
     ),                                                                         \
     advance                                                                    \
 )                                                                              \

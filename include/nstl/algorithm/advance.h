@@ -6,38 +6,65 @@
 #define NSTL_ALGORITHM_ADVANCE_H
 
 #include <nstl/internal.h>
+#include <nstl/iterator/traits.h>
+
+#include <chaos/preprocessor/control/branch.h>
 
 
-#define NSTL_ADVANCE(IncrementableIterator, Distance, is_bidirectional)        \
+#define NSTL_ADVANCE(IncrementableIteratorTraits)                              \
     NSTL_I_ADVANCE(                                                            \
-        nstl_advance(IncrementableIterator, Distance),                         \
-        IncrementableIterator,                                                 \
-        Distance,                                                              \
-        is_bidirectional                                                       \
+        IncrementableIteratorTraits,                                           \
+        NSTL_TRAIT_SELF_TYPE(IncrementableIteratorTraits),                     \
+        NSTL_TRAIT_DIFF_TYPE(IncrementableIteratorTraits)                      \
     )                                                                          \
 /**/
 
-#define NSTL_I_ADVANCE(algo, Iter, Distance, is_bidirectional)                 \
-    NSTL_STATIC_IF(is_bidirectional)(                                          \
-        NSTL_I_ADVANCE_BIDIRECTIONAL, NSTL_I_ADVANCE_FORWARD                   \
-    )(algo, Iter, Distance)                                                    \
+#define NSTL_I_ADVANCE(IterTraits, Iter, Diff)                                 \
+    NSTL_I_ADVANCE_NAMED(                                                      \
+        nstl_advance(Iter, Diff),                                              \
+        IterTraits,                                                            \
+        Iter,                                                                  \
+        Diff                                                                   \
+    )                                                                          \
+/**/
+
+#define NSTL_ADVANCE_NAMED(AlgorithmName, IncrementableIteratorTraits)         \
+    NSTL_I_ADVANCE_NAMED(                                                      \
+        AlgorithmName,                                                         \
+        IncrementableIteratorTraits,                                           \
+        NSTL_TRAIT_SELF_TYPE(IncrementableIteratorTraits),                     \
+        NSTL_TRAIT_DIFF_TYPE(IncrementableIteratorTraits)                      \
+    )                                                                          \
+/**/
+
+#define NSTL_I_ADVANCE_NAMED(algo, IterTraits, Iter, Diff)                     \
+    CHAOS_PP_BRANCH                                                            \
+    (0xIF)(NSTL_IS_RANDOM_ACCESS_ITERATOR(IterTraits))(                        \
+        NSTL_I_ADVANCE_RANDOM_ACCESS(algo, Iter, Diff)                         \
+                                                                               \
+    )(0xELIF)(NSTL_IS_BIDIRECTIONAL_ITERATOR(IterTraits))(                     \
+        NSTL_I_ADVANCE_BIDIRECTIONAL(algo, Iter, Diff)                         \
+                                                                               \
+    )(0xELSE)(                                                                 \
+        NSTL_I_ADVANCE_DEFAULT(algo, Iter, Diff)                               \
+    )(0xENDIF)                                                                 \
 /**/
 
 
-#define NSTL_I_ADVANCE_FORWARD(algo, Iter, Distance)                           \
+#define NSTL_I_ADVANCE_DEFAULT(algo, Iter, Diff)                               \
 NSTL_TYPE(algo,                                                                \
                                                                                \
 (defun advance                                                                 \
-static NSTL_INLINE void algo(Iter *iter_, Distance n_) {                       \
-    Distance n;                                                                \
-    nstl_copy_ctor(Distance)(&n, n_);                                          \
+static NSTL_INLINE void algo(Iter *iter_, Diff n_) {                           \
+    Diff n;                                                                    \
+    nstl_copy_ctor(Diff)(&n, n_);                                              \
                                                                                \
-    while (nstl_ne(Distance, Distance)(n, 0)) {                                \
-        nstl_dec(Distance)(&n);                                                \
+    while (nstl_ne(Diff, Diff)(n, 0)) {                                        \
+        nstl_dec(Diff)(&n);                                                    \
         nstl_inc(Iter)(iter_);                                                 \
     }                                                                          \
                                                                                \
-    nstl_dtor(Distance)(&n);                                                   \
+    nstl_dtor(Diff)(&n);                                                       \
 }                                                                              \
 )                                                                              \
                                                                                \
@@ -45,26 +72,26 @@ static NSTL_INLINE void algo(Iter *iter_, Distance n_) {                       \
 /**/
 
 
-#define NSTL_I_ADVANCE_BIDIRECTIONAL(algo, Iter, Distance)                     \
+#define NSTL_I_ADVANCE_BIDIRECTIONAL(algo, Iter, Diff)                         \
 NSTL_TYPE(algo,                                                                \
                                                                                \
 (defun advance                                                                 \
-static NSTL_INLINE void algo(Iter *iter_, Distance n_) {                       \
-    Distance n;                                                                \
-    nstl_copy_ctor(Distance)(&n, n_);                                          \
+static NSTL_INLINE void algo(Iter *iter_, Diff n_) {                           \
+    Diff n;                                                                    \
+    nstl_copy_ctor(Diff)(&n, n_);                                              \
                                                                                \
-    if (nstl_lt(Distance, Distance)(0, n))                                     \
+    if (nstl_lt(Diff, Diff)(0, n))                                             \
         do {                                                                   \
-            nstl_dec(Distance)(&n);                                            \
+            nstl_dec(Diff)(&n);                                                \
             nstl_inc(Iter)(iter_);                                             \
-        } while (nstl_ne(Distance, Distance)(n, 0));                           \
+        } while (nstl_ne(Diff, Diff)(n, 0));                                   \
     else                                                                       \
-        while (nstl_ne(Distance, Distance)(n, 0)) {                            \
-            nstl_inc(Distance)(&n);                                            \
+        while (nstl_ne(Diff, Diff)(n, 0)) {                                    \
+            nstl_inc(Diff)(&n);                                                \
             nstl_dec(Iter)(iter_);                                             \
         }                                                                      \
                                                                                \
-    nstl_dtor(Distance)(&n);                                                   \
+    nstl_dtor(Diff)(&n);                                                       \
 }                                                                              \
 )                                                                              \
                                                                                \
@@ -72,12 +99,12 @@ static NSTL_INLINE void algo(Iter *iter_, Distance n_) {                       \
 /**/
 
 
-#define NSTL_I_ADVANCE_RANDOM_ACCESS(algo, Iter, Distance)                     \
+#define NSTL_I_ADVANCE_RANDOM_ACCESS(algo, Iter, Diff)                         \
 NSTL_TYPE(algo,                                                                \
                                                                                \
 (defun advance                                                                 \
-static NSTL_INLINE void algo(Iter *iter_, Distance n_) {                       \
-    nstl_iadd(Iter, Distance)(iter_, n_);                                      \
+static NSTL_INLINE void algo(Iter *iter_, Diff n_) {                           \
+    nstl_iadd(Iter, Diff)(iter_, n_);                                          \
 }                                                                              \
 )                                                                              \
                                                                                \
