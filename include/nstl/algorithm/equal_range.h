@@ -131,9 +131,9 @@ static nstl_pair(Iter, Iter) algo(Iter first_, Iter last_,                     \
          */                                                                    \
         at_middle = nstl_helper(algo, deref)(middle);                          \
         if (comp_(at_middle, value_)) {                                        \
-            Distance half_minus_one = nstl_sub(Distance, Distance)(half, 1);   \
-            nstl_isub(Distance, Distance)(&len, half_minus_one);               \
-            nstl_dtor(Distance)(&half_minus_one);                              \
+            Distance half_plus_one = nstl_add(Distance, Distance)(half, 1);    \
+            nstl_isub(Distance, Distance)(&len, half_plus_one);                \
+            nstl_dtor(Distance)(&half_plus_one);                               \
             nstl_asg(Iter, Iter)(&first, middle);                              \
             nstl_inc(Iter)(&first);                                            \
         }                                                                      \
