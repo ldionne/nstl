@@ -8,15 +8,18 @@
 
 
 typedef nstl_bool (*Compare)(nstl_int x, nstl_int y);
-NSTL_INSTANTIATE(NSTL_BINARY_SEARCH(nstl_pint, nstl_int))
-NSTL_INSTANTIATE(NSTL_BINARY_SEARCH_COMP(nstl_pint, nstl_int, Compare))
+#define Default (self_type nstl_pint)
 
-#define binary_search nstl_binary_search(nstl_pint)
-#define binary_search_comp(first, last, value)                                 \
-    nstl_binary_search_comp(nstl_pint, Compare)(                               \
-        first, last, value, nstl_lt(nstl_int, nstl_int)                        \
-    )                                                                          \
-/**/
+
+NSTL_INSTANTIATE(NSTL_BINARY_SEARCH_NAMED(
+    binary_search, Default, nstl_int
+))
+NSTL_INSTANTIATE(NSTL_BINARY_SEARCH_COMP_NAMED(
+    binary_search_comp, Default, nstl_int, Compare
+))
+
+#define binary_search_comp(first, last, value) \
+    binary_search_comp(first, last, value, nstl_lt(nstl_int, nstl_int))
 
 static void test_should_return_false_when_not_contained(void) {
     nstl_int array[10] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
@@ -59,7 +62,6 @@ static void test_check_for_off_by_one_at_end(void) {
 }
 
 #undef binary_search_comp
-#undef binary_search
 
 extern void test_fixture_binary_search(void) {
     test_fixture_start();
