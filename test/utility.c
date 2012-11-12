@@ -7,9 +7,11 @@
 
 extern void test_fixture_pair(void);
 extern void test_fixture_relational_operators(void);
+extern void test_fixture_swap(void);
 
 
 extern void test_suite_utility(void) {
     test_fixture_pair();
     test_fixture_relational_operators();
+    test_fixture_swap();
 }

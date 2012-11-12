@@ -32,7 +32,6 @@
 #include <nstl/algorithm/next.h>
 #include <nstl/algorithm/none_of.h>
 #include <nstl/algorithm/prev.h>
-#include <nstl/algorithm/swap.h>
 #include <nstl/algorithm/upper_bound.h>
 
 #endif /* !NSTL_ALGORITHM_H */

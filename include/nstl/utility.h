@@ -7,5 +7,6 @@
 
 #include <nstl/utility/pair.h>
 #include <nstl/utility/relational_operators.h>
+#include <nstl/utility/swap.h>
 
 #endif /* !NSTL_UTILITY_H */
