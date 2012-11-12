@@ -9,7 +9,8 @@
 
 
 typedef nstl_bool (*Compare)(nstl_int x, nstl_int y);
-#define Traits (self_type nstl_pint) (diff_traits (self_type nstl_ptrdiff_t))
+#define Traits (self_type nstl_pint) (diff_traits (self_type nstl_ptrdiff_t)) \
+               (traversal_category nstl_random_access_traversal_tag)
 
 NSTL_INSTANTIATE(NSTL_PAIR(nstl_pint, nstl_pint))
 NSTL_INSTANTIATE(NSTL_EQUAL_RANGE(Traits, nstl_int))

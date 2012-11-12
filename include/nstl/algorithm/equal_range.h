@@ -76,19 +76,19 @@ static NSTL_INLINE nstl_pair(Iter, Iter) algo(Iter first, Iter last,T value) { \
         NSTL_TRAIT_SELF_TYPE(ForwardTraversalReadableIteratorTraits),          \
         T,                                                                     \
         Compare,                                                               \
-        NSTL_TRAIT_DIFF_TYPE(ForwardTraversalReadableIteratorTraits)           \
+        NSTL_TRAIT_DIFF_TYPE(ForwardTraversalReadableIteratorTraits),          \
+        ForwardTraversalReadableIteratorTraits                                 \
     )                                                                          \
 /**/
 
-#define NSTL_I_EQUAL_RANGE_COMP(algo, Iter, T, Comp, Distance)                 \
+#define NSTL_I_EQUAL_RANGE_COMP(algo, Iter, T, Comp, Distance, Traits)         \
 NSTL_TYPE(this_func,                                                           \
 (defun equal_range_comp                                                        \
                                                                                \
 NSTL_GETF(                                                                     \
     NSTL_DISTANCE_NAMED(                                                       \
         nstl_helper(algo, distance),                                           \
-        (self_type Iter) (diff_traits (self_type Distance))                    \
-        (traversal_category nstl_forward_traversal_tag)                        \
+        Traits                                                                 \
     ),                                                                         \
     distance                                                                   \
 )                                                                              \
@@ -96,8 +96,7 @@ NSTL_GETF(                                                                     \
 NSTL_GETF(                                                                     \
     NSTL_ADVANCE_NAMED(                                                        \
         nstl_helper(algo, advance),                                            \
-        (self_type Iter) (diff_traits (self_type Distance))                    \
-        (traversal_category nstl_forward_traversal_tag)                        \
+        Traits                                                                 \
     ),                                                                         \
     advance                                                                    \
 )                                                                              \
