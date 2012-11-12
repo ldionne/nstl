@@ -11,16 +11,7 @@ link_directories(${nstl_BINARY_DIR}/test)
 
 add_library(seatest ${nstl_SOURCE_DIR}/ext/seatest/src/seatest.c)
 
-add_executable(
-    unit-tests
-    ${unit_test_files}
-)
-
+add_executable(unit-tests ${unit_test_files})
 target_link_libraries(unit-tests seatest)
 
-add_custom_target(
-    run-tests
-    COMMAND ./unit-tests
-    DEPENDS unit-tests
-    WORKING_DIRECTORY ${nstl_BINARY_DIR}/test
-)
+add_custom_target(check unit-tests DEPENDS unit-tests)

@@ -53,7 +53,7 @@ documentation appears in the sources or in [the docs](doc/).
 
     Builds the library and unit tests.
 
-5. `make run-tests`
+5. `make check`
 
     Runs all the unit tests of the library.
 
