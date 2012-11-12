@@ -78,10 +78,10 @@ NSTL_TYPE(algo,                                                                \
                                                                                \
 (defun copy_n                                                                  \
 NSTL_GETF(                                                                     \
-    NSTL_I_NEXT_N(                                                             \
+    NSTL_NEXT_N_NAMED(                                                         \
         nstl_helper(algo, next_n),                                             \
-        Input,                                                                 \
-        Size                                                                   \
+        (self_type Input) (diff_traits (self_type Size))                       \
+        (traversal_category nstl_random_access_traversal_tag)                  \
     ),                                                                         \
     next_n                                                                     \
 )                                                                              \
