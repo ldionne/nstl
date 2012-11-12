@@ -7,11 +7,15 @@
 #include <seatest.h>
 
 
-NSTL_INSTANTIATE(NSTL_PREV(nstl_pint))
-NSTL_INSTANTIATE(NSTL_PREV_N(nstl_pint, nstl_ptrdiff_t))
+#define Traits (self_type nstl_pint)                                        \
+               (diff_traits (self_type nstl_ptrdiff_t))                     \
+               (traversal_category nstl_random_access_traversal_tag)
+
+NSTL_INSTANTIATE(NSTL_PREV(Traits))
+NSTL_INSTANTIATE(NSTL_PREV_N(Traits))
 
 #define prev nstl_prev(nstl_pint)
-#define prev_n nstl_prev_n(nstl_pint, nstl_ptrdiff_t)
+#define prev_n nstl_prev_n(nstl_pint)
 
 static void test_should_return_iterator_to_prev(void) {
     nstl_int array[10] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};

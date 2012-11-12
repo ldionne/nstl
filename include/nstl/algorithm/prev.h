@@ -7,51 +7,60 @@
 
 #include <nstl/algorithm/advance.h>
 #include <nstl/internal.h>
+#include <nstl/iterator/traits.h>
 
 
-#define NSTL_PREV(BidirectionnalTraversalIterator)                             \
+#define NSTL_PREV(BidirectionnalTraversalIteratorTraits)                       \
+    NSTL_PREV_NAMED(                                                           \
+       nstl_prev(NSTL_TRAIT_SELF_TYPE(BidirectionnalTraversalIteratorTraits)), \
+        BidirectionnalTraversalIteratorTraits                                  \
+    )                                                                          \
+/**/
+
+#define NSTL_PREV_NAMED(AlgorithmName, BidirectionnalTraversalIteratorTraits)  \
     NSTL_I_PREV(                                                               \
-        nstl_prev(BidirectionnalTraversalIterator),                            \
-        BidirectionnalTraversalIterator                                        \
+        AlgorithmName,                                                         \
+        NSTL_TRAIT_SELF_TYPE(BidirectionnalTraversalIteratorTraits)            \
     )                                                                          \
 /**/
 
 #define NSTL_I_PREV(algo, Iter)                                                \
 NSTL_TYPE(Iter,                                                                \
-                                                                               \
 (defun prev                                                                    \
+                                                                               \
 static NSTL_INLINE Iter algo(Iter iter_) {                                     \
     Iter iter;                                                                 \
     nstl_copy_ctor(Iter)(&iter, iter_);                                        \
     nstl_dec(Iter)(&iter);                                                     \
     return iter;                                                               \
 }                                                                              \
-)                                                                              \
                                                                                \
-)                                                                              \
+))                                                                             \
 /**/
 
 
-#define NSTL_PREV_N(BidirectionnalTraversalIterator, Distance)                 \
-    NSTL_I_PREV_N(                                                             \
-        nstl_prev_n(BidirectionnalTraversalIterator, Distance),                \
-        BidirectionnalTraversalIterator,                                       \
-        Distance                                                               \
+#define NSTL_PREV_N(BidirectionnalTraversalIteratorTraits)                     \
+    NSTL_PREV_N_NAMED(                                                         \
+        nstl_prev_n(                                                           \
+                NSTL_TRAIT_SELF_TYPE(BidirectionnalTraversalIteratorTraits)),  \
+        BidirectionnalTraversalIteratorTraits                                  \
     )                                                                          \
 /**/
 
-#define NSTL_I_PREV_N(algo, Iter, Distance)                                    \
+#define NSTL_PREV_N_NAMED(AlgorithmName,BidirectionnalTraversalIteratorTraits) \
+    NSTL_I_PREV_N(                                                             \
+        AlgorithmName,                                                         \
+        NSTL_TRAIT_SELF_TYPE(BidirectionnalTraversalIteratorTraits),           \
+        NSTL_TRAIT_DIFF_TYPE(BidirectionnalTraversalIteratorTraits),           \
+        BidirectionnalTraversalIteratorTraits                                  \
+    )                                                                          \
+/**/
+
+#define NSTL_I_PREV_N(algo, Iter, Distance, Traits)                            \
 NSTL_TYPE(algo,                                                                \
-                                                                               \
 (defun prev_n                                                                  \
-NSTL_GETF(                                                                     \
-    NSTL_ADVANCE_NAMED(                                                        \
-        nstl_helper(algo, advance),                                            \
-        (self_type Iter) (diff_traits (self_type Distance))                    \
-        (traversal_category nstl_bidirectional_traversal_tag)                  \
-    ),                                                                         \
-    advance                                                                    \
-)                                                                              \
+                                                                               \
+NSTL_GETF(NSTL_ADVANCE_NAMED(nstl_helper(algo, advance), Traits), advance)     \
                                                                                \
 static NSTL_INLINE Iter algo(Iter iter_, Distance n_) {                        \
     Iter iter;                                                                 \
@@ -59,9 +68,8 @@ static NSTL_INLINE Iter algo(Iter iter_, Distance n_) {                        \
     nstl_helper(algo, advance)(&iter, nstl_inv(Distance)(n_));                 \
     return iter;                                                               \
 }                                                                              \
-)                                                                              \
                                                                                \
-)                                                                              \
+))                                                                             \
 /**/
 
 
@@ -70,8 +78,7 @@ static NSTL_INLINE Iter algo(Iter iter_, Distance n_) {                        \
 import nstl
 nstl.generate(cog,
     'prev(BidirectionnalTraversalIterator)',
-    'prev_n(BidirectionnalTraversalIterator, Distance)',
-
+    'prev_n(BidirectionnalTraversalIterator)',
     token=True, mangle=True,
 )
 
@@ -80,7 +87,7 @@ nstl.generate(cog,
 #define NSTL_TOKEN_prev (p r e v)
 #define nstl_prev(BidirectionnalTraversalIterator) JOY_CAT3(nstl_mangled_prev, _, BidirectionnalTraversalIterator)
 #define NSTL_TOKEN_prev_n (p r e v _ n)
-#define nstl_prev_n(BidirectionnalTraversalIterator,  Distance) JOY_CAT5(nstl_mangled_prev_n, _, BidirectionnalTraversalIterator, _,  Distance)
+#define nstl_prev_n(BidirectionnalTraversalIterator) JOY_CAT3(nstl_mangled_prev_n, _, BidirectionnalTraversalIterator)
 /* [[[end]]] */
 
 #endif /* !NSTL_ALGORITHM_PREV_H */
