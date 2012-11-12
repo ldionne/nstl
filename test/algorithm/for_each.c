@@ -7,11 +7,8 @@
 #include <seatest.h>
 
 
-typedef void (*callback_type) (nstl_int elem);
-NSTL_INSTANTIATE(NSTL_FOR_EACH(nstl_pint, callback_type))
-
-#define for_each nstl_for_each(nstl_pint, callback_type)
-
+typedef void (*Function) (nstl_int elem);
+NSTL_INSTANTIATE(NSTL_FOR_EACH_NAMED(for_each,(self_type nstl_pint),Function))
 
 /**
  * Global structure used to collect information when a test is run.
@@ -47,7 +44,7 @@ static void func(nstl_int elem) {
 
 static void should_return_function(void) {
     nstl_int array[10] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
-    callback_type f;
+    Function f;
 
     f = for_each(array, array + 10, func);
     assert_true(f == func);

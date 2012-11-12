@@ -6,20 +6,31 @@
 #define NSTL_ALGORITHM_FOR_EACH_H
 
 #include <nstl/internal.h>
+#include <nstl/iterator/traits.h>
 
 
-#define NSTL_FOR_EACH(SinglePassReadableIterator, Function)                    \
+#define NSTL_FOR_EACH(SinglePassReadableIteratorTraits, Function)              \
+    NSTL_FOR_EACH_NAMED(                                                       \
+        nstl_for_each(NSTL_TRAIT_SELF_TYPE(SinglePassReadableIteratorTraits),  \
+                      Function),                                               \
+        SinglePassReadableIteratorTraits,                                      \
+        Function                                                               \
+    )                                                                          \
+/**/
+
+#define NSTL_FOR_EACH_NAMED(AlgorithmName, SinglePassReadableIteratorTraits,   \
+                            Function)                                          \
     NSTL_I_FOR_EACH(                                                           \
-        nstl_for_each(SinglePassReadableIterator, Function),                   \
-        SinglePassReadableIterator,                                            \
+        AlgorithmName,                                                         \
+        NSTL_TRAIT_SELF_TYPE(SinglePassReadableIteratorTraits),                \
         Function                                                               \
     )                                                                          \
 /**/
 
 #define NSTL_I_FOR_EACH(algo, Iter, Func)                                      \
 NSTL_TYPE(algo,                                                                \
-                                                                               \
 (defun for_each                                                                \
+                                                                               \
 static NSTL_INLINE Func algo(Iter first_, Iter last_, Func f_) {               \
     Iter first;                                                                \
     nstl_copy_ctor(Iter)(&first, first_);                                      \
@@ -34,9 +45,8 @@ static NSTL_INLINE Func algo(Iter first_, Iter last_, Func f_) {               \
     nstl_dtor(Iter)(&first);                                                   \
     return f_;                                                                 \
 }                                                                              \
-)                                                                              \
                                                                                \
-)                                                                              \
+))                                                                             \
 /**/
 
 
@@ -45,7 +55,6 @@ static NSTL_INLINE Func algo(Iter first_, Iter last_, Func f_) {               \
 import nstl
 nstl.generate(cog,
     'for_each(SinglePassReadableIterator, Function)',
-
     token=True, mangle=True,
 )
 
