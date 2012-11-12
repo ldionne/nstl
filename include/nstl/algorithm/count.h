@@ -6,12 +6,21 @@
 #define NSTL_ALGORITHM_COUNT_H
 
 #include <nstl/internal.h>
+#include <nstl/iterator/traits.h>
 
 
-#define NSTL_COUNT(SinglePassReadableIterator, T)                              \
+#define NSTL_COUNT(SinglePassReadableIteratorTraits, T)                        \
+    NSTL_COUNT_NAMED(                                                          \
+        nstl_count(NSTL_TRAIT_SELF_TYPE(SinglePassReadableIteratorTraits)),    \
+        SinglePassReadableIteratorTraits,                                      \
+        T                                                                      \
+    )                                                                          \
+/**/
+
+#define NSTL_COUNT_NAMED(AlgorithmName, SinglePassReadableIteratorTraits, T)   \
     NSTL_I_COUNT(                                                              \
-        nstl_count(SinglePassReadableIterator),                                \
-        SinglePassReadableIterator,                                            \
+        AlgorithmName,                                                         \
+        NSTL_TRAIT_SELF_TYPE(SinglePassReadableIteratorTraits),                \
         T                                                                      \
     )                                                                          \
 /**/
@@ -41,9 +50,8 @@ static NSTL_INLINE nstl_ptrdiff_t algo(Iter first_, Iter last_, T value_) {    \
     nstl_dtor(Iter)(&first);                                                   \
     return n;                                                                  \
 }                                                                              \
-)                                                                              \
                                                                                \
-)                                                                              \
+))                                                                             \
 /**/
 
 
@@ -51,15 +59,14 @@ static NSTL_INLINE nstl_ptrdiff_t algo(Iter first_, Iter last_, T value_) {    \
 
 import nstl
 nstl.generate(cog,
-    'count(SinglePassReadableIterator)',
-
+    'count(SinglePassReadableIteratorTraits)',
     token=True, mangle=True,
 )
 
 ]]] */
 #include <joy/cat.h>
 #define NSTL_TOKEN_count (c o u n t)
-#define nstl_count(SinglePassReadableIterator) JOY_CAT3(nstl_mangled_count, _, SinglePassReadableIterator)
+#define nstl_count(SinglePassReadableIteratorTraits) JOY_CAT3(nstl_mangled_count, _, SinglePassReadableIteratorTraits)
 /* [[[end]]] */
 
 #endif /* !NSTL_ALGORITHM_COUNT_H */

@@ -7,7 +7,7 @@
 #include <seatest.h>
 
 
-NSTL_INSTANTIATE(NSTL_COUNT(nstl_pint, nstl_int))
+NSTL_INSTANTIATE(NSTL_COUNT((self_type nstl_pint), nstl_int))
 
 static void test_should_count_0_if_none_is_equal(void) {
     nstl_int array[10] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
