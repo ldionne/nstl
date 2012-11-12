@@ -8,7 +8,7 @@
 
 
 typedef nstl_bool (*Predicate) (nstl_int elem);
-NSTL_INSTANTIATE(NSTL_COUNT_IF(nstl_pint, Predicate))
+NSTL_INSTANTIATE(NSTL_COUNT_IF((self_type nstl_pint), Predicate))
 
 #define count_if nstl_count_if(nstl_pint, Predicate)
 
