@@ -60,14 +60,14 @@ static NSTL_INLINE nstl_ptrdiff_t algo(Iter first_, Iter last_, Pred pred_) {  \
 
 import nstl
 nstl.generate(cog,
-    'count_if(SinglePassReadableIteratorTraits, Predicate)',
+    'count_if(SinglePassReadableIterator, Predicate)',
     token=True, mangle=True,
 )
 
 ]]] */
 #include <joy/cat.h>
 #define NSTL_TOKEN_count_if (c o u n t _ i f)
-#define nstl_count_if(SinglePassReadableIteratorTraits,  Predicate) JOY_CAT5(nstl_mangled_count_if, _, SinglePassReadableIteratorTraits, _,  Predicate)
+#define nstl_count_if(SinglePassReadableIterator,  Predicate) JOY_CAT5(nstl_mangled_count_if, _, SinglePassReadableIterator, _,  Predicate)
 /* [[[end]]] */
 
 #endif /* !NSTL_ALGORITHM_COUNT_IF_H */

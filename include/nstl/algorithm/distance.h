@@ -64,14 +64,14 @@ static NSTL_INLINE Distance algo(Iter first_, Iter last_) {                    \
 
 import nstl
 nstl.generate(cog,
-    'distance(SinglePassIteratorTraits)',
+    'distance(SinglePassIterator)',
     token=True, mangle=True,
 )
 
 ]]] */
 #include <joy/cat.h>
 #define NSTL_TOKEN_distance (d i s t a n c e)
-#define nstl_distance(SinglePassIteratorTraits) JOY_CAT3(nstl_mangled_distance, _, SinglePassIteratorTraits)
+#define nstl_distance(SinglePassIterator) JOY_CAT3(nstl_mangled_distance, _, SinglePassIterator)
 /* [[[end]]] */
 
 #endif /* !NSTL_ALGORITHM_DISTANCE_H */
