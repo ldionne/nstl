@@ -1,7 +1,6 @@
+cmake_minimum_required(VERSION 2.8)
 
 project(nstl)
-cmake_minimum_required(VERSION 2.6)
-
 
 file(
     GLOB_RECURSE
