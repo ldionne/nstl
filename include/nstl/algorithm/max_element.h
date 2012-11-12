@@ -6,25 +6,35 @@
 #define NSTL_ALGORITHM_MAX_ELEMENT_H
 
 #include <nstl/internal.h>
+#include <nstl/iterator/traits.h>
 
 
-#define NSTL_MAX_ELEMENT(SinglePassReadableIterator, T)                        \
-    NSTL_I_MAX_ELEMENT(                                                        \
-        nstl_max_element(SinglePassReadableIterator),                          \
-        SinglePassReadableIterator,                                            \
-        T                                                                      \
+#define NSTL_MAX_ELEMENT(SinglePassReadableIteratorTraits)                     \
+    NSTL_MAX_ELEMENT_NAMED(                                                    \
+        nstl_max_element(                                                      \
+                    NSTL_TRAIT_SELF_TYPE(SinglePassReadableIteratorTraits)),   \
+        SinglePassReadableIteratorTraits                                       \
     )                                                                          \
 /**/
 
-#define NSTL_I_MAX_ELEMENT(algo, Iter, T)                                      \
+#define NSTL_MAX_ELEMENT_NAMED(AlgorithmName,SinglePassReadableIteratorTraits) \
+    NSTL_I_MAX_ELEMENT(                                                        \
+        AlgorithmName,                                                         \
+        NSTL_TRAIT_SELF_TYPE(SinglePassReadableIteratorTraits),                \
+        NSTL_TRAIT_VALUE_TYPE(SinglePassReadableIteratorTraits),               \
+        SinglePassReadableIteratorTraits                                       \
+    )                                                                          \
+/**/
+
+#define NSTL_I_MAX_ELEMENT(algo, Iter, T, Traits)                              \
 NSTL_TYPE(algo,                                                                \
-                                                                               \
 (defun max_element                                                             \
+                                                                               \
 typedef nstl_bool (*nstl_helper(algo, impl_comp))(T, T);                       \
 NSTL_GETF(                                                                     \
-    NSTL_I_MAX_ELEMENT_COMP(                                                   \
+    NSTL_MAX_ELEMENT_COMP_NAMED(                                               \
         nstl_helper(algo, impl),                                               \
-        Iter,                                                                  \
+        Traits,                                                                \
         nstl_helper(algo, impl_comp)                                           \
     ),                                                                         \
     max_element_comp                                                           \
@@ -33,24 +43,33 @@ NSTL_GETF(                                                                     \
 static NSTL_INLINE Iter algo(Iter first, Iter last) {                          \
     return nstl_helper(algo, impl)(first, last, nstl_lt(T, T));                \
 }                                                                              \
-)                                                                              \
                                                                                \
-)                                                                              \
+))                                                                             \
 /**/
 
 
-#define NSTL_MAX_ELEMENT_COMP(SinglePassReadableIterator, Compare)             \
+#define NSTL_MAX_ELEMENT_COMP(SinglePassReadableIteratorTraits, Compare)       \
+    NSTL_MAX_ELEMENT_COMP_NAMED(                                               \
+        nstl_max_element_comp(                                                 \
+            NSTL_TRAIT_SELF_TYPE(SinglePassReadableIteratorTraits), Compare),  \
+        SinglePassReadableIteratorTraits,                                      \
+        Compare                                                                \
+    )                                                                          \
+/**/
+
+#define NSTL_MAX_ELEMENT_COMP_NAMED(AlgorithmName,                             \
+                                    SinglePassReadableIteratorTraits, Compare) \
     NSTL_I_MAX_ELEMENT_COMP(                                                   \
-        nstl_max_element_comp(SinglePassReadableIterator, Compare),            \
-        SinglePassReadableIterator,                                            \
+        AlgorithmName,                                                         \
+        NSTL_TRAIT_SELF_TYPE(SinglePassReadableIteratorTraits),                \
         Compare                                                                \
     )                                                                          \
 /**/
 
 #define NSTL_I_MAX_ELEMENT_COMP(algo, Iter, Comp)                              \
 NSTL_TYPE(algo,                                                                \
-                                                                               \
 (defun max_element_comp                                                        \
+                                                                               \
 static NSTL_INLINE Iter algo(Iter first_, Iter last_, Comp comp_) {            \
     Iter first;                                                                \
     Iter result;                                                               \
@@ -80,9 +99,8 @@ static NSTL_INLINE Iter algo(Iter first_, Iter last_, Comp comp_) {            \
     nstl_dtor(Iter)(&first);                                                   \
     return result;                                                             \
 }                                                                              \
-)                                                                              \
                                                                                \
-)                                                                              \
+))                                                                             \
 /**/
 
 
@@ -92,7 +110,6 @@ import nstl
 nstl.generate(cog,
     'max_element(SinglePassReadableIterator)',
     'max_element_comp(SinglePassReadableIterator, Compare)',
-
     token=True, mangle=True,
 )
 

@@ -7,9 +7,11 @@
 #include <seatest.h>
 
 
+#define Traits (self_type nstl_pint) (value_traits (self_type nstl_int))
+
 typedef nstl_bool (*Compare)(nstl_int x, nstl_int y);
-NSTL_INSTANTIATE(NSTL_MIN_ELEMENT(nstl_pint, nstl_int))
-NSTL_INSTANTIATE(NSTL_MIN_ELEMENT_COMP(nstl_pint, Compare))
+NSTL_INSTANTIATE(NSTL_MIN_ELEMENT(Traits))
+NSTL_INSTANTIATE(NSTL_MIN_ELEMENT_COMP(Traits, Compare))
 
 #define min_element nstl_min_element(nstl_pint)
 #define min_element_comp(first, last)                                          \
