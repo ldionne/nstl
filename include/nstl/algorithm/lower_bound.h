@@ -59,9 +59,10 @@ NSTL_TYPE(algo,                                                                \
                                                                                \
 (defun lower_bound_comp                                                        \
 NSTL_GETF(                                                                     \
-    NSTL_I_DISTANCE(                                                           \
+    NSTL_DISTANCE_NAMED(                                                       \
         nstl_helper(algo, distance),                                           \
-        Iter                                                                   \
+        (self_type Iter) (diff_traits (self_type Distance))                    \
+        (traversal_category nstl_bidirectional_traversal_tag)                  \
     ),                                                                         \
     distance                                                                   \
 )                                                                              \
@@ -70,7 +71,7 @@ NSTL_GETF(                                                                     \
     NSTL_ADVANCE_NAMED(                                                        \
         nstl_helper(algo, advance),                                            \
         (self_type Iter) (diff_traits (self_type Distance))                    \
-        (traversal_category nstl_bidirectional_traversal_category)             \
+        (traversal_category nstl_bidirectional_traversal_tag)                  \
     ),                                                                         \
     advance                                                                    \
 )                                                                              \

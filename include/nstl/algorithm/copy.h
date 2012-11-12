@@ -64,9 +64,10 @@ NSTL_TYPE(algo,                                                                \
                                                                                \
 (defun copy                                                                    \
 NSTL_GETF(                                                                     \
-    NSTL_I_DISTANCE(                                                           \
+    NSTL_DISTANCE_NAMED(                                                       \
         nstl_helper(algo, distance),                                           \
-        Input                                                                  \
+        (self_type Input) (diff_traits (self_type Distance))                   \
+        (traversal_category nstl_random_access_traversal_tag)                  \
     ),                                                                         \
     distance                                                                   \
 )                                                                              \

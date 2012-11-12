@@ -119,9 +119,10 @@ NSTL_TYPE(algo,                                                                \
                                                                                \
 (defun find_comp                                                               \
 NSTL_GETF(                                                                     \
-    NSTL_I_DISTANCE(                                                           \
+    NSTL_DISTANCE_NAMED(                                                       \
         nstl_helper(algo, distance),                                           \
-        Iter                                                                   \
+        (self_type Iter) (diff_traits (self_type Distance))                    \
+        (traversal_category nstl_random_access_traversal_tag)                  \
     ),                                                                         \
     distance                                                                   \
 )                                                                              \
