@@ -8,48 +8,61 @@
 #include <nstl/internal.h>
 
 
-#define NSTL_MAX(T)                                                            \
+#define NSTL_MAX(ValueTraits)                                                  \
+    NSTL_MAX_NAMED(                                                            \
+        nstl_max(NSTL_TRAIT_SELF_TYPE(ValueTraits)),                           \
+        ValueTraits                                                            \
+    )                                                                          \
+/**/
+
+#define NSTL_MAX_NAMED(AlgorithmName, ValueTraits)                             \
     NSTL_I_MAX(                                                                \
-        nstl_max(T),                                                           \
-        T                                                                      \
+        AlgorithmName,                                                         \
+        NSTL_TRAIT_SELF_TYPE(ValueTraits)                                      \
     )                                                                          \
 /**/
 
 #define NSTL_I_MAX(algo, T)                                                    \
 NSTL_TYPE(algo,                                                                \
-                                                                               \
 (defun max                                                                     \
+                                                                               \
 static NSTL_INLINE T algo(T a_, T b_) {                                        \
     T result;                                                                  \
     nstl_copy_ctor(T)(&result, nstl_lt(T, T)(a_, b_) ? b_ : a_);               \
     return result;                                                             \
 }                                                                              \
-)                                                                              \
                                                                                \
-)                                                                              \
+))                                                                             \
 /**/
 
 
-#define NSTL_MAX_COMP(T, Compare)                                              \
+#define NSTL_MAX_COMP(ValueTraits, Compare)                                    \
+    NSTL_MAX_COMP_NAMED(                                                       \
+        nstl_max_comp(NSTL_TRAIT_SELF_TYPE(ValueTraits), Compare),             \
+        ValueTraits,                                                           \
+        Compare                                                                \
+    )                                                                          \
+/**/
+
+#define NSTL_MAX_COMP_NAMED(AlgorithmName, ValueTraits, Compare)               \
     NSTL_I_MAX_COMP(                                                           \
-        nstl_max_comp(T, Compare),                                             \
-        T,                                                                     \
+        AlgorithmName,                                                         \
+        NSTL_TRAIT_SELF_TYPE(ValueTraits),                                     \
         Compare                                                                \
     )                                                                          \
 /**/
 
 #define NSTL_I_MAX_COMP(algo, T, Comp)                                         \
 NSTL_TYPE(algo,                                                                \
-                                                                               \
 (defun max_comp                                                                \
+                                                                               \
 static NSTL_INLINE T algo(T a_, T b_, Comp comp_) {                            \
     T result;                                                                  \
     nstl_copy_ctor(T)(&result, comp_(a_, b_) ? b_ : a_);                       \
     return result;                                                             \
 }                                                                              \
-)                                                                              \
                                                                                \
-)                                                                              \
+))                                                                             \
 /**/
 
 
@@ -59,7 +72,6 @@ import nstl
 nstl.generate(cog,
     'max(T)',
     'max_comp(T, Compare)',
-
     token=True, mangle=True,
 )
 

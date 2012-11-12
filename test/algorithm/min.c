@@ -8,8 +8,8 @@
 
 
 typedef nstl_bool (*Compare)(nstl_int a, nstl_int b);
-NSTL_INSTANTIATE(NSTL_MIN(nstl_int))
-NSTL_INSTANTIATE(NSTL_MIN_COMP(nstl_int, Compare))
+NSTL_INSTANTIATE(NSTL_MIN((self_type nstl_int)))
+NSTL_INSTANTIATE(NSTL_MIN_COMP((self_type nstl_int), Compare))
 
 #define min nstl_min(nstl_int)
 #define min_comp(a, b) \

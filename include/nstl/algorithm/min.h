@@ -8,48 +8,61 @@
 #include <nstl/internal.h>
 
 
-#define NSTL_MIN(T)                                                            \
+#define NSTL_MIN(ValueTraits)                                                  \
+    NSTL_MIN_NAMED(                                                            \
+        nstl_min(NSTL_TRAIT_SELF_TYPE(ValueTraits)),                           \
+        ValueTraits                                                            \
+    )                                                                          \
+/**/
+
+#define NSTL_MIN_NAMED(AlgorithmName, ValueTraits)                             \
     NSTL_I_MIN(                                                                \
-        nstl_min(T),                                                           \
-        T                                                                      \
+        AlgorithmName,                                                         \
+        NSTL_TRAIT_SELF_TYPE(ValueTraits)                                      \
     )                                                                          \
 /**/
 
 #define NSTL_I_MIN(algo, T)                                                    \
 NSTL_TYPE(algo,                                                                \
-                                                                               \
 (defun min                                                                     \
+                                                                               \
 static NSTL_INLINE T algo(T a_, T b_) {                                        \
     T result;                                                                  \
     nstl_copy_ctor(T)(&result, nstl_lt(T, T)(b_, a_) ? b_ : a_);               \
     return result;                                                             \
 }                                                                              \
-)                                                                              \
                                                                                \
-)                                                                              \
+))                                                                             \
 /**/
 
 
-#define NSTL_MIN_COMP(T, Compare)                                              \
+#define NSTL_MIN_COMP(ValueTraits, Compare)                                    \
+    NSTL_MIN_COMP_NAMED(                                                       \
+        nstl_min_comp(NSTL_TRAIT_SELF_TYPE(ValueTraits), Compare),             \
+        ValueTraits,                                                           \
+        Compare                                                                \
+    )                                                                          \
+/**/
+
+#define NSTL_MIN_COMP_NAMED(AlgorithmName, ValueTraits, Compare)               \
     NSTL_I_MIN_COMP(                                                           \
-        nstl_min_comp(T, Compare),                                             \
-        T,                                                                     \
+        AlgorithmName,                                                         \
+        NSTL_TRAIT_SELF_TYPE(ValueTraits),                                     \
         Compare                                                                \
     )                                                                          \
 /**/
 
 #define NSTL_I_MIN_COMP(algo, T, Comp)                                         \
 NSTL_TYPE(algo,                                                                \
-                                                                               \
 (defun min_comp                                                                \
+                                                                               \
 static NSTL_INLINE T algo(T a_, T b_, Comp comp_) {                            \
     T result;                                                                  \
     nstl_copy_ctor(T)(&result, comp_(b_, a_) ? b_ : a_);                       \
     return result;                                                             \
 }                                                                              \
-)                                                                              \
                                                                                \
-)                                                                              \
+))                                                                             \
 /**/
 
 
@@ -59,7 +72,6 @@ import nstl
 nstl.generate(cog,
     'min(T)',
     'min_comp(T, Compare)',
-
     token=True, mangle=True,
 )
 

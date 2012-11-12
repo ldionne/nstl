@@ -8,8 +8,8 @@
 
 
 typedef nstl_bool (*Compare)(nstl_int a, nstl_int b);
-NSTL_INSTANTIATE(NSTL_MAX(nstl_int))
-NSTL_INSTANTIATE(NSTL_MAX_COMP(nstl_int, Compare))
+NSTL_INSTANTIATE(NSTL_MAX((self_type nstl_int)))
+NSTL_INSTANTIATE(NSTL_MAX_COMP((self_type nstl_int), Compare))
 
 #define max nstl_max(nstl_int)
 #define max_comp(a, b) \
