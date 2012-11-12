@@ -8,7 +8,7 @@
 
 
 typedef nstl_bool (*Predicate)(nstl_int x);
-NSTL_INSTANTIATE(NSTL_NONE_OF(nstl_pint, Predicate))
+NSTL_INSTANTIATE(NSTL_NONE_OF((self_type nstl_pint), Predicate))
 
 #define none_of nstl_none_of(nstl_pint, Predicate)
 
