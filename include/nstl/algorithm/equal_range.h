@@ -10,26 +10,38 @@
 #include <nstl/algorithm/lower_bound.h>
 #include <nstl/algorithm/upper_bound.h>
 #include <nstl/internal.h>
+#include <nstl/iterator/traits.h>
 #include <nstl/utility/pair.h>
 
 
-#define NSTL_EQUAL_RANGE(ForwardTraversalReadableIterator, T)                  \
-    NSTL_I_EQUAL_RANGE(                                                        \
-        nstl_equal_range(ForwardTraversalReadableIterator),                    \
-        ForwardTraversalReadableIterator,                                      \
+#define NSTL_EQUAL_RANGE(ForwardTraversalReadableIteratorTraits, T)            \
+    NSTL_EQUAL_RANGE_NAMED(                                                    \
+        nstl_equal_range(                                                      \
+                NSTL_TRAIT_SELF_TYPE(ForwardTraversalReadableIteratorTraits)), \
+        ForwardTraversalReadableIteratorTraits,                                \
         T                                                                      \
     )                                                                          \
 /**/
 
-#define NSTL_I_EQUAL_RANGE(algo, Iter, T)                                      \
+#define NSTL_EQUAL_RANGE_NAMED(AlgorithmName,                                  \
+                               ForwardTraversalReadableIteratorTraits, T)      \
+    NSTL_I_EQUAL_RANGE(                                                        \
+        AlgorithmName,                                                         \
+        ForwardTraversalReadableIteratorTraits,                                \
+        NSTL_TRAIT_SELF_TYPE(ForwardTraversalReadableIteratorTraits),          \
+        T                                                                      \
+    )                                                                          \
+/**/
+
+#define NSTL_I_EQUAL_RANGE(algo, Traits, Iter, T)                              \
 NSTL_TYPE(algo,                                                                \
-                                                                               \
 (defun equal_range                                                             \
+                                                                               \
 typedef nstl_bool (*nstl_helper(algo, impl_comp))(T, T);                       \
 NSTL_GETF(                                                                     \
-    NSTL_I_EQUAL_RANGE_COMP(                                                   \
+    NSTL_EQUAL_RANGE_NAMED_COMP(                                               \
         nstl_helper(algo, impl),                                               \
-        Iter,                                                                  \
+        Traits,                                                                \
         T,                                                                     \
         nstl_helper(algo, impl_comp)                                           \
     ),                                                                         \
@@ -39,28 +51,39 @@ NSTL_GETF(                                                                     \
 static NSTL_INLINE nstl_pair(Iter, Iter) algo(Iter first, Iter last,T value) { \
     return nstl_helper(algo, impl)(first, last, value, nstl_lt(T, T));         \
 }                                                                              \
-)                                                                              \
                                                                                \
-)                                                                              \
+))                                                                             \
 /**/
 
 
-#define NSTL_EQUAL_RANGE_COMP(ForwardTraversalReadableIterator, T, Compare)    \
-    NSTL_I_EQUAL_RANGE_COMP(                                                   \
-        nstl_equal_range_comp(ForwardTraversalReadableIterator, Compare),      \
-        ForwardTraversalReadableIterator,                                      \
+#define NSTL_EQUAL_RANGE_COMP(ForwardTraversalReadableIteratorTraits,          \
+                              T, Compare)                                      \
+    NSTL_EQUAL_RANGE_NAMED_COMP(                                               \
+        nstl_equal_range_comp(                                                 \
+            NSTL_TRAIT_SELF_TYPE(ForwardTraversalReadableIteratorTraits),      \
+            Compare),                                                          \
+        ForwardTraversalReadableIteratorTraits,                                \
         T,                                                                     \
         Compare                                                                \
     )                                                                          \
 /**/
 
-#define NSTL_I_EQUAL_RANGE_COMP(algo, Iter, T, Comp) \
-    NSTL_II_EQUAL_RANGE_COMP(algo, Iter, T, Comp, nstl_ptrdiff_t)
+#define NSTL_EQUAL_RANGE_NAMED_COMP(AlgorithmName,                             \
+                                    ForwardTraversalReadableIteratorTraits,    \
+                                    T, Compare)                                \
+    NSTL_I_EQUAL_RANGE_COMP(                                                   \
+        AlgorithmName,                                                         \
+        NSTL_TRAIT_SELF_TYPE(ForwardTraversalReadableIteratorTraits),          \
+        T,                                                                     \
+        Compare,                                                               \
+        NSTL_TRAIT_DIFF_TYPE(ForwardTraversalReadableIteratorTraits)           \
+    )                                                                          \
+/**/
 
-#define NSTL_II_EQUAL_RANGE_COMP(algo, Iter, T, Comp, Distance)                \
+#define NSTL_I_EQUAL_RANGE_COMP(algo, Iter, T, Comp, Distance)                 \
 NSTL_TYPE(this_func,                                                           \
-                                                                               \
 (defun equal_range_comp                                                        \
+                                                                               \
 NSTL_GETF(                                                                     \
     NSTL_DISTANCE_NAMED(                                                       \
         nstl_helper(algo, distance),                                           \
@@ -191,9 +214,8 @@ ret_from_inside_loop:                                                          \
     nstl_dtor(Iter)(&first);                                                   \
     return result;                                                             \
 }                                                                              \
-)                                                                              \
                                                                                \
-)                                                                              \
+))                                                                             \
 /**/
 
 
@@ -203,7 +225,6 @@ import nstl
 nstl.generate(cog,
     'equal_range(ForwardTraversalReadableIterator)',
     'equal_range_comp(ForwardTraversalReadableIterator, Compare)',
-
     token=True, mangle=True,
 )
 

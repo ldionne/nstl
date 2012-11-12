@@ -9,9 +9,11 @@
 
 
 typedef nstl_bool (*Compare)(nstl_int x, nstl_int y);
+#define Traits (self_type nstl_pint) (diff_traits (self_type nstl_ptrdiff_t))
+
 NSTL_INSTANTIATE(NSTL_PAIR(nstl_pint, nstl_pint))
-NSTL_INSTANTIATE(NSTL_EQUAL_RANGE(nstl_pint, nstl_int))
-NSTL_INSTANTIATE(NSTL_EQUAL_RANGE_COMP(nstl_pint, nstl_int, Compare))
+NSTL_INSTANTIATE(NSTL_EQUAL_RANGE(Traits, nstl_int))
+NSTL_INSTANTIATE(NSTL_EQUAL_RANGE_COMP(Traits, nstl_int, Compare))
 
 #define equal_range nstl_equal_range(nstl_pint)
 #define equal_range_comp(first, last, value)                                   \
