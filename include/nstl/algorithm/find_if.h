@@ -6,20 +6,31 @@
 #define NSTL_ALGORITHM_FIND_IF_H
 
 #include <nstl/internal.h>
+#include <nstl/iterator/traits.h>
 
 
-#define NSTL_FIND_IF(SinglePassReadableIterator, Predicate)                    \
+#define NSTL_FIND_IF(SinglePassReadableIteratorTraits, Predicate)              \
+    NSTL_FIND_IF_NAMED(                                                        \
+        nstl_find_if(NSTL_TRAIT_SELF_TYPE(SinglePassReadableIteratorTraits),   \
+                     Predicate),                                               \
+        SinglePassReadableIteratorTraits,                                      \
+        Predicate                                                              \
+    )                                                                          \
+/**/
+
+#define NSTL_FIND_IF_NAMED(AlgorithmName, SinglePassReadableIteratorTraits,    \
+                                          Predicate)                           \
     NSTL_I_FIND_IF(                                                            \
-        nstl_find_if(SinglePassReadableIterator, Predicate),                   \
-        SinglePassReadableIterator,                                            \
+        AlgorithmName,                                                         \
+        NSTL_TRAIT_SELF_TYPE(SinglePassReadableIteratorTraits),                \
         Predicate                                                              \
     )                                                                          \
 /**/
 
 #define NSTL_I_FIND_IF(algo, Iter, Pred)                                       \
 NSTL_TYPE(algo,                                                                \
-                                                                               \
 (defun find_if                                                                 \
+                                                                               \
 static NSTL_INLINE Iter algo(Iter first_, Iter last_, Pred pred_) {            \
     Iter first;                                                                \
     nstl_copy_ctor(Iter)(&first, first_);                                      \
@@ -39,9 +50,8 @@ static NSTL_INLINE Iter algo(Iter first_, Iter last_, Pred pred_) {            \
     }                                                                          \
    return first;                                                               \
 }                                                                              \
-)                                                                              \
                                                                                \
-)                                                                              \
+))                                                                             \
 /**/
 
 
@@ -50,7 +60,6 @@ static NSTL_INLINE Iter algo(Iter first_, Iter last_, Pred pred_) {            \
 import nstl
 nstl.generate(cog,
     'find_if(InputIter, Predicate)',
-
     token=True, mangle=True,
 )
 

@@ -8,7 +8,7 @@
 
 
 typedef nstl_bool (*Predicate) (nstl_int elem);
-NSTL_INSTANTIATE(NSTL_FIND_IF(nstl_pint, Predicate))
+NSTL_INSTANTIATE(NSTL_FIND_IF((self_type nstl_pint), Predicate))
 
 #define find_if nstl_find_if(nstl_pint, Predicate)
 
