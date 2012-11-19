@@ -15,19 +15,20 @@
 #include <joy/seq/remove_if.h>
 #include <joy/string/eq.h>
 
-#include <chaos/preprocessor/recursion/expr.h>
+#include <chaos/preprocessor/cat.h>
+#include <chaos/preprocessor/control/if.h>
+#include <chaos/preprocessor/control/iif.h>
+#include <chaos/preprocessor/control/unless.h>
+#include <chaos/preprocessor/control/when.h>
+#include <chaos/preprocessor/logical/and.h>
+#include <chaos/preprocessor/logical/nor.h>
 #include <chaos/preprocessor/recursion/basic.h>
+#include <chaos/preprocessor/recursion/expr.h>
+#include <chaos/preprocessor/seq/elem.h>
 #include <chaos/preprocessor/seq/filter.h>
 #include <chaos/preprocessor/seq/fold_left.h>
-#include <chaos/preprocessor/seq/elem.h>
-#include <chaos/preprocessor/seq/replace.h>
 #include <chaos/preprocessor/seq/for_each.h>
-#include <chaos/preprocessor/logical/nor.h>
-#include <chaos/preprocessor/logical/and.h>
-#include <chaos/preprocessor/control/if.h>
-#include <chaos/preprocessor/control/when.h>
-#include <chaos/preprocessor/control/unless.h>
-#include <chaos/preprocessor/cat.h>
+#include <chaos/preprocessor/seq/replace.h>
 
 
 /****************************************************************************
@@ -175,7 +176,13 @@
     NSTL_I_TYPE_SET_FIELDS(self,                                               \
         JOY_SEQ_APPEND(                                                        \
             NSTL_FIELD_S(s, field, properties, value),                         \
-            NSTL_I_TYPE_FIELDS(NSTL_UNSETF_S(s, self, field))                  \
+            NSTL_I_TYPE_FIELDS(                                                \
+                CHAOS_PP_IIF(NSTL_FIELD_IS_ANONYMOUS(                          \
+                        NSTL_FIELD_S(s, field, properties, value))) (          \
+                    self,                                                      \
+                    NSTL_UNSETF_S(s, self, field)                              \
+                )                                                              \
+            )                                                                  \
         )                                                                      \
     )                                                                          \
 /**/
